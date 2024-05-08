@@ -1,0 +1,21 @@
+
+  .filter-form {
+    margin-bottom: 20px;
+  }
+  
+  .filter-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #555;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .filter-select:hover,
+  .filter-select:focus {
+    border-color: #aaa;
+  }

@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { Component,Input } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'lib-card',
   standalone: true,
-  imports: [MatCardModule,CommonModule],
+  imports: [MatCardModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
