@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
 import { FormService, SOLUTION_LIST, TASK_DETAILS } from 'lib-shared-modules';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-layout',
@@ -14,6 +15,7 @@ export class LayoutComponent {
   selctedCardItem : any;
   headerData:any
   sidenavData:any
+  private projectDataSubscription: Subscription | undefined;
   constructor(private libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute) {
   }
   ngOnInit(){
@@ -37,15 +39,15 @@ export class LayoutComponent {
         "sidenavData": projectData,
         "projectDetails":result.controls,
       });
-      this.libProjectService.upDateProjectTitle()
-      // this.route.queryParams.subscribe((params: any) => {
-      //   if (params.projectId) {
-      //       this.libProjectService.readProject(params.projectId).subscribe((res: any) => {
-      //           this.libProjectService.projectData = res.result;
-      //           this.libProjectService.upDateProjectTitle()
-      //         });
-      //       }
-      // })
+      // this.libProjectService.upDateProjectTitle()
+      this.projectDataSubscription =  this.route.queryParams.subscribe((params: any) => {
+        if (params.projectId) {
+            this.libProjectService.readProject(params.projectId).subscribe((res: any) => {
+                this.libProjectService.projectData = res.result;
+                this.libProjectService.upDateProjectTitle()
+              });
+            }
+      })
     })
     })
     .catch((error) => {
@@ -57,6 +59,12 @@ export class LayoutComponent {
     console.log(buttonTitle);
     if(buttonTitle === "SAVE_AS_DRAFT") {
       this.libProjectService.saveProjectFunc(true);
+    }
+  }
+
+  ngOnDestroy(){
+    if (this.projectDataSubscription) {
+      this.projectDataSubscription.unsubscribe();
     }
   }
 }

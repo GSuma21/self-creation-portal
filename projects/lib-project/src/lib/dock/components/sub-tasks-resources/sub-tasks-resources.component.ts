@@ -39,6 +39,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
   projectId:string|number = '';
   projectData:any;
   private subscription: Subscription = new Subscription();
+  private projectDataSubscription: Subscription | undefined;
 
   constructor(private dialog : MatDialog,private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router) {
     this.subtask = this.fb.group({
@@ -47,7 +48,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
   }
 
   ngOnInit() {
-    this.libProjectService.currentProjectData.subscribe(data => {
+    this.projectDataSubscription = this.libProjectService.currentProjectData.subscribe(data => {
       this.learningResources = data?.tasksData.subTaskLearningResources
     });
     this.subscription.add(
@@ -56,7 +57,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
           this.libProjectService.readProject(params.projectId).subscribe((res:any)=> {
             this.libProjectService.projectData = res.result;
             this.projectData = res?.result
-            this.createSubTaskForm(res?.result?.tasks?.length > 0 ? res?.result?.tasks?.length : 1, res?.result?.tasks)
+            this.createSubTaskForm(res?.result?.tasks?.length, res?.result?.tasks)
             this.addSubtaskData()
           })
       })
@@ -138,6 +139,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
 
   submit() {
     this.addSubtaskData();
+    console.log(this.projectData.tasks)
+    if(this.projectData.tasks)
     this.libProjectService.updateProjectData({'tasks': this.projectData.tasks});
     this.libProjectService.updateProjectDraft(this.projectId).subscribe((res) => {
       this.libProjectService.readProject(this.projectId).subscribe((response:any) => {
@@ -151,5 +154,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
     this.submit();
     this.libProjectService.saveProjectFunc(false);
     this.subscription.unsubscribe();
+    if (this.projectDataSubscription) {
+      this.projectDataSubscription.unsubscribe();
+    }
   }
 }

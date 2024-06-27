@@ -10,13 +10,6 @@
 
     .title{
         margin-left: 4rem;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        white-space: nowrap;
-        white-space: pre-line;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
     }
 
     .buttons-container {

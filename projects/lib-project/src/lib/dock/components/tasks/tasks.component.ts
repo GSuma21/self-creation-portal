@@ -26,9 +26,10 @@ export class TasksComponent implements OnInit,OnDestroy {
 
   tasksForm: FormGroup;
   projectId:string|number = '';
-  taskFileTypes: string[] = ['PDF', 'Image'];
   tasksData:any;
   private subscription: Subscription = new Subscription();
+  private projectDataSubscription: Subscription | undefined;
+
   constructor(private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router) {
     this.tasksForm = this.fb.group({
       tasks: this.fb.array([])
@@ -36,7 +37,7 @@ export class TasksComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
-    this.libProjectService.currentProjectData.subscribe(data => {
+    this.projectDataSubscription = this.libProjectService.currentProjectData.subscribe(data => {
       this.tasksData = data.tasksData.tasks;
     });
     this.subscription.add(
@@ -132,6 +133,9 @@ export class TasksComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
+    if (this.projectDataSubscription) {
+      this.projectDataSubscription.unsubscribe();
+    }
     this.libProjectService.saveProjectFunc(false);
     this.submit();
   }
