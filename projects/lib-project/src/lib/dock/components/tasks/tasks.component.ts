@@ -147,7 +147,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.libProjectService.isProjectSave.subscribe((isProjectSave: boolean) => {
           if (isProjectSave && this.router.url.includes('tasks')) {
-            console.log("from subject it's getting called")
+            // console.log("from subject it's getting called")
             this.submit();
           }
         })
@@ -206,12 +206,13 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   checkValidation() {
-    this.libProjectService.setProjectData({ 'tasks': this.tasks.value })
+    this.saveTasks(this.tasks, this.tasksData)
     this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
     this.libProjectService.checkValidationForSubmit()
   }
 
   startAutoSaving() {
+    this.saveTasks(this.tasks, this.tasksData)
     this.subscription.add(
       this.libProjectService
         .startAutoSave(this.projectId)
@@ -229,16 +230,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   submit() {
     this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
-    this.tasks.value.forEach((item: any, index: any) => {
-      item.sequence_no = index + 1;
-      item.type = item.type ? item.type : "simple"
-      if(item.allow_evidence == true && item.evidence_details.file_types.length == 0){
-       item.evidence_details.file_types =  this.tasksData.fileType.options.map((item:any)=> item.value);
-      }else if(item.allow_evidence == false){
-        item.evidence_details = {}
-      }
-    });
-    this.libProjectService.setProjectData({ 'tasks': this.tasks.value })
+    this.saveTasks(this.tasks, this.tasksData)
     this.libProjectService.updateProjectDraft(this.projectId).subscribe();
   }
 
@@ -246,7 +238,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     if (this.mode === 'edit') {
       this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
       this.libProjectService.checkValidationForSubmit()
-      this.libProjectService.setProjectData({ 'tasks': this.tasks.value })
+      this.saveTasks(this.tasks, this.tasksData)
       if (this.autoSaveSubscription) {
         this.autoSaveSubscription.unsubscribe();
       }
@@ -285,6 +277,19 @@ export class TasksComponent implements OnInit, OnDestroy {
     } else if (inputValue > max) {
       event.target.value = max;
     }
+  }
+
+  saveTasks(tasks:any, taskData:any = []){
+    tasks.value.forEach((item: any, index: any) => {
+      item.sequence_no = index + 1;
+      item.type = item.type ? item.type : "simple"
+      if(item.allow_evidence == true && item.evidence_details.file_types.length == 0){
+       item.evidence_details.file_types = taskData.fileType.options.map((item:any)=> item.value);
+      }else if(item.allow_evidence == false){
+        item.evidence_details = {}
+      }
+    });
+    this.libProjectService.setProjectData({ 'tasks': tasks.value })
   }
 
 }

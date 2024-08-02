@@ -13,11 +13,7 @@
                     <div>
                         <div class="w-full pt-3">
                             <div class="flex justify-between">
-                                <p class="text-tertiary ">{{"TASK" | translate}} {{i+1}}
-                                    @if(i == 0){
-                                        <span class="asterisk">*</span>
-                                    }
-                                </p>
+                                <p></p>
                                 <div class="flex gap-3">
                                     <div>
                                         <mat-icon (click)="this.moveTask(i, -1)" class="cursor-pointer" [ngClass]="{'disable-fields': i<1 || viewOnly}" [matTooltip]="SHIFT_TASK_UP | translate">arrow_upward</mat-icon>
@@ -31,8 +27,9 @@
                         </div>
                         <div>
                             <mat-form-field floatLabel="always" class="w-full" appearance="outline">
+                                <mat-label> {{"TASK" | translate}} {{i+1}}</mat-label>
                                 <textarea matInput [formControlName]="tasksData.description.name" (change)="checkValidation()"
-                                    [placeholder]="tasksData.description.placeholder" [maxlength]="tasksData.description.validators.maxLength" [pattern]="tasksData.description.validators.pattern"></textarea>    
+                                    [placeholder]="tasksData.description.placeholder" [required]="i === 0"  [maxlength]="tasksData.description.validators.maxLength" [pattern]="tasksData.description.validators.pattern"></textarea>    
                             </mat-form-field>
                             
                                 <mat-error class="error-container">
@@ -48,12 +45,12 @@
                         </div>
                         <div class="sm:flex md:flex lg:flex xl:flex gap-2 text-tertiary">
                             <mat-slide-toggle labelPosition="before" color="primary"
-                                [formControlName]="tasksData.mandatory.name">
+                                [formControlName]="tasksData.mandatory.name" (change)="checkValidation()">
                                 {{tasksData.mandatory.label | translate}}
                             </mat-slide-toggle>
 
                             <mat-slide-toggle labelPosition="before" color="primary"
-                                [formControlName]="tasksData.allowEvidence.name">
+                                [formControlName]="tasksData.allowEvidence.name" (change)="checkValidation()">
                                 {{tasksData.allowEvidence.label | translate}}
                             </mat-slide-toggle>
 
@@ -61,7 +58,7 @@
                                 'disabled-with-pointer-events': !task.get(tasksData?.allowEvidence.name)?.value,
                                 'placeholder-text-black': task.get(tasksData?.allowEvidence.name)?.value
                               }">
-                                <mat-select multiple="true" [formControlName]="tasksData.fileType.name" [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="All file types">
+                                <mat-select multiple="true" (selectionChange)="checkValidation()" [formControlName]="tasksData.fileType.name" [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="All file types">
                                     <mat-option [matTooltip]="option.label" *ngFor="let option of tasksData.fileType.options" [value]="option.value">
                                         {{ option.label }}
                                     </mat-option>
@@ -69,7 +66,7 @@
                             </div>
                             <div class="flex gap-2" [ngClass]="{'disabled-with-pointer-event': !task.get(tasksData?.allowEvidence.name)?.value}" formGroupName="evidence_details" >
                                 <p class="text-tertiary">{{tasksData.minEvidences.label | translate}}</p>
-                                <input matInput [formControlName]="tasksData.minEvidences.name"
+                                <input matInput (change)="checkValidation()" [formControlName]="tasksData.minEvidences.name"
                                     [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="1" type="number"
                                     [min]="tasksData.minEvidences.validators.min" [max]="tasksData.minEvidences.validators.max"
                                     class="w-14 block border text-center" (input)="adjustValue($event)" />
