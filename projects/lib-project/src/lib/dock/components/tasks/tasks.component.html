@@ -81,7 +81,7 @@
             </div>
 
             <div class="px-10 py-2">
-                <button (click)="addingTask()" type="button"  [ngClass]="{'disabled-without-pointer-event': (tasks.length>=maxTaskLength || !tasksForm.valid )}"  [disabled]="viewOnly" mat-raised-button class="flex items-center button">
+                <button (click)="addingTask()" type="button"  [ngClass]="{'disabled-without-pointer-event': (tasks.length>=maxTaskLength || !isAnyTaskFilled() )}"  [disabled]="viewOnly" mat-raised-button class="flex items-center button">
                     <mat-icon class="cursor-pointer" color="primary">add_circle</mat-icon>
                     <span color="primary">{{"ADD_TASK" | translate}}</span>
                 </button>

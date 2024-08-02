@@ -163,10 +163,11 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   addTask() {
+    const taskIndex = this.tasks.length;
     const taskGroup = this.fb.group({
       id: uuidv4(),
       type: "simple",
-      name: ['', Validators.required],
+      name: ['',  taskIndex === 0 ? Validators.required : Validators.nullValidator],
       is_mandatory: [false],
       allow_evidence: [false],
       evidence_details: this.fb.group({
@@ -229,6 +230,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    console.log(this.tasks?.status)
     this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
     this.saveTasks(this.tasks, this.tasksData)
     this.libProjectService.updateProjectDraft(this.projectId).subscribe();
@@ -290,6 +292,10 @@ export class TasksComponent implements OnInit, OnDestroy {
       }
     });
     this.libProjectService.setProjectData({ 'tasks': tasks.value })
+  }
+
+  isAnyTaskFilled(): boolean {
+    return this.tasks.value.every((task:any) => task.name && task.name.trim() !== '')
   }
 
 }
