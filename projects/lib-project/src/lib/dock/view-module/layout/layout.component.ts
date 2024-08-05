@@ -18,10 +18,6 @@ export class LayoutComponent {
   constructor(private libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private dialog : MatDialog,private router:Router,) {
   }
   ngOnInit(){
-    this.libProjectService.validForm={
-      projectDetails: "INVALID",
-      tasks:"INVALID"
-    }
     this. setConfig()
     this.getProjectdata()
     this.libProjectService.currentProjectMetaData.subscribe(data => {
@@ -31,7 +27,6 @@ export class LayoutComponent {
       //     element.disable = false;
       //   }
       // });
-      this.libProjectService.checkValidationForSubmit()
       this.headerData = data?.sidenavData.headerData
     });
   }
@@ -74,7 +69,6 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case "SAVE_AS_DRAFT":{
-        this.libProjectService.checkValidationForSubmit()
         this.libProjectService.saveProjectFunc(true);
         break;
       }

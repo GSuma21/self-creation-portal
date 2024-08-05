@@ -17,10 +17,6 @@ export class LibProjectService {
   private saveProject = new BehaviorSubject<boolean>(false);
   isProjectSave = this.saveProject.asObservable();
   projectId:string|number='';
-  validForm={
-    projectDetails: "INVALID",
-    tasks:"INVALID"
-  }
   viewOnly:boolean= false;
   mode:any="edit"
   projectConfig:any
@@ -166,19 +162,6 @@ export class LibProjectService {
       })
     )
 
-  }
-
-  checkValidationForSubmit(){
-    const currentProjectMetaData = this.dataSubject.getValue();
-    currentProjectMetaData?.sidenavData.headerData?.buttons?.[this.mode].forEach((element:any) => {
-      if(element.title == "SEND_FOR_REVIEW"){
-        if(this.validForm.projectDetails == "VALID" && this.validForm.tasks == "VALID"){
-          element.disable = false;
-        }else{
-          element.disable = true;
-        }
-      }
-    });
   }
 
   startAutoSave(projectID:string|number) {
