@@ -153,6 +153,8 @@ export class TasksComponent implements OnInit, OnDestroy {
         })
       );
     }
+
+    this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
   }
 
   get tasks() {
@@ -173,6 +175,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       })
     });
     this.tasks.push(taskGroup);
+    this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
   }
 
   deleteTask(index: number) {
@@ -192,6 +195,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         return true;
       } else if (result.data === "YES") {
         this.tasks.removeAt(index);
+        this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
         this.saveTasks(this.tasks, this.tasksData)
         return true;
       } else {
@@ -202,6 +206,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   checkValidation() {
     this.saveTasks(this.tasks, this.tasksData)
+    this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
   }
 
   startAutoSaving() {
@@ -222,6 +227,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
     this.saveTasks(this.tasks, this.tasksData)
     this.libProjectService.setProjectData({ 'tasks': this.tasks.value })
     this.libProjectService.updateProjectDraft(this.projectId).subscribe();
@@ -229,6 +235,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.mode === 'edit') {
+      this.libProjectService.validForm.tasks = this.tasks?.status ? this.tasks?.status : "INVALID"
       this.saveTasks(this.tasks, this.tasksData)
       if (this.autoSaveSubscription) {
         this.autoSaveSubscription.unsubscribe();

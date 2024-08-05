@@ -98,6 +98,14 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit {
       }
     });
     this.dynamicFormData = formControls;
+    if( this.formLib){
+      this.libProjectService.validForm.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
+    }
+    if(this.libProjectService.projectData.tasks){
+      const isValid = this.libProjectService.projectData.tasks.every((task: { description: any; }) => task.description);
+      this.libProjectService.validForm.tasks = isValid ? "VALID" : "INVALID";
+    }
+    console.log(this.dynamicFormData);
   }
 
   startAutoSaving() {

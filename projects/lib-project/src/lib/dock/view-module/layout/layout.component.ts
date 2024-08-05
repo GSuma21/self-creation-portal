@@ -18,6 +18,10 @@ export class LayoutComponent {
   constructor(private libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private dialog : MatDialog,private router:Router,) {
   }
   ngOnInit(){
+    this.libProjectService.validForm={
+      projectDetails: "INVALID",
+      tasks:"INVALID"
+    }
     this. setConfig()
     this.getProjectdata()
     this.libProjectService.currentProjectMetaData.subscribe(data => {

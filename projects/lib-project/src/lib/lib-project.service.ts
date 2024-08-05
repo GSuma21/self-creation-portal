@@ -17,6 +17,10 @@ export class LibProjectService {
   private saveProject = new BehaviorSubject<boolean>(false);
   isProjectSave = this.saveProject.asObservable();
   projectId:string|number='';
+  validForm={
+    projectDetails: "INVALID",
+    tasks:"INVALID"
+  }
   viewOnly:boolean= false;
   mode:any="edit"
   projectConfig:any
