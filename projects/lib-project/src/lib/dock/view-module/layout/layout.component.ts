@@ -98,11 +98,15 @@ export class LayoutComponent {
     switch (buttonTitle) {
       case "PREVIEW":{
         const dialogRef = this.dialog.open(PreviewComponent, {
+          width: '39.375rem',
           autoFocus: false,
           disableClose: false,
           data: {
-            projectData:this.libProjectService.projectData
+            projectData:this.libProjectService.projectData,
           }
+        });
+        dialogRef.afterClosed().toPromise().then(result => {
+         return true
         });
         break;
       }
