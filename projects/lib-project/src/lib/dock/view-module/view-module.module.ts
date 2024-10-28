@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ViewModuleRoutingModule } from './view-module-routing.module';
-import { CommentsBoxComponent, HeaderComponent, SideNavbarComponent, PreviewComponent } from 'lib-shared-modules';
+import { CommentsBoxComponent, HeaderComponent, SideNavbarComponent} from 'lib-shared-modules';
 import { LayoutComponent } from './layout/layout.component';
 import { TasksComponent } from '../components/tasks/tasks.component';
 
@@ -15,8 +15,7 @@ import { TasksComponent } from '../components/tasks/tasks.component';
     HeaderComponent,
     SideNavbarComponent,
     TasksComponent,
-    CommentsBoxComponent,
-    PreviewComponent
+    CommentsBoxComponent
   ],
   exports:[LayoutComponent]
 })

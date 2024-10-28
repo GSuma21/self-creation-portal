@@ -29,7 +29,7 @@ export class CommonService {
       sort_by:  sortOptions.sort_by || '',
       sort_order: sortOptions.sort_order || '',
       filter: '',
-      search: btoa(filters.search) || '',
+      search: (filters.search) || '',
       listing: pageStatus || '',
       activeFilterButton: filters.activeFilterButton || '',
     };
@@ -40,7 +40,7 @@ export class CommonService {
     pagination.pageSize = +params['limit'] || pagination.pageSize;
     filters.current.type = params['type'] ? params['type'].split(',') : [];
     filters.status = params['status'] || '';
-    filters.search = params['search'] ? atob(params['search']) : '';
+    filters.search = params['search'] ? (params['search']) : '';
     sortOptions.sort_by = params['sort_by'] || '';
     sortOptions.sort_order = params['sort_order'] || '';
     filters.activeFilterButton = params['activeFilterButton'] || ''; 

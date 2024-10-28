@@ -50,6 +50,10 @@ input:focus{
   opacity: 0.5;
 }
 
+.enable-with-pointer-events{
+  pointer-events: auto !important;
+}
+
 ::ng-deep .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
   pointer-events: none;
 }
@@ -60,4 +64,19 @@ input:focus{
 
 ::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
   color: $primary !important;
+}
+
+::ng-deep .info-tooltip .mdc-tooltip__surface {
+  font-size: 0.75rem  !important;
+  background-color: #0a4f9d  !important;
+}
+
+::ng-deep .info-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 85%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #0a4f9d transparent transparent transparent;
 }

@@ -36,6 +36,17 @@
                                 <textarea matInput [formControlName]="tasksData?.description.name" (change)="checkValidation()"
                                     [placeholder]="tasksData?.description.placeholder"  [required]="true" [maxlength]="tasksData.description.validators.maxLength" [pattern]="tasksData.description.validators.pattern" [readonly]="viewOnly"></textarea>
                             </mat-form-field>
+                            @if(tasksData?.description.infoMessage){
+                            <mat-icon
+                                class="absolute pl-1 -mt-[0.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events"
+                                [matTooltip]="tasksData?.description.infoMessage"
+                                matTooltipClass="info-tooltip"
+                                matTooltipPosition="above"
+                                [matTooltipDisabled]="true"
+                                #tooltip="matTooltip"
+                                (click)="showTooltip(tooltip)"
+                                (mouseleave)="hideTooltip(tooltip)">info</mat-icon>
+                            }
 
                                 <mat-error class="error-container">
                                     @if(task.get(tasksData?.description.name)?.touched && task.get(tasksData?.description.name)?.invalid){
@@ -63,7 +74,7 @@
                                 'disabled-with-pointer-events': !task.get(tasksData?.allowEvidence.name)?.value,
                                 'placeholder-text-black': task.get(tasksData?.allowEvidence.name)?.value
                               }">
-                                <mat-select class="border px-2 w-40" multiple="true" [formControlName]="tasksData.fileType.name" (selectionChange)="checkValidation()" [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="All file types">
+                                <mat-select class="border px-2 w-40" multiple="true" [formControlName]="tasksData.fileType.name" (selectionChange)="checkValidation()" [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="Select file types">
                                     <mat-option [matTooltip]="option.label" *ngFor="let option of tasksData.fileType.options" [value]="option.value">
                                         {{ option.label }}
                                     </mat-option>

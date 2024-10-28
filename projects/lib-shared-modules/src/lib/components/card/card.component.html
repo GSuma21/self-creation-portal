@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         }
-                        @if(((list.status === resourceStatus.IN_REVIEW) || (list.review_status === reviewStatus.INPROGRESS)) && (list.review_status !== reviewStatus.REQUEST_FOR_CHANGES) && (list.review_status !== reviewStatus.CHANGES_UPDATED)){
+                        @if(((list.status === resourceStatus.IN_PROGRESS) || (list.review_status === reviewStatus.INPROGRESS)) && (list.review_status !== reviewStatus.REQUEST_FOR_CHANGES) && (list.review_status !== reviewStatus.CHANGES_UPDATED)){
                             <div class="chip-container  item-center text-center bg-chipInprogress text-black">
                                 <div class="inline-flex items-center justify-center">
                                     <img src="assets/icons/inprogress-icon.png" alt="" class="mr-2">

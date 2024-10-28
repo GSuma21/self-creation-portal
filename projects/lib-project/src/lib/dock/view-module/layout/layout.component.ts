@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
 import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,8 +8,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'lib-layout',
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss',
-  encapsulation:ViewEncapsulation.None
+  styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
   backButton : boolean = true;
@@ -20,7 +19,6 @@ export class LayoutComponent {
   tabValidation:any;
   mode:any
   private subscription: Subscription = new Subscription();
-  
   constructor(private libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private router:Router,private dialog:MatDialog, private utilService:UtilService,private toastService:ToastService,private configuration: ConfigService,private sharedService: LibSharedModulesService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {

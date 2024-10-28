@@ -36,7 +36,9 @@ export class AppComponent {
   }
 
   private initializeTranslation(): void {
-    this.translate.setDefaultLang('en');
+    const storedLanguage = localStorage.getItem('language') || 'en';
+    this.translate.setDefaultLang(storedLanguage);
+    this.translate.use(storedLanguage);
   }
 
   onButtonClick(buttonTitle: string) {
@@ -45,19 +47,6 @@ export class AppComponent {
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
-  people: any[] = [];
 
-  addData() {
-    const person = { name: 'John Doe', age: 25 };
-    this.dbService.addData('people', person).subscribe((res:any)=>{
-      console.log(res,"data created")
-    },((err) => console.log(err)));
-  }
-
-  getData() {
-    this.dbService.getAllData('people').subscribe((res:any)=>{
-      console.log(res,"data fetched")
-    })
-  }
 
 }

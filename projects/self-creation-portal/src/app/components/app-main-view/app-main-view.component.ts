@@ -27,7 +27,7 @@ export class AppMainViewComponent {
   titleObj = {
     "title" : "CREATION_PORTAL"
   }
-
+  
   public sidenavData: any;
   clearQueryParamsOnNavigate: boolean = true;
   constructor(private formService:FormService, private router: Router, private route: ActivatedRoute) {

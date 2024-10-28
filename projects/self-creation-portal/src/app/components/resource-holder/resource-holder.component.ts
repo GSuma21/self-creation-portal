@@ -231,7 +231,7 @@ export class ResourceHolderComponent implements OnInit{
             cardItem.actionButton.push(this.buttonsCSS[button]);
           }
           if (button.buttons) {
-            if(button.status === cardItem.review_status){
+            if(button.status === cardItem.status){
               if(cardItem.is_under_edit){
                 this.applyButtons({
                   "buttons": [
@@ -242,7 +242,7 @@ export class ResourceHolderComponent implements OnInit{
                 this.applyButtons(button, cardItem);
               }
               return true;
-            }else if(button.status === cardItem.status){
+            }else if(button.status === cardItem.review_status){
               this.applyButtons(button, cardItem);
               return true;
             }
@@ -470,14 +470,19 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     let infoFields = [];
     if (!cardItem.review_status && (cardItem.status === resourceStatus.SUBMITTED || cardItem.status === 'IN_REVIEW')) {
       infoFields = filterAndMapFields('NOT_STARTED');
+    } else if(cardItem.review_status === 'INPROGRESS' && cardItem.status === 'IN_REVIEW') {
+      infoFields = filterAndMapFields('IN_REVIEW');
     } else {
       infoFields = filterAndMapFields(cardItem.review_status);
-    }
-
+    } 
+    
     // If no fields match the conditions, default to 'NOT_STARTED' fields
     if (infoFields.length === 0) {
       infoFields = filterAndMapFields('NOT_STARTED');
     }
+    if(!cardItem.review_status) {
+      infoFields = filterAndMapFields(cardItem.status);
+    } 
 
     const dialogRef = this.dialog.open(DialogPopupComponent, {
       width: '39.375rem',

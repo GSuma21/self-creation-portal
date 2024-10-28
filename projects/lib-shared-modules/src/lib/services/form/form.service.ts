@@ -16,44 +16,47 @@ export class FormService {
   constructor(private httpService: HttpProviderService, private configService:ConfigService, private indexDb:IndexDbService) { }
 
 
-  // getForm(formBody: any): Observable<any> {
-  //   const config = {
-  //     url: this.configService.urlConFig.FORM_URLS.READ_FORM,
-  //     payload: formBody,
-  //   };
-
-  //   return this.indexDb.getData(config.url, 0).pipe(
-  //     switchMap((dbResponse: any) => {
-  //       if (dbResponse) {
-  //         // If data is found in IndexedDB, return it
-  //         return of(dbResponse);
-  //       } else {
-  //         // If no data in IndexedDB, make an HTTP request
-  //         return this.httpService.post(config.url, config.payload).pipe(
-  //           tap((result: any) => {
-  //             // Save the result to IndexedDB after a successful HTTP response
-  //             this.indexDb.addData(config.url, result).subscribe(() => {
-  //               console.log("Data added to IndexedDB");
-  //             });
-  //           }),
-  //           map((result: any) => result)
-  //         );
-  //       }
-  //     })
-  //   );
-  // }
-
-  getForm(formBody: any) {
+  getForm(formBody: any): Observable<any> {
     const config = {
       url: this.configService.urlConFig.FORM_URLS.READ_FORM,
       payload: formBody,
     };
-    return this.httpService.post(config.url, config.payload).pipe(
-      map((result: any) => {
-        return result;
+
+    return this.indexDb.getObjectByKey(formBody.sub_type).pipe(
+      switchMap((dbResponse: any) => {
+        if (dbResponse) {
+          // If data is found in IndexedDB, return it
+          return of(dbResponse);
+        } else {
+          // If no data in IndexedDB, make an HTTP request
+          return this.httpService.post(config.url, config.payload).pipe(
+            tap((result: any) => {
+              // Save the result to IndexedDB after a successful HTTP response
+              this.indexDb.addObject({...result,...{customKey:formBody.sub_type}}).subscribe(() => {
+                console.log("Data added to IndexedDB");
+              });
+            }),
+            map((result: any) => result)
+          );
+        }
       })
-    )
+    );
   }
+
+  // getForm(formBody: any) {
+  //   const config = {
+  //     url: this.configService.urlConFig.FORM_URLS.READ_FORM,
+  //     payload: formBody,
+  //   };
+  //   return this.httpService.post(config.url, config.payload).pipe(
+  //     map((result: any) => {
+  //       this.indexDb.addObject({...result,...{customKey:formBody.sub_type}}).subscribe(() => {
+  //         console.log("Data added to IndexedDB");
+  //       });
+  //       return result;
+  //     })
+  //   )
+  // }
 
   getEntities(entityTypes: any) {
     const config = {

@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from './services/toast/toast.service';
 import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING } from './constants/urlConstants';
 import { Subject } from 'rxjs';
+import { IndexDbService } from './services/index-db/index-db.service';
 
 
 
@@ -22,7 +23,7 @@ export class LibSharedModulesService {
   private saveCommentSubject = new Subject<void>();
   private saveCommentCompletedSubject = new Subject<void>();
 
-  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translate: TranslateService,private toastService:ToastService, private route:ActivatedRoute) {
+  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translate: TranslateService,private toastService:ToastService, private route:ActivatedRoute,private indexDb:IndexDbService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.previousUrl = event.url;
@@ -82,6 +83,7 @@ export class LibSharedModulesService {
     this.httpService.post(config.url, config.payload).subscribe(
       response => {
         console.log('Logout successful', response);
+        this.indexDb.clearObjectStore();
         this.navigateToLogin();
       },
       error => {
@@ -90,8 +92,11 @@ export class LibSharedModulesService {
     );
   }
 
+
+
   navigateToLogin(): void {
     localStorage.clear();
+    this.indexDb.initDB();
     this.router.navigate(['login']);
   }
 
@@ -109,10 +114,10 @@ export class LibSharedModulesService {
 
    /**
    * Returns an observable that subscribers can use to listen for the save comment event.
-   * 
+   *
    * This allows external components to subscribe and know when the `triggerSaveComment` method is called.
    */
-  getSaveCommentObservable() { 
+  getSaveCommentObservable() {
     return this.saveCommentSubject.asObservable();
   }
 

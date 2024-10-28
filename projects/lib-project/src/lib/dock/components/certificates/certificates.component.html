@@ -7,12 +7,12 @@
         @for(item of certificateDetails; track item) {
             @if(item.name === "addcertificate") {
                 <p>
-                    <span class="required">{{ item?.label }}</span>
-                    <span class="px-1 text-base text-[$buttonDisable]">{{ item?.sublabel}}</span>
+                    <span class="required">{{ item?.label | translate}}</span>
+                    <span class="px-1 text-base text-[$buttonDisable]">{{ item?.sublabel | translate }}</span>
                   </p>
                   <mat-radio-group color="primary" aria-label="Select an option" [(ngModel)]="selectedYes" [ngModelOptions]="{standalone: true}" >
                      @for(option of item?.options; track option) {
-                        <mat-radio-button [value]="option.value" class="-mx-1 mr-6" (click)="certificateEnabling(option.value)">{{ option?.label}}</mat-radio-button>
+                        <mat-radio-button [value]="option.value" class="-mx-1 mr-6" (click)="certificateEnabling(option.value)">{{ option?.label | translate}}</mat-radio-button>
                      }
                   </mat-radio-group>
             }
@@ -32,13 +32,14 @@
                                     <div class="mt-0">
                                             <div class="relative">
                                                 <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
-                                                    <mat-label> {{ ele.label}}</mat-label>
-                                                    <mat-select [formControlName]="ele.formControlName" [placeholder]="ele.placeHolder || ''" (selectionChange)="onCertificateTypeChange($event.value)" >
-                                                        @for(type of ele.options; track type){
-                                                        <mat-option [value]="type.value">{{type.label}}</mat-option>
+                                                    <mat-label> {{ ele.label | translate}}</mat-label>
+                                                    <mat-select [formControlName]="ele.formControlName" [placeholder]="ele.placeHolder || '' | translate" (selectionChange)="onCertificateTypeChange($event.value)" >
+                                                        @for(type of certificateList; track type){
+                                                        <mat-option [value]="type.code">{{type.name}}</mat-option>
                                                         }
                                                     </mat-select>
                                                 </mat-form-field>
+                                                @if(ele?.infoMessage){
                                                 <mat-icon
                                                 class="absolute pl-1 bottom-[2.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events"
                                                 [matTooltip]="ele?.infoMessage"
@@ -48,6 +49,7 @@
                                                 #tooltip="matTooltip"
                                                 (click)="showTooltip(tooltip)"
                                                 (mouseleave)="hideTooltip(tooltip)">info</mat-icon>
+                                                }
                                             </div>
                                             @if(certificateForm.get(ele.formControlName)?.invalid && certificateForm.get(ele.formControlName)?.touched ){
                                                 <mat-error class="error-container text-red-600  flex w-full">
@@ -67,12 +69,13 @@
                                         @if(ele.name === "name"){
                                         <div class="mt-4 relative">
                                             <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
-                                                <mat-label> {{ ele.label}}</mat-label>
+                                                <mat-label> {{ ele.label | translate}}</mat-label>
                                                 <input type="text" class="w-full"  matInput
                                                 [value]="ele.value"  [maxlength]="ele.validators.maxLength" #issuerName
                                                 [pattern]="ele.validators.pattern"
-                                                [formControlName]="ele.formControlName" [placeholder]="ele.placeHolder || ''" (change)="setIssuerName(issuerName.value)">
+                                                [formControlName]="ele.formControlName" [placeholder]="ele.placeHolder  || '' | translate" (change)="setIssuerName(issuerName.value)">
                                             </mat-form-field>
+                                            @if(ele?.infoMessage){
                                             <mat-icon
                                             class="absolute pl-1 bottom-[2.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events" [matTooltip]="ele?.infoMessage" matTooltipClass="info-tooltip"
                                             matTooltipPosition="above" [matTooltipDisabled]="true"
@@ -80,6 +83,7 @@
                                             (click)="showTooltip(tooltip)"
                                             (mouseleave)="hideTooltip(tooltip)"
                                            >info</mat-icon>
+                                            }
                                         </div>
                                             <mat-error class="error-container text-red-600 flex w-full">
                                                 @if(certificateForm.get(ele.formControlName)?.touched && certificateForm.get(ele.formControlName)?.invalid ){
@@ -99,7 +103,7 @@
                                     </div>
                                     <div class="mt-4">
                                         @if(ele.name === "attachlogo"){
-                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 1 &&libProjectService?.projectData?.certificate?.logos.stateLogo1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 2 &&libProjectService?.projectData?.certificate?.logos.stateLogo2 == '')}">{{ ele.label}}</p>
+                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 1 &&libProjectService?.projectData?.certificate?.logos.stateLogo1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 2 &&libProjectService?.projectData?.certificate?.logos.stateLogo2 == '')}">{{ ele.label | translate}}</p>
                                         <section class="grid grid-cols-2 gap-2 mt-3">
                                             <div class="">
                                                 <div class="flex items-center" [ngClass]="{'opacity-70':libProjectService?.projectData?.certificate?.base_template_id == '' }">
@@ -132,7 +136,7 @@
                                     </div>
                                     <div class="mt-4">
                                         @if(ele.name === "attachsign"){
-                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 1 &&libProjectService?.projectData?.certificate?.signature.signatureImg1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 2 &&libProjectService?.projectData?.certificate?.signature.signatureImg2 == '')}">{{ ele.label}}</p>
+                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 1 &&libProjectService?.projectData?.certificate?.signature.signatureImg1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 2 &&libProjectService?.projectData?.certificate?.signature.signatureImg2 == '')}">{{ ele.label | translate}}</p>
                                         <section class="grid grid-cols-2 gap-2 mt-3">
                                             <div class="">
                                                 <div class="flex items-center" [ngClass]="{'opacity-70':libProjectService?.projectData?.certificate?.base_template_id == '' }">
@@ -191,7 +195,8 @@
                     <div class="mt-6 w-1/2">
                         @if(item.name === "attachprojectevidence"){
                         <div class="flex">
-                            <p>{{ item.label}}</p>
+                            <p>{{ item.label | translate}}</p>
+                            @if(item?.infoMessage){
                             <mat-icon class="cursor-pointer pl-1  text-iconGray text-xl enable-with-pointer-events"
                             [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
                             [matTooltipDisabled]="true"
@@ -199,6 +204,7 @@
                             (click)="showTooltip(tooltip)"
                             (mouseleave)="hideTooltip(tooltip)"
                             >info</mat-icon>
+                            }
                         </div>
                         <mat-radio-group color="primary" aria-label="Select an option">
                             <mat-radio-button value=1 class="-mx-1 mr-6" [checked]="checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('1')">{{ 'YES' | translate }}</mat-radio-button>
@@ -222,9 +228,10 @@
                             } -->
                             <div class="flex">
                                 <div class="mt-2">
-                                <mat-label class="mr-6"> {{ item.label}}</mat-label>
+                                <mat-label class="mr-6"> {{ item.label | translate}}</mat-label>
                                 <b class="range-value">{{range.value}}</b>
                                </div>
+                                @if(item?.infoMessage){
                                 <mat-icon class="cursor-pointer pl-1 text-xl text-iconGray enable-with-pointer-events"
                                 [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                 [matTooltipDisabled]="true"
@@ -232,6 +239,7 @@
                                 (click)="showTooltip(tooltip)"
                                 (mouseleave)="hideTooltip(tooltip)"
                                 >info</mat-icon>
+                                }
                             </div>
                             <mat-slider min="1" [max]="maximunNumberOfEvedence" step="1" showTickMarks discrete style="width: 100%;"  [disabled]="checkProjectCriteriaIncluded()" [style.pointer-events]="viewOnly ? 'none' : 'auto'">
                                 <input matSliderThumb matInput formControlName="evidenceRequired" #range (change)="setProjectEvidenceCriteriaValue(range.value)" [style.pointer-events]="viewOnly ? 'none' : 'auto'">
@@ -243,7 +251,8 @@
                     @if(item?.evidence_details?.min_no_of_evidences) {
                         <div class="mt-6" [style.pointer-events]="viewOnly ? 'none' : 'auto'">
                             <div class="flex">
-                                <p class="mt-2 label-wrap task-label"> {{taskForm[0]?.label}}&nbsp;{{item.slicedName ? item.slicedName :item?.name}}&nbsp;<span class="text-emerald-600 cursor-pointer" (click)="onShowMore(item.id)" *ngIf="item?.slicedName && item.name.length > 150">show more</span></p>
+                                <p class="mt-2 label-wrap task-label"> {{taskForm[0]?.label | translate}}&nbsp;{{item.slicedName ? item.slicedName :item?.name}}&nbsp;<span class="text-emerald-600 cursor-pointer" (click)="onShowMore(item.id)" *ngIf="item?.slicedName && item.name.length > 150">show more</span></p>
+                            @if(taskForm[0]?.infoMessage){
                             <mat-icon class="cursor-pointer mt-[0.40rem] pl-1 text-iconGray text-xl enable-with-pointer-events"
                                 [matTooltip]="taskForm[0]?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                 [matTooltipDisabled]="true"
@@ -251,6 +260,7 @@
                                 (click)="showTooltip(tooltip)"
                                 (mouseleave)="hideTooltip(tooltip)"
                                 >info</mat-icon>
+                            }
                             </div>
                             <div class="w-1/2 mt-2">
                                 <mat-radio-group color="primary" aria-label="Select an option" class="mr-3" #taskEvidenceCriteria>
@@ -267,6 +277,7 @@
                                     <mat-label class="mr-6">Number of evidence needed for this task</mat-label>
                                     <b class="range-value"  [ngClass]="{'error': item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence && (!(libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id])) }">{{item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence ? item?.evidence_details.min_no_of_evidences : taskRange.value}}</b>
                                     </div>
+                                    @if(taskForm[1]?.infoMessage){
                                     <mat-icon
                                     class="cursor-pointer pl-1 text-xl  text-iconGray mr-12 enable-with-pointer-events"
                                     [matTooltip]="taskForm[1]?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
@@ -275,6 +286,7 @@
                                     (click)="showTooltip(tooltip1)"
                                     (mouseleave)="hideTooltip(tooltip1)"
                                     >info</mat-icon>
+                                    }
                                     </div>
                                 </div>
                                 <mat-slider [min]="1" [id]="item.id" [disabled]="libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id]" [max]="maximunNumberOfEvedence" step="1" showTickMarks discrete style="width: 100%;" [style.pointer-events]="viewOnly ? 'none' : 'auto'" (slideend)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)"  (input)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)" (pointerup)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)">

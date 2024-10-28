@@ -7,9 +7,19 @@
     </a>
     <span class="px-0">{{ title  || 'BACK'  | translate }}</span>
   </div>
-  <div title="logout">
-    <mat-icon class="cursor-pointer" (click)="logout()">power_settings_new</mat-icon>
-  </div>
+  <div class="flex items-center space-x-4">
+    <div class="language-container flex items-center space-x-1">
+      <mat-icon class="pr-4">language</mat-icon>
+      <mat-select [placeholder]="selectedLanguage | translate" [(ngModel)]="selectedLanguage" (selectionChange)="languageChange($event)" panelClass="custom-dropdown">
+        @for(option of supportLanguages;track option){
+          <mat-option [value]="option.value">{{option.label | translate}}</mat-option>
+        }
+      </mat-select>
+    </div>
+    <div title="logout">
+      <mat-icon class="cursor-pointer" (click)="logout()">power_settings_new</mat-icon>
+    </div>
+</div>
 </mat-toolbar>
 <mat-toolbar class="sub-header flex border-b fixed justify-between items-center  top-16">
   <div class="title" [matTooltip]="headerData?.title | translate">{{ headerData?.title | translate }}</div>

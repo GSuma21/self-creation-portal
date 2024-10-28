@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withPreloading } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -15,35 +15,21 @@ import { authInterceptor } from './services/interceptor/auth.interceptor';
 import { environment } from 'environments';
 import { switchMap, of } from 'rxjs';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
+import { TimedPreloadingStrategy } from 'lib-shared-modules';
 // Create a loader for translation files
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-const dbConfig: DBConfig = {
-  name: 'MyDb',
-  version: 1,
-  objectStoresMeta: [
-    {
-      store: 'people',
-      storeConfig: { keyPath: 'id', autoIncrement: true },
-      storeSchema: [
-        { name: 'name', keypath: 'name', options: { unique: false } },
-        { name: 'age', keypath: 'age', options: { unique: false } }
-      ]
-    }
-  ]
-};
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withPreloading(TimedPreloadingStrategy)),
     provideAnimations(),
     provideTranslations(),
     provideHttpClient(),
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(SlAuthLibModule),
     provideHttpClient(withInterceptors([authInterceptor])),
-    importProvidersFrom(NgxIndexedDBModule.forRoot(dbConfig)),
     { provide: LIBRARY_CONFIG, useFactory: configFactory, deps: [HttpClient] }
   ],
 };

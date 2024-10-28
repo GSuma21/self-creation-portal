@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus} from 'lib-shared-modules';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
@@ -89,7 +89,7 @@ export class TasksComponent implements OnInit, OnDestroy {
               if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
                 this.startAutoSaving();
               }
-              if ((this.libProjectService?.projectData?.status == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW)&& (this.mode !==  projectMode.VIEWONLY)) {
+              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
                 this.getCommentConfigs()
               }
 
@@ -118,7 +118,7 @@ export class TasksComponent implements OnInit, OnDestroy {
                     });
                     this.tasks.push(task);
                   })
-                  if ((this.libProjectService?.projectData?.status == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW)&& (this.mode !==  projectMode.VIEWONLY)) {
+                  if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
                     this.getCommentConfigs()
                   }
                 }
@@ -176,6 +176,11 @@ export class TasksComponent implements OnInit, OnDestroy {
         }
       )
     );
+    this.subscription.add(
+      this.tasksForm.valueChanges.subscribe(changes => {
+        this.libProjectService.isFormDirty = true;
+      })
+    )
     this.checkValidation()
   }
 
@@ -184,7 +189,6 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   addTask() {
-    console.log(this.tasksData)
     const taskIndex = this.tasks.length;
     const taskGroup = this.fb.group({
       id: uuidv4(),
@@ -236,7 +240,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.libProjectService
       .startAutoSave(this.projectId)
-      .subscribe((data) => console.log(data))
+      .subscribe((data) => {this.libProjectService.isFormDirty = false})
     )
   }
 
@@ -350,5 +354,15 @@ export class TasksComponent implements OnInit, OnDestroy {
         });
       })
     );
+  }
+
+  showTooltip(tooltip: MatTooltip) {
+    tooltip.disabled = false;
+    tooltip.show();
+  }
+
+  hideTooltip(tooltip: MatTooltip) {
+    tooltip.hide();
+    tooltip.disabled = true;
   }
 }

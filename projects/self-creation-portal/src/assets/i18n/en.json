@@ -151,7 +151,6 @@
     "SET_CERTIFICATE_CRITERIA_DESCRIPTION":"You can set the minimum number of evidences required for each task or project to qualify for the certificate",
     "ENABLE_PROJECT_LEVEL_EVIDENCE":"Do you want to include Project level evidence(s) for certificate criteria",
     "NUMBER_OF_EVIDENCE_REQUIRED":"Number of evidence required",
-    "ENABLE_TASK_EVIDENCE":"Do you want to include certificate criterial for task, ''Task name that can go upto 2 lines or more''  ",
     "ATTACH_SIGNATURE":"Attach Signature",
     "ADD_SIGNATURE_DETALS":"Add signature details",
     "ATTACH_LOGO":"Attach logo",
@@ -175,5 +174,10 @@
     "COPY_AND_EDIT":"Copy and edit",
     "FILL_ALL_THE_MANDATORY_FIELDS":"Fill all the mandatory fields.",
     "THE_MAXIMUM_NUMBER_OF_TASKS_THAT_CAN_BE_ADDED_IS":"*The maximum number of tasks that can be added is ",
-    "MIN_SUBMISSION_REQUIRED":"Min. Submission required*"
+    "MIN_SUBMISSION_REQUIRED":"Min. Submission required*",
+    "PUBLISHED_ON":"Published on ",
+    "ENGLISH":"English",
+    "HINDI":"Hindi",
+    "ENTER_CERTIFICATE_ISSUER_NAME":"Enter certificate issuer name",
+    "ENABLE_TASK_EVIDENCE":"Do you want to include certificate criteria for task -"
 }
