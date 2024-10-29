@@ -116,7 +116,7 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {
-        this.removeEmpty(this.libProjectService.projectData).subscribe(
+        this.removeEmptyKey(this.libProjectService.projectData).subscribe(
           (cleanedData) => {
             const dialogRef = this.dialog.open(PreviewComponent, {
               width: '20rem',
@@ -271,7 +271,7 @@ export class LayoutComponent {
     this.subscription.unsubscribe();
   }
 
-  removeEmpty(obj: any): Observable<any> {
+  removeEmptyKey(obj: any): Observable<any> {
     for (let key in obj) {
       if (Array.isArray(obj[key])) {
         obj[key] = obj[key].map((element: any) =>
