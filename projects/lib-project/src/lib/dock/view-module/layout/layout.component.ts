@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
-import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode} from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-layout',
@@ -94,6 +96,21 @@ export class LayoutComponent {
 
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
+      case 'PREVIEW': {
+        this.utilService.removeEmptyKey(this.libProjectService.projectData).subscribe(
+          (cleanedData) => {
+            const dialogRef = this.dialog.open(PreviewComponent, {
+              width: '20rem',
+              autoFocus: false,
+              disableClose: false,
+              data: {
+                projectData: cleanedData,
+              },
+            });
+          }
+        );
+        break;
+      }
       case "SAVE_CHANGES":
       case "SAVE_AS_DRAFT":{
         this.subscription.add(
@@ -215,4 +232,6 @@ export class LayoutComponent {
     this.libProjectService.resetProjectMetaData();
     this.subscription.unsubscribe();
   }
+
+  
 }
