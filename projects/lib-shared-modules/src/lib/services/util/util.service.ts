@@ -3,6 +3,7 @@ import { ConfigService } from '../../configs/config.service';
 import { HttpProviderService } from '../http-provider.service';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,49 @@ export class UtilService {
       url: `${this.Configuration.urlConFig.RESOURCE_URLS.UPDATE_COMMENT}/${commentId}?resource_id=${resourceId}`,
     };
     return this.httpService.delete(config.url);
+  }
+
+
+  removeEmptyKey(obj: any): Observable<any> {
+    for (let key in obj) {
+      if (Array.isArray(obj[key])) {
+        obj[key] = obj[key].map((element: any) =>
+          element.value ? element.label : element
+        );
+      }
+      obj[key] = obj[key]?.value ? obj[key].label : obj[key];
+    }
+    return of(obj).pipe(
+      map((data) => {
+        const isEmpty = (value: any): boolean => {
+          return (
+            value === null ||
+            value === '' ||
+            (Array.isArray(value) && value.length === 0) ||
+            (typeof value === 'object' &&
+              value !== null &&
+              Object.keys(value).length === 0)
+          );
+        };
+
+        const cleanData = (input: any): any => {
+          if (Array.isArray(input)) {
+            return input.map(cleanData).filter((item) => !isEmpty(item)); // Filter out empty items
+          } else if (typeof input === 'object' && input !== null) {
+            return Object.entries(input).reduce((acc, [key, value]) => {
+              const cleanedValue = cleanData(value);
+              if (!isEmpty(cleanedValue)) {
+                acc[key] = cleanedValue;
+              }
+              return acc;
+            }, {} as { [key: string]: any });
+          }
+          return input;
+        };
+
+        return cleanData(data);
+      })
+    );
   }
 
 }
