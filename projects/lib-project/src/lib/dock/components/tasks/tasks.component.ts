@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   tasksForm: FormGroup;
   projectId: string | number = '';
-  taskFileTypes: string[] = ['PDF', 'Image'];
+  taskFileTypes: string[] = [];
   tasksData: any;
   SHIFT_TASK_UP = 'SHIFT_TASK_UP';
   SHIFT_TASK_DOWN = 'SHIFT_TASK_DOWN'
@@ -52,6 +52,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.libProjectService.currentProjectMetaData.subscribe(data => {
         this.tasksData = data?.tasksData.tasks;
+        this.taskFileTypes = this.tasksData?.fileType.options.map((item:any) => item.value)
       })
     )
     this.subscription.add(
@@ -197,7 +198,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       is_mandatory: [false],
       allow_evidences: [false],
       evidence_details: this.fb.group({
-        file_types: [[]],
+        file_types: [],
         min_no_of_evidences: [1, [Validators.min(this.tasksData?.minEvidences.validators.min), Validators.max(this.tasksData?.minEvidences.validators.max)]]
       })
     });
@@ -317,8 +318,10 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.tasks.value.forEach((item: any, index: any) => {
       item.sequence_no = index + 1;
       item.type = item.type ? item.type : "simple"
-      if(item.allow_evidences == true && item.evidence_details.file_types.length == 0){
-       item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
+      if(item.allow_evidences == true && item.evidence_details?.file_types?.length == 0){
+        item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
+        // item.evidence_details.file_types = this.libProjectService.projectData.tasks[index].evidence_details.file_types
+        // this.tasksData.fileType.setValue([this.libProjectService.projectData.tasks[index].evidence_details.file_types]);
       }else if(item.allow_evidences == false){
         item.evidence_details = {}
       }
@@ -330,9 +333,26 @@ export class TasksComponent implements OnInit, OnDestroy {
     return this.tasks.value.every((task:any) => task.name && task.name.trim() !== '')
   }
 
- disableSlide(event: MatSlideToggleChange) {
+ disableSlideMandatory(event: MatSlideToggleChange,task: any){
     if (this.viewOnly) {
       event.source.checked = !event.checked;
+    }
+  }
+ disableSlide(event: MatSlideToggleChange,task: any) {
+    this.saveTasks()
+    if (this.viewOnly) {
+      event.source.checked = !event.checked;
+    }
+    if (event.checked) {
+      // If the toggle is turned on, select all file types
+      const fileTypesControl = task.get('evidence_details.file_types');
+        fileTypesControl.setValue(this.taskFileTypes); // Select all file types
+    } else {
+      // If the toggle is turned off, clear the file types
+      const fileTypesControl = task.get('evidence_details.file_types');
+      if (fileTypesControl) {
+        fileTypesControl.setValue([]); // Clear selected file types
+      }
     }
   }
 

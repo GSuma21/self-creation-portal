@@ -24,3 +24,4 @@ export * from './lib/services/util/util.service';
 export * from './lib/assets/rejectform';
 export * from './lib/constants/commonConstants';
 export * from './lib/services/pre-loading/timed-preloading-strategy.service';
+export * from './lib/components/preview/preview.component'
