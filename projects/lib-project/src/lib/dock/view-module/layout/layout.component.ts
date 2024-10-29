@@ -97,7 +97,7 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {
-        this.removeEmptyKey(this.libProjectService.projectData).subscribe(
+        this.utilService.removeEmptyKey(this.libProjectService.projectData).subscribe(
           (cleanedData) => {
             const dialogRef = this.dialog.open(PreviewComponent, {
               width: '20rem',
@@ -107,12 +107,6 @@ export class LayoutComponent {
                 projectData: cleanedData,
               },
             });
-            dialogRef
-              .afterClosed()
-              .toPromise()
-              .then((result) => {
-                return true;
-              });
           }
         );
         break;
@@ -239,45 +233,5 @@ export class LayoutComponent {
     this.subscription.unsubscribe();
   }
 
-  removeEmptyKey(obj: any): Observable<any> {
-    for (let key in obj) {
-      if (Array.isArray(obj[key])) {
-        obj[key] = obj[key].map((element: any) =>
-          element.value ? element.label : element
-        );
-      }
-      obj[key] = obj[key]?.value ? obj[key].label : obj[key];
-    }
-    return of(obj).pipe(
-      map((data) => {
-        const isEmpty = (value: any): boolean => {
-          return (
-            value === null ||
-            value === '' ||
-            (Array.isArray(value) && value.length === 0) ||
-            (typeof value === 'object' &&
-              value !== null &&
-              Object.keys(value).length === 0)
-          );
-        };
-
-        const cleanData = (input: any): any => {
-          if (Array.isArray(input)) {
-            return input.map(cleanData).filter((item) => !isEmpty(item)); // Filter out empty items
-          } else if (typeof input === 'object' && input !== null) {
-            return Object.entries(input).reduce((acc, [key, value]) => {
-              const cleanedValue = cleanData(value);
-              if (!isEmpty(cleanedValue)) {
-                acc[key] = cleanedValue;
-              }
-              return acc;
-            }, {} as { [key: string]: any });
-          }
-          return input;
-        };
-
-        return cleanData(data);
-      })
-    );
-  }
+  
 }
