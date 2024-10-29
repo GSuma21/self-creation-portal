@@ -100,7 +100,7 @@ export class LayoutComponent {
         this.utilService.removeEmptyKey(this.libProjectService.projectData).subscribe(
           (cleanedData) => {
             const dialogRef = this.dialog.open(PreviewComponent, {
-              width: '20rem',
+              width: '23rem',
               autoFocus: false,
               disableClose: false,
               data: {
