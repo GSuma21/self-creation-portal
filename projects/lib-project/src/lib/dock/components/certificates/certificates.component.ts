@@ -423,12 +423,12 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         if(this.selectedYes === '1' && !this.libProjectService.projectData.certificate) {
           this.libProjectService.projectData.certificate = this.certificate
         }
-        if(this.libProjectService.projectData?.certificate && !this.libProjectService.projectData?.certificate?.base_template_url) {
-          this.libProjectService.projectData.certificate.base_template_url = res.result.data[0].url;
-          this.libProjectService.projectData.certificate.base_template_id = res.result.data[0].id;
-          this.libProjectService.projectData.certificate.code = res.result.data[0].code;
-          this.libProjectService.projectData.certificate.name = res.result.data[0].name;
-        }
+        // if(this.libProjectService.projectData?.certificate && this.libProjectService.projectData?.certificate?.base_template_url?.length > 0) {
+        //   this.libProjectService.projectData.certificate.base_template_url = res.result.data[0].url;
+        //   this.libProjectService.projectData.certificate.base_template_id = res.result.data[0].id;
+        //   this.libProjectService.projectData.certificate.code = res.result.data[0].code;
+        //   this.libProjectService.projectData.certificate.name = res.result.data[0].name;
+        // }
       });
   }
 
