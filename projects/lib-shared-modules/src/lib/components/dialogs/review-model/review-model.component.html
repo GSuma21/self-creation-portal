@@ -14,7 +14,6 @@
         [maxlength]=dialogueData.note_length
         [(ngModel)]="reviewerNote"
         name="reviewerNote"
-        [pattern]="pattern"
         required="false"
         #input="ngModel">
       </textarea>
@@ -24,9 +23,6 @@
       @if(input.errors && input.touched){
         <div class="error-message">
           <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
-          @if(input.errors?.['pattern']){
-            <span>Objective can only include alphanumeric characters with spaces, -, _, &, <></span>
-          }
           @if(input.errors?.['maxlength']){
             <span>Note cannot exceed  {{dialogueData?.note_length}} characters.</span>
           }
