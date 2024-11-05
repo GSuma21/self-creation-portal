@@ -275,7 +275,7 @@
                                     <div class="flex">
                                     <div class="mt-2">
                                     <mat-label class="mr-6">Number of evidence needed for this task</mat-label>
-                                    <b class="range-value"  [ngClass]="{'error': item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence && (!(libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id])) }">{{item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence ? item?.evidence_details.min_no_of_evidences : taskRange.value}}</b>
+                                    <b class="range-value"  [ngClass]="{'error': item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence && (!(libProjectService.projectData.formMeta?.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id])) }">{{item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence ? item?.evidence_details.min_no_of_evidences : taskRange.value}}</b>
                                     </div>
                                     @if(taskForm[1]?.infoMessage){
                                     <mat-icon
@@ -289,10 +289,10 @@
                                     }
                                     </div>
                                 </div>
-                                <mat-slider [min]="1" [id]="item.id" [disabled]="libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id]" [max]="maximunNumberOfEvedence" step="1" showTickMarks discrete style="width: 100%;" [style.pointer-events]="viewOnly ? 'none' : 'auto'" (slideend)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)"  (input)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)" (pointerup)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)">
+                                <mat-slider [min]="1" [id]="item.id" [disabled]="libProjectService.projectData.formMeta?.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta?.taskEvidenceSelected[item.id]" [max]="maximunNumberOfEvedence" step="1" showTickMarks discrete style="width: 100%;" [style.pointer-events]="viewOnly ? 'none' : 'auto'" (slideend)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)"  (input)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)" (pointerup)="onSliderInput($event, item, item?.evidence_details.min_no_of_evidences, taskRange.value)">
                                     <input matSliderThumb [value]="item?.values ? item?.values :item?.evidence_details.min_no_of_evidences"  [id]="item.id"  matInput #taskRange (change)="changeEvidenceCriteriaValue(taskRange.value,1,item,item?.evidence_details.min_no_of_evidences);" [style.pointer-events]="viewOnly ? 'none' : 'auto'">
                                 </mat-slider>
-                                    <div *ngIf="(!(libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta.taskEvidenceSelected[item.id])) && (item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence)" class="error ml-2 text-xs">
+                                    <div *ngIf="(!(libProjectService.projectData.formMeta?.taskEvidenceSelected[item.id] == 0 || !libProjectService.projectData.formMeta?.taskEvidenceSelected[item.id])) && (item?.evidence_details.min_no_of_evidences > maximunNumberOfEvedence)" class="error ml-2 text-xs">
                                        Minimum number of evidence  is out of range.
                                     </div>
                             </div>
