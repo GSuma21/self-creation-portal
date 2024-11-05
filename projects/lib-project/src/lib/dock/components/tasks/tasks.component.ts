@@ -37,6 +37,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   viewOnly: boolean = false;
   mode: any = "";
   commentPayload:any;
+  testingVariable:string = 'tasks[0]'
   commentsList:any = [];
   projectInReview:boolean = false;
   private autoSaveSubscription: Subscription = new Subscription();
@@ -55,6 +56,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.taskFileTypes = this.tasksData?.fileType.options.map((item:any) => item.value)
       })
     )
+    console.log(this.libProjectService.projectData+this.testingVariable)
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.projectId = params.projectId;

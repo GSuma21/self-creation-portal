@@ -60,6 +60,17 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         }
       )
     );
+    this.subscription.add(
+      this.libProjectService.projectApiErrors.subscribe(
+        (errors: any) => {
+          console.log(errors);
+          for (let index = 0; index < errors.length; index++) {
+            this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+            this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
+          }
+        }
+      )
+    );
     this.subscription.add( // Check validation before sending for review.
       this.libProjectService.isSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
@@ -252,6 +263,10 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             })
           }
       })
+  }
+
+  updateErrors() {
+
   }
   saveForm() {
     if (this.libProjectService.projectData.title) {
