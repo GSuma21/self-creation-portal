@@ -341,21 +341,25 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
  disableSlide(event: MatSlideToggleChange,task: any) {
-    this.saveTasks()
     if (this.viewOnly) {
       event.source.checked = !event.checked;
+      const fileTypesControl = task.get('allow_evidences');
+          fileTypesControl.setValue(!event.checked); // Select all file types
     }
-    if (event.checked) {
-      // If the toggle is turned on, select all file types
-      const fileTypesControl = task.get('evidence_details.file_types');
-        fileTypesControl.setValue(this.taskFileTypes); // Select all file types
-    } else {
-      // If the toggle is turned off, clear the file types
-      const fileTypesControl = task.get('evidence_details.file_types');
-      if (fileTypesControl) {
-        fileTypesControl.setValue([]); // Clear selected file types
+    if(!this.viewOnly){
+      if (event.checked) {
+        // If the toggle is turned on, select all file types
+        const fileTypesControl = task.get('evidence_details.file_types');
+          fileTypesControl.setValue(this.taskFileTypes); // Select all file types
+      } else {
+        // If the toggle is turned off, clear the file types
+        const fileTypesControl = task.get('evidence_details.file_types');
+        if (fileTypesControl) {
+          fileTypesControl.setValue([]); // Clear selected file types
+        }
       }
     }
+    this.saveTasks();
   }
 
   saveComment(quillInput:any){ //  This method is checking validation when a comment is updated or deleted.
