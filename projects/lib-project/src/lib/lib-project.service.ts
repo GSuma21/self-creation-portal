@@ -26,6 +26,8 @@ export class LibProjectService {
   projectData: any = {};
   private saveProject = new BehaviorSubject<boolean>(false);
   isProjectSave = this.saveProject.asObservable();
+  private setProjectApiErrors = new BehaviorSubject<boolean>(false);
+  projectApiErrors = this.setProjectApiErrors.asObservable();
   private sendForReviewValidation = new BehaviorSubject<boolean>(false);
   isSendForReviewValidation = this.sendForReviewValidation.asObservable();
   projectId: string | number = '';
@@ -63,6 +65,10 @@ export class LibProjectService {
 
   saveProjectFunc(newAction: boolean) {
     this.saveProject.next(newAction);
+  }
+
+  setProjectErrorsFunc(newAction: boolean) {
+    this.setProjectApiErrors.next(newAction);
   }
 
   checkSendForReviewValidation(newAction: boolean) {
@@ -140,7 +146,9 @@ export class LibProjectService {
                       this.toastService.openSnackBar(data);
                       this.projectData = {};
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
-                    }
+                    },((err)=> {
+                      this.setProjectErrorsFunc(err.error)
+                    })
                   );
                 });
               }
