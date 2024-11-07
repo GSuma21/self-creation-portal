@@ -397,14 +397,15 @@ export class LibProjectService {
   startOrResumeReview() {
     this.utilService
       .startOrResumeReview(this.projectData.id)
-      .subscribe((data) => {});
-    this.router.navigate([PROJECT_DETAILS_PAGE], {
-      queryParams: {
-        projectId: this.projectData.id,
-        mode: projectMode.REVIEW,
-        parent:"up-for-review"
-      },
-    });
+      .subscribe((data) => {
+        this.router.navigate([PROJECT_DETAILS_PAGE], {
+          queryParams: {
+            projectId: this.projectData.id,
+            mode: projectMode.REVIEW,
+            parent:"up-for-review"
+          },
+        });
+      });
   }
 
   editProject() {
