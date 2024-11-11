@@ -130,6 +130,21 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
         this.libProjectService.isFormDirty = true;
       })
     )
+
+    this.subscription.add(
+      this.libProjectService.projectApiErrors.subscribe(
+        (errors: any) => {
+          for (let index = 0; index < errors.length; index++) {
+            if(errors[index].parsedLocation.children?.name == "children"){
+              // this.libProjectService.formMeta.formValidation.subTasks = "INVALID"
+               this.taskData[errors[index].parsedLocation.index].subTasks.get('subtasks').controls[errors[index].parsedLocation.children.index].setErrors({ pattern: errors[index].msg })
+               this.libProjectService.formMeta.formValidation.subTasks = "INVALID"
+            }
+          }
+          
+        }
+      )
+    ); 
   }
 
   get subtasks() {

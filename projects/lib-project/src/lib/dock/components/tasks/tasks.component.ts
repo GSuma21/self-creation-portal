@@ -185,6 +185,28 @@ export class TasksComponent implements OnInit, OnDestroy {
       })
     )
     this.checkValidation()
+    this.subscription.add(
+      this.libProjectService.projectApiErrors.subscribe(
+        (errors: any) => {
+          for (let index = 0; index < errors.length; index++) {
+            if(errors[index].parsedLocation.name === "tasks"){
+             let a = this.tasks.controls[errors[index].parsedLocation.index]
+             this.tasks.controls.forEach((taskGroup: any, i: number) => {
+              if(i == errors[index].parsedLocation.index ){
+                this.tasksData.description.errorMessage.pattern = errors[index].msg
+                taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
+                console.log(this.tasks.status)
+                this.tasksForm.markAllAsTouched();
+              this.checkValidation()
+              }
+            });
+            }
+          }
+          
+        }
+      )
+    );
+    
   }
 
   get tasks() {
