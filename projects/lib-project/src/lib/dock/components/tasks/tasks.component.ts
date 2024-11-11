@@ -292,6 +292,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
+    this.taskFileTypes = []
     if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id){
       this.checkValidation()
       this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
@@ -342,11 +343,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.tasks.value.forEach((item: any, index: any) => {
       item.sequence_no = index + 1;
       item.type = item.type ? item.type : "simple"
-      if(item.allow_evidences == true && item.evidence_details?.file_types?.length == 0){
-        // item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
-        // item.evidence_details.file_types = this.libProjectService.projectData.tasks[index].evidence_details.file_types
-        // this.tasksData.fileType.setValue([this.libProjectService.projectData.tasks[index].evidence_details.file_types]);
-      }else if(item.allow_evidences == false){
+      if(item.allow_evidences == false){
         item.evidence_details = {}
       }
     });
@@ -367,21 +364,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       event.source.checked = !event.checked;
       const fileTypesControl = task.get('allow_evidences');
           fileTypesControl.setValue(!event.checked); // Select all file types
-    }
-    if(!this.viewOnly){
-      const fileTypesControl = task.get('evidence_details.file_types');
-      fileTypesControl.setValue(this.taskFileTypes); // Select all file types
-      // if (event.checked) {
-      //   // If the toggle is turned on, select all file types
-      //   const fileTypesControl = task.get('evidence_details.file_types');
-      //     fileTypesControl.setValue(this.taskFileTypes); // Select all file types
-      // } else {
-      //   // If the toggle is turned off, clear the file types
-      //   const fileTypesControl = task.get('evidence_details.file_types');
-      //   if (fileTypesControl) {
-      //     fileTypesControl.setValue([]); // Clear selected file types
-      //   }
-      // }
     }
     this.saveTasks();
   }
