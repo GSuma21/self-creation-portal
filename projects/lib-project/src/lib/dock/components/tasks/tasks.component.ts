@@ -189,7 +189,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.libProjectService.projectApiErrors.subscribe(
         (errors: any) => {
           for (let index = 0; index < errors.length; index++) {
-            if(errors[index].parsedLocation.name === "tasks"){
+            if(errors[index].parsedLocation.name === "tasks" && !(errors[index].parsedLocation.children)){
              let a = this.tasks.controls[errors[index].parsedLocation.index]
              this.tasks.controls.forEach((taskGroup: any, i: number) => {
               if(i == errors[index].parsedLocation.index ){

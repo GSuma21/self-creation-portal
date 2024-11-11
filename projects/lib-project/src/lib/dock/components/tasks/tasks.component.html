@@ -80,7 +80,7 @@
                                     </mat-option>
                                 </mat-select>
                                 <div>
-                                    @if(task.get('evidence_details.file_types')?.value.length === 0){
+                                    @if(task.get('evidence_details.file_types')?.value.length === 0 && task.get(tasksData?.allowEvidence.name)?.value){
                                         <mat-error class="error-container">
                                             <div class="error-message">
                                                 <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
