@@ -222,7 +222,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       is_mandatory: [false],
       allow_evidences: [false],
       evidence_details: this.fb.group({
-        file_types: [],
+        file_types: [this.taskFileTypes, Validators.required],
         min_no_of_evidences: [1, [Validators.min(this.tasksData?.minEvidences.validators.min), Validators.max(this.tasksData?.minEvidences.validators.max)]]
       })
     });
@@ -343,7 +343,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       item.sequence_no = index + 1;
       item.type = item.type ? item.type : "simple"
       if(item.allow_evidences == true && item.evidence_details?.file_types?.length == 0){
-        item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
+        // item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
         // item.evidence_details.file_types = this.libProjectService.projectData.tasks[index].evidence_details.file_types
         // this.tasksData.fileType.setValue([this.libProjectService.projectData.tasks[index].evidence_details.file_types]);
       }else if(item.allow_evidences == false){
@@ -369,17 +369,19 @@ export class TasksComponent implements OnInit, OnDestroy {
           fileTypesControl.setValue(!event.checked); // Select all file types
     }
     if(!this.viewOnly){
-      if (event.checked) {
-        // If the toggle is turned on, select all file types
-        const fileTypesControl = task.get('evidence_details.file_types');
-          fileTypesControl.setValue(this.taskFileTypes); // Select all file types
-      } else {
-        // If the toggle is turned off, clear the file types
-        const fileTypesControl = task.get('evidence_details.file_types');
-        if (fileTypesControl) {
-          fileTypesControl.setValue([]); // Clear selected file types
-        }
-      }
+      const fileTypesControl = task.get('evidence_details.file_types');
+      fileTypesControl.setValue(this.taskFileTypes); // Select all file types
+      // if (event.checked) {
+      //   // If the toggle is turned on, select all file types
+      //   const fileTypesControl = task.get('evidence_details.file_types');
+      //     fileTypesControl.setValue(this.taskFileTypes); // Select all file types
+      // } else {
+      //   // If the toggle is turned off, clear the file types
+      //   const fileTypesControl = task.get('evidence_details.file_types');
+      //   if (fileTypesControl) {
+      //     fileTypesControl.setValue([]); // Clear selected file types
+      //   }
+      // }
     }
     this.saveTasks();
   }

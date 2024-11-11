@@ -222,32 +222,29 @@ export class LibProjectService {
       let result: any = {};
       let input = error.location;
       let currentPointer = result;
-  
-      // Parse each level in location using regex pattern
       let lastMatchIndex = 0;
       while ((match = pattern.exec(input)) !== null) {
         const name = match[1];
         const index = parseInt(match[2], 10);
   
-        // If we are at the last part, only add name and index
-        if (pattern.lastIndex < input.length) {
+        // Set name and index in the current pointer if at the root level
+        if (!currentPointer.name) {
           currentPointer.name = name;
           currentPointer.index = index;
-          // Prepare the pointer for the next level (i.e., children)
-          currentPointer.children = {};
-          currentPointer = currentPointer.children;
         } else {
-          // If it's the last part, only set the name and index
-          currentPointer.name = name;
-          currentPointer.index = index;
+          // Create a new nested structure with the name as the key
+          currentPointer[name] = { name, index };
+          currentPointer = currentPointer[name];
         }
   
+        // Update the last matched index position
         lastMatchIndex = pattern.lastIndex;
       }
   
-      // If there is any remaining part of the location string that is not matched by the regex
+      // If there's any remaining part of the location string after the last match
       if (lastMatchIndex < input.length) {
-        currentPointer.name = input.slice(lastMatchIndex);
+        const remainingName = input.slice(lastMatchIndex).replace('.', '');
+        currentPointer[remainingName] = { name: remainingName };
       }
   
       return {
