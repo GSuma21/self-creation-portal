@@ -63,7 +63,7 @@ export class HttpProviderService {
         "class":"error",
         "panelClass":"error"
       }
-     this?.openSnackBar(data)
+      this.toastService.openSnackBar({data})
       return throwError(() => error.error);
     }
 
