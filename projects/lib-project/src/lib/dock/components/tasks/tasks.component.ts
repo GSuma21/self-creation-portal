@@ -66,15 +66,17 @@ export class TasksComponent implements OnInit, OnDestroy {
           if (params.mode) {
             if (Object.keys(this.libProjectService.projectData).length > 1) {
               this.tasksForm.reset()
+              let fileType:any
               if (this.libProjectService.projectData.tasks && this.libProjectService.projectData.tasks.length) {
                 this.libProjectService.projectData.tasks.forEach((element:any) => {
+                  fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
                   const task = this.fb.group({
                     id: [element.id],
                     name: [element.name ? element.name : '', Validators.required],
                     is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
                     allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
                     evidence_details: this.fb.group({
-                      file_types: [element.evidence_details?.file_types ? element.evidence_details.file_types : ''],
+                      file_types: fileType,
                       min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details?.min_no_of_evidences : 1, Validators.min(1)]
                     }),
                     learning_resources:element?.learning_resources? [element.learning_resources] : [],
@@ -101,16 +103,18 @@ export class TasksComponent implements OnInit, OnDestroy {
               this.libProjectService.readProject(this.projectId).subscribe((res:any)=> {
                 this.tasksForm.reset()
                 this.libProjectService.projectData = res.result;
+                let fileType:any
                this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                 if(res && res.result.tasks && res.result.tasks.length) {
                   res.result.tasks.forEach((element:any) => {
+                    fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
                     const task = this.fb.group({
                       id:[element.id],
                       name: [element.name ? element.name : '', Validators.required],
                       is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
                       allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
                       evidence_details: this.fb.group({
-                        file_types: [element.evidence_details?.file_types ? element.evidence_details.file_types : ''],
+                        file_types: fileType,
                         min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details.min_no_of_evidences : 1, Validators.min(1)]
                       }),
                       learning_resources:[element.learning_resources ?  element.learning_resources : []],
