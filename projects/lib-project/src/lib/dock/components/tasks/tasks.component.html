@@ -70,15 +70,25 @@
                                 {{tasksData.allowEvidence.label | translate}}
                             </mat-slide-toggle>
 
-                            <div class="px-2 w-40 text-center" formGroupName="evidence_details" [ngClass]="{
+                            <div class="px-2 w-48 text-center" formGroupName="evidence_details" [ngClass]="{
                                 'disabled-with-pointer-events': !task.get(tasksData?.allowEvidence.name)?.value,
                                 'placeholder-text-black': task.get(tasksData?.allowEvidence.name)?.value
                               }">
-                                <mat-select class="border px-2 w-40" multiple="true" [formControlName]="tasksData.fileType.name" (selectionChange)="checkValidation()" [disabled]="!task.get(tasksData?.allowEvidence.name)?.value" placeholder="Select file types">
+                                <mat-select class="border px-2 w-40" multiple="true" [formControlName]="tasksData.fileType.name" (selectionChange)="checkValidation()" placeholder="Select file types">
                                     <mat-option [matTooltip]="option.label" *ngFor="let option of tasksData.fileType.options" [value]="option.value">
                                         {{ option.label }}
                                     </mat-option>
                                 </mat-select>
+                                <div>
+                                    @if(task.get('evidence_details.file_types')?.value.length === 0 && task.get(tasksData?.allowEvidence.name)?.value){
+                                        <mat-error class="error-container">
+                                            <div class="error-message">
+                                                <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
+                                                 <span>{{"CHOOSE_ATLEAST_ONE_FILE_TYPE" | translate}}</span> 
+                                            </div>
+                                        </mat-error>
+                                    }
+                                </div>
                             </div>
                             <div class="flex flex-col">
                                 <div class="flex gap-2" [ngClass]="{'disabled-with-pointer-event': !task.get(tasksData?.allowEvidence.name)?.value}"

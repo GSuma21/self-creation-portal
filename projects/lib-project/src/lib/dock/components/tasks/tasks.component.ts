@@ -64,15 +64,17 @@ export class TasksComponent implements OnInit, OnDestroy {
           if (params.mode) {
             if (Object.keys(this.libProjectService.projectData).length > 1) {
               this.tasksForm.reset()
+              let fileType:any
               if (this.libProjectService.projectData.tasks && this.libProjectService.projectData.tasks.length) {
                 this.libProjectService.projectData.tasks.forEach((element:any) => {
+                  fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
                   const task = this.fb.group({
                     id: [element.id],
                     name: [element.name ? element.name : '', Validators.required],
                     is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
                     allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
                     evidence_details: this.fb.group({
-                      file_types: [element.evidence_details?.file_types ? element.evidence_details.file_types : ''],
+                      file_types: fileType,
                       min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details?.min_no_of_evidences : 1, Validators.min(1)]
                     }),
                     learning_resources:element?.learning_resources? [element.learning_resources] : [],
@@ -99,16 +101,18 @@ export class TasksComponent implements OnInit, OnDestroy {
               this.libProjectService.readProject(this.projectId).subscribe((res:any)=> {
                 this.tasksForm.reset()
                 this.libProjectService.projectData = res.result;
+                let fileType:any
                this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                 if(res && res.result.tasks && res.result.tasks.length) {
                   res.result.tasks.forEach((element:any) => {
+                    fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
                     const task = this.fb.group({
                       id:[element.id],
                       name: [element.name ? element.name : '', Validators.required],
                       is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
                       allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
                       evidence_details: this.fb.group({
-                        file_types: [element.evidence_details?.file_types ? element.evidence_details.file_types : ''],
+                        file_types: fileType,
                         min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details.min_no_of_evidences : 1, Validators.min(1)]
                       }),
                       learning_resources:[element.learning_resources ?  element.learning_resources : []],
@@ -183,6 +187,28 @@ export class TasksComponent implements OnInit, OnDestroy {
       })
     )
     this.checkValidation()
+    this.subscription.add(
+      this.libProjectService.projectApiErrors.subscribe(
+        (errors: any) => {
+          for (let index = 0; index < errors.length; index++) {
+            if(errors[index].parsedLocation.name === "tasks" && !(errors[index].parsedLocation.children)){
+             let a = this.tasks.controls[errors[index].parsedLocation.index]
+             this.tasks.controls.forEach((taskGroup: any, i: number) => {
+              if(i == errors[index].parsedLocation.index ){
+                this.tasksData.description.errorMessage.pattern = errors[index].msg
+                taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
+                console.log(this.tasks.status)
+                this.tasksForm.markAllAsTouched();
+              this.checkValidation()
+              }
+            });
+            }
+          }
+          
+        }
+      )
+    );
+    
   }
 
   get tasks() {
@@ -198,7 +224,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       is_mandatory: [false],
       allow_evidences: [false],
       evidence_details: this.fb.group({
-        file_types: [],
+        file_types: [this.taskFileTypes, Validators.required],
         min_no_of_evidences: [1, [Validators.min(this.tasksData?.minEvidences.validators.min), Validators.max(this.tasksData?.minEvidences.validators.max)]]
       })
     });
@@ -268,6 +294,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
+    this.taskFileTypes = []
     if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id){
       this.checkValidation()
       this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
@@ -318,11 +345,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.tasks.value.forEach((item: any, index: any) => {
       item.sequence_no = index + 1;
       item.type = item.type ? item.type : "simple"
-      if(item.allow_evidences == true && item.evidence_details?.file_types?.length == 0){
-        item.evidence_details.file_types = this.tasksData.fileType.options.map((item:any)=> item.value);
-        // item.evidence_details.file_types = this.libProjectService.projectData.tasks[index].evidence_details.file_types
-        // this.tasksData.fileType.setValue([this.libProjectService.projectData.tasks[index].evidence_details.file_types]);
-      }else if(item.allow_evidences == false){
+      if(item.allow_evidences == false){
         item.evidence_details = {}
       }
     });
@@ -343,19 +366,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       event.source.checked = !event.checked;
       const fileTypesControl = task.get('allow_evidences');
           fileTypesControl.setValue(!event.checked); // Select all file types
-    }
-    if(!this.viewOnly){
-      if (event.checked) {
-        // If the toggle is turned on, select all file types
-        const fileTypesControl = task.get('evidence_details.file_types');
-          fileTypesControl.setValue(this.taskFileTypes); // Select all file types
-      } else {
-        // If the toggle is turned off, clear the file types
-        const fileTypesControl = task.get('evidence_details.file_types');
-        if (fileTypesControl) {
-          fileTypesControl.setValue([]); // Clear selected file types
-        }
-      }
     }
     this.saveTasks();
   }

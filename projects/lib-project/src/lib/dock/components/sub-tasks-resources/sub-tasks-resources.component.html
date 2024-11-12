@@ -24,7 +24,7 @@
                                         $index) {
                                         <div class="flex items-center space-x-2 custom-input-wrapper">
                                             <mat-form-field floatLabel="always" class="w-full" appearance="outline">
-                                            <input matInput [value]="control.name" maxlength="256" pattern="^(?! )(?!.* {3})[a-zA-Z0-9\-_ <>&]+$" class="border border-gray-300 rounded px-2 py-1 text-gray-500" type="text" [formControlName]="j" placeholder="Add a subtask" (change)="savingSubtask(i,j)">
+                                            <input matInput [value]="control.name" maxlength="256" class="border border-gray-300 rounded px-2 py-1 text-gray-500" type="text" [formControlName]="j" placeholder="Add a subtask" (change)="savingSubtask(i,j)">
                                             </mat-form-field>
                                             <mat-icon class="cursor-pointer"
                                                 (click)="onDeleteSubtask(i, j)" color="primary">delete</mat-icon>
@@ -69,7 +69,7 @@
                                                 <div class="flex justify-between gap-2" [ngClass]="">
                                                     <p class="text-tertiary">{{observationFormDetails.minSubmissionRequired.label | translate}}</p>
                                                     <input matInput [readonly]="viewOnly" required="true"
-                                                        placeholder="1" type="number" 
+                                                        placeholder="1" type="number"
                                                         [min]="observationFormDetails.minSubmissionRequired.validators.min" [max]="observationFormDetails.minSubmissionRequired.validators.max" [value]="item.solution_details.min_no_of_submissions_required"
                                                         class="w-14 block border text-center" (input)="addMinSubmissionsRequired($event,i)" (change)="addMinSubmissionsRequired($event,i)" />
                                                 </div>

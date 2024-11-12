@@ -2,6 +2,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ToastService } from './toast/toast.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastComponent } from '../components/toast/toast.component';
+
 
 
 
@@ -10,7 +13,7 @@ import { ToastService } from './toast/toast.service';
 })
 export class HttpProviderService {
 
-  constructor(private http:HttpClient,private toastService:ToastService) { }
+  constructor(private http:HttpClient,private toastService:ToastService,private _snackBar: MatSnackBar) { }
 
 
     get(endpoint: string, params?: HttpParams) {
@@ -60,8 +63,8 @@ export class HttpProviderService {
         "class":"error",
         "panelClass":"error"
       }
-     this.toastService.openSnackBar(data)
-      return throwError(() => new Error(errorMessage));
+      this.toastService.openSnackBar({data})
+      return throwError(() => error.error);
     }
 
     private addXRequestedWithHeader(options?: any): any {

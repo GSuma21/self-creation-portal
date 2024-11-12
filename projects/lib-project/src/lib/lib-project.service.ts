@@ -8,9 +8,10 @@ import {
   UtilService,
   ROUTE_PATHS,
   resourceStatus, reviewStatus , projectMode,
-  LibSharedModulesService
+  LibSharedModulesService,
+  FormService
 } from 'lib-shared-modules';
-import { BehaviorSubject, map, Observable, switchMap, tap, EMPTY  } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap, tap, EMPTY, of  } from 'rxjs';
 import { ConfigService } from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,6 +27,8 @@ export class LibProjectService {
   projectData: any = {};
   private saveProject = new BehaviorSubject<boolean>(false);
   isProjectSave = this.saveProject.asObservable();
+  private setProjectApiErrors = new BehaviorSubject<boolean>(false);
+  projectApiErrors = this.setProjectApiErrors.asObservable();
   private sendForReviewValidation = new BehaviorSubject<boolean>(false);
   isSendForReviewValidation = this.sendForReviewValidation.asObservable();
   projectId: string | number = '';
@@ -45,7 +48,8 @@ export class LibProjectService {
     private toastService: ToastService,
     private dialog: MatDialog,
     private utilService: UtilService,
-    private sharedService:LibSharedModulesService
+    private sharedService:LibSharedModulesService,
+    private formService: FormService,
   ) {
     this.route.queryParams.subscribe((params: any) => {
       this.mode = params.mode ? params.mode : 'edit';
@@ -63,6 +67,10 @@ export class LibProjectService {
 
   saveProjectFunc(newAction: boolean) {
     this.saveProject.next(newAction);
+  }
+
+  setProjectErrorsFunc(newAction: boolean) {
+    this.setProjectApiErrors.next(newAction);
   }
 
   checkSendForReviewValidation(newAction: boolean) {
@@ -140,7 +148,30 @@ export class LibProjectService {
                       this.toastService.openSnackBar(data);
                       this.projectData = {};
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
-                    }
+                    },((err)=> {
+                      this.parseLocations(err.error).subscribe((errors:any) =>{
+                        this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
+                          if (data) {
+                            errors.forEach((err:any) => {
+                              data.controls.some((item: any) => {
+                                if (item.name === err.parsedLocation.name) {
+                                  this.formMeta.formValidation.projectDetails = "INVALID"
+                                  return
+                                }
+                              });
+                              if(err.parsedLocation.name === "tasks" && (err.parsedLocation.children?.name !== "children")){
+                                this.formMeta.formValidation.tasks = "INVALID"
+                              }
+                              if(err.parsedLocation.name === "tasks" && err.parsedLocation.children?.name === "children"){
+                                this.formMeta.formValidation.subTasks = "INVALID"
+                              }
+                            });
+                          }
+                        })
+                        this.setProjectErrorsFunc(errors)
+                      })
+                   
+                    })
                   );
                 });
               }
@@ -179,6 +210,54 @@ export class LibProjectService {
       this.openSnackBarAndRedirect('Fill all the mandatory fields.', 'error');
     }
     this.checkSendForReviewValidation(false);
+  }
+
+
+  parseLocations(errors: any): Observable<any[]> {
+    const pattern = /([a-zA-Z_]+)\[(\d+)\]/g;
+  
+    // Transform errors array and add parsedLocation to each error object
+    const parsedErrors = errors.map((error: any) => {
+      let match;
+      let result: any = {};
+      let input = error.location;
+      let currentPointer = result;
+  
+      // Parse each level in location using regex pattern
+      let lastMatchIndex = 0;
+      while ((match = pattern.exec(input)) !== null) {
+        const name = match[1];
+        const index = parseInt(match[2], 10);
+  
+        // If we are at the last part, only add name and index
+        if (pattern.lastIndex < input.length) {
+          currentPointer.name = name;
+          currentPointer.index = index;
+          // Prepare the pointer for the next level (i.e., children)
+          currentPointer.children = {};
+          currentPointer = currentPointer.children;
+        } else {
+          // If it's the last part, only set the name and index
+          currentPointer.name = name;
+          currentPointer.index = index;
+        }
+  
+        lastMatchIndex = pattern.lastIndex;
+      }
+  
+      // If there is any remaining part of the location string that is not matched by the regex
+      if (lastMatchIndex < input.length) {
+        currentPointer.name = input.slice(lastMatchIndex);
+      }
+  
+      return {
+        ...error,
+        parsedLocation: result
+      };
+    });
+  
+    // Return parsed errors as an observable
+    return of(parsedErrors);
   }
 
   createOrUpdateProject(projectData?: any, projectId?: string | number,removeMetaData?:boolean) {
