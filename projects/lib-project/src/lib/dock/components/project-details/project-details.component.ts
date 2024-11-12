@@ -267,9 +267,6 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       })
   }
 
-  updateErrors() {
-
-  }
   saveForm() {
     if (this.libProjectService.projectData.title) {
       this.libProjectService.formMeta.formValidation.projectDetails = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
