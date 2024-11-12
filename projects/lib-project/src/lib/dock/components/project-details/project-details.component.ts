@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { LibProjectService } from '../../../lib-project.service';
-import { DynamicFormModule, MainFormComponent } from 'dynamic-form-ramkumar';
+import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { MatDialog } from '@angular/material/dialog';
@@ -63,9 +63,11 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.subscription.add(
       this.libProjectService.projectApiErrors.subscribe(
         (errors: any) => {
-          console.log(errors);
           for (let index = 0; index < errors.length; index++) {
-            this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+           if(this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name)?.errorMessage) {
+            this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name).errorMessage.pattern = errors[index].msg;
+           } 
+            // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
             this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
           }
         }
@@ -90,7 +92,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         this.getFormWithEntitiesAndMap();
       }
       this.libProjectService.formMeta.formValidation.projectDetails = (this.formLib?.myForm.status === "VALID" && this.formLib?.subform?.myForm.status === "VALID") ? "VALID" : "INVALID";
-      if(this.libProjectService.projectData.tasks){
+      if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
         this.libProjectService.validateTasksData()
       }
     }
@@ -224,7 +226,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if( this.formLib){
       this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
     }
-    if(this.libProjectService.projectData.tasks){
+    if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
       this.libProjectService.validateTasksData()
     }
   }
@@ -265,9 +267,6 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       })
   }
 
-  updateErrors() {
-
-  }
   saveForm() {
     if (this.libProjectService.projectData.title) {
       this.libProjectService.formMeta.formValidation.projectDetails = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";

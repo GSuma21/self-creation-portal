@@ -63,7 +63,7 @@ export class HttpProviderService {
         "class":"error",
         "panelClass":"error"
       }
-     this?.openSnackBar(data)
+      this.toastService.openSnackBar({data})
       return throwError(() => error.error);
     }
 
@@ -76,15 +76,5 @@ export class HttpProviderService {
       }
       options.headers = options.headers.set('X-Requested-With', 'XMLHttpRequest');
       return options;
-    }
-
-    openSnackBar(data:any) {
-      this._snackBar.openFromComponent(ToastComponent, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: [data.class],
-        duration: 1000,
-        data: data
-      });
     }
 }

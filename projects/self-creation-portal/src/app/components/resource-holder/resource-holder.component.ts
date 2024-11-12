@@ -395,14 +395,15 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
          }
 
        case 'START_REVIEW':
-        this.utilService.startOrResumeReview(item.id).subscribe((data)=>{})
-         this.router.navigate([PROJECT_DETAILS_PAGE], {
-           queryParams: {
-             projectId: item.id,
-             mode: projectMode.REVIEW,
-             parent:"up-for-review"
-           }
-         });
+        this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+          this.router.navigate([PROJECT_DETAILS_PAGE], {
+            queryParams: {
+              projectId: item.id,
+              mode: projectMode.REVIEW,
+              parent:"up-for-review"
+            }
+          });
+        })
          break;
        case 'RESUME_REVIEW':
          this.router.navigate([PROJECT_DETAILS_PAGE], {
