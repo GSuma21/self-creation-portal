@@ -199,16 +199,15 @@ export class TasksComponent implements OnInit, OnDestroy {
                 taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
                 console.log(this.tasks.status)
                 this.tasksForm.markAllAsTouched();
-              this.checkValidation()
               }
             });
             }
           }
-          
+
         }
       )
     );
-    
+
   }
 
   get tasks() {

@@ -94,7 +94,6 @@ export class LibProjectService {
   }
 
   triggerSendForReview() {
-    this.checkCertificateValidations(true)
     if (
       this.formMeta.formValidation.projectDetails === 'VALID' &&
       this.formMeta.formValidation.tasks === 'VALID' &&
@@ -107,77 +106,75 @@ export class LibProjectService {
         this.projectData.stage !== resourceStatus.REVIEW
       ) {
         this.getReviewerData().subscribe((list: any) => {
-          if(this.checkCertificateValidations()) {
-            const dialogRef = this.dialog.open(ReviewModelComponent, {
-              disableClose: true,
-              data: {
-                header: 'SEND_FOR_REVIEW',
-                reviewdata: list.result.data,
-                sendForReview: 'SEND_FOR_REVIEW',
-                note_length: this.instanceConfig.note_length
-                  ? this.instanceConfig.note_length
-                  : 200,
-              },
-            });
-            dialogRef.afterClosed().subscribe((result: any) => {
-              if (result.sendForReview == 'SEND_FOR_REVIEW') {
-                this.createOrUpdateProject(
-                  this.projectData,
-                  this.projectData.id,
-                  true
-                ).subscribe((res) => {
-                  const reviewer_ids =
-                    result.selectedValues.length === list.result.data.length
-                      ? result.reviewerNote
-                        ? { notes: result.reviewerNote }
-                        : {}
-                      : {
-                          reviewer_ids: result.selectedValues.map(
-                            (item: any) => item.id
-                          ),
-                          ...(result.reviewerNote && {
-                            notes: result.reviewerNote,
-                          }),
-                        };
-                  this.sendForReview(reviewer_ids, this.projectData.id).subscribe(
-                    (res: any) => {
-                      let data = {
-                        message: res.message,
-                        class: 'success',
+          const dialogRef = this.dialog.open(ReviewModelComponent, {
+            disableClose: true,
+            data: {
+              header: 'SEND_FOR_REVIEW',
+              reviewdata: list.result.data,
+              sendForReview: 'SEND_FOR_REVIEW',
+              note_length: this.instanceConfig.note_length
+                ? this.instanceConfig.note_length
+                : 200,
+            },
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {
+            if (result.sendForReview == 'SEND_FOR_REVIEW') {
+              this.createOrUpdateProject(
+                this.projectData,
+                this.projectData.id,
+                true
+              ).subscribe((res) => {
+                const reviewer_ids =
+                  result.selectedValues.length === list.result.data.length
+                    ? result.reviewerNote
+                      ? { notes: result.reviewerNote }
+                      : {}
+                    : {
+                        reviewer_ids: result.selectedValues.map(
+                          (item: any) => item.id
+                        ),
+                        ...(result.reviewerNote && {
+                          notes: result.reviewerNote,
+                        }),
                       };
-                      this.toastService.openSnackBar(data);
-                      this.projectData = {};
-                      this.router.navigate([SUBMITTED_FOR_REVIEW]);
-                    },((err)=> {
-                      this.parseLocations(err.error).subscribe((errors:any) =>{
-                        this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
-                          if (data) {
-                            errors.forEach((err:any) => {
-                              data.controls.some((item: any) => {
-                                if (item.name === err.parsedLocation.name) {
-                                  this.formMeta.formValidation.projectDetails = "INVALID"
-                                  return
-                                }
-                              });
-                              if(err.parsedLocation.name === "tasks" && (err.parsedLocation.children?.name !== "children")){
-                                this.formMeta.formValidation.tasks = "INVALID"
-                              }
-                              if(err.parsedLocation.name === "tasks" && err.parsedLocation.children?.name === "children"){
-                                this.formMeta.formValidation.subTasks = "INVALID"
+                this.sendForReview(reviewer_ids, this.projectData.id).subscribe(
+                  (res: any) => {
+                    let data = {
+                      message: res.message,
+                      class: 'success',
+                    };
+                    this.toastService.openSnackBar(data);
+                    this.projectData = {};
+                    this.router.navigate([SUBMITTED_FOR_REVIEW]);
+                  },((err)=> {
+                    this.parseLocations(err.error).subscribe((errors:any) =>{
+                      this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
+                        if (data) {
+                          errors.forEach((err:any) => {
+                            data.controls.some((item: any) => {
+                              if (item.name === err.parsedLocation.name) {
+                                this.formMeta.formValidation.projectDetails = "INVALID"
+                                return
                               }
                             });
-                          }
-                        })
-                        this.setProjectErrorsFunc(errors)
+                            if(err.parsedLocation.name === "tasks" && (err.parsedLocation.children?.name !== "children")){
+                              this.formMeta.formValidation.tasks = "INVALID"
+                            }
+                            if(err.parsedLocation.name === "tasks" && err.parsedLocation.children?.name === "children"){
+                              this.formMeta.formValidation.subTasks = "INVALID"
+                            }
+                          });
+                        }
                       })
-                   
+                      this.setProjectErrorsFunc(errors)
                     })
-                  );
-                });
-              }
-              return true;
-            });
-          }
+
+                  })
+                );
+              });
+            }
+            return true;
+          });
         });
       } else {
         this.createOrUpdateProject(
@@ -215,20 +212,20 @@ export class LibProjectService {
 
   parseLocations(errors: any): Observable<any[]> {
     const pattern = /([a-zA-Z_]+)\[(\d+)\]/g;
-  
+
     // Transform errors array and add parsedLocation to each error object
     const parsedErrors = errors.map((error: any) => {
       let match;
       let result: any = {};
       let input = error.location;
       let currentPointer = result;
-  
+
       // Parse each level in location using regex pattern
       let lastMatchIndex = 0;
       while ((match = pattern.exec(input)) !== null) {
         const name = match[1];
         const index = parseInt(match[2], 10);
-  
+
         // If we are at the last part, only add name and index
         if (pattern.lastIndex < input.length) {
           currentPointer.name = name;
@@ -241,21 +238,21 @@ export class LibProjectService {
           currentPointer.name = name;
           currentPointer.index = index;
         }
-  
+
         lastMatchIndex = pattern.lastIndex;
       }
-  
+
       // If there is any remaining part of the location string that is not matched by the regex
       if (lastMatchIndex < input.length) {
         currentPointer.name = input.slice(lastMatchIndex);
       }
-  
+
       return {
         ...error,
         parsedLocation: result
       };
     });
-  
+
     // Return parsed errors as an observable
     return of(parsedErrors);
   }
@@ -297,61 +294,6 @@ export class LibProjectService {
       this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + projectId
     );
   }
-
-  checkCertificateValidations(showToast?:boolean) {
-    if(this.projectData.certificate) {
-      if (this.projectData.certificate && this.projectData?.certificate?.issuer === '') {
-        this.formMeta.formValidation.certificates = "INVALID"
-        if(showToast) {
-          this.toastService.openSnackBar({
-            message: 'Please fill issuer Name',
-            class: 'error',
-          });
-        }
-        return false;
-      }
-      if (
-        !this.projectData.certificate.logos.no_of_logos ||
-        (this.projectData.certificate.logos.no_of_logos > 0 &&
-          this.projectData.certificate.logos.stateLogo1 === '') ||
-        (this.projectData.certificate.logos.no_of_logos > 1 &&
-          this.projectData.certificate.logos.stateLogo2 === '')
-      ) {
-        this.formMeta.formValidation.certificates = "INVALID"
-        if(showToast) {
-          this.toastService.openSnackBar({
-            message: 'Please upload certificate logo',
-            class: 'error',
-          });
-        }
-        return false;
-      }
-
-      if (!this.projectData.certificate.signature.no_of_signature ||
-        (this.projectData.certificate.signature.no_of_signature > 0 &&
-          this.projectData.certificate.signature.signatureImg1 === '') ||
-        (this.projectData.certificate.signature.no_of_signature > 1 &&
-          this.projectData.certificate.signature.signatureImg2 === '')) {
-            this.formMeta.formValidation.certificates = "INVALID"
-            if(showToast) {
-              this.toastService.openSnackBar({
-                message: 'Please upload certificate Signature',
-                class: 'error',
-              });
-            }
-        return false;
-      }
-      this.formMeta.formValidation.certificates = "VALID"
-      return true;
-    }
-    else {
-      if(!showToast) {
-        this.formMeta.formValidation.certificates = "VALID"
-      }
-      return true;
-    }
-  }
-
   // Getting form from api
   getForm(formBody: any) {
     const config = {

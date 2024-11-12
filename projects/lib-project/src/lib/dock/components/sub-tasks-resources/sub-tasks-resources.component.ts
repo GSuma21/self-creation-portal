@@ -115,6 +115,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
               }
             )
           );
+          this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
           if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
             this.viewOnly = true;
@@ -138,13 +139,12 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
             if(errors[index].parsedLocation.children?.name == "children"){
               // this.libProjectService.formMeta.formValidation.subTasks = "INVALID"
                this.taskData[errors[index].parsedLocation.index].subTasks.get('subtasks').controls[errors[index].parsedLocation.children.index].setErrors({ pattern: errors[index].msg })
-               this.libProjectService.formMeta.formValidation.subTasks = "INVALID"
             }
           }
-          
+
         }
       )
-    ); 
+    );
   }
 
   get subtasks() {

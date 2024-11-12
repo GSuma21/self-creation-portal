@@ -3,8 +3,8 @@ input:focus{
     outline: none;
 }
 .disabled {
-    color: gray; 
-    cursor: not-allowed; 
+    color: gray;
+    cursor: not-allowed;
     pointer-events: none;
 }
 .overflow-ellipsis{
@@ -38,5 +38,5 @@ hr {
 .error-container {
     display: flex;
     height: 2rem;
-    width: 14.375rem;
+    // width: 14.375rem;
 }

@@ -151,9 +151,10 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.libProjectService.isSendForReviewValidation.subscribe(
           (reviewValidation: boolean) => {
             if(reviewValidation) {
-              this.certificateForm.markAllAsTouched();
-              this.libProjectService.triggerSendForReview();
               this.isSendForReview = true;
+              this.certificateForm.markAllAsTouched();
+              this.checkSignatureAndLogoAdded()
+              this.libProjectService.triggerSendForReview();
             }
           }
         )
@@ -311,6 +312,15 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     });
   }
 
+  checkSignatureAndLogoAdded() {
+    if(this.libProjectService.projectData?.certificate?.logos && !Object.values(this.libProjectService.projectData?.certificate?.logos).some(value => value === '') && this.libProjectService.projectData?.certificate?.signature && !Object.values(this.libProjectService.projectData?.certificate?.signature).some(value => value === '') && this.certificateForm.status == "VALID") {
+      this.libProjectService.formMeta.formValidation.certificates = "VALID";
+    }
+    else {
+      this.libProjectService.formMeta.formValidation.certificates = "INVALID";
+    }
+  }
+
   setCertificateSelection() {
     if(this.libProjectService.projectData.certificate && this.libProjectService.projectData.certificate.code) {
       this.certificateTypeSelected = {
@@ -445,6 +455,8 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     this.isSendForReview = false;
     this.certificateForm.controls['issuerName'].enable()
     this.certificateTypeSelected = this.certificateList.find((item:any) => item.code === value);
+    delete this.libProjectService.projectData.certificate.logo
+    delete this.libProjectService.projectData.certificate.signature
     this.libProjectService.projectData.certificate.base_template_url = this.certificateTypeSelected.url;
     this.libProjectService.projectData.certificate.base_template_id = this.certificateTypeSelected.id;
     this.libProjectService.projectData.certificate.code = this.certificateTypeSelected.code;
@@ -719,7 +731,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       case "logo": {
         this.certificateTypeSelected.meta.logos.forEach((element:any,logoIndex:number)=> {
           if(logoIndex == index) {
-            delete this.libProjectService.projectData.certificate.logos[element.stateLogo]
+            this.libProjectService.projectData.certificate.logos[element.stateLogo] = ''
           }
         })
         break;
@@ -727,9 +739,9 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       case "signature": {
         this.certificateTypeSelected.meta.signatures.forEach((element:any,SignIndex:number)=> {
           if(SignIndex == index) {
-            delete this.libProjectService.projectData.certificate.signature[element.signature]
-            delete this.libProjectService.projectData.certificate.signature[element.signatureName]
-            delete this.libProjectService.projectData.certificate.signature[element.signatureDesignation]
+            this.libProjectService.projectData.certificate.signature[element.signature] = ''
+            this.libProjectService.projectData.certificate.signature[element.signatureName] = ''
+            this.libProjectService.projectData.certificate.signature[element.signatureDesignation] = ''
           }
         })
         break;
@@ -798,12 +810,12 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
   ngOnDestroy(): void {
     // this.libProjectService.formMeta.formValidation.certificates = "VALID";
-    this.libProjectService.checkCertificateValidations(false)
     if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
       if(this.libProjectService.projectData.id) {
         this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
       }
       this.libProjectService.saveProjectFunc(false);
+      this.checkSignatureAndLogoAdded();
     }
     this.subscription.unsubscribe();
   }
