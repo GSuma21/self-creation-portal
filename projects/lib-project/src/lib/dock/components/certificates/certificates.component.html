@@ -103,32 +103,32 @@
                                     </div>
                                     <div class="mt-4">
                                         @if(ele.name === "attachlogo"){
-                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 1 &&libProjectService?.projectData?.certificate?.logos.stateLogo1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.logos.no_of_logos == 2 &&libProjectService?.projectData?.certificate?.logos.stateLogo2 == '')}">{{ ele.label | translate}}</p>
+                                        <p class="required " [ngClass]="{'error': (isSendForReview && !libProjectService?.projectData?.certificate?.logos) || (isSendForReview && libProjectService?.projectData?.certificate?.logos?.no_of_logos == 1 && libProjectService?.projectData?.certificate?.logos[certificateTypeSelected?.meta?.logos[0]?.stateLogo] == '') || (isSendForReview && libProjectService?.projectData?.certificate?.logos?.no_of_logos == 2 && libProjectService?.projectData?.certificate?.logos[certificateTypeSelected?.meta?.logos[1]?.stateLogo] == '')}">{{ ele.label | translate}}</p>
                                         <section class="grid grid-cols-2 gap-2 mt-3">
                                             <div class="">
                                                 <div class="flex items-center" [ngClass]="{'opacity-70':libProjectService?.projectData?.certificate?.base_template_id == '' }">
                                                     <mat-icon class="cursor-pointer text-primary"
-                                                    (click)="attachLogos(1)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(1)">{{ele.textForLink}}</span>
+                                                    (click)="attachLogos(0)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(0)">{{ele.textForLink}}</span>
                                                 </div><br>
-                                                 <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.logos.stateLogo1)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.logos.stateLogo1">
+                                                 <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.logos?.stateLogo1)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.logos?.stateLogo1">
                                                     <section class="flex items-center gap-2 min-w-0 flex-grow mr-3">
                                                         <img src="assets/images/video-icon.png" alt="My Image" class="flex-shrink-0">
-                                                        <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.logos.stateLogo1)}}</p>
+                                                        <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.logos?.stateLogo1)}}</p>
                                                     </section>
-                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('logo',1)">cancel</mat-icon>
+                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('logo',0)">cancel</mat-icon>
                                                 </div>
                                             </div>
                                             <div class="" *ngIf="certificateTypeSelected?.code == 'two_logo_two_sign' || certificateTypeSelected?.code == 'two_logo_one_sign'">
                                                 <div class="flex items-center">
                                                     <mat-icon class="cursor-pointer text-primary"
-                                                    (click)="attachLogos(2)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(2)">{{'ADD_IMAGE_2' | translate}}</span>
+                                                    (click)="attachLogos(1)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(1)">{{'ADD_IMAGE_2' | translate}}</span>
                                                 </div><br>
-                                                  <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.logos.stateLogo2)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.logos.stateLogo2">
+                                                  <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.logos?.stateLogo2)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.logos?.stateLogo2">
                                                     <section class="flex items-center gap-2 min-w-0 flex-grow mr-3">
                                                         <img src="assets/images/video-icon.png" alt="My Image" class="flex-shrink-0">
                                                         <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.logos.stateLogo2)}}</p>
                                                     </section>
-                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('logo',2)">cancel</mat-icon>
+                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('logo',1)">cancel</mat-icon>
                                                 </div>
                                             </div>
                                         </section>
@@ -136,32 +136,32 @@
                                     </div>
                                     <div class="mt-4">
                                         @if(ele.name === "attachsign"){
-                                        <p class="required" [ngClass]="{'error': (isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 1 &&libProjectService?.projectData?.certificate?.signature.signatureImg1 == '')||(isSendForReview && libProjectService?.projectData?.certificate?.signature.no_of_signature == 2 &&libProjectService?.projectData?.certificate?.signature.signatureImg2 == '')}">{{ ele.label | translate}}</p>
+                                        <p class="required" [ngClass]="{'error':(isSendForReview && !libProjectService?.projectData?.certificate?.signature) || (isSendForReview && libProjectService?.projectData?.certificate?.signature?.no_of_signature == 1 && libProjectService?.projectData?.certificate?.signature[certificateTypeSelected?.meta?.signatures[0]?.signature] == '')||(isSendForReview && libProjectService?.projectData?.certificate?.signature?.no_of_signature == 2 && libProjectService?.projectData?.certificate?.signature[certificateTypeSelected?.meta?.signatures[1]?.signature] == '')}">{{ ele.label | translate}}</p>
                                         <section class="grid grid-cols-2 gap-2 mt-3">
                                             <div class="">
                                                 <div class="flex items-center" [ngClass]="{'opacity-70':libProjectService?.projectData?.certificate?.base_template_id == '' }">
                                                     <mat-icon class="cursor-pointer text-primary"
-                                                    (click)="attachSignature(1)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachSignature(1)">{{'ADD_IMAGE_1' | translate}}</span>
+                                                    (click)="attachSignature(0)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachSignature(0)">{{'ADD_IMAGE_1' | translate}}</span>
                                                 </div><br>
-                                                <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.signature.signatureImg1)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.signature.signatureImg1">
+                                                <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.signature?.signatureImg1)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.signature?.signatureImg1">
                                                     <section class="flex items-center gap-2 min-w-0 flex-grow mr-3">
                                                         <img src="assets/images/video-icon.png" alt="My Image" class="flex-shrink-0">
                                                         <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.signature.signatureImg1)}}</p>
                                                     </section>
-                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('signature',1)">cancel</mat-icon>
+                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('signature',0)">cancel</mat-icon>
                                                 </div>
                                             </div>
                                             <div class="" *ngIf="certificateTypeSelected?.code == 'two_logo_two_sign' || certificateTypeSelected?.code == 'one_logo_two_sign'">
                                                 <div class="flex items-center">
                                                     <mat-icon class="cursor-pointer text-primary"
-                                                    (click)="attachSignature(2)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachSignature(2)">{{'ADD_IMAGE_2' | translate}}</span>
+                                                    (click)="attachSignature(1)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachSignature(1)">{{'ADD_IMAGE_2' | translate}}</span>
                                                 </div><br>
-                                                <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.signature.signatureImg2)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.signature.signatureImg2">
+                                                <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.signature?.signatureImg2)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.signature?.signatureImg2">
                                                     <section class="flex items-center gap-2 min-w-0 flex-grow mr-2">
                                                         <img src="assets/images/video-icon.png" alt="My Image" class="flex-shrink-0">
-                                                        <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.signature.signatureImg2)}}</p>
+                                                        <p class="truncate file-name">{{getFileName(libProjectService.projectData.certificate.signature?.signatureImg2)}}</p>
                                                     </section>
-                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('signature',2)">cancel</mat-icon>
+                                                    <mat-icon class="cursor-pointer flex-shrink-0" (click)="removeAttachments('signature',1)">cancel</mat-icon>
                                                 </div>
                                             </div>
                                         </section>

@@ -66,7 +66,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           for (let index = 0; index < errors.length; index++) {
            if(this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name)?.errorMessage) {
             this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name).errorMessage.pattern = errors[index].msg;
-           } 
+           }
             // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
             this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
           }
