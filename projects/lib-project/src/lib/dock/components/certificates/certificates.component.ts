@@ -75,20 +75,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       base_template_url: "",
       code: "",
       name: "",
-      logos: {
-      no_of_logos: 1,
-      stateLogo1: "",
-      stateLogo2: ""
-      },
-      signature: {
-        no_of_signature: 2,
-        signatureImg1: "",
-        signatureTitleName1: "",
-        signatureTitleDesignation1: "",
-        signatureImg2: "",
-        signatureTitleName2: "",
-        signatureTitleDesignation2: ""
-      },
       issuer: "",
       criteria: {
         validationText: 'Complete validation message',
@@ -215,26 +201,21 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             this.getCertificateForm()
           }
           if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
-            this.getCommentConfigs();
             this.getCertificateForm()
             if(this.libProjectService.projectData.certificate) {
               this.selectedYes = "1"
             }
             this.addTasktoCertificatePage(this.libProjectService.projectData)
           }
-          if(this.libProjectService.projectData.certificate && this.libProjectService.projectData.certificate.code) {
-            this.certificateTypeSelected = {
-              code : this.libProjectService.projectData.certificate.code,
-              name : this.libProjectService.projectData.certificate.name,
-              id: this.libProjectService.projectData.certificate.base_template_id,
-              url: this.libProjectService.projectData.certificate.base_template_url
-            }
-          }
+          this.setCertificateSelection();
           if(this.viewOnly) {
             this.selectedYes = this.libProjectService.projectData.certificate ? "1":"2";
             if(this.libProjectService.projectData.certificate) {
               this.addTasktoCertificatePage(this.libProjectService.projectData)
             }
+          }
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+            this.getCommentConfigs();
           }
         } else {
           if(!this.projectId) {
@@ -277,6 +258,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               if(res.result.tasks) {
                 this.addTasktoCertificatePage(res.result)
               }
+              this.setCertificateSelection();
               if(this.libProjectService.formMeta.isCertificateSelected || (this.libProjectService.projectData.certificate && this.libProjectService.formMeta.isCertificateSelected == "2")) {
                 // set certificate data in parent project data when certificate data is not project
                 if(!this.libProjectService.projectData.certificate) {
@@ -327,6 +309,17 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         return task;
       }
     });
+  }
+
+  setCertificateSelection() {
+    if(this.libProjectService.projectData.certificate && this.libProjectService.projectData.certificate.code) {
+      this.certificateTypeSelected = {
+        code : this.libProjectService.projectData.certificate.code,
+        name : this.libProjectService.projectData.certificate.name,
+        id: this.libProjectService.projectData.certificate.base_template_id,
+        url: this.libProjectService.projectData.certificate.base_template_url
+      }
+    }
   }
 
   initiateCertificatePreview() {
@@ -415,7 +408,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       .getCertificatesList()
       .subscribe((res:any) => {
         this.certificateList = res.result.data
-        this.certificateTypeSelected = res.result.data[0];
         if(this.libProjectService.projectData.certificate) {
           this.disableIssuerName()
           this.setCertificateData(this.libProjectService.projectData.certificate)
@@ -457,8 +449,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     this.libProjectService.projectData.certificate.base_template_id = this.certificateTypeSelected.id;
     this.libProjectService.projectData.certificate.code = this.certificateTypeSelected.code;
     this.libProjectService.projectData.certificate.name = this.certificateTypeSelected.name;
-    this.libProjectService.projectData.certificate.logos.no_of_logos = this.certificateTypeSelected.meta.logos.no_of_logos
-    this.libProjectService.projectData.certificate.signature.no_of_signature = this.certificateTypeSelected.meta.signature.no_of_signature
     this.certificateAddIntoHtml()
     this.libProjectService.isFormDirty = true;
   }
@@ -481,11 +471,20 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.utilService.getImageUploadUrl(result.file).subscribe((res:any) => {
           this.utilService.uploadSignedURL(result.file, res?.result?.certificate.files[0].url).subscribe((urlData:any) => {
             urlData = res.result.certificate.files[0].downloadableUrl;
-            this.libProjectService.projectData.certificate.logos = {
-              no_of_logos: this.certificateTypeSelected.meta.logos.no_of_logos,
-              stateLogo1: attachmentType === 1 ? urlData:this.libProjectService.projectData.certificate.logos.stateLogo1,
-              stateLogo2: attachmentType === 2 ? urlData:this.libProjectService.projectData.certificate.logos.stateLogo2,
-            }
+            // this.libProjectService.projectData.certificate.logos = {
+            //   stateLogo1: attachmentType === 1 ? urlData:this.libProjectService.projectData.certificate.logos.stateLogo1,
+            //   stateLogo2: attachmentType === 2 ? urlData:this.libProjectService.projectData.certificate.logos.stateLogo2,
+            // }
+
+            this.certificateTypeSelected.meta.logos.forEach((element:any,index:number)=> {
+              if(index == attachmentType) {
+                this.libProjectService.projectData.certificate.logos = {
+                  ...this.libProjectService.projectData.certificate.logos,
+                  ...{[element.stateLogo] : urlData}
+                }
+              }
+            })
+            this.libProjectService.projectData.certificate.logos.no_of_logos = this.certificateTypeSelected.meta.logos.length
             this.setLogoPreview()
             this.libProjectService.isFormDirty = true;
           })
@@ -495,8 +494,13 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   setLogoPreview() {
-    this.updateCertificatePreview('stateLogo1',this.libProjectService.projectData.certificate?.logos?.stateLogo1,'image')
-    this.updateCertificatePreview('stateLogo2',this.libProjectService.projectData.certificate?.logos?.stateLogo2,'image')
+    if(this.libProjectService.projectData.certificate?.logos) {
+      this.certificateTypeSelected?.meta?.logos.forEach((element:any) => {
+        for(const property in element) {
+          this.updateCertificatePreview(element[property],this.libProjectService.projectData.certificate?.logos[element[property]],'image')
+        }
+      });
+    }
   }
 
   attachSignature(signatureType:number) {
@@ -520,15 +524,16 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.utilService.getImageUploadUrl(result.file).subscribe((res:any) => {
           this.utilService.uploadSignedURL(result.file, res?.result?.certificate.files[0].url).subscribe((urlData:any) => {
             urlData = res.result.certificate.files[0].downloadableUrl;
-            this.libProjectService.projectData.certificate.signature = {
-              no_of_signature: this.certificateTypeSelected.meta.signature.no_of_signature,
-              signatureImg1: signatureType === 1 ? urlData:this.libProjectService.projectData.certificate.signature.signatureImg1,
-              signatureTitleName1: signatureType === 1 ? result.additionalData.inputfields[0].value:this.libProjectService.projectData.certificate.signature.signatureTitleName1,
-              signatureTitleDesignation1: signatureType === 1 ? result.additionalData.inputfields[1].value:this.libProjectService.projectData.certificate.signature.signatureTitleDesignation1,
-              signatureImg2:signatureType === 2 ? urlData:this.libProjectService.projectData.certificate.signature.signatureImg2,
-              signatureTitleName2: signatureType === 2 ? result.additionalData.inputfields[0].value:this.libProjectService.projectData.certificate.signature.signatureTitleName2,
-              signatureTitleDesignation2: signatureType === 2 ? result.additionalData.inputfields[1].value:this.libProjectService.projectData.certificate.signature.signatureTitleDesignation2,
-            }
+            this.certificateTypeSelected.meta.signatures.forEach((element:any,index:number)=> {
+              if(index == signatureType) {
+                this.libProjectService.projectData.certificate.signature = {...this.libProjectService.projectData.certificate.signature,...{
+                  [element.signature] : urlData,
+                  [element.signatureName] : result.additionalData.inputfields[0].value,
+                  [element.signatureDesignation] : result.additionalData.inputfields[1].value,
+                }}
+              }
+            })
+            this.libProjectService.projectData.certificate.signature.no_of_signature = this.certificateTypeSelected.meta.signatures.length
             this.updateSignaturePreview()
             result.additionalData.inputfields[0].value = "";
             result.additionalData.inputfields[1].value = "";
@@ -543,10 +548,14 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   updateSignaturePreview() {
-    this.updateCertificatePreview('signatureTitle1a',this.libProjectService.projectData.certificate?.signature?.signatureTitleName1+", "+this.libProjectService.projectData.certificate?.signature?.signatureTitleDesignation1,'text')
-    this.updateCertificatePreview('signatureTitle2a',this.libProjectService.projectData.certificate?.signature?.signatureTitleName2+", "+this.libProjectService.projectData.certificate?.signature?.signatureTitleDesignation2,'text')
-    this.updateCertificatePreview('signatureImg1',this.libProjectService.projectData.certificate?.signature?.signatureImg1,'image')
-    this.updateCertificatePreview('signatureImg2',this.libProjectService.projectData.certificate?.signature?.signatureImg2,'image')
+    if(this.libProjectService.projectData.certificate?.signature) {
+      this.certificateTypeSelected?.meta?.signatures.forEach((element:any) => {
+        for(const property in element) {
+          this.updateCertificatePreview(element[property],this.libProjectService.projectData.certificate?.signature[element[property]],'image')
+          this.updateCertificatePreview(element[property],this.libProjectService.projectData.certificate?.signature[element[property]],'text')
+        }
+      });
+    }
   }
 
   getCommentConfigs() {
@@ -708,25 +717,21 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   removeAttachments(type:string,index:number|string) {
     switch(type) {
       case "logo": {
-        if(index == 1) {
-          this.libProjectService.projectData.certificate.logos.stateLogo1 = ''
-        }
-        else {
-          this.libProjectService.projectData.certificate.logos.stateLogo2 = ''
-        }
+        this.certificateTypeSelected.meta.logos.forEach((element:any,logoIndex:number)=> {
+          if(logoIndex == index) {
+            delete this.libProjectService.projectData.certificate.logos[element.stateLogo]
+          }
+        })
         break;
       }
       case "signature": {
-        if(index == 1) {
-          this.libProjectService.projectData.certificate.signature.signatureImg1 = ''
-          this.libProjectService.projectData.certificate.signature.signatureTitleName1 = ''
-          this.libProjectService.projectData.certificate.signature.signatureTitleDesignation1 = ''
-        }
-        else {
-          this.libProjectService.projectData.certificate.signature.signatureImg2 = ''
-          this.libProjectService.projectData.certificate.signature.signatureTitleName2 = ''
-          this.libProjectService.projectData.certificate.signature.signatureTitleDesignation2 = ''
-        }
+        this.certificateTypeSelected.meta.signatures.forEach((element:any,SignIndex:number)=> {
+          if(SignIndex == index) {
+            delete this.libProjectService.projectData.certificate.signature[element.signature]
+            delete this.libProjectService.projectData.certificate.signature[element.signatureName]
+            delete this.libProjectService.projectData.certificate.signature[element.signatureDesignation]
+          }
+        })
         break;
       }
     }
