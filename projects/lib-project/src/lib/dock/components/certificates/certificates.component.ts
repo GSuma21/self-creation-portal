@@ -153,7 +153,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             if(reviewValidation) {
               this.isSendForReview = true;
               this.certificateForm.markAllAsTouched();
-              this.checkSignatureAndLogoAdded()
+              this.checkValidations()
               this.libProjectService.triggerSendForReview();
             }
           }
@@ -213,6 +213,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             this.selectedYes = this.libProjectService.projectData.certificate ? "1":"2";
             if(this.libProjectService.projectData.certificate) {
               this.addTasktoCertificatePage(this.libProjectService.projectData)
+              this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
             }
           }
           if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
@@ -283,6 +284,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               if(this.viewOnly) {
                 if(this.libProjectService.projectData.certificate) {
                   this.addTasktoCertificatePage(this.libProjectService.projectData)
+                  this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
                 }
               }
               this.certificateAddIntoHtml();
@@ -312,12 +314,17 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     });
   }
 
-  checkSignatureAndLogoAdded() {
-    if(this.libProjectService.projectData?.certificate?.logos && !Object.values(this.libProjectService.projectData?.certificate?.logos).some(value => value === '') && this.libProjectService.projectData?.certificate?.signature && !Object.values(this.libProjectService.projectData?.certificate?.signature).some(value => value === '') && this.certificateForm.status == "VALID") {
-      this.libProjectService.formMeta.formValidation.certificates = "VALID";
+  checkValidations() {
+    if(this.libProjectService.projectData.certificate) {
+      if(this.libProjectService.projectData?.certificate?.logos && !Object.values(this.libProjectService.projectData?.certificate?.logos).some(value => value === '') && this.libProjectService.projectData?.certificate?.signature && !Object.values(this.libProjectService.projectData?.certificate?.signature).some(value => value === '') && this.certificateForm.status == "VALID") {
+        this.libProjectService.formMeta.formValidation.certificates = "VALID";
+      }
+      else {
+        this.libProjectService.formMeta.formValidation.certificates = "INVALID";
+      }
     }
     else {
-      this.libProjectService.formMeta.formValidation.certificates = "INVALID";
+      this.libProjectService.formMeta.formValidation.certificates = "VALID";
     }
   }
 
@@ -815,7 +822,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
       }
       this.libProjectService.saveProjectFunc(false);
-      this.checkSignatureAndLogoAdded();
+      this.checkValidations();
     }
     this.subscription.unsubscribe();
   }
