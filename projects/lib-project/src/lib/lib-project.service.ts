@@ -156,29 +156,7 @@ export class LibProjectService {
                     this.projectData = {};
                     this.router.navigate([SUBMITTED_FOR_REVIEW]);
                   },((err)=> {
-                    this.parseLocations(err.error).subscribe((errors:any) =>{
-                      this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
-                        if (data) {
-                          errors.forEach((err:any) => {
-                            data.controls.some((item: any) => {
-                              if (item.name === err.parsedLocation.name) {
-                                this.formMeta.formValidation.projectDetails = "INVALID"
-                                return
-                              }
-                            });
-                            if(err.parsedLocation.name === "tasks" && (err.parsedLocation.children?.name !== "children")){
-                              this.formMeta.formValidation.tasks = "INVALID"
-                            }
-                            if(err.parsedLocation.name === "tasks" && err.parsedLocation.children?.name === "children"){
-                              this.formMeta.formValidation.subTasks = "INVALID"
-                            }
-                          });
-                        }
-                      })
-                      this.reviewErrors = errors
-                      this.setProjectErrorsFunc(errors)
-                    })
-
+                    this.validateAndHighlightErrors(err)
                   })
                 );
               });
@@ -207,7 +185,9 @@ export class LibProjectService {
                 });
                 this.projectData = {};
                 this.router.navigate([SUBMITTED_FOR_REVIEW]);
-              }
+              },((err)=> {
+                this.validateAndHighlightErrors(err)
+              })
             );
 
       });
@@ -217,6 +197,32 @@ export class LibProjectService {
       this.openSnackBarAndRedirect('Fill all the mandatory fields.', 'error');
     }
     this.checkSendForReviewValidation(false);
+  }
+
+
+  validateAndHighlightErrors(err:any){
+    this.parseLocations(err.error).subscribe((errors:any) =>{
+      this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
+        if (data) {
+          errors.forEach((err:any) => {
+            data.controls.some((item: any) => {
+              if (item.name === err.parsedLocation.name) {
+                this.formMeta.formValidation.projectDetails = "INVALID"
+                return
+              }
+            });
+            if(err.parsedLocation.name === "tasks" && (err.parsedLocation.children?.name !== "children")){
+              this.formMeta.formValidation.tasks = "INVALID"
+            }
+            if(err.parsedLocation.name === "tasks" && err.parsedLocation.children?.name === "children"){
+              this.formMeta.formValidation.subTasks = "INVALID"
+            }
+          });
+        }
+      })
+      this.reviewErrors = errors
+      this.setProjectErrorsFunc(errors)
+    })
   }
 
 
