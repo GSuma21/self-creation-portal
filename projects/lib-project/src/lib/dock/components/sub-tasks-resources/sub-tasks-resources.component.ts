@@ -35,8 +35,7 @@ import { CommentsBoxComponent } from 'lib-shared-modules';
   templateUrl: './sub-tasks-resources.component.html',
   styleUrl: './sub-tasks-resources.component.scss'
 })
-export class SubTasksResourcesComponent implements OnInit,OnDestroy{
-  myForm: FormGroup = this.fb.group({});
+export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewChecked{
   resources:any;
   taskData : any[] = [];
   subtask: FormGroup;
@@ -108,14 +107,14 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
             this.libProjectService.isSendForReviewValidation.subscribe(
               (reviewValidation: boolean) => {
                 if(reviewValidation) {
-                    this.myForm.markAllAsTouched()
+                    this.subtask.markAllAsTouched()
                     this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
                     this.libProjectService.triggerSendForReview();
                 }
               }
             )
           );
-          this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
+          // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
           if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
             this.viewOnly = true;
@@ -127,7 +126,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
       })
     );
     this.subscription.add(
-      this.myForm.valueChanges.subscribe(changes => {
+      this.subtask.valueChanges.subscribe(changes => {
         this.libProjectService.isFormDirty = true;
       })
     )
@@ -145,6 +144,25 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
         }
       )
     );
+  }
+
+  ngAfterViewChecked() {
+    if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId && this.subtask.pristine && this.libProjectService.tabValidation.subTasks == "INVALID" && this.libProjectService.formMeta.formValidation.subTasks == "INVALID") {
+      this.subscription.add(
+        this.libProjectService.projectApiErrors.subscribe(
+          (errors: any) => {
+            if(errors.length > 0) {
+              for (let index = 0; index < errors.length; index++) {
+                if(errors[index].parsedLocation.children?.name == "children"){
+                  // this.libProjectService.formMeta.formValidation.subTasks = "INVALID"
+                   this.taskData[errors[index].parsedLocation.index].subTasks.get('subtasks').controls[errors[index].parsedLocation.children.index].setErrors({ pattern: errors[index].msg })
+                }
+              }
+            }
+          }
+        )
+      );
+    }
   }
 
   get subtasks() {
@@ -275,7 +293,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
     this.saveSubtask()
     this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
   }
-  onSubtasks(form: FormGroup, taskIndex: number) {}
+
 
   startAutoSaving() {
     this.subscription.add(
@@ -356,6 +374,13 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy{
 
   savingSubtask(taskIndex:any,j:any){
     this.saveSubtask();
+    this.libProjectService.removeItemFromAPIErrors('tasks['+taskIndex+"]."+"children["+j+']')
+    if(this.libProjectService.reviewErrors.length > 0 && this.libProjectService.reviewErrors.find((element:any) => element.location.includes('tasks') && element.location.includes('children'))) {
+      this.libProjectService.tabValidation.subTasks = "INVALID"
+    }
+    else {
+      this.libProjectService.tabValidation.subTasks = "VALID"
+    }
     this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
     this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
   }

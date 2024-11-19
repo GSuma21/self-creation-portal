@@ -3,7 +3,7 @@
 </div>
 @if(dynamicFormData){
 <div class="pd-top items-center form-container">
-  <dynamic-form [formJson]="dynamicFormData" [viewOnly]="viewOnly" #formLib (change)="getDynamicFormData($event)"></dynamic-form>
+  <dynamic-form [formJson]="dynamicFormData" [viewOnly]="viewOnly" #formLib (formChange)="getDynamicFormData($event)" (controlChange)="getFormControlChange($event)"></dynamic-form>
 </div>
 }
 @if(commentPayload || projectInReview) {

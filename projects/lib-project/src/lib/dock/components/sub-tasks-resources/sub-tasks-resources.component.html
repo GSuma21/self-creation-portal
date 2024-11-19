@@ -18,7 +18,7 @@
                                 <div [class.disabled]="button.disable" (click)="!button.disable && onAction(button.label, i)" class="flex items-center text-primary pb-2">
                                     <mat-icon>add_circle</mat-icon><span class="px-2">{{button.label | translate}}</span></div>
                                 @if (button.label === 'ADD_SUBTASKS') {
-                                <form [formGroup]="item.subTasks" (ngSubmit)="onSubtasks(item.subTasks, i)">
+                                <form [formGroup]="item.subTasks">
                                     <div formArrayName="subtasks" class="flex flex-col gap-2">
                                         @for( control of item.subTasks.get('subtasks').controls;track control; let j =
                                         $index) {

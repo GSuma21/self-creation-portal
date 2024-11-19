@@ -38,6 +38,8 @@ export class LibProjectService {
   projectConfig: any;
   instanceConfig: any;
   isFormDirty:boolean = true;
+  tabValidation:any;
+  reviewErrors:any = [];
 
   constructor(
     private httpService: HttpProviderService,
@@ -55,6 +57,12 @@ export class LibProjectService {
       this.mode = params.mode ? params.mode : 'edit';
     });
     this.setFormMetaData();
+    this.tabValidation={
+      projectDetails: "VALID",
+      tasks:"VALID",
+      subTasks:"VALID",
+      certificates:'VALID'
+    }
   }
 
   setData(data: any) {
@@ -69,7 +77,8 @@ export class LibProjectService {
     this.saveProject.next(newAction);
   }
 
-  setProjectErrorsFunc(newAction: boolean) {
+  setProjectErrorsFunc(newAction:any) {
+    console.log(newAction)
     this.setProjectApiErrors.next(newAction);
   }
 
@@ -166,6 +175,7 @@ export class LibProjectService {
                           });
                         }
                       })
+                      this.reviewErrors = errors
                       this.setProjectErrorsFunc(errors)
                     })
 
@@ -566,5 +576,11 @@ export class LibProjectService {
     });
     this.formMeta.formValidation.tasks = isValid ? "VALID" : "INVALID";
    }
+  }
+
+  removeItemFromAPIErrors(location:any) {
+    this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.location !== location)]
+    this.setProjectErrorsFunc(this.reviewErrors);
+    console.log([...this.reviewErrors.filter((obj:any) => obj.location !== location)])
   }
 }
