@@ -174,7 +174,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
           this.viewOnly = true;
           this.getCertificateForm();
         }
-        if (Object.keys(this.libProjectService.projectData).length > 1) {
+        if (Object.keys(this.libProjectService.projectData).length > 1 && this.mode) {
           if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT) {
             this.startAutoSaving();
             if(this.libProjectService.projectData.tasks) {
@@ -254,13 +254,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
               this.libProjectService.setProjectData(res.result);
               this.libProjectService.projectData = res?.result;
-              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
-                this.getCommentConfigs();
-              }
-              if(res.result.tasks) {
-                this.addTasktoCertificatePage(res.result)
-              }
-              this.setCertificateSelection();
               if(this.libProjectService.formMeta.isCertificateSelected || (this.libProjectService.projectData.certificate && this.libProjectService.formMeta.isCertificateSelected == "2")) {
                 // set certificate data in parent project data when certificate data is not project
                 if(!this.libProjectService.projectData.certificate) {
@@ -277,6 +270,13 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                   this.disableIssuerName()
                 }
               }
+              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+                this.getCommentConfigs();
+              }
+              if(res.result.tasks) {
+                this.addTasktoCertificatePage(res.result)
+              }
+              this.setCertificateSelection();
               this.getCertificateForm();
               if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
                 this.startAutoSaving();
