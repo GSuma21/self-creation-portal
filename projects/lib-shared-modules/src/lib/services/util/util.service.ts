@@ -54,7 +54,7 @@ export class UtilService {
   }
 
   downloadFiles(url:string) {
-    return this.http.get(url, { responseType: 'text' })
+    return this.http.get(url+`?cacheBuster=${new Date().getTime()}`, { responseType: 'text' })
   }
 
   getCommentList(resourceId:string|number){
