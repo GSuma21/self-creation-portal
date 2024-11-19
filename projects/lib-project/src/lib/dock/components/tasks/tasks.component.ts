@@ -186,7 +186,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.libProjectService.isFormDirty = true;
       })
     )
-    this.checkValidation()
+    // this.checkValidation()
     this.subscription.add(
       this.libProjectService.projectApiErrors.subscribe(
         (errors: any) => {
@@ -207,11 +207,36 @@ export class TasksComponent implements OnInit, OnDestroy {
         }
       )
     );
-
   }
 
   get tasks() {
     return this.tasksForm.get('tasks') as FormArray;
+  }
+
+  ngAfterViewChecked() {
+    if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId) {
+      if(this.tasksForm.pristine && this.libProjectService.tabValidation.tasks == "INVALID" && this.libProjectService.formMeta.formValidation.tasks == "INVALID") {
+        this.libProjectService.projectApiErrors.subscribe(
+          (errors: any) => {
+            for (let index = 0; index < errors.length; index++) {
+              if(errors[index].parsedLocation.name === "tasks" && !(errors[index].parsedLocation.children)){
+               let a = this.tasks.controls[errors[index].parsedLocation.index]
+               this.tasks.controls.forEach((taskGroup: any, i: number) => {
+                if(i == errors[index].parsedLocation.index ){
+                  this.tasksData.description.errorMessage.pattern = errors[index].msg
+                  taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
+                  console.log(this.tasks.status)
+                  this.tasksForm.markAllAsTouched();
+                }
+              });
+              }
+            }
+
+          }
+        )
+        this.tasksForm.markAllAsTouched();
+      }
+    }
   }
 
   addTask() {
@@ -228,7 +253,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       })
     });
     this.tasks.push(taskGroup);
-    this.checkValidation()
+    // this.checkValidation()
   }
 
   deleteTask(index: number) {
@@ -248,6 +273,9 @@ export class TasksComponent implements OnInit, OnDestroy {
       if (result.data === "NO") {
         return true;
       } else if (result.data === "YES") {
+        if(index) {
+          this.libProjectService.removeItemFromAPIErrors('tasks['+index+']')
+        }
         this.tasks.removeAt(index);
         this.checkValidation()
         return true;
@@ -257,7 +285,10 @@ export class TasksComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkValidation() {
+  checkValidation(index?:any) {
+    if(index) {
+      this.libProjectService.removeItemFromAPIErrors('tasks['+index+']')
+    }
     this.saveTasks()
     this.libProjectService.formMeta.formValidation.tasks = (this.tasks?.status && this.tasks.length <= this.maxTaskLength)  ? this.tasks?.status: "INVALID"
   }

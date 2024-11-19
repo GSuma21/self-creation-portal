@@ -63,12 +63,14 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.subscription.add(
       this.libProjectService.projectApiErrors.subscribe(
         (errors: any) => {
-          for (let index = 0; index < errors.length; index++) {
-           if(this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name)?.errorMessage) {
-            this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name).errorMessage.pattern = errors[index].msg;
-           }
-            // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
-            this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
+          if(this.dynamicFormData) {
+            for (let index = 0; index < errors.length; index++) {
+              if(this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name)?.errorMessage) {
+               this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name).errorMessage.pattern = errors[index].msg;
+              }
+               // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+               this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
+             }
           }
         }
       )
@@ -90,6 +92,22 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
+      }
+      if(this.formLib && this.libProjectService.tabValidation.projectDetails == "INVALID" && this.libProjectService.formMeta.formValidation.projectDetails == "INVALID" && this.formLib.myForm.pristine) {
+          this.subscription.add(
+            this.libProjectService.projectApiErrors.subscribe(
+              (errors: any) => {
+                for (let index = 0; index < errors.length; index++) {
+                 if(this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name)?.errorMessage) {
+                  this.dynamicFormData.find((item:any) => item.name === errors[index].parsedLocation.name).errorMessage.pattern = errors[index].msg;
+                 }
+                  // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+                  this.formLib?.myForm.controls[errors[index].location]?.setErrors({pattern:errors[index].msg})
+                }
+              }
+            )
+          );
+          this.formMarkTouched();
       }
       this.libProjectService.formMeta.formValidation.projectDetails = (this.formLib?.myForm.status === "VALID" && this.formLib?.subform?.myForm.status === "VALID") ? "VALID" : "INVALID";
       if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
@@ -321,6 +339,12 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       }
     this.libProjectService.setProjectData(data);
     this.libProjectService.formMeta.formValidation.projectDetails = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
+    }
+  }
+
+  getFormControlChange(item:string) {
+    if(item) {
+      this.libProjectService.removeItemFromAPIErrors(item);
     }
   }
   isEvent(data:any) {

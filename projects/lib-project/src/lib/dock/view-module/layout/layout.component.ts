@@ -18,10 +18,9 @@ export class LayoutComponent {
   selctedCardItem : any;
   headerData:any
   sidenavData:any;
-  tabValidation:any;
   mode:any
   private subscription: Subscription = new Subscription();
-  constructor(private libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private router:Router,private dialog:MatDialog, private utilService:UtilService,private toastService:ToastService,private configuration: ConfigService,private sharedService: LibSharedModulesService) {
+  constructor(public libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private router:Router,private dialog:MatDialog, private utilService:UtilService,private toastService:ToastService,private configuration: ConfigService,private sharedService: LibSharedModulesService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : "edit"
@@ -30,12 +29,6 @@ export class LayoutComponent {
   }
   lastReviewed = ""
   ngOnInit(){
-    this.tabValidation={
-      projectDetails: "VALID",
-      tasks:"VALID",
-      subTasks:"VALID",
-      certificates:'VALID'
-    }
     this.setConfig()
     this.getProjectdata()
     this.subscription.add(
@@ -122,7 +115,7 @@ export class LayoutComponent {
       case "SEND_FOR_REVIEW":{
         this.utilService.saveComment = false
         this.libProjectService.checkSendForReviewValidation(true);
-        this.tabValidation = this.libProjectService.formMeta.formValidation;
+        this.libProjectService.tabValidation = this.libProjectService.formMeta.formValidation;
         break;
       }
       case "START_REVIEW":{
@@ -228,10 +221,17 @@ export class LayoutComponent {
 
   ngOnDestroy() {
     this.libProjectService.projectData = {}
-    this.libProjectService.setFormMetaData();
     this.libProjectService.resetProjectMetaData();
     this.subscription.unsubscribe();
+    this.libProjectService.tabValidation = {
+      projectDetails: "VALID",
+      tasks:"VALID",
+      subTasks:"VALID",
+      certificates:'VALID'
+    }
+    this.libProjectService.reviewErrors = [];
+    this.libProjectService.setFormMetaData();
   }
 
-  
+
 }
