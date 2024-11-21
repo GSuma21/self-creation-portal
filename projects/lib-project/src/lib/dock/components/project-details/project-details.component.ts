@@ -126,9 +126,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
               if (params.projectId) {
                   if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
                     this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
-                    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
-                      this.getCommentConfigs()
-                    }
+                    this.checkAndGetCommentConfigs()
                   } else {
                     this.subscription.add(
                       this.libProjectService
@@ -138,9 +136,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
                          this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                           this.readProjectDeatilsAndMap(data.controls,res.result);
                           this.libProjectService.upDateProjectTitle();
-                          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
-                            this.getCommentConfigs()
-                          }
+                          this.checkAndGetCommentConfigs()
                         })
                     );
                   }
@@ -149,6 +145,12 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           );
       }
     })
+  }
+
+  checkAndGetCommentConfigs(){
+    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+      this.getCommentConfigs()
+    }
   }
 
   getCommentConfigs() {
@@ -194,9 +196,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
                       })
                   );
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW)&& (this.mode !== projectMode.VIEWONLY)) {
-                  this.getCommentConfigs()
-                }
+                this.checkAndGetCommentConfigs()
               }else{
                 if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
                   this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
@@ -212,9 +212,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
                       })
                   );
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT|| this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW)&& (this.mode !== projectMode.VIEWONLY)) {
-                  this.getCommentConfigs()
-                }
+                this.checkAndGetCommentConfigs()
               }
             } else {
               this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
