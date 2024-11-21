@@ -325,7 +325,7 @@ export class LibProjectService {
         projectDetails: 'INVALID',
         tasks: 'INVALID',
         subTasks: 'VALID',
-        certificates: 'INVALID',
+        certificates: 'VALID',
       },
       isCertificateSelected:'',
       isProjectEvidenceSelected:'0',

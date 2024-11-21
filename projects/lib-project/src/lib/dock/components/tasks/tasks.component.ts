@@ -225,7 +225,6 @@ export class TasksComponent implements OnInit, OnDestroy {
                 if(i == errors[index].parsedLocation.index ){
                   this.tasksData.description.errorMessage.pattern = errors[index].msg
                   taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
-                  console.log(this.tasks.status)
                   this.tasksForm.markAllAsTouched();
                 }
               });
@@ -273,9 +272,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       if (result.data === "NO") {
         return true;
       } else if (result.data === "YES") {
-        if(index) {
-          this.libProjectService.removeItemFromAPIErrors('tasks['+index+']')
-        }
+        this.libProjectService.validateAndHighlightErrors({error: [...this.libProjectService.reviewErrors.filter((obj:any) => !obj.location.includes(`tasks[${index}]`))]});
         this.tasks.removeAt(index);
         this.checkValidation()
         return true;
@@ -306,6 +303,18 @@ export class TasksComponent implements OnInit, OnDestroy {
       const task = this.tasks.at(index);
       this.tasks.removeAt(index);
       this.tasks.insert(index + direction, task);
+      let movingErrors = [...this.libProjectService.reviewErrors.filter((obj:any) => obj.location.includes(`tasks[${index}]`))].map((item:any) => ({ ...item, location:  `tasks[${index + direction}]`+ item.location.slice(8)}))
+      let notMovable = [...this.libProjectService.reviewErrors.filter((obj:any) => !obj.location.includes(`tasks[${index}]`))]
+      // movingErrors
+      let movingErrorsTarget = [...this.libProjectService.reviewErrors.filter((obj:any) => obj.location.includes(`tasks[${index + direction}]`))].map((item:any) => ({ ...item, location:  `tasks[${index}]`+ item.location.slice(8)}))
+      let nonMovingErrorsTarget = [...this.libProjectService.reviewErrors.filter((obj:any) => !obj.location.includes(`tasks[${index + direction}]`))]
+      // movingErrors
+      if(movingErrors.length > 0) {
+        this.libProjectService.validateAndHighlightErrors({error: notMovable.concat(movingErrors)});
+      }
+      if(movingErrorsTarget.length > 0) {
+        this.libProjectService.validateAndHighlightErrors({error: nonMovingErrorsTarget.concat(movingErrorsTarget)});
+      }
     }
   }
 

@@ -277,9 +277,16 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   }
 
   onDeleteSubtask(taskIndex: number, subTaskIndex: number) {
+    this.libProjectService.validateAndHighlightErrors({error: [...this.libProjectService.reviewErrors.filter((obj:any) => !obj.location.includes(`tasks[${taskIndex}].children[${subTaskIndex}]`))]});
     <FormArray>this.taskData[taskIndex].subTasks.get('subtasks').removeAt(subTaskIndex);
     this.taskData[taskIndex].children.splice(subTaskIndex, 1);
     this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
+    if(this.libProjectService.reviewErrors.length > 0 && this.libProjectService.reviewErrors.find((element:any) => element.location.includes('tasks') && element.location.includes('children'))) {
+      this.libProjectService.tabValidation.subTasks = "INVALID"
+    }
+    else {
+      this.libProjectService.tabValidation.subTasks = "VALID"
+    }
   }
 
   deleteResource(taskIndex: number, resourceIndex: number) {
