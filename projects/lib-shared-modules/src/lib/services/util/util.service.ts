@@ -99,7 +99,8 @@ export class UtilService {
   }
 
 
-  removeEmptyKey(obj: any): Observable<any> {
+  removeEmptyKey(resourceData: any): Observable<any> {
+    let obj =  JSON.parse(JSON.stringify(resourceData));
     for (let key in obj) {
       if (Array.isArray(obj[key])) {
         obj[key] = obj[key].map((element: any) =>
