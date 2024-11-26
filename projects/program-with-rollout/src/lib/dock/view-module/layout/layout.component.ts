@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class LayoutComponent {
 
+  sidenavData = [{
+    action: "",
+    icon: "description",
+    label: "PROJECT_DETAILS",
+    page: "projectDetails",
+    url: "project-details"
+  }]
 }

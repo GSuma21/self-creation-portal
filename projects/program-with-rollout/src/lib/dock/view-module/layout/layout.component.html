@@ -1,7 +1,7 @@
 <lib-header  [backButton]="backButton" [headerData]="headerData" (buttonClick)="onButtonClick($event)"></lib-header>
 <div class="main flex">
     <div class="min-h-[88vh] max-h-[100vh] sticktop">
-        <lib-side-navbar [sidenavData]="sidenavData" (navChange)="navChangeEvent($event)" [tabValidation]="libProjectService.tabValidation" [lastReviewed]="lastReviewed"></lib-side-navbar>
+        <lib-side-navbar [sidenavData]="sidenavData"></lib-side-navbar>
     </div>
     <div class="w-full">
         <router-outlet></router-outlet>
