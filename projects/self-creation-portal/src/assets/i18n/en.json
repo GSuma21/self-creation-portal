@@ -8,7 +8,7 @@
     "DRAFTS": "Drafts",
     "SUBMITTED_FOR_REVIEW": "Submitted for Review",
     "PUBLISHED": "Published",
-    "UP_FOR_REVIEW": "Up for review",
+    "UP_FOR_REVIEW": "Up for Review",
     "PROJECT": "Project",
     "OBSERVATION": "Observation",
     "OBSERVATION_WITH_RUBRIC": "Observation with rubric",
@@ -180,5 +180,6 @@
     "HINDI":"Hindi",
     "ENTER_CERTIFICATE_ISSUER_NAME":"Enter certificate issuer name",
     "ENABLE_TASK_EVIDENCE":"Do you want to include certificate criteria for task -",
-    "CHOOSE_ATLEAST_ONE_FILE_TYPE":"Choose atleast 1 file type"
+    "CHOOSE_ATLEAST_ONE_FILE_TYPE":"Choose atleast 1 file type",
+    "ROLL_OUT":"Roll Out"
 }

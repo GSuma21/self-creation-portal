@@ -156,7 +156,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.markAllAsTouched();
               this.checkValidations()
               this.libProjectService.triggerSendForReview();
-              debugger;
             }
           }
         )
