@@ -149,7 +149,6 @@ export class ResourceHolderComponent implements OnInit{
       this.filters.current.type = event.values;
       // Clear filter button action when type filter is applied
       this.filters.activeFilterButton = '';
-      this.filters.status = ''
     } else if (filterName === 'status') {
       this.preservedStatus = event.values;
       this.filters.status = event.values;
