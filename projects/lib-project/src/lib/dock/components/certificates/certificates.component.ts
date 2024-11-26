@@ -63,12 +63,12 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   mode: string = '';
   viewOnly: boolean = false;
   projectId: string | number = '';
-  tasks:any; // only to render tasks in html page
+  tasks:any = []// only to render tasks in html page
   commentPayload: any;
   commentsList: any = [];
   svgContent = '';
   projectInReview: boolean = false;
-  taskForm: any;
+  taskForm: any = [];
   certificateList:any = [];
   certificate:any = {
       base_template_id: '',
@@ -156,7 +156,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.markAllAsTouched();
               this.checkValidations()
               this.libProjectService.triggerSendForReview();
-              debugger;
             }
           }
         )
@@ -198,11 +197,14 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               else {
                 this.certificate = this.libProjectService.projectData.certificate;
                 this.selectedYes = "1"
-                this.certificateForm.patchValue({issuerName:this.libProjectService.projectData.certificate.issuer,evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
+                this.certificateForm.patchValue({issuerName:this.libProjectService.projectData.certificate.issuer,evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value,certificateType:this.libProjectService?.projectData?.certificate?.code})
               }
             }
             this.getCertificateForm()
             this.checkValidations();
+            if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
+              this.certificateForm.controls['issuerName']?.markAsTouched()
+            }
           }
           if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
             this.getCertificateForm()
@@ -284,6 +286,9 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
                 this.startAutoSaving();
                 this.checkValidations()
+                if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
+                  this.certificateForm.controls['issuerName']?.markAsTouched()
+                }
               }
               if(this.viewOnly) {
                 if(this.libProjectService.projectData.certificate) {
@@ -358,6 +363,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
   setIssuerName(value:string) {
     this.libProjectService.projectData.certificate.issuer = value;
+    this.checkValidations();
     this.updateCertificatePreview('stateTitle',value,'text')
   }
 
@@ -825,11 +831,11 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   ngOnDestroy(): void {
     // this.libProjectService.formMeta.formValidation.certificates = "VALID";
     if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+      this.checkValidations();
       if(this.libProjectService.projectData.id) {
         this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
       }
       this.libProjectService.saveProjectFunc(false);
-      this.checkValidations();
     }
     this.subscription.unsubscribe();
   }
