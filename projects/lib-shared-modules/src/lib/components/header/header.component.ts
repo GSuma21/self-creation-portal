@@ -26,8 +26,7 @@ export class HeaderComponent {
 
   selectedLanguage: any = 'en'; 
   supportLanguages : any = [
-    {label: "ENGLISH", value: "en"},
-    {label: "HINDI", value: "hi"}
+    {label: "ENGLISH", value: "en"}
   ]
 
   mode:any = "edit";
