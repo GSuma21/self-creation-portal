@@ -53,6 +53,7 @@ export class ResourceHolderComponent implements OnInit{
     sort_order: ''
   };
 
+  preservedStatus:any
   lists:any = [];
   noResultMessage!: string ;
   noResultFound !: string;
@@ -150,6 +151,7 @@ export class ResourceHolderComponent implements OnInit{
       this.filters.activeFilterButton = '';
       this.filters.status = ''
     } else if (filterName === 'status') {
+      this.preservedStatus = event.values;
       this.filters.status = event.values;
       // Clear filter button action when status filter is applied
       this.filters.activeFilterButton = '';
@@ -426,7 +428,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
   filterButtonClickEvent(event : { label: string }) {
     if(this.filters.activeFilterButton === event.label) {
       this.filters.activeFilterButton = '';
-      this.filters.status = '';
+      this.filters.status = this.preservedStatus;
     } else {
       this.filters.activeFilterButton = event.label;
       this.filters.status = event.label;
