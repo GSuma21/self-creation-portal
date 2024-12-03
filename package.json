@@ -24,7 +24,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "authentication_frontend_library": "0.0.62",
-    "dynamic-form-suma": "^0.0.4",
+    "dynamic-form-suma": "^0.0.7",
     "idb": "^8.0.0",
     "ng-otp-input": "^1.9.3",
     "ngx-indexed-db": "^19.0.1",
@@ -51,7 +51,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.3.0",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^3.4.15",
     "typescript": "~5.4.2"
   }
 }
