@@ -22,6 +22,9 @@ module.exports = {
         "lightGreen":"#07BC81",
         "iconGray":"#80868b"
       },
+      width: {
+        '47%': '47%',
+      },
     },
   },
   plugins: [],
