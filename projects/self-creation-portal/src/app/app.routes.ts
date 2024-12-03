@@ -39,7 +39,7 @@ export const routes: Routes = [
             {
                 path:'up-for-review',
                 component:ResourceHolderComponent
-            },
+            }
             // drafts, publish and other resource listings should be added here.
         ],
         data: { preload: true, delay: 10000 }
