@@ -55,7 +55,7 @@ export const routes: Routes = [
         path:"roll-out",
         component:SolutionsLibHolderComponent,
         canActivate:[AuthGuard],
-        loadChildren:() => import('lib-program-with-rollout').then(m => m.ViewModuleModule),
+        loadChildren:() => import('program-with-rollout').then(m => m.ViewModuleModule),
         data: { preload: true, delay: 15000 }
     },
     { path: '', loadChildren: () => import('authentication_frontend_library').then(m => m.SlRoutingRoutingModule) }

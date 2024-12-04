@@ -21,10 +21,24 @@ export class ResourceDetailsComponent implements OnInit {
 
   openCriteria() {
     const dialogRef = this.dialog.open(TargetCriteriaComponent, {
-      width: '39.375rem',
+      width: '80%',
+      height:'80%',
       disableClose: true,
       autoFocus : false,
       data: {
+        sideNavData:[{
+          action: "",
+          icon: "description",
+          label: "State",
+          page: "projectDetails",
+          url: "project-details"
+        },{
+          action: "",
+          icon: "description",
+          label: "Gender",
+          page: "projectDetails",
+          url: "project-details"
+        }],
         header: 'SAVE_CHANGES',
         content: 'ADD_TITLE_TO_CONTINUE_SAVING',
         exitButton: 'CONTINUE',

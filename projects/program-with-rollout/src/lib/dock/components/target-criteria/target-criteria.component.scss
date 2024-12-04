@@ -1,0 +1,50 @@
+@import "../../../../../../self-creation-portal/src/styles.scss";
+.main{
+    display: flex;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 1rem;
+    background-color: $primary;
+    color:  $secondary;
+}
+
+.sticktop{
+    position: sticky;
+    top: 8vh;
+}
+
+.fixed-sidenav {
+    position: absolute !important;
+}
+
+.dropdown-container {
+    width: 70%;
+    margin: 5rem auto 5rem auto;
+}
+
+mat-select {
+    border: 0;
+}
+
+table {
+    width: 100%;
+}
+
+.filter-input {
+    border: 1px solid lightgrey;
+    padding: .3rem;
+    margin-left: .5rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+td, th {
+width: 25%;
+}
+.btn-submit {
+    border-radius: 5px;
+}

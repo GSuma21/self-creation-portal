@@ -71,6 +71,15 @@ export class FormService {
     );
   }
 
+  getEntitiesList(url: string,entityType:string) {
+    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+'?'+`entityType=${entityType}`).pipe(
+      map((result: any) => {
+        let data = result?.result?.entity_types || [];
+        return data;
+      })
+    );
+  }
+
   getEntityNames(formData: any) {
     const arr1 = formData.controls
       .filter((control: { meta: { entityType: any; }; }) => control?.meta && control.meta.entityType)
