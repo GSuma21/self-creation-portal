@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         authReq = req.clone({
           url: `${environment.baseURL}${req.url}`,
           setHeaders: {
-            'x-auth-token': `bearer ${authToken}`
+            'x-auth-token': `${environment.prefix} ${authToken}`
           }
         });
       }else {
@@ -42,7 +42,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }else{
     commonService.openErrorToast("OFFLINE_MSG_NETWORK")
     return throwError("error");
-  } 
+  }
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {

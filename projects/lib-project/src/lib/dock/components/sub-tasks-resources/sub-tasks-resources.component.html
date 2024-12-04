@@ -15,8 +15,8 @@
                         @for(button of item.buttons; track button) {
                         <div class="">
                             <mat-card-content class="cursor-pointer">
-                                <div [class.disabled]="button.disable" (click)="!button.disable && onAction(button.label, i)" class="flex items-center text-primary pb-2">
-                                    <mat-icon>add_circle</mat-icon><span class="px-2">{{button.label | translate}}</span></div>
+                                <div [class.disabled]="button.disable"class="flex items-center text-primary pb-2">
+                                    <mat-icon  (click)="!button.disable && onAction(button.label, i)" >add_circle</mat-icon><span class="px-2"  (click)="!button.disable && onAction(button.label, i)" >{{button.label | translate}}</span></div>
                                 @if (button.label === 'ADD_SUBTASKS') {
                                 <form [formGroup]="item.subTasks">
                                     <div formArrayName="subtasks" class="flex flex-col gap-2">
