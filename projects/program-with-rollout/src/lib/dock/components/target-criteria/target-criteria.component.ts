@@ -14,14 +14,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
-
-export interface UserData {
-    id: string;
-    name: string;
-    progress: string;
-    fruit: string;
-  }
+import {MatTabsModule} from '@angular/material/tabs';
 
   /** Constants used to fill up our data base. */
   const FRUITS: string[] = [
@@ -58,347 +51,180 @@ export interface UserData {
 @Component({
   selector: 'lib-target-criteria',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss'
 })
 
 export class TargetCriteriaComponent implements OnInit{
 
-  criteria:any = [
-    {
-      placeHolder:"Choose State",
-      isMultiple:false,
-      label:"State",
-      options:[
-          {
-              "_id": "667d30ca8ead9320cf997c4a",
-              "name": "Arunachal Pradesh",
-              "externalId": "enf3"
-          },
-          {
-              "_id": "6687b8d38ead9320cf997c65",
-              "name": "Andhra Pradesh",
-              "externalId": "enkhfjg"
-          },
-          {
-              "_id": "66aca8d1116811ed2986ab11",
-              "name": "Manipur",
-              "externalId": "extManipur"
-          },
-          {
-              "_id": "66b9e17660de1616f42cb94f",
-              "name": "Nagaland",
-              "externalId": "extNagaland"
-          },
-          {
-              "_id": "66bf7eb960de1616f42cb984",
-              "name": "Karnataka",
-              "externalId": "entity6889"
-          },
-          {
-              "_id": "66bf7edf8d2c4516ea1b44df",
-              "name": "Kerala",
-              "externalId": "extKerala"
-          },
-          {
-              "_id": "66bf7ef28d2c4516ea1b44e2",
-              "name": "Jharkhand",
-              "externalId": "extJharkhand"
-          },
-          {
-              "_id": "66bf7efc8d2c4516ea1b44e5",
-              "name": "Goa",
-              "externalId": "extGoa"
-          },
-          {
-              "_id": "66bf7f0b60de1616f42cb990",
-              "name": "Tamil Nadu ",
-              "externalId": "entit900"
-          },
-          {
-              "_id": "66d5621ff9b0f657a7e20bb7",
-              "name": "Rajasthan",
-              "externalId": "extRajasthan"
-          },
-          {
-              "_id": "66e418e27165395fcea49ab5",
-              "name": "Assam",
-              "externalId": "extAssam"
-          },
-          {
-              "_id": "66e41ce8a770045fc4236049",
-              "name": "Gujarat",
-              "externalId": "extGJ"
-          },
-          {
-              "_id": "66e9607c66895e1a085c1f25",
-              "name": "Madhya Pradesh",
-              "externalId": "extMadhyapradesh"
-          },
-          {
-              "_id": "66e96eb18f376a1a12096518",
-              "name": "Puducherry",
-              "externalId": "extPuducherry"
-          },
-          {
-              "_id": "66ea618968cd063346a10355",
-              "name": "RAJANDHRASTATE",
-              "externalId": "rajAPSTATEDummy"
-          },
-          {
-              "_id": "66ea61fb68cd063346a1035a",
-              "name": "RAJANDHRASTATE",
-              "externalId": "rajAPSTATEDummy1"
-          },
-          {
-              "_id": "66ea6369eff7aa33502f2df9",
-              "name": "RAJANDHRASTATE",
-              "externalId": "rajAPSTATEDummy2"
-          },
-          {
-              "_id": "66ea646268cd063346a10362",
-              "name": "          ",
-              "externalId": "rajAPSTATEDummy3"
-          },
-          {
-              "_id": "66ea64fa68cd063346a10365",
-              "name": "Uttarakhand",
-              "externalId": "extUttarakhand"
-          },
-          {
-              "_id": "66ec06c0eff7aa33502f30fc",
-              "name": "Himachal Pradesh",
-              "externalId": "extHP"
-          },
-          {
-              "_id": "66ec07cbeff7aa33502f3106",
-              "name": "Uttar Pradesh",
-              "externalId": "extUP"
-          },
-          {
-              "_id": "66ec0969eff7aa33502f312b",
-              "name": "Punjab",
-              "externalId": "pun123"
-          },
-          {
-              "_id": "66f157266efc01710b71509d",
-              "name": "West Bengal",
-              "externalId": "extWB"
-          },
-          {
-              "_id": "66f1661a6efc01710b7150f5",
-              "name": "Odisha",
-              "externalId": "extOdi"
-          },
-          {
-              "_id": "66f3a878ebe4ef7115900948",
-              "name": "Tripura",
-              "externalId": "extTri"
-          },
-          {
-              "_id": "66f3aa896efc01710b715370",
-              "name": "Mizoram",
-              "externalId": "extMizo"
-          },
-          {
-              "_id": "66f3ae04ebe4ef711590096d",
-              "name": "Chandigarh",
-              "externalId": "extChandigarh"
-          },
-          {
-              "_id": "66f3af766efc01710b7153b0",
-              "name": "Chhattisgarh",
-              "externalId": "extChhattis"
-          },
-          {
-              "_id": "66f3cd596efc01710b715423",
-              "name": "Bihar",
-              "externalId": "extBihar"
-          },
-          {
-              "_id": "66f3d1d8ebe4ef7115900afe",
-              "name": "Tamil nadu",
-              "externalId": "extTN"
-          },
-          {
-              "_id": "66f3da016efc01710b715573",
-              "name": "Jammu & Kashmir",
-              "externalId": "extJK"
-          },
-          {
-              "_id": "66fa288bebe4ef71159011e8",
-              "name": "Sampl4e1",
-              "externalId": "tg6f623"
-          },
-          {
-              "_id": "66fa29cdebe4ef71159011ec",
-              "name": "Udipi",
-              "externalId": "testUser1374"
-          },
-          {
-              "_id": "66fa34e3ebe4ef711590120b",
-              "name": "Tenali",
-              "externalId": "testUser13794"
-          },
-          {
-              "_id": "66fa45bfebe4ef711590121f",
-              "name": "Tenali11",
-              "externalId": "testUser139794"
-          },
-          {
-              "_id": "6704df2a6efc01710b715ded",
-              "name": "Qa public school12",
-              "externalId": "testUser13957694"
-          },
-          {
-              "_id": "6704f4476efc01710b715dfc",
-              "name": "qa engineer1",
-              "externalId": "entity12556334"
-          },
-          {
-              "_id": "6704f4e86efc01710b715e05",
-              "name": "qa engineer13",
-              "externalId": "entity124556334"
-          },
-          {
-              "_id": "6705006a6efc01710b715e96",
-              "name": "lalbagh",
-              "externalId": "entity1245563334"
-          },
-          {
-              "_id": "670602346efc01710b715ef0",
-              "name": "Qa public school128",
-              "externalId": "testUser139576794"
-          },
-          {
-              "_id": "670610f6ebe4ef71159015c6",
-              "name": "Qa public school1289",
-              "externalId": "testUser1395766794"
-          },
-          {
-              "_id": "6706b9a26efc01710b715f46",
-              "name": "lalbagh1",
-              "externalId": "entity41245563334"
-          },
-          {
-              "_id": "6710979946719d77a3fb0b50",
-              "name": "PunjabQA",
-              "externalId": "PNB"
-          },
-          {
-              "_id": "6710b4e467b6747799a7636e",
-              "name": "GoaQa",
-              "externalId": "GQ"
-          },
-          {
-              "_id": "6710c25c46719d77a3fb0e1f",
-              "name": "Tamil NaduQA",
-              "externalId": "TMN"
-          },
-          {
-              "_id": "6710c34046719d77a3fb0e2a",
-              "name": "MaharashtraQA",
-              "externalId": "MQA"
-          },
-          {
-              "_id": "6710cebb46719d77a3fb1046",
-              "name": "AssamQA",
-              "externalId": "ASQ"
-          },
-          {
-              "_id": "6710cf9267b6747799a76713",
-              "name": "Madhya PradeshQA",
-              "externalId": "MPQ"
-          },
-          {
-              "_id": "672841d0b1422706754bbf0b",
-              "name": "Qa1 public school12758",
-              "externalId": "testUser13957667946"
-          }
-      ]
-    },
-    {
-        placeHolder:"Role",
-        isMultiple:false,
-        label:"Select Target",
-        options:[
-            {
-                "_id": "66b9df998d2c4516ea1b4494",
-                "value": "28",
-                "label": "Block Education Officer"
-            },
-            {
-                "_id": "66b9dfa760de1616f42cb93d",
-                "value": "29",
-                "label": "Block Academic Coordinator"
-            },
-            {
-                "_id": "66b9def560de1616f42cb936",
-                "value": "34",
-                "label": "Cluster Academic Coordinator"
-            },
-            {
-                "_id": "66b9dff78d2c4516ea1b4499",
-                "value": "30",
-                "label": "District Education Officer"
-            },
-            {
-                "_id": "66b9e00a60de1616f42cb941",
-                "value": "31",
-                "label": "District Resource Person"
-            },
-            {
-                "_id": "66b9e03e8d2c4516ea1b449c",
-                "value": "32",
-                "label": "State Project Director"
-            },
-            {
-                "_id": "673599fab1422706754bfc04",
-                "value": "899",
-                "label": "Qa Level1 Officer"
-            },
-            {
-                "_id": "66b9df618d2c4516ea1b4491",
-                "value": "35",
-                "label": "Head master"
-            }
-        ]
-    },
-    {
-        placeHolder:"Choose Entity targetting",
-        isMultiple:false,
-        label:"Entity Targeting",
-        options:[]
+    criteria:any = [
+        {
+            label:"Location",
+            form:[
+                {
+                    placeHolder:"Choose State",
+                    isMultiple:false,
+                    label:"State",
+                    meta:{
+                        url:"GET_ENTITIES_LIST",
+                        type:"state",
+                        dependantIndex:[1,2]
+                    },
+                    options:[]
+                },
+                {
+                    placeHolder:"Role",
+                    isMultiple:false,
+                    label:"Select Target",
+                    meta:{
+                        url:"GET_ENTITY_ROLES",
+                        type:"role"
+                    },
+                    options:[]
+                },
+                {
+                    placeHolder:"Choose Entity targetting",
+                    isMultiple:false,
+                    meta:{
+                        url:"GET_ENTITY_HIERARCHY",
+                        type:"hierarchy"
+                    },
+                    label:"Entity Targeting",
+                    options:[]
+                }
+            ]
+        },
+        {
+            label:"Gender",
+            form:[
+                {
+                    placeHolder:"Select Gender",
+                    isMultiple:true,
+                    label:"Gender",
+                    meta:{
+                        type:"gender"
+                    },
+                    options:[
+                        {
+                            "_id": "male",
+                            "name": "Male",
+                            "externalId": "enf3"
+                        },
+                        {
+                            "_id": "female",
+                            "name": "Female",
+                            "externalId": "enkhfjg"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+    formData:any = {};
+    displayedColumns: string[] = ['select','block'];
+    dataSource: MatTableDataSource<any>;
+    selection = new SelectionModel<any>(true, []);
+    targetEntityArray = [];
+    targetedEntity:string = ''
+    @ViewChild(MatPaginator)
+    paginator!: MatPaginator;
+    @ViewChild(MatSort)
+    sort!: MatSort;
+
+    constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private formService:FormService) {
+        console.log(this.dialogData)
+        const users = Array.from({length: 10}, (_, k) => createNewUser(k + 1));
+
+        // Assign the data to the data source for the table to render
+        this.dataSource = new MatTableDataSource(users);
+
     }
-  ]
-  displayedColumns: string[] = ['select','id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
-  selection = new SelectionModel<UserData>(true, []);
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
+    ngOnInit(): void {
+        this.formService.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res:any)=> {
+            this.criteria[0].form[0].options = res.result;
+        })
+    }
 
-  constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private getFormWithEntities:FormService) {
-    console.log(this.dialogData)
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    setFormData(event:any,key:any,formElementIndex:number) {
+        if(key) {
+            this.formData[key] = event.value;
+        }
+        // if(key.meta.dependantIndex) {
+        //     key.meta.dependantIndex.forEach((index:string|number)=>{
+        //         this.formService.getEntitiesList(this.criteria[0].form[index].meta.url,this.criteria[0].form[index].meta.type, key.meta.type == 'hierarchy'? '': this.formData.state).subscribe((res:any)=>{
+        //             this.criteria[0].form[index].options = res.result;
+        //         })
+        //     })
+        // }
+        if(key == 'state') {
+            this.formService.getEntitiesList(this.criteria[0].form[1].meta.url,'',this.formData.state).subscribe((res:any)=>{
+                this.criteria[0].form[1].options = res.result;
+            })
+            this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,'','').subscribe((res:any)=>{
+                this.targetEntityArray = res.result[0].childHierarchyPath;
+                this.criteria[0].form[2].options = res.result[0].childHierarchyPath.map((element:string) => {
+                    return {
+                        _id:element,
+                        value:element,
+                        name:element
+                    }
+                });
+            })
+        }
+        if(key == 'hierarchy') {
+            this.targetedEntity = event.value;
+            for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
+                this.criteria[0].form.push({
+                    placeHolder:`select ${this.targetEntityArray[index]}`,
+                    isMultiple:false,
+                    meta:{
+                        url:"GET_SUB_ENTITIES_LIST",
+                        type:this.targetEntityArray[index]
+                    },
+                    label:this.targetEntityArray[index],
+                    options:[]
+                })
+            }
+            this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state).subscribe((res:any)=>{
+                this.criteria[0].form[formElementIndex+1].options = res.result.data;
+            })
+            // for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
+            //     this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[index],this.formData.state).subscribe((res:any)=>{
+            //         this.criteria[0].form.push({
+            //             placeHolder:`select ${this.targetEntityArray[index]}`,
+            //             isMultiple:false,
+            //             meta:{
+            //                 url:"GET_SUB_ENTITIES_LIST",
+            //                 type:this.targetEntityArray[index]
+            //             },
+            //             label:this.targetEntityArray[index],
+            //             options:res.result.data
+            //         })
+            //     })
+            // }
+        }
+        if(key != 'role' && key != 'hierarchy' && key != 'state') {
+            if(this.criteria[0].form[formElementIndex+1]) {
+                this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.criteria[0].form[formElementIndex+1].meta.type,event.value).subscribe((res:any) => {
+                    this.criteria[0].form[formElementIndex+1].options = res.result.data;
+                })
+            }
+            else { // hence no additional items to added in inputs now data will be added into table
+                this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value).subscribe((res:any) => {
+                    this.dataSource = new MatTableDataSource(res.result.data);
+                })
+            }
+        }
+        console.log(this.formData);
+    }
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+    }
 
-  }
-
-  ngOnInit(): void {
-    // this.getFormWithEntities.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res)=> console.log(res))
-  }
-
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -417,7 +243,7 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: UserData): string {
+    checkboxLabel(row?: any): string {
     if (!row) {
         return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -425,18 +251,18 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+        if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+        }
     }
-  }
 }
 
 /** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
+function createNewUser(id: number): any {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
     ' ' +

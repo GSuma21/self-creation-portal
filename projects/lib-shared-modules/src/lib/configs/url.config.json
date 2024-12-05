@@ -17,7 +17,9 @@
         "READ_FORM": "scp/v1/form/read",
         "READ_ENTITY_TYPE": "scp/v1/entity-types/read",
         "GET_ENTITIES_LIST":"entity-management/v1/entities/entityListBasedOnEntityType",
-        "GET_SUB_ENTITIES_LIST":"entity-management/v1/entities/subEntityList"
+        "GET_SUB_ENTITIES_LIST":"entity-management/v1/entities/subEntityList",
+        "GET_ENTITY_ROLES":"entity-management/v1/entities/targetedRoles",
+        "GET_ENTITY_HIERARCHY":"entity-management/v1/entities/subEntityListBasedOnRoleAndLocation/entity077987"
     },
     "LOGOUT_URLS": {
         "LOGOUT_API": "/user/v1/account/logout"

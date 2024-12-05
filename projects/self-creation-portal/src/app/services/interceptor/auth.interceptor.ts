@@ -27,12 +27,22 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if(onlineStatus){
     if (req.headers.get('X-Requested-With') === 'XMLHttpRequest') {
       if(authToken) {
-        authReq = req.clone({
-          url: `${environment.baseURL}${req.url}`,
-          setHeaders: {
-            'x-auth-token': `${environment.prefix} ${authToken}`
-          }
-        });
+        if(req.url.includes('entity-management')){
+          authReq = req.clone({
+            url: `${environment.baseURL}${req.url}`,
+            setHeaders: {
+              'x-auth-token': `${authToken}`
+            }
+          });
+        }
+        else {
+          authReq = req.clone({
+            url: `${environment.baseURL}${req.url}`,
+            setHeaders: {
+              'x-auth-token': `${environment.prefix} ${authToken}`
+            }
+          });
+        }
       }else {
         authReq = req.clone({
           url: `${environment.baseURL}${req.url}`

@@ -71,13 +71,11 @@ export class FormService {
     );
   }
 
-  getEntitiesList(url: string,entityType:string) {
-    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+'?'+`entityType=${entityType}`).pipe(
-      map((result: any) => {
-        let data = result?.result?.entity_types || [];
-        return data;
-      })
-    );
+  getEntitiesList(url: string,entityType?:string,id?:string) {
+    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+ (id ? ("/"+id) :'')+ (entityType ? '?'+`entityType=${entityType}` : ''));
+  }
+  getEntitiesListAsType(url: string,entityType?:string,id?:string) {
+    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+ (id ? ("/"+id) :'')+ (entityType ? '?'+`type=${entityType}` : ''));
   }
 
   getEntityNames(formData: any) {
