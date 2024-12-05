@@ -16,5 +16,8 @@
             "UP_FOR_REVIEW_LIST": "upForReview",
             "BROWSE_EXISTING_LIST": "getPublishedResources"
         }
+    },
+    "ROLL_OUT_URLS":{
+        "ROLL_OUT_LIST":"scp/v1/rollouts/list"
     }
 }
