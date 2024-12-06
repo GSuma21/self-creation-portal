@@ -29,7 +29,7 @@
       </div>
      }
 </div>
-<div class="px-10 relative w-auto py-2 overflow-y-auto" [ngClass]="{'pt-44': pageStatus !== 'roll-out', 'pt-96': pageStatus === 'roll-out'}">
+<div class="px-10 relative w-auto py-2 overflow-y-auto" [ngClass]="{'pt-44': pageStatus !== 'roll-out', 'pt-28rem': pageStatus === 'roll-out'}">
     @for(list of filters.filteredLists; track list){
     <div class="pb-3">
       <lib-card [list]="list" [showActionButton]="filters.showActionButton"  [activeRole]="activeRole" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)" 
