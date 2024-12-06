@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormService, SideNavbarComponent } from 'lib-shared-modules';
+import { FormService, SideNavbarComponent, TARGET_CRITERIA_DETAILS } from 'lib-shared-modules';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -26,69 +26,70 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 export class TargetCriteriaComponent implements OnInit{
 
-    criteria:any = [
-        {
-            label:"Location",
-            form:[
-                {
-                    placeHolder:"Choose State",
-                    isMultiple:false,
-                    label:"State",
-                    meta:{
-                        url:"GET_ENTITIES_LIST",
-                        type:"state",
-                        dependantIndex:[1,2]
-                    },
-                    options:[]
-                },
-                {
-                    placeHolder:"Role",
-                    isMultiple:false,
-                    label:"Select Target",
-                    meta:{
-                        url:"GET_ENTITY_ROLES",
-                        type:"role"
-                    },
-                    options:[]
-                },
-                {
-                    placeHolder:"Choose Entity targetting",
-                    isMultiple:false,
-                    meta:{
-                        url:"GET_ENTITY_HIERARCHY",
-                        type:"hierarchy"
-                    },
-                    label:"Entity Targeting",
-                    options:[]
-                }
-            ]
-        },
-        {
-            label:"Gender",
-            form:[
-                {
-                    placeHolder:"Select Gender",
-                    isMultiple:true,
-                    label:"Gender",
-                    meta:{
-                        type:"gender"
-                    },
-                    options:[
-                        {
-                            "_id": "male",
-                            "name": "Male",
-                            "externalId": "enf3"
-                        },
-                        {
-                            "_id": "female",
-                            "name": "Female",
-                            "externalId": "enkhfjg"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    criteria:any;
+    //  [
+    //     {
+    //         label:"Location",
+    //         form:[
+    //             {
+    //                 placeHolder:"Choose State",
+    //                 isMultiple:false,
+    //                 label:"State",
+    //                 meta:{
+    //                     url:"GET_ENTITIES_LIST",
+    //                     type:"state",
+    //                     dependantIndex:[1,2]
+    //                 },
+    //                 options:[]
+    //             },
+    //             {
+    //                 placeHolder:"Role",
+    //                 isMultiple:false,
+    //                 label:"Select Target",
+    //                 meta:{
+    //                     url:"GET_ENTITY_ROLES",
+    //                     type:"role"
+    //                 },
+    //                 options:[]
+    //             },
+    //             {
+    //                 placeHolder:"Choose Entity targetting",
+    //                 isMultiple:false,
+    //                 meta:{
+    //                     url:"GET_ENTITY_HIERARCHY",
+    //                     type:"hierarchy"
+    //                 },
+    //                 label:"Entity Targeting",
+    //                 options:[]
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         label:"Gender",
+    //         form:[
+    //             {
+    //                 placeHolder:"Select Gender",
+    //                 isMultiple:true,
+    //                 label:"Gender",
+    //                 meta:{
+    //                     type:"gender"
+    //                 },
+    //                 options:[
+    //                     {
+    //                         "_id": "male",
+    //                         "name": "Male",
+    //                         "externalId": "enf3"
+    //                     },
+    //                     {
+    //                         "_id": "female",
+    //                         "name": "Female",
+    //                         "externalId": "enkhfjg"
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     }
+    // ]
     formData:any = {};
     displayedColumns: string[] = ['select','block'];
     dataSource: MatTableDataSource<any>;
@@ -106,9 +107,16 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     ngOnInit(): void {
+        this.getTargetCriteriaDetails()
         this.formService.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res:any)=> {
             this.criteria[0].form[0].options = res.result;
         })
+    }
+
+    getTargetCriteriaDetails(){
+        this.formService.getForm(TARGET_CRITERIA_DETAILS).subscribe((data:any) => {
+            this.criteria = data.result.data.fields?.controls
+          });
     }
 
     setFormData(event:any,key:any,formElementIndex:number) {
