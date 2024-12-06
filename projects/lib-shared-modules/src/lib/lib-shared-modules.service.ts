@@ -6,7 +6,7 @@ import { LOGOUT_URLS } from './configs/url.config.json';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from './services/toast/toast.service';
-import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING } from './constants/urlConstants';
+import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT } from './constants/urlConstants';
 import { Subject } from 'rxjs';
 import { IndexDbService } from './services/index-db/index-db.service';
 
@@ -37,20 +37,20 @@ export class LibSharedModulesService {
     switch (state) {
       case 'create':
         this.router.navigate(['../'], { relativeTo: this.route });
-        if(solutionId) {
+        if (solutionId) {
           this.toastService.openSnackBar({
-            message:'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
+            message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
             class: 'success',
-          })
+          });
         }
         break;
       case 'draft':
         this.router.navigate([DRAFTS]);
-        if(solutionId) {
+        if (solutionId) {
           this.toastService.openSnackBar({
-            message:'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
+            message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
             class: 'success',
-          })
+          });
         }
         break;
       case 'review':
@@ -61,6 +61,9 @@ export class LibSharedModulesService {
         break;
       case 'browse-existing':
         this.router.navigate([BROWSE_EXISTING]);
+        break;
+      case 'roll-out':
+        this.router.navigate([ROLL_OUT]);
         break;
       default:
         this.router.navigate(['../'], { relativeTo: this.route });

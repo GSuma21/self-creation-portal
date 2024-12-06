@@ -3,6 +3,7 @@ export const SUBMITTED_FOR_REVIEW = 'home/submit-for-review'
 export const DRAFTS = 'home/drafts'
 export const UP_FOR_REVIEW = 'home/up-for-review'
 export const BROWSE_EXISTING = 'home/browse-existing'
+export const ROLL_OUT = 'home/roll-out'
 export const resourceStatus = {
     SUBMITTED: 'SUBMITTED',
     PUBLISHED: 'PUBLISHED',

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST} from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -13,13 +13,14 @@ import { CommonService } from '../../services/common-service/common.service';
 import { LibProjectService } from 'lib-project';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { RESOURCE_URLS } from '../../services/configs/url.config.json';
+import { RESOURCE_URLS, ROLL_OUT_URLS } from '../../services/configs/url.config.json';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-resource-holder',
   standalone: true,
-  imports: [HeaderComponent,SideNavbarComponent, CardComponent, SearchComponent, PaginationComponent, FilterComponent, MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule, NoResultFoundComponent],
+  imports: [HeaderComponent,SideNavbarComponent, CardComponent, SearchComponent, PaginationComponent, FilterComponent, MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule, NoResultFoundComponent, CommonModule],
   templateUrl: './resource-holder.component.html',
   styleUrl: './resource-holder.component.scss',
   providers: [DatePipe]
@@ -27,7 +28,7 @@ import { RESOURCE_URLS } from '../../services/configs/url.config.json';
 export class ResourceHolderComponent implements OnInit{
 
   @ViewChild(PaginationComponent) paginationComponent!: PaginationComponent;
-
+  resourceList : any;
   pagination = {
     totalCount: 0,
     pageSize: 10,
@@ -79,6 +80,7 @@ export class ResourceHolderComponent implements OnInit{
 
   ngOnInit() {
     this.loadSidenavData();
+    this.getsolutionList()
   }
 
   /**
@@ -179,6 +181,7 @@ export class ResourceHolderComponent implements OnInit{
    */
   getList() {
     let listType: keyof typeof RESOURCE_URLS.ENDPOINTS = 'RESOURCE_LIST';
+    let url:any;
     switch (this.pageStatus) {
       case 'drafts':
       case 'submitted_for_review':
@@ -190,8 +193,11 @@ export class ResourceHolderComponent implements OnInit{
       case 'browse_existing':
         listType = 'BROWSE_EXISTING_LIST';
         break;
+      case 'roll-out':
+        url = ROLL_OUT_URLS.ROLL_OUT_LIST;
+        break;
     }
-    this.resourceService.getResourceList(this.pagination, this.filters, this.sortOptions, this.pageStatus,listType).subscribe(response => {
+    this.resourceService.getResourceList(this.pagination, this.filters, this.sortOptions, this.pageStatus,listType, url).subscribe(response => {
       this.handleResponse(response);
     });
   }
@@ -294,43 +300,55 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    */
   statusButtonClick(event: { label: string, item: any }) {
      const { label, item } = event;
-     switch (label) {
-       case 'EDIT':
-       case 'RESUME_EDITING':
-        if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.REQUEST_FOR_EDIT,
-              parent:"review"
-            }
-          });
-          break;
-        }else{
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.EDIT,
-              parent:"draft"
-            }
-          });
-          break;
-        }
+     if(this.pageStatus === 'roll-out'){
 
-       case 'DELETE':
-         this.confirmAndDeleteProject(item)
-         break;
-       case 'VIEW':
-         if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
+     }else{
+      switch (label) {
+        case 'EDIT':
+        case 'RESUME_EDITING':
+         if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.VIEWONLY,
+               mode: projectMode.REQUEST_FOR_EDIT,
                parent:"review"
              }
            });
            break;
-         }else if(item.status == resourceStatus.SUBMITTED && this.activeRole == "reviewer"){
+         }else{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.EDIT,
+               parent:"draft"
+             }
+           });
+           break;
+         }
+ 
+        case 'DELETE':
+          this.confirmAndDeleteProject(item)
+          break;
+        case 'VIEW':
+          if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.VIEWONLY,
+                parent:"review"
+              }
+            });
+            break;
+          }else if(item.status == resourceStatus.SUBMITTED && this.activeRole == "reviewer"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.REVIEWER_VIEW,
+                parent:"up-for-review"
+              }
+            });
+            break;
+          }else if(item.review_status  == reviewStatus.CHANGES_UPDATED && this.activeRole == "reviewer"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
@@ -339,35 +357,17 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
              }
            });
            break;
-         }else if(item.review_status  == reviewStatus.CHANGES_UPDATED && this.activeRole == "reviewer"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.REVIEWER_VIEW,
-              parent:"up-for-review"
-            }
-          });
-          break;
-        }else if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.CREATOR_VIEW,
-              parent:"review"
-            }
-          });
-          break;
-         }
-         else if(item.review_status == reviewStatus.CHANGES_UPDATED && this.activeRole == "creator" ){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.VIEWONLY,
-              parent:"review"
-            }
-          });
-          break;
-        }else if(item.status && this.activeRole == "creator"){
+         }else if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.CREATOR_VIEW,
+               parent:"review"
+             }
+           });
+           break;
+          }
+          else if(item.review_status == reviewStatus.CHANGES_UPDATED && this.activeRole == "creator" ){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
@@ -376,47 +376,57 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
              }
            });
            break;
-         }else if(item.status){  
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.VIEWONLY,
-            }
-          });
-          break;  
-         }else{
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.COPY_EDIT,
-              parent:"browse-existing"
-            }
-          });
+         }else if(item.status && this.activeRole == "creator"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.VIEWONLY,
+                parent:"review"
+              }
+            });
+            break;
+          }else if(item.status){  
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.VIEWONLY,
+             }
+           });
+           break;  
+          }else{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.COPY_EDIT,
+               parent:"browse-existing"
+             }
+           });
+           break;
+          }
+ 
+        case 'START_REVIEW':
+         this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.REVIEW,
+               parent:"up-for-review"
+             }
+           });
+         })
           break;
-         }
-
-       case 'START_REVIEW':
-        this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+        case 'RESUME_REVIEW':
           this.router.navigate([PROJECT_DETAILS_PAGE], {
             queryParams: {
               projectId: item.id,
               mode: projectMode.REVIEW,
               parent:"up-for-review"
             }
-          });
-        })
-         break;
-       case 'RESUME_REVIEW':
-         this.router.navigate([PROJECT_DETAILS_PAGE], {
-           queryParams: {
-             projectId: item.id,
-             mode: projectMode.REVIEW,
-             parent:"up-for-review"
-           }
-         })
-         break;
-       default:
-         break;
+          })
+          break;
+        default:
+          break;
+      }
      }
    }
 
@@ -552,6 +562,24 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
   navigateToCreateNew() {
     this.router.navigate(['home/create-new'], {})
+  }
+
+  getsolutionList() {
+    this.formService.getPermissions().subscribe((res:any) => {
+      this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+        this.resourceList = form?.result?.data?.fields?.controls
+        this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
+        let userRoles:any = localStorage.getItem('user_roles')
+        userRoles = JSON.parse(userRoles)
+        if(!userRoles.find((item:any)=> item.title == 'content_creator')) {
+          this.router.navigate(['/home/up-for-review'])
+        }
+      })
+    })
+  }
+
+  onCardClick(cardItem: any) {
+    this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out"}})
   }
 
 }

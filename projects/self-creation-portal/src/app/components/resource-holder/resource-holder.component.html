@@ -1,5 +1,18 @@
 <div class="px-10 fixed w-[calc(100%-18.75rem)] flex flex-col gap-2 py-4 z-50 bg-white">
       <lib-search (searchEvent)="receiveSearchResults($event)" [maxLength]="150"></lib-search>
+      @if(pageStatus === 'roll-out'){
+        <div class="content-container">
+          @for (cardItem of resourceList; track cardItem) {
+            <mat-card class="custom-card" (click)="onCardClick(cardItem)">
+              <mat-card-content class="img-content">
+                <img src="{{ cardItem.image }}" alt="">
+                <mat-card-title class="img-title">{{ cardItem.title | translate}}</mat-card-title>
+            </mat-card-content>
+            </mat-card>
+          }
+        </div>
+        <p>{{"HISTORY" | translate}}</p>
+      }
       <lib-filter [filterData]="filters.filterData" (filteredData)="onFilterChange($event)" (sortOptionsChanged)="onSortOptionsChanged($event)"  
         [changeReqCount]="filters.changeReqCount" [inprogressCount]="filters.inprogressCount" (filterButtonActionEvent)="filterButtonClickEvent($event)"
         [activeFilterButton]="filters.activeFilterButton"> </lib-filter>
@@ -16,7 +29,7 @@
       </div>
      }
 </div>
-<div class="px-10 pt-44 relative w-auto py-2 overflow-y-auto">
+<div class="px-10 relative w-auto py-2 overflow-y-auto" [ngClass]="{'pt-44': pageStatus !== 'roll-out', 'pt-28rem': pageStatus === 'roll-out'}">
     @for(list of filters.filteredLists; track list){
     <div class="pb-3">
       <lib-card [list]="list" [showActionButton]="filters.showActionButton"  [activeRole]="activeRole" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)" 

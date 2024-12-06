@@ -24,3 +24,13 @@ export const CERTIFICATE_DETAILS: IFORM = {
 	"type": "certificateDetails",
 	"sub_type": "certificateDetailsForm"
 }
+
+export const ROLL_OUT_DETAILS : IFORM = {
+	"type": "rollOutDetails",
+	"sub_type": "rollOutDetailsForm",
+}
+
+export const TARGET_CRITERIA_DETAILS : IFORM = {
+	"type": "targetCriteriaDetails",
+	"sub_type": "targetCriteriaDetailsForm",
+}

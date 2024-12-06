@@ -12,7 +12,7 @@
                                 {{( reviewStatus.NOT_STARTED || list.review_status )| translate}}
                             </div>
                         }
-                        @if(list.status === resourceStatus.PUBLISHED){
+                        @if(list.status === resourceStatus.PUBLISHED || list.status === 'ROLLED_OUT'){
                             <div class="chip-container item-center text-center bg-chipPublished text-white">
                                 {{list.status | translate}}
                             </div>
@@ -46,6 +46,11 @@
                                 </div>
                             </div>
                         }
+                        @if(list.status === 'PENDING'){
+                            <div class="chip-container item-center text-center bg-chipPending">
+                                {{ list.status | translate}}
+                            </div>
+                        }
                     </div>
                     <div class="flex flex-column">
                         <p class="text overflow-ellipsis" [matTooltip]="list.title | translate">{{list.title | translate}}</p>
@@ -53,10 +58,10 @@
                             By <span class="ml-1 overflow-ellipsis">{{ list.creator | translate }}</span>
                         </div>
                     </div>
-                    @if(list.type === 'Program'){
+                    @if(list.start_date || list.end_date){
                         <div class="flex flex-row text-sm text-[$borderGray]"> 
-                            <div class="flex font-semibold">Start date:</div><span class="overflow-ellipsis"></span>
-                            <div class="flex font-semibold ml-1">End date:</div><span class="overflow-ellipsis"></span>
+                            <div class="flex font-semibold">Start date:</div><span class="overflow-ellipsis">{{ list.start_date | date: 'MM/dd/yyyy' }}</span>
+                            <div class="flex font-semibold ml-1">End date:</div><span class="overflow-ellipsis">{{ list.end_date | date: 'MM/dd/yyyy' }}</span>
                         </div>
                     }
                 </div>
