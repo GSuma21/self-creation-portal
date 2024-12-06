@@ -138,6 +138,10 @@ export class TargetCriteriaComponent implements OnInit{
             })
         }
         if(key == 'hierarchy') {
+            if(event.value == 'state') {
+                this.dataSource = new MatTableDataSource(this.criteria[0].form[0].options);
+                return;
+            }
             this.targetedEntity = event.value;
             for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
                 this.criteria[0].form.push({
