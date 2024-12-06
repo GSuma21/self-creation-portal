@@ -300,43 +300,55 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    */
   statusButtonClick(event: { label: string, item: any }) {
      const { label, item } = event;
-     switch (label) {
-       case 'EDIT':
-       case 'RESUME_EDITING':
-        if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.REQUEST_FOR_EDIT,
-              parent:"review"
-            }
-          });
-          break;
-        }else{
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.EDIT,
-              parent:"draft"
-            }
-          });
-          break;
-        }
+     if(this.pageStatus === 'roll-out'){
 
-       case 'DELETE':
-         this.confirmAndDeleteProject(item)
-         break;
-       case 'VIEW':
-         if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
+     }else{
+      switch (label) {
+        case 'EDIT':
+        case 'RESUME_EDITING':
+         if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.VIEWONLY,
+               mode: projectMode.REQUEST_FOR_EDIT,
                parent:"review"
              }
            });
            break;
-         }else if(item.status == resourceStatus.SUBMITTED && this.activeRole == "reviewer"){
+         }else{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.EDIT,
+               parent:"draft"
+             }
+           });
+           break;
+         }
+ 
+        case 'DELETE':
+          this.confirmAndDeleteProject(item)
+          break;
+        case 'VIEW':
+          if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.VIEWONLY,
+                parent:"review"
+              }
+            });
+            break;
+          }else if(item.status == resourceStatus.SUBMITTED && this.activeRole == "reviewer"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.REVIEWER_VIEW,
+                parent:"up-for-review"
+              }
+            });
+            break;
+          }else if(item.review_status  == reviewStatus.CHANGES_UPDATED && this.activeRole == "reviewer"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
@@ -345,35 +357,17 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
              }
            });
            break;
-         }else if(item.review_status  == reviewStatus.CHANGES_UPDATED && this.activeRole == "reviewer"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.REVIEWER_VIEW,
-              parent:"up-for-review"
-            }
-          });
-          break;
-        }else if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.CREATOR_VIEW,
-              parent:"review"
-            }
-          });
-          break;
-         }
-         else if(item.review_status == reviewStatus.CHANGES_UPDATED && this.activeRole == "creator" ){
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.VIEWONLY,
-              parent:"review"
-            }
-          });
-          break;
-        }else if(item.status && this.activeRole == "creator"){
+         }else if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.CREATOR_VIEW,
+               parent:"review"
+             }
+           });
+           break;
+          }
+          else if(item.review_status == reviewStatus.CHANGES_UPDATED && this.activeRole == "creator" ){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
@@ -382,47 +376,57 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
              }
            });
            break;
-         }else if(item.status){  
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.VIEWONLY,
-            }
-          });
-          break;  
-         }else{
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.COPY_EDIT,
-              parent:"browse-existing"
-            }
-          });
+         }else if(item.status && this.activeRole == "creator"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.VIEWONLY,
+                parent:"review"
+              }
+            });
+            break;
+          }else if(item.status){  
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.VIEWONLY,
+             }
+           });
+           break;  
+          }else{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.COPY_EDIT,
+               parent:"browse-existing"
+             }
+           });
+           break;
+          }
+ 
+        case 'START_REVIEW':
+         this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+           this.router.navigate([PROJECT_DETAILS_PAGE], {
+             queryParams: {
+               projectId: item.id,
+               mode: projectMode.REVIEW,
+               parent:"up-for-review"
+             }
+           });
+         })
           break;
-         }
-
-       case 'START_REVIEW':
-        this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+        case 'RESUME_REVIEW':
           this.router.navigate([PROJECT_DETAILS_PAGE], {
             queryParams: {
               projectId: item.id,
               mode: projectMode.REVIEW,
               parent:"up-for-review"
             }
-          });
-        })
-         break;
-       case 'RESUME_REVIEW':
-         this.router.navigate([PROJECT_DETAILS_PAGE], {
-           queryParams: {
-             projectId: item.id,
-             mode: projectMode.REVIEW,
-             parent:"up-for-review"
-           }
-         })
-         break;
-       default:
-         break;
+          })
+          break;
+        default:
+          break;
+      }
      }
    }
 

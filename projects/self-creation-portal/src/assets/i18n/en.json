@@ -182,5 +182,7 @@
     "ENABLE_TASK_EVIDENCE":"Do you want to include certificate criteria for task -",
     "CHOOSE_ATLEAST_ONE_FILE_TYPE":"Choose atleast 1 file type",
     "ROLL_OUT":"Roll Out",
-    "HISTORY":"History"
+    "HISTORY":"History",
+    "PENDING":"Pending",
+    "ROLLED_OUT":"Rolled out"
 }
