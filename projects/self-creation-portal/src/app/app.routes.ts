@@ -39,6 +39,10 @@ export const routes: Routes = [
             {
                 path:'up-for-review',
                 component:ResourceHolderComponent
+            },
+            {
+                path:'roll-out',
+                component:ResourceHolderComponent
             }
             // drafts, publish and other resource listings should be added here.
         ],
@@ -49,6 +53,13 @@ export const routes: Routes = [
         component:SolutionsLibHolderComponent,
         canActivate:[AuthGuard],
         loadChildren:() => import('lib-project').then(m => m.ViewModuleModule),
+        data: { preload: true, delay: 15000 }
+    },
+    {
+        path:"roll-out",
+        component:SolutionsLibHolderComponent,
+        canActivate:[AuthGuard],
+        loadChildren:() => import('program-with-rollout').then(m => m.ViewModuleModule),
         data: { preload: true, delay: 15000 }
     },
     { path: '', loadChildren: () => import('authentication_frontend_library').then(m => m.SlRoutingRoutingModule) }

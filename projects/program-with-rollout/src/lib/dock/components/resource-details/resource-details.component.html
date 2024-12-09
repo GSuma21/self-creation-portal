@@ -1,0 +1,8 @@
+<div color="secondary" class="fixed top-32 w-full z-50 border-b px-10 py-2 text-lg text-tertiary bg-white">
+
+  </div>
+@if(dynamicFormData){
+    <div class="pd-top items-center form-container">
+        <dynamic-form [formJson]="dynamicFormData"  [classFlex]="'flex flex-wrap gap-[6%]'" [viewOnly]="viewOnly" #formLib (formChange)="getDynamicFormData($event)" (controlChange)="getFormControlChange($event)" (clickableButton)="onClickableButton($event)"></dynamic-form>
+    </div> 
+}

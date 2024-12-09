@@ -14,9 +14,6 @@
       "lib-observation-with-rubrics": [
         "./dist/lib-observation-with-rubrics"
       ],
-      "lib-program": [
-        "./dist/lib-program"
-      ],
       "lib-project": [
         "./dist/lib-project"
       ],
@@ -28,6 +25,9 @@
       ],
       "environments":[
         "./environments/environment.prod.ts"
+      ],
+      "program-with-rollout": [
+        "./dist/program-with-rollout"
       ]
     },
     "noFallthroughCasesInSwitch": true,
