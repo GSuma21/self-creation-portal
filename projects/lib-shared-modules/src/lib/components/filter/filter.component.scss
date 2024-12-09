@@ -9,38 +9,39 @@
     border-radius: 0.625rem;
     border:1px solid $primary;
     padding: 0.125rem 0.625rem;
-    min-width: 12.25rem; 
+    min-width: 12.25rem;
     max-width: 12.25rem;
     display: inline-block;
     box-shadow: 0 0.25rem 0.625rem -0.375rem $tertiary;
-}
-::ng-deep  .mat-mdc-select-value .mat-mdc-select-placeholder {
-     text-align:center;
-     color: $primary; 
-}
 
-::ng-deep .mat-mdc-select-value-text, .mat-mdc-select-arrow svg{
-    color: $primary;
-}
+    ::ng-deep  .mat-mdc-select-value .mat-mdc-select-placeholder {
+        text-align:center;
+        color: $primary;
+   }
 
-::ng-deep .mat-mdc-select-panel {
-    border-radius: 12px !important;
-    border:1px solid $primary;
-    box-shadow: 0 0.25rem 0.625rem -0.375rem $tertiary !important;
-    max-height: 306px !important;
-}
+   ::ng-deep .mat-mdc-select-value-text, .mat-mdc-select-arrow svg{
+       color: $primary;
+   }
 
-::ng-deep .mat-mdc-select-arrow svg{
-    height: 15rem;
-    width: 2rem;
-    fill: $primary !important;
-    pointer-events: none;
-}
+   ::ng-deep .mat-mdc-select-panel {
+       border-radius: 12px !important;
+       border:1px solid $primary;
+       box-shadow: 0 0.25rem 0.625rem -0.375rem $tertiary !important;
+       max-height: 306px !important;
+   }
 
-::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
-    background-color: $primary !important;
-}
+   ::ng-deep .mat-mdc-select-arrow svg{
+       height: 15rem;
+       width: 2rem;
+       fill: $primary !important;
+       pointer-events: none;
+   }
 
-::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
-    color: $primary !important;
+   ::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
+       background-color: $primary !important;
+   }
+
+   ::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
+       color: $primary !important;
+   }
 }
