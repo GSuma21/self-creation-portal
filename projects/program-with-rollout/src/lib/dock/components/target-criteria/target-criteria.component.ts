@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormService, SideNavbarComponent, TARGET_CRITERIA_DETAILS } from 'lib-shared-modules';
+import { FilterComponent, FormService, SideNavbarComponent, TARGET_CRITERIA_DETAILS } from 'lib-shared-modules';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -19,7 +19,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 @Component({
   selector: 'lib-target-criteria',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule, FilterComponent],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss'
 })
@@ -90,6 +90,7 @@ export class TargetCriteriaComponent implements OnInit{
     //         ]
     //     }
     // ]
+    criteriaFilters:any = [];
     formData:any = {};
     displayedColumns: string[] = ['select','block'];
     dataSource: MatTableDataSource<any>;
@@ -108,14 +109,14 @@ export class TargetCriteriaComponent implements OnInit{
 
     ngOnInit(): void {
         this.getTargetCriteriaDetails()
-        this.formService.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res:any)=> {
-            this.criteria[0].form[0].options = res.result;
-        })
     }
 
     getTargetCriteriaDetails(){
         this.formService.getForm(TARGET_CRITERIA_DETAILS).subscribe((data:any) => {
             this.criteria = data.result.data.fields?.controls
+            this.formService.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res:any)=> {
+                this.criteria[0].form[0].options = res.result;
+            })
           });
     }
 
@@ -146,9 +147,14 @@ export class TargetCriteriaComponent implements OnInit{
             })
         }
         if(key == 'hierarchy') {
+            if(event.value == 'state') {
+                this.dataSource = new MatTableDataSource(this.criteria[0].form[0].options);
+                return;
+            }
             this.targetedEntity = event.value;
+            this.criteriaFilters = [];
             for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
-                this.criteria[0].form.push({
+                this.criteriaFilters.push({
                     placeHolder:`select ${this.targetEntityArray[index]}`,
                     isMultiple:false,
                     meta:{
@@ -156,38 +162,26 @@ export class TargetCriteriaComponent implements OnInit{
                         type:this.targetEntityArray[index]
                     },
                     label:this.targetEntityArray[index],
-                    options:[]
+                    option:[],
+                    value:this.targetEntityArray[index]
                 })
             }
-            this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state).subscribe((res:any)=>{
-                this.criteria[0].form[formElementIndex+1].options = res.result.data;
+            // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state).subscribe((res:any)=>{
+            //     this.criteriaFilters[formElementIndex].options = res.result.data;
+            // })
+            for(let index=0;index < this.criteriaFilters.length;index++) { // index starts 1 to skip state fetching
+                this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.criteriaFilters[index].value,this.formData.state).subscribe((res:any)=>{
+                    this.criteriaFilters[index].option = res.result.data;
+                })
+            }
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value,this.formData.state).subscribe((res:any) => {
+                this.dataSource = new MatTableDataSource(res.result.data);
             })
-            // for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
-            //     this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[index],this.formData.state).subscribe((res:any)=>{
-            //         this.criteria[0].form.push({
-            //             placeHolder:`select ${this.targetEntityArray[index]}`,
-            //             isMultiple:false,
-            //             meta:{
-            //                 url:"GET_SUB_ENTITIES_LIST",
-            //                 type:this.targetEntityArray[index]
-            //             },
-            //             label:this.targetEntityArray[index],
-            //             options:res.result.data
-            //         })
-            //     })
-            // }
         }
         if(key != 'role' && key != 'hierarchy' && key != 'state') {
-            if(this.criteria[0].form[formElementIndex+1]) {
-                this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.criteria[0].form[formElementIndex+1].meta.type,event.value).subscribe((res:any) => {
-                    this.criteria[0].form[formElementIndex+1].options = res.result.data;
-                })
-            }
-            else { // hence no additional items to added in inputs now data will be added into table
-                this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value).subscribe((res:any) => {
-                    this.dataSource = new MatTableDataSource(res.result.data);
-                })
-            }
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value).subscribe((res:any) => {
+                this.dataSource = new MatTableDataSource(res.result.data);
+            })
         }
         console.log(this.formData);
     }
@@ -195,6 +189,10 @@ export class TargetCriteriaComponent implements OnInit{
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    onFilterChange(event:any) {
+        console.log(event)
     }
 
     /** Whether the number of selected elements matches the total number of rows. */

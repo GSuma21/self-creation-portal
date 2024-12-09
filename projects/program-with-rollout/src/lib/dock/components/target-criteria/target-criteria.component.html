@@ -20,9 +20,9 @@
                         </mat-form-field>
                     }
                     <section>
-                        <section>
-                            <mat-label>Filter :</mat-label>
+                        <section class="flex justify-between pt-7">
                             <input matInput (keyup)="applyFilter($event)" class="filter-input" placeholder="Search..." #input>
+                            <lib-filter [filterData]="criteriaFilters" (filteredData)="onFilterChange($event)"></lib-filter>
                         </section>
                           <div class="mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort>
