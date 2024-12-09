@@ -37,6 +37,6 @@
     - name: Remove dist folder
       shell: rm -rf dist
     - name: Build angular app
-      shell: cd {{project_path}} && ng build lib-shared-modules && ng build lib-project && ng build self-creation-portal --configuration production
+      shell: cd {{project_path}} && ng build lib-shared-modules && ng build lib-project && ng build program-with-rollout && ng build self-creation-portal --configuration production
     - name: Start pm2
       shell: cd {{project_path}} && pm2 start pm2.config.json
