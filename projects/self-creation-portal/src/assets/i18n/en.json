@@ -184,5 +184,6 @@
     "ROLL_OUT":"Roll Out",
     "HISTORY":"History",
     "PENDING":"Pending",
-    "ROLLED_OUT":"Rolled out"
+    "ROLLED_OUT":"Rolled out",
+    "TARGETTING_DETAILS":"Targetting details"
 }
