@@ -1,26 +1,31 @@
-<lib-header  [backButton]="backButton" [headerData]="headerData"></lib-header>
+<lib-header [backButton]="backButton" [headerData]="headerData"></lib-header>
 <div class="flex h-screen overscroll-none">
-  <!-- Side Navigation -->
-  <div class="sticktop w-1/4 p-4 border-r border-gray-300 overflow-y-auto">
+  <div class="sticktop w-1/4 p-4 border-r border-gray-300 overflow-y-auto" (scroll)="onScroll($event)">
     <mat-list>
       @for(item of contentList; track item) {
-        <mat-list-item class="flex items-center p-2 hover:bg-gray-200 cursor-pointer">
-          <mat-radio-button class="mr-2"  [value]="item.title" [checked]="selectedValue === item.title" (change)="onSelectionChange(item)">{{ item.title }}</mat-radio-button>
-        </mat-list-item>
+      <mat-list-item class="flex items-center p-2 hover:bg-gray-200 cursor-pointer">
+        <mat-radio-button class="mr-2" [value]="item.title" [checked]="selectedValue === item.title"
+          (change)="onSelectionChange(item)">
+          <div class="flex flex-col">
+            <p class="overflow-ellipsis">{{ item.title }}</p>
+            <p>by suma</p>
+          </div>
+        </mat-radio-button>
+      </mat-list-item>
+      <hr>
       }
     </mat-list>
   </div>
   <div class="sticktop w-3/4 p-4 border-r border-gray-300 bg-gray-200 flex flex-col justify-center items-center">
     @if(showPreview){
-      <lib-preview [inputData]="data" class="w-96"></lib-preview>
+    <lib-preview [inputData]="data" class="w-96"></lib-preview>
     }
- 
+  </div>
 </div>
-  <!-- Main Content -->
-</div>
-<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 flex justify-between text-center items-center p-3">
+<div
+  class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 flex justify-between text-center items-center p-3">
   <p>(1) content selected</p>
-  <button class="px-4 py-2 rounded bg-primary text-white">
+  <button class="px-4 py-2 rounded bg-primary text-white" (click)="onSelect()">
     {{ "SELECT" | translate }}
   </button>
 </div>

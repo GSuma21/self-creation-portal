@@ -22,12 +22,7 @@ export class ResourceDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.getDataManagerList()
      this.getRollOutDetails()
-  }
-
-  getDataManagerList(){
-     
   }
 
   getRollOutDetails(){
@@ -35,7 +30,13 @@ export class ResourceDetailsComponent implements OnInit {
       rolloutDetails.result.data.fields?.controls.forEach((control:any) => {
         if (control.name === "data_manager") {
           this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
-            control.options = [...dataManagerList?.result?.data]; // Add the new values
+            
+            const items = dataManagerList.result?.data || []; // Access the array safely
+            const formattedOptions = items.map((item: any) => ({
+                label: item.name,
+                value: item.id
+            }));
+            control.options = [...formattedOptions];
            })
         }
       });
