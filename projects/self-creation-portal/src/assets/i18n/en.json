@@ -187,5 +187,7 @@
     "ROLLED_OUT":"Rolled out",
     "TARGETTING_DETAILS":"Targetting details",
     "RESOURCE_LIBRARY":"Resource library",
-    "SELECT":"Select"
+    "SELECT":"Select",
+    "BY":"By",
+    "CONTENT_SELECTED":"content selected"
 }
