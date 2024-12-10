@@ -185,5 +185,7 @@
     "HISTORY":"History",
     "PENDING":"Pending",
     "ROLLED_OUT":"Rolled out",
-    "TARGETTING_DETAILS":"Targetting details"
+    "TARGETTING_DETAILS":"Targetting details",
+    "RESOURCE_LIBRARY":"Resource library",
+    "SELECT":"Select"
 }

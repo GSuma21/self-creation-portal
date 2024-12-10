@@ -579,7 +579,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
   }
 
   onCardClick(cardItem: any) {
-    this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out"}})
+    this.router.navigate(['choose-resource'],{queryParams:{parent:"roll-out"}})
   }
 
 }
