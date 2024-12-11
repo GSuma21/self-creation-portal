@@ -10,7 +10,7 @@ export class LayoutComponent {
   sidenavData = [{
     action: "",
     icon: "description",
-    label: "PROJECT_DETAILS",
+    label: "TARGETTING_DETAILS",
     page: "projectDetails",
     url: "project-details"
   }]

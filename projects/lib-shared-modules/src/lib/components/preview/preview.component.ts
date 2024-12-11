@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Inject, Input, Optional, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import {MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -19,6 +19,9 @@ export class PreviewComponent {
     profileInfo: {},
     isPreview: true
   }
-constructor(public dialogRef: MatDialogRef<PreviewComponent>,
-    @Inject(MAT_DIALOG_DATA)  public dialogData: any) {}
+  @Input() inputData: any = {};
+  constructor(
+    @Optional() public dialogRef: MatDialogRef<PreviewComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any
+  ) {}
 }

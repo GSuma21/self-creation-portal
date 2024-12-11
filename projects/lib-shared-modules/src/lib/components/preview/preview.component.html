@@ -1,11 +1,13 @@
-<div class="header flex justify-end">
+<div class="header flex justify-end h-10">
+    @if(dialogData){
     <mat-icon class="cursor-pointer text-white" [mat-dialog-close]="false">close</mat-icon>
+    }
 </div>
 <div class="container p-2">
-    <project-player [config]="config" [projectData]="dialogData.projectData"></project-player>
+    <project-player [config]="config" [projectData]="dialogData ? dialogData.projectData:  inputData"></project-player>
 </div>
 <hr>
-<footer class="text-gray-500 flex justify-between px-20 py-2 gap-10">
+<footer class="text-gray-500 flex justify-between px-20 py-2 gap-10 bg-white">
     <mat-icon>menu</mat-icon>
     <mat-icon>check_box_outline_blank</mat-icon>
     <mat-icon>arrow_back</mat-icon>
