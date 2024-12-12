@@ -24,7 +24,7 @@ export class ProgramWithRolloutService {
 
   deleteRollout(projectId: number | string) {
     const config = {
-      url: `${this.Configuration.urlConFig.ROLL_OUT_URLS.CREATE_OR_UPDATE_ROLL_OUT}/${projectId}`,
+      url: `${this.Configuration.urlConFig.ROLL_OUT.CREATE_UPDATE_DELETE}/${projectId}`,
     };
     return this.httpService.delete(config.url);
   }
