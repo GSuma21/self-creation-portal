@@ -38,5 +38,8 @@
     },
     "UPLOAD":{
         "SIGNED_URL":"scp/v1/cloud-services/file/getSignedUrl"
+    },
+    "ROLL_OUT_URLS":{
+        "CREATE_OR_UPDATE_ROLL_OUT":"scp/v1/rollouts/update"
     }
 }

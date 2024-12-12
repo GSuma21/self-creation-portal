@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { RESOURCE_URLS, ROLL_OUT_URLS } from '../../services/configs/url.config.json';
 import { CommonModule } from '@angular/common';
+import { map, Observable } from 'rxjs';
+import { ProgramWithRolloutService } from 'program-with-rollout';
 
 
 @Component({
@@ -75,7 +77,8 @@ export class ResourceHolderComponent implements OnInit{
     private dialog : MatDialog,
     private toastService:ToastService,
     private datePipe: DatePipe,
-    private utilService:UtilService) {
+    private utilService:UtilService,
+    private programWithRolloutService:ProgramWithRolloutService) {
   }
 
   ngOnInit() {
@@ -300,9 +303,9 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    */
   statusButtonClick(event: { label: string, item: any }) {
      const { label, item } = event;
-     if(this.pageStatus === 'roll-out'){
+    //  if(this.pageStatus === 'roll-out'){
 
-     }else{
+    //  }else{
       switch (label) {
         case 'EDIT':
         case 'RESUME_EDITING':
@@ -327,7 +330,15 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
          }
  
         case 'DELETE':
-          this.confirmAndDeleteProject(item)
+          this.confirmAndDeleteProject().subscribe((isdelete) => {
+            if(isdelete){
+              if(this.pageStatus === 'roll-out'){
+                this.deleteRollout(item);
+              }else{
+                this.deleteProject(item);
+              }
+            }
+          })
           break;
         case 'VIEW':
           if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
@@ -427,7 +438,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         default:
           break;
       }
-     }
+    //  }
    }
 
   /**
@@ -530,35 +541,51 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     })
   }
 
+  deleteRollout(item:any){
+    this.programWithRolloutService.deleteRollout(item.id).subscribe((response : any) => {
+      if (this.lists.length === 1 && this.pagination.currentPage > 0) {
+        this.pagination.currentPage -= 1;
+      }
+      this.toastService.openSnackBar({
+        "message": 'RESOURCE_DELETED_SUCCESSFULLY',
+        "class": "success"
+      })
+      if(this.paginationComponent) {
+      this.paginationComponent.setToPage(this.pagination.currentPage);
+    }
+    this.getList();
+    this.updateQueryParams();
+    })
+  }
+
   /**
    * This functions is used to open dialog popup on clicking delete button on carditem
    * @param item -this is resourcelist item
    * @return open the dialogpopup to delete the resource
    */
-  confirmAndDeleteProject(item: any) {
+ 
+  confirmAndDeleteProject(): Observable<boolean> {
     const dialogRef = this.dialog.open(DialogPopupComponent, {
       width: '39.375rem',
       disableClose: true,
-      data : {
+      data: {
         header: "DELETE_RESOURCE",
-        content:"CONFIRM_DELETE_MESSAGE",
-        cancelButton:"CANCEL",
-        exitButton:"DELETE"
+        content: "CONFIRM_DELETE_MESSAGE",
+        cancelButton: "CANCEL",
+        exitButton: "DELETE"
       }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if(result.data === "CANCEL"){
-          return true
-        } else if(result.data === "DELETE"){
-          this.deleteProject(item);
-          return true
-        } else {
-          return false
+    });
+  
+    return dialogRef.afterClosed().pipe(
+      map((result) => {
+        if (result?.data === "DELETE") {
+          return true;
         }
-      });
+        return false;
+      })
+    );
   }
-
+  
 
   navigateToCreateNew() {
     this.router.navigate(['home/create-new'], {})
