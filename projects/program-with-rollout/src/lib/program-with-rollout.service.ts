@@ -6,13 +6,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProgramWithRolloutService {
-  dataSubject = new BehaviorSubject<any>(null);
-  currentRolloutData = this.dataSubject.asObservable();
+  rolloutDataSubject = new BehaviorSubject<any>(null);
+  currentRolloutData = this.rolloutDataSubject.asObservable();
   constructor( private httpService: HttpProviderService,  private Configuration: ConfigService,) { }
 
 
-  setData(data: any) {
-    this.dataSubject.next(data);
+  setRolloutData(data: any) {
+    this.rolloutDataSubject.next(data);
   }
   
   getDataManagerList(){

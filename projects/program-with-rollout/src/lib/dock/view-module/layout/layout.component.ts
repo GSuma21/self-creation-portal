@@ -27,7 +27,7 @@ export class LayoutComponent {
   getData(){
     this.subscription.add(
     this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
-      this.programWithRolloutService.setData( {
+      this.programWithRolloutService.setRolloutData( {
         "sidenavData": form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT")
       });  
     }))
