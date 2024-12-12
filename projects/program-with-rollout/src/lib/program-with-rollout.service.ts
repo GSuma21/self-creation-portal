@@ -14,4 +14,10 @@ export class ProgramWithRolloutService {
     };
     return this.httpService.get(config.url);
   }
+
+  readProject(projectId: number | string) {
+    return this.httpService.get(
+      this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + projectId
+    );
+  }
 }

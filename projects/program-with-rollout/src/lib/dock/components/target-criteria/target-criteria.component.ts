@@ -104,7 +104,7 @@ export class TargetCriteriaComponent implements OnInit{
 
     constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private formService:FormService) {
         // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource([{}]);
+        this.dataSource = new MatTableDataSource();
     }
 
     ngOnInit(): void {
@@ -121,6 +121,7 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     setFormData(event:any,key:any,formElementIndex:number) {
+        this.selection.clear();
         if(key) {
             this.formData[key] = event.value;
         }
@@ -192,7 +193,10 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     onFilterChange(event:any) {
-        console.log(event)
+        console.log(event,this.selection);
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.filterName,event.values[0]).subscribe((res:any) => {
+            this.dataSource = new MatTableDataSource(res.result.data);
+        })
     }
 
     /** Whether the number of selected elements matches the total number of rows. */
@@ -218,6 +222,12 @@ export class TargetCriteriaComponent implements OnInit{
         return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    }
+
+    closeDialog() {
+        debugger;
+        this.formData[this.targetedEntity] = this.selection.selected;
+        this.dialogRef.close();
     }
 
 

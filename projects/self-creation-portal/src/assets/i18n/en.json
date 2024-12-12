@@ -189,5 +189,6 @@
     "RESOURCE_LIBRARY":"Resource library",
     "SELECT":"Select",
     "BY":"By",
-    "CONTENT_SELECTED":"content selected"
+    "CONTENT_SELECTED":"content selected",
+    "CHANGE_SELECTION":"Change selection"
 }
