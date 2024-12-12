@@ -8,6 +8,9 @@ import { BehaviorSubject } from 'rxjs';
 export class ProgramWithRolloutService {
   rolloutDataSubject = new BehaviorSubject<any>(null);
   currentRolloutData = this.rolloutDataSubject.asObservable();
+  rollOutDetails:any = {};
+  resourceDetails:any = {};
+  rolloutId:string = '';
   constructor( private httpService: HttpProviderService,  private Configuration: ConfigService,) { }
 
 
@@ -29,9 +32,21 @@ export class ProgramWithRolloutService {
     return this.httpService.delete(config.url);
   }
 
-  readProject(projectId: number | string) {
-    return this.httpService.get(
-      this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + projectId
+  readPublishedResources(projectId: number | string) {
+    return this.httpService.post(
+      this.Configuration.urlConFig.PROGRAM_URLS.PUBLISHED_RESOURCES,{
+        "resource_ids": [projectId]}
     );
+  }
+
+  saveRollOut() {
+    return this.httpService.post(this.Configuration.urlConFig.ROLL_OUT.CREATE_UPDATE_DELETE + (this.rolloutId ? ('/'+this.rolloutId) : ''),this.rollOutDetails);
+  }
+
+  getRolloutDetails() {
+    const config = {
+      url: this.Configuration.urlConFig.ROLL_OUT.DETAILS+'/'+this.rolloutId,
+    };
+    return this.httpService.get(config.url);
   }
 }

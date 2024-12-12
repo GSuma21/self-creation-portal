@@ -308,6 +308,10 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     //  }else{
       switch (label) {
         case 'EDIT':
+          if(this.pageStatus === 'roll-out'){
+            this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:event.item.resource_id,rolloutId:event.item.id}})
+          }
+          break;
         case 'RESUME_EDITING':
          if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
@@ -328,9 +332,9 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            });
            break;
          }
- 
+
         case 'DELETE':
-          this.confirmAndDeleteProject().subscribe((isdelete) => {
+          this.confirmAndDeleteProject( this.pageStatus === 'roll-out' ? "DELETE_ROLLOUT":"CONFIRM_DELETE_MESSAGE").subscribe((isdelete) => {
             if(isdelete){
               if(this.pageStatus === 'roll-out'){
                 this.deleteRollout(item);
@@ -396,14 +400,14 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
               }
             });
             break;
-          }else if(item.status){  
+          }else if(item.status){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
                mode: projectMode.VIEWONLY,
              }
            });
-           break;  
+           break;
           }else{
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
@@ -414,7 +418,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            });
            break;
           }
- 
+
         case 'START_REVIEW':
          this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
            this.router.navigate([PROJECT_DETAILS_PAGE], {
@@ -484,6 +488,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
     // Function to filter and map fields based on conditions
     const filterAndMapFields = (status: string | null) => {
+      debugger;
       return this.infoFieldsData
         .filter((field: any) => field.status === status || !field.status)
         .map(getFieldData);
@@ -497,15 +502,15 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       infoFields = filterAndMapFields('IN_REVIEW');
     } else {
       infoFields = filterAndMapFields(cardItem.review_status);
-    } 
-    
+    }
+
     // If no fields match the conditions, default to 'NOT_STARTED' fields
     if (infoFields.length === 0) {
       infoFields = filterAndMapFields('NOT_STARTED');
     }
     if(!cardItem.review_status) {
       infoFields = filterAndMapFields(cardItem.status);
-    } 
+    }
 
     const dialogRef = this.dialog.open(DialogPopupComponent, {
       width: '39.375rem',
@@ -547,7 +552,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         this.pagination.currentPage -= 1;
       }
       this.toastService.openSnackBar({
-        "message": 'RESOURCE_DELETED_SUCCESSFULLY',
+        "message": 'ROLLOUT_DELETED',
         "class": "success"
       })
       if(this.paginationComponent) {
@@ -563,19 +568,19 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    * @param item -this is resourcelist item
    * @return open the dialogpopup to delete the resource
    */
- 
-  confirmAndDeleteProject(): Observable<boolean> {
+
+  confirmAndDeleteProject(message:string="CONFIRM_DELETE_MESSAGE" ): Observable<boolean> {
     const dialogRef = this.dialog.open(DialogPopupComponent, {
       width: '39.375rem',
       disableClose: true,
       data: {
         header: "DELETE_RESOURCE",
-        content: "CONFIRM_DELETE_MESSAGE",
+        content: message,
         cancelButton: "CANCEL",
         exitButton: "DELETE"
       }
     });
-  
+
     return dialogRef.afterClosed().pipe(
       map((result) => {
         if (result?.data === "DELETE") {
@@ -585,7 +590,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       })
     );
   }
-  
+
 
   navigateToCreateNew() {
     this.router.navigate(['home/create-new'], {})

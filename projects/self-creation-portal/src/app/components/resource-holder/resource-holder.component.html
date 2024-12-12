@@ -13,7 +13,7 @@
         </div>
         <p>{{"HISTORY" | translate}}</p>
       }
-      <lib-filter [filterData]="filters.filterData" (filteredData)="onFilterChange($event)" (sortOptionsChanged)="onSortOptionsChanged($event)"  
+      <lib-filter [filterData]="filters.filterData" (filteredData)="onFilterChange($event)" (sortOptionsChanged)="onSortOptionsChanged($event)"
         [changeReqCount]="filters.changeReqCount" [inprogressCount]="filters.inprogressCount" (filterButtonActionEvent)="filterButtonClickEvent($event)"
         [activeFilterButton]="filters.activeFilterButton"> </lib-filter>
       @if(filters.filteredLists.length > 0){
@@ -24,7 +24,7 @@
             <span class="px-1">{{"for" | translate}} <span class="px-2">"{{filters.search}}"</span></span>
           }
          </div>
-        <lib-pagination [totalCount]="pagination.totalCount" [pageSize]="pagination.pageSize" [pageSizeOptions]="pagination.pageSizeOptions" 
+        <lib-pagination [totalCount]="pagination.totalCount" [pageSize]="pagination.pageSize" [pageSizeOptions]="pagination.pageSizeOptions"
             (paginatorChanged)="onPageChange($event)"></lib-pagination>
       </div>
      }
@@ -32,7 +32,7 @@
 <div class="px-10 relative w-auto py-2 overflow-y-auto" [ngClass]="{'pt-44': pageStatus !== 'roll-out', 'pt-28rem': pageStatus === 'roll-out'}">
     @for(list of filters.filteredLists; track list){
     <div class="pb-3">
-      <lib-card [list]="list" [showActionButton]="filters.showActionButton"  [activeRole]="activeRole" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)" 
+      <lib-card [list]="list" [showActionButton]="filters.showActionButton"  [activeRole]="activeRole" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)"
       [showInfoIcon]="filters.showInfoIcon"></lib-card>
     </div>
     }
@@ -44,7 +44,7 @@
                     <mat-icon class="add-icon">note_add</mat-icon>
                     Create New
                   </button>
-             } 
+             }
         }
     </div>
 </div>

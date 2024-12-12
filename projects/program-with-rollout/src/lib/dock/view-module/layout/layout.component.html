@@ -1,4 +1,4 @@
-<lib-header [headerData]="headerData"></lib-header>
+<lib-header [headerData]="headerData" (buttonClick)="onButtonClick($event)"></lib-header>
 <div class="main flex">
     <div class="min-h-[88vh] max-h-[100vh] sticktop">
         <lib-side-navbar [sidenavData]="sidenavData"></lib-side-navbar>

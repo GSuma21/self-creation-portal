@@ -1,5 +1,5 @@
 <div color="secondary" class="top-32 border-b px-10 py-2 text-tertiary bg-white card-outer-container">
-  <lib-card [list]="resourceItem" [showActionButton]="true" [showInfoIcon]="true" (infoClickEvent)="infoIconClickEvent($event)" ></lib-card>
+  <lib-card [list]="resourceItem" [showActionButton]="true" [showInfoIcon]="true" (infoClickEvent)="infoIconClickEvent($event)" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
 </div>
 @if(dynamicFormData){
     <div class="pd-top items-center form-container">
