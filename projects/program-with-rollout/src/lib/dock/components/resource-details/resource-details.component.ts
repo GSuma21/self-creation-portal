@@ -70,8 +70,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-     this.getRollOutDetails();
-     this.getResourceDetails()
+    this.getResourceDetails()
   }
 
   getResourceDetails() {
@@ -80,6 +79,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       this.resourceItem = res.result.data[0];
       this.programWithRolloutService.resourceDetails = res.result.data[0];
       this.resourceItem.actionButton = this.resourceButtons
+      this.getRollOutDetails(); // rollout details should be called after resource details fetched
     })
    )
   }
@@ -218,6 +218,11 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
               })
             }
             else {
+              rolloutDetails.result.data.fields?.controls.forEach((item:any) => {
+                if(item.name == 'title') {
+                  item.value = this.resourceItem.title
+                }
+              });
               this.dynamicFormData = rolloutDetails.result.data.fields?.controls;
             }
         }

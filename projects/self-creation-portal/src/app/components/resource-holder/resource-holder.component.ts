@@ -310,8 +310,27 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         case 'EDIT':
           if(this.pageStatus === 'roll-out'){
             this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:event.item.resource_id,rolloutId:event.item.id}})
+            break;
           }
-          break;
+          if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.REQUEST_FOR_EDIT,
+                parent:"review"
+              }
+            });
+            break;
+          }else{
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.EDIT,
+                parent:"draft"
+              }
+            });
+            break;
+          }
         case 'RESUME_EDITING':
          if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
@@ -488,7 +507,6 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
     // Function to filter and map fields based on conditions
     const filterAndMapFields = (status: string | null) => {
-      debugger;
       return this.infoFieldsData
         .filter((field: any) => field.status === status || !field.status)
         .map(getFieldData);

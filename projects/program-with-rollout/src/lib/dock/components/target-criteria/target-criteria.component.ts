@@ -225,7 +225,6 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     closeDialog() {
-        debugger;
         this.formData[this.targetedEntity] = this.selection.selected;
         this.dialogRef.close();
     }
