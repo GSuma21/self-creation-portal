@@ -1,5 +1,6 @@
-<div color="secondary" class="fixed top-32 w-full z-50 border-b px-10 py-2 text-lg text-tertiary bg-white">
-  </div>
+<div color="secondary" class="top-32 border-b px-10 py-2 text-tertiary bg-white card-outer-container">
+  <lib-card [list]="resourceItem" [showActionButton]="true" [showInfoIcon]="true" (infoClickEvent)="infoIconClickEvent($event)" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
+</div>
 @if(dynamicFormData){
     <div class="pd-top items-center form-container">
         <dynamic-form [formJson]="dynamicFormData"  [classFlex]="'flex flex-wrap gap-[6%]'" [viewOnly]="viewOnly" #formLib (formChange)="getDynamicFormData($event)" (controlChange)="getFormControlChange($event)" (clickableButton)="onClickableButton($event)"></dynamic-form>

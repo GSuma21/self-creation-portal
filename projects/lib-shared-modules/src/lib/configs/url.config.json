@@ -27,7 +27,8 @@
         "PUBLISH":"scp/v1/rollouts/publish"
     },
     "PROGRAM_URLS":{
-       "DATA_MANAGER_LIST":"scp/v1/rollouts/getDataManagers"
+       "DATA_MANAGER_LIST":"scp/v1/rollouts/getDataManagers",
+       "PUBLISHED_RESOURCES":"scp/v1/resource/getPublishedResources"
     },
     "LOGOUT_URLS": {
         "LOGOUT_API": "/user/v1/account/logout"

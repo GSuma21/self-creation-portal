@@ -19,8 +19,8 @@ export class CommonService {
     }
     return `${baseUrl}?${httpParams.toString()}`;
   }
-  
-  generateParams(pagination: any, filters: any, sortOptions: any, pageStatus: string = '' ): { [key: string]: any } { 
+
+  generateParams(pagination: any, filters: any, sortOptions: any, pageStatus: string = '' ): { [key: string]: any } {
     return {
       page: pagination.currentPage + 1,
       limit: pagination.pageSize,
@@ -43,7 +43,7 @@ export class CommonService {
     filters.search = params['search'] ? (params['search']) : '';
     sortOptions.sort_by = params['sort_by'] || '';
     sortOptions.sort_order = params['sort_order'] || '';
-    filters.activeFilterButton = params['activeFilterButton'] || ''; 
+    filters.activeFilterButton = params['activeFilterButton'] || '';
   }
 
   updateQueryParams(params: { [key: string]: any }) {

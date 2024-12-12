@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     @if(list.start_date || list.end_date){
-                        <div class="flex flex-row text-sm text-[$borderGray]"> 
+                        <div class="flex flex-row text-sm text-[$borderGray]">
                             <div class="flex font-semibold">Start date:</div><span class="overflow-ellipsis">{{ list.start_date | date: 'MM/dd/yyyy' }}</span>
                             <div class="flex font-semibold ml-1">End date:</div><span class="overflow-ellipsis">{{ list.end_date | date: 'MM/dd/yyyy' }}</span>
                         </div>
@@ -74,7 +74,7 @@
                     @if(showActionButton){
                         @for (button of list.actionButton; track button){
                             <div>
-                                <button mat-flat-button [ngStyle]="{'background-color': button.background_color, 'color': 'white'}" (click)="onButtonClick(button.label, list)">{{button.label | translate}}</button>
+                                <button mat-flat-button [ngStyle]="{'background-color': button.background_color, 'color': button.color ? button.color : 'white'}" (click)="onButtonClick(button.label, list)" [class]="button?.class">{{button.label | translate}}</button>
                             </div>
                             }
                     }
