@@ -60,8 +60,8 @@
                     </div>
                     @if(list.start_date || list.end_date){
                         <div class="flex flex-row text-sm text-[$borderGray]">
-                            <div class="flex font-semibold">Start date:</div><span class="overflow-ellipsis">{{ list.start_date | date: 'MM/dd/yyyy' }}</span>
-                            <div class="flex font-semibold ml-1">End date:</div><span class="overflow-ellipsis">{{ list.end_date | date: 'MM/dd/yyyy' }}</span>
+                            <div class="flex font-semibold">Start date:&nbsp;<span class="overflow-ellipsis font-normal">{{ list.start_date | date: 'MM/dd/yyyy' }}</span></div>
+                            <div class="flex font-semibold ml-1">End date:&nbsp;<span class="overflow-ellipsis font-normal">{{ list.end_date | date: 'MM/dd/yyyy' }}</span></div>
                         </div>
                     }
                 </div>

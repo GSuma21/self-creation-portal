@@ -38,6 +38,11 @@ export class ProgramWithRolloutService {
         "resource_ids": [projectId]}
     );
   }
+  readProject(projectId: number | string) {
+    return this.httpService.get(
+      this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + projectId
+    );
+  }
 
   saveRollOut() {
     return this.httpService.post(this.Configuration.urlConFig.ROLL_OUT.CREATE_UPDATE_DELETE + (this.rolloutId ? ('/'+this.rolloutId) : ''),this.rollOutDetails);

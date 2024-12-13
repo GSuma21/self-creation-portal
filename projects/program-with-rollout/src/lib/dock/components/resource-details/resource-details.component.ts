@@ -96,18 +96,22 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
    //  }else{
      switch (label) {
       case 'PREVIEW': {
-        this.utilService.removeEmptyKey(this.programWithRolloutService.resourceDetails).subscribe(
-          (cleanedData) => {
-            const dialogRef = this.dialog.open(PreviewComponent, {
-              width: '23rem',
-              autoFocus: false,
-              disableClose: false,
-              data: {
-                projectData: cleanedData,
-              },
-            });
-          }
-        );
+        this.subscription.add(
+          this.programWithRolloutService.readProject(this.resourceId).subscribe((res:any)=> {
+            this.utilService.removeEmptyKey(res.result).subscribe(
+              (cleanedData) => {
+                const dialogRef = this.dialog.open(PreviewComponent, {
+                  width: '23rem',
+                  autoFocus: false,
+                  disableClose: false,
+                  data: {
+                    projectData: cleanedData,
+                  },
+                });
+              }
+            );
+          })
+        )
         break;
       }
       case "CHANGE_SELECTION":{
@@ -213,7 +217,8 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             if(this.programWithRolloutService.rolloutId) {
               this.programWithRolloutService.getRolloutDetails().subscribe((res:any) => {
                 console.log(res);
-                this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...res.result};
+                this.programWithRolloutService.rollOutDetails = res.result;
+                this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
               })
             }
@@ -223,6 +228,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                   item.value = this.resourceItem.title
                 }
               });
+              this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
               this.dynamicFormData = rolloutDetails.result.data.fields?.controls;
             }
         }
@@ -310,8 +316,8 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.programWithRolloutService.resourceDetails = '';
-    this.programWithRolloutService.rollOutDetails = '';
+    this.programWithRolloutService.resourceDetails = {};
+    this.programWithRolloutService.rollOutDetails = {};
   }
 
 }

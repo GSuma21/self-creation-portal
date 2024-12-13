@@ -17,7 +17,8 @@ export class PreviewComponent {
     baseUrl: "",
     accessToken: "",
     profileInfo: {},
-    isPreview: true
+    isPreview: true,
+    language: "en",
   }
   @Input() inputData: any = {};
   constructor(
