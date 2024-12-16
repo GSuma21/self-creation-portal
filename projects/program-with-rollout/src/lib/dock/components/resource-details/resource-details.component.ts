@@ -274,9 +274,16 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  onClickableButton(control: any) {
+  /**
+ * Handles click events triggered by controls. 
+ * Opens a dialog with predefined configurations and listens for the dialog close event.
+ * Currently supports the "targeting_criteria" control name.
+ * 
+ * @param control - The control object containing the name and associated data.
+ */
+  onClickTriggeredParent(control: any) {
     switch (control.name) {
-      case "target_criteria":
+      case "targeting_criteria":
         const dialogRef = this.dialog.open(TargetCriteriaComponent, {
           width: '80%',
           height: '80%',
@@ -305,14 +312,33 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           },
         });
 
-        // Handle dialog closure
         dialogRef.afterClosed().subscribe((res: any) => {
           console.log('Dialog result:', res);
         });
-        break; // Exit switch after handling this case
+        break;
       default:
-        break; // Default case for unmatched control names
+        break;
     }
+  }
+
+  /**
+ * Handles action events triggered by controls. 
+ * Performs operations based on the "action" property of the control, such as "VIEW", "EDIT", or "DELETE".
+ * 
+ * @param control - The control object containing the action and associated item with an index.
+ */
+  onActionTriggeredParent(control:any){ 
+    switch (control.action) {
+      case "VIEW":
+        break; 
+      case "EDIT":
+        break;
+      case "DELETE":
+        break; 
+      default:
+        break;
+    }
+
   }
 
   ngOnDestroy(): void {
