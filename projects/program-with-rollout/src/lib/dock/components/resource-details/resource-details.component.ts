@@ -274,9 +274,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  onClickableButton(control: any) {
+  onClickTriggeredParent(control: any) {
     switch (control.name) {
-      case "target_criteria":
+      case "targeting_criteria":
         const dialogRef = this.dialog.open(TargetCriteriaComponent, {
           width: '80%',
           height: '80%',
@@ -309,10 +309,24 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((res: any) => {
           console.log('Dialog result:', res);
         });
-        break; // Exit switch after handling this case
+        break; // Exit switch after handling this case 
       default:
         break; // Default case for unmatched control names
     }
+  }
+
+  onActionTriggeredParent(control:any){
+    switch (control.action) {
+      case "VIEW":
+        break; 
+      case "EDIT":
+        break;
+      case "DELETE":
+        break; 
+      default:
+        break; // Default case for unmatched control names
+    }
+
   }
 
   ngOnDestroy(): void {
