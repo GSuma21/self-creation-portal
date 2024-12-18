@@ -1,18 +1,19 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation } from '@angular/core';
 import { environment } from 'environments';
-import { ConfigService, HeaderComponent, HttpProviderService, PreviewComponent, SearchComponent, UtilService } from 'lib-shared-modules';
+import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { RESOURCE_URLS} from '../../services/configs/url.config.json';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-choose-resource',
   standalone: true,
-  imports: [HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent],
+  imports: [HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent],
   templateUrl: './choose-resource.component.html',
   styleUrl: './choose-resource.component.scss'
 })
@@ -36,12 +37,50 @@ export class ChooseResourceComponent {
   searchText:string = '';
   data:any;
   showPreview:boolean = false
+  filters = {
+    "activeFilterButton":"suma",
+    "changeReqCount":1,
+    "inprogressCount":1,
+    "filterData": [{
+      "label": "SORT_BY",
+      "value": "sort_by",
+      "option": [
+          {
+              "label": "A_TO_Z",
+              "value": "A_TO_Z"
+          },
+          {
+              "label": "Z_TO_A",
+              "value": "Z_TO_A"
+          },
+          {
+              "label": "LATEST_FIRST",
+              "value": "LATEST_FIRST"
+          },
+          {
+              "label": "OLDEST_FIRST",
+              "value": "OLDEST_FIRST"
+          }
+      ],
+      "isMultiple": false
+  }]
+  }
+  noResultMessage:any;
+  showNoResultComponent:boolean = false;
+  
 
-constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private resourceService:ResourceService) {}
+constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private resourceService:ResourceService, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
+    this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
+      const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
+      this.noResultMessage = selectedSideNavData?.noResultMessage || '' ;
+    });
    this.getResourceList().subscribe((resourceList:any) => {
     this.contentList = resourceList.result.data
-    this.onSelectionChange(resourceList.result.data[0])
+    this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+    if(this.contentList.length !== 0){
+      this.onSelectionChange(resourceList.result.data[0])
+    }
    })
   }
 
@@ -49,7 +88,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   getResourceList(){
     const config = {
       url : RESOURCE_URLS.BASE + RESOURCE_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
-      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString() })
+      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
   }
@@ -101,7 +140,16 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
    * @param event - The search event which contains the searchtext
    */
   receiveSearchResults(event: string) {
-    this.searchText = event
+    this.searchText = event.trim().toLowerCase();
+    this.page=1
+    this.getResourceList().subscribe((resourceList:any) => {
+      this.contentList = resourceList.result.data
+      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+      if(this.contentList.length !== 0){
+        this.onSelectionChange(resourceList.result.data[0])
+      }
+     })
+
   }
 
   onSelect(){
@@ -112,4 +160,19 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       // })
   }
 
+  navigateToCreateNew() {
+    this.router.navigate(['home/create-new'], {})
+  }
+
+  onFilterChange(event:any){
+    console.log(event)
+  }
+
+  onSortOptionsChanged(event:any){
+    console.log(event)
+  }
+
+  filterButtonClickEvent(event:any){
+    console.log(event)
+  }
 }

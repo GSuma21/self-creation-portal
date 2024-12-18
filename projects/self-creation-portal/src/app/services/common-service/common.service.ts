@@ -25,6 +25,7 @@ export class CommonService {
       page: pagination.currentPage + 1,
       limit: pagination.pageSize,
       type: filters.current.type.join(',') || "",
+      resource_type:filters.current.resource_type.join(',') || "",
       status: filters.status || '',
       sort_by:  sortOptions.sort_by || '',
       sort_order: sortOptions.sort_order || '',

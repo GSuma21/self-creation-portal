@@ -5,7 +5,7 @@
                 <div class="flex-column">
                     <div class="flex justify-normal gap-2">
                         <div class="chip-container item-center text-center bg-chipPurple">
-                            {{ formatLabel(list?.type) }}
+                            {{ formatLabel(list?.resource_type ? list?.resource_type : list?.type) }}
                         </div>
                         @if(this.activeRole === "creator" && ( list.status === resourceStatus.SUBMITTED ||  list.review_status === reviewStatus.NOT_STARTED || list.review_status === reviewStatus.CHANGES_UPDATED)){
                             <div class="chip-container item-center text-center bg-tertiary border border-chipBorder text-secondary">
