@@ -85,10 +85,10 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
 
-  getResourceList(){
+  getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
       url : RESOURCE_URLS.BASE + RESOURCE_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
-      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText })
+      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by,sort_order:sort_order })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
   }
@@ -102,7 +102,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       })
     })
     this.selectedResource = item
-    this.selectedValue = item.title;
+    this.selectedValue = item.id;
   }
 
   getDetailsOfResource(item:any){
@@ -164,15 +164,17 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
     this.router.navigate(['home/create-new'], {})
   }
 
-  onFilterChange(event:any){
-    console.log(event)
-  }
+  onFilterChange(event:any){}
 
   onSortOptionsChanged(event:any){
-    console.log(event)
+    this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
+      this.contentList = resourceList.result.data
+      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+      if(this.contentList.length !== 0){
+        this.onSelectionChange(resourceList.result.data[0])
+      }
+    });
   }
 
-  filterButtonClickEvent(event:any){
-    console.log(event)
-  }
+  filterButtonClickEvent(event:any){}
 }
