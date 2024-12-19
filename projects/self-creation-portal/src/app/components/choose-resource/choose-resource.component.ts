@@ -38,7 +38,7 @@ export class ChooseResourceComponent {
   data:any;
   showPreview:boolean = false
   filters = {
-    "activeFilterButton":"suma",
+    "activeFilterButton":"",
     "changeReqCount":1,
     "inprogressCount":1,
     "filterData": [{
