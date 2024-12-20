@@ -19,7 +19,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 @Component({
   selector: 'lib-target-criteria',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule, FilterComponent,TitleCasePipe],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule, FilterComponent, TranslateModule,TitleCasePipe ],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss'
 })

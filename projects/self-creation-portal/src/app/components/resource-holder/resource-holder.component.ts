@@ -40,7 +40,7 @@ export class ResourceHolderComponent implements OnInit{
 
   filters = {
     search: '',
-    current: { type: [] as string[] },
+    current: { type: [] as string[] , resource_type: [] as string[]},
     status: '' as string,
     filteredLists: [] as any[],
     filterData: [] as any, //to store filterarray data json coming from formapi
@@ -158,6 +158,10 @@ export class ResourceHolderComponent implements OnInit{
       this.preservedStatus = event.values;
       this.filters.status = event.values;
       // Clear filter button action when status filter is applied
+      this.filters.activeFilterButton = '';
+    } else if(filterName === 'resource_type'){
+       this.filters.current.resource_type = event.values;
+      // Clear filter button action when type filter is applied
       this.filters.activeFilterButton = '';
     }
     this.pagination.currentPage = 0;
