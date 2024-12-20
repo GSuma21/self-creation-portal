@@ -326,6 +326,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
               // this.programWithRolloutService.rollOutDetails.targeting_criteria
             }
           })
+          this.updateTargetCriteria()
         });
         break;
       default:
@@ -363,6 +364,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                 element.value.splice(control.index, 1);
               }
             })
+            this.updateTargetCriteria()
           }
         });
         break;
@@ -378,6 +380,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       .startAutoSave()
       .subscribe((data) => {this.programWithRolloutService.isFormDirty = false})
     )
+  }
+
+  updateTargetCriteria(){
+    this.programWithRolloutService.rollOutDetails.targeting_criteria =  this.dynamicFormData.find((element: any) => element.name === "targeting_criteria")?.value;
   }
 
   ngOnDestroy(): void {
