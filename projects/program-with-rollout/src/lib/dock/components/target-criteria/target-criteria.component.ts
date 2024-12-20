@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 @Component({
   selector: 'lib-target-criteria',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule, FilterComponent],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, SideNavbarComponent, MatIconModule,MatDialogModule, MatTableModule, MatSortModule, MatPaginatorModule, MatCheckboxModule,MatTabsModule, FilterComponent,TitleCasePipe],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss'
 })
@@ -92,7 +92,7 @@ export class TargetCriteriaComponent implements OnInit{
     // ]
     criteriaFilters:any = [];
     formData:any = {};
-    displayedColumns: string[] = ['select','block'];
+    displayedColumns: string[] = ['name'];
     dataSource: MatTableDataSource<any>;
     selection = new SelectionModel<any>(true, []);
     targetEntityArray = [];
@@ -101,6 +101,8 @@ export class TargetCriteriaComponent implements OnInit{
     paginator!: MatPaginator;
     @ViewChild(MatSort)
     sort!: MatSort;
+    tableColumns:string[] = []
+    tableData:any = []; // to show the data in HTML Loop
 
     constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private formService:FormService) {
         // Assign the data to the data source for the table to render
@@ -108,7 +110,8 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        this.getTargetCriteriaDetails()
+        this.getTargetCriteriaDetails();
+        this.tableColumns = ['select', ...this.displayedColumns];
     }
 
     getTargetCriteriaDetails(){
@@ -120,6 +123,24 @@ export class TargetCriteriaComponent implements OnInit{
           });
     }
 
+    // tableColumns() {
+    //     return ['select', ...this.displayedColumns];
+    // }
+
+    insertDataIntoTable(data:any) {
+        let newArray = data.map((element:any) => {
+            delete element._id;
+            delete element.label;
+            delete element.externalId
+            delete element.entityType
+            delete element.value
+            return element
+        })
+        this.displayedColumns = Object.keys(newArray[0]);
+        this.tableColumns = ['select', ...this.displayedColumns];
+        this.dataSource = new MatTableDataSource(newArray);
+    }
+
     setFormData(event:any,key:any,formElementIndex:number) {
         this.selection.clear();
         if(key) {
@@ -127,13 +148,13 @@ export class TargetCriteriaComponent implements OnInit{
         }
         // if(key.meta.dependantIndex) {
         //     key.meta.dependantIndex.forEach((index:string|number)=>{
-        //         this.formService.getEntitiesList(this.criteria[0].form[index].meta.url,this.criteria[0].form[index].meta.type, key.meta.type == 'hierarchy'? '': this.formData.state).subscribe((res:any)=>{
+        //         this.formService.getEntitiesList(this.criteria[0].form[index].meta.url,this.criteria[0].form[index].meta.type, key.meta.type == 'hierarchy'? '': this.formData.state._id).subscribe((res:any)=>{
         //             this.criteria[0].form[index].options = res.result;
         //         })
         //     })
         // }
         if(key == 'state') {
-            this.formService.getEntitiesList(this.criteria[0].form[1].meta.url,'',this.formData.state).subscribe((res:any)=>{
+            this.formService.getEntitiesList(this.criteria[0].form[1].meta.url,'',this.formData.state._id).subscribe((res:any)=>{
                 this.criteria[0].form[1].options = res.result;
             })
             this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,'','').subscribe((res:any)=>{
@@ -147,17 +168,17 @@ export class TargetCriteriaComponent implements OnInit{
                 });
             })
         }
-        if(key == 'hierarchy') {
-            if(event.value == 'state') {
+        if(key == 'entity_targeting') {
+            if(event.value._id == 'state') {
                 this.dataSource = new MatTableDataSource(this.criteria[0].form[0].options);
                 return;
             }
-            this.targetedEntity = event.value;
+            this.targetedEntity = event.value._id;
             this.criteriaFilters = [];
-            for(let index=1;this.targetEntityArray[index]!= event.value;index++) { // index starts 1 to skip state fetching
+            for(let index=1;this.targetEntityArray[index]!= event.value._id;index++) { // index starts 1 to skip state fetching
                 this.criteriaFilters.push({
                     placeHolder:`select ${this.targetEntityArray[index]}`,
-                    isMultiple:false,
+                    isMultiple:true,
                     meta:{
                         url:"GET_SUB_ENTITIES_LIST",
                         type:this.targetEntityArray[index]
@@ -167,21 +188,21 @@ export class TargetCriteriaComponent implements OnInit{
                     value:this.targetEntityArray[index]
                 })
             }
-            // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state).subscribe((res:any)=>{
+            // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
             //     this.criteriaFilters[formElementIndex].options = res.result.data;
             // })
             for(let index=0;index < this.criteriaFilters.length;index++) { // index starts 1 to skip state fetching
-                this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.criteriaFilters[index].value,this.formData.state).subscribe((res:any)=>{
+                this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.criteriaFilters[index].value,this.formData.state._id).subscribe((res:any)=>{
                     this.criteriaFilters[index].option = res.result.data;
                 })
             }
-            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value,this.formData.state).subscribe((res:any) => {
-                this.dataSource = new MatTableDataSource(res.result.data);
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value._id,this.formData.state._id).subscribe((res:any) => {
+                this.insertDataIntoTable(res.result.data)
             })
         }
-        if(key != 'role' && key != 'hierarchy' && key != 'state') {
-            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value).subscribe((res:any) => {
-                this.dataSource = new MatTableDataSource(res.result.data);
+        if(key != 'role' && key != 'entity_targeting' && key != 'state') {
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value._id).subscribe((res:any) => {
+                this.insertDataIntoTable(res.result.data)
             })
         }
         console.log(this.formData);
@@ -194,7 +215,7 @@ export class TargetCriteriaComponent implements OnInit{
 
     onFilterChange(event:any) {
         console.log(event,this.selection);
-        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.filterName,event.values[0]).subscribe((res:any) => {
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.filterName,event.value._ids[0]).subscribe((res:any) => {
             this.dataSource = new MatTableDataSource(res.result.data);
         })
     }
@@ -226,7 +247,12 @@ export class TargetCriteriaComponent implements OnInit{
 
     closeDialog() {
         this.formData[this.targetedEntity] = this.selection.selected;
-        this.dialogRef.close();
+        if(this.formData.state) {
+            this.dialogRef.close({label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')'),...this.formData});
+        }
+        else {
+            this.dialogRef.close(this.formData);
+        }
     }
 
 

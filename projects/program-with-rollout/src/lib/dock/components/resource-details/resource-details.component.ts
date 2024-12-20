@@ -275,10 +275,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
- * Handles click events triggered by controls. 
+ * Handles click events triggered by controls.
  * Opens a dialog with predefined configurations and listens for the dialog close event.
  * Currently supports the "targeting_criteria" control name.
- * 
+ *
  * @param control - The control object containing the name and associated data.
  */
   onClickTriggeredParent(control: any) {
@@ -313,7 +313,13 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
-          console.log('Dialog result:', res);
+          console.log('Dialog result:', res,this.programWithRolloutService.rollOutDetails);
+          this.dynamicFormData.forEach((element:any) => {
+            if(element.name == "targeting_criteria") {
+              element.value.push(res);
+              // this.programWithRolloutService.rollOutDetails.targeting_criteria
+            }
+          })
         });
         break;
       default:
@@ -322,19 +328,19 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
- * Handles action events triggered by controls. 
+ * Handles action events triggered by controls.
  * Performs operations based on the "action" property of the control, such as "VIEW", "EDIT", or "DELETE".
- * 
+ *
  * @param control - The control object containing the action and associated item with an index.
  */
-  onActionTriggeredParent(control:any){ 
+  onActionTriggeredParent(control:any){
     switch (control.action) {
       case "VIEW":
-        break; 
+        break;
       case "EDIT":
         break;
       case "DELETE":
-        break; 
+        break;
       default:
         break;
     }
