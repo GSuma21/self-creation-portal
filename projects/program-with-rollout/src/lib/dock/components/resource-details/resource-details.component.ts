@@ -228,6 +228,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
               rolloutDetails.result.data.fields?.controls.forEach((item:any) => {
                 if(item.name == 'title') {
                   item.value = this.resourceItem.title
+                  this.programWithRolloutService.rollOutDetails.title = this.resourceItem.title;
                 }
               });
               this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
@@ -397,6 +398,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.programWithRolloutService.resourceDetails = {};
     this.programWithRolloutService.rollOutDetails = {};
+    this.subscription.unsubscribe();
   }
 
 }
