@@ -1,10 +1,10 @@
-<header>
+<header class="">
     <div class="header">
       <h3 class="text-white">{{"SELECT_TARGETING_DETAILS" | translate}}</h3>
       <mat-icon class="cursor-pointer text-white" (click)="closeDialog()">close</mat-icon>
     </div>
 </header>
-<mat-tab-group>
+<mat-tab-group class="mt-9">
     @for (tab of criteria; track tab) {
         <mat-tab [label]="tab.label">
             <div class="main flex">
@@ -12,7 +12,7 @@
                     @for (item of tab?.form; track item;let index = $index) {
                         <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
                             <mat-label> {{ item.label}}</mat-label>
-                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)">
+                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required">
                                 <mat-option *ngFor="let option of item.options" [value]="option">
                                     {{ option.name ? option.name : option?.label }}
                                 </mat-option>

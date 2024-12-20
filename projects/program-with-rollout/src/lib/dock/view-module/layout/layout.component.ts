@@ -23,6 +23,7 @@ export class LayoutComponent {
         this.sidenavData= data?.sidenavData.sidenav
       })
     )
+    this.setConfig();
   }
 
 
@@ -34,6 +35,15 @@ export class LayoutComponent {
       });
     }))
   }
+
+  setConfig(){
+    this.subscription.add(
+    this.programWithRolloutService.setConfig().subscribe((res:any) => {
+      this.programWithRolloutService.instanceConfig = res?.result.instance;
+    })
+    )
+  }
+
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {

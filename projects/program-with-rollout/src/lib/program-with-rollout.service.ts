@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfigService, HttpProviderService } from 'lib-shared-modules';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, interval, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,8 @@ export class ProgramWithRolloutService {
   rollOutDetails:any = {};
   resourceDetails:any = {};
   rolloutId:string = '';
+  instanceConfig: any;
+  isFormDirty:boolean = true;
   constructor( private httpService: HttpProviderService,  private Configuration: ConfigService,) { }
 
 
@@ -53,5 +55,29 @@ export class ProgramWithRolloutService {
       url: this.Configuration.urlConFig.ROLL_OUT.DETAILS+'/'+this.rolloutId,
     };
     return this.httpService.get(config.url);
+  }
+
+  setConfig() {
+    const config = {
+      url: this.Configuration.urlConFig.INSTANCES.CONFIG_LIST,
+    };
+    return this.httpService.get(config.url);
+  }
+
+  startAutoSave() {
+    return interval(
+      this.instanceConfig?.auto_save_interval
+        ? this.instanceConfig?.auto_save_interval
+        : 30000
+    ).pipe(
+      switchMap(() => {
+        if(this.isFormDirty) {
+          return this.saveRollOut();
+        }
+        else {
+          return EMPTY
+        }
+      })
+    );
   }
 }
