@@ -216,7 +216,6 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             })
             if(this.programWithRolloutService.rolloutId) {
               this.programWithRolloutService.getRolloutDetails().subscribe((res:any) => {
-                console.log(res);
                 this.programWithRolloutService.rollOutDetails = res.result;
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
@@ -254,6 +253,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             : res[element.name]?.[subElement.name];
         });
       }
+      if (element.name === "viewers") {
+        element.value = element.value.map((item: any) => item.id);
+      }
     });
     this.dynamicFormData = formControls;
     // if( this.formLib){
@@ -265,9 +267,8 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   getDynamicFormData(event:any){
-    console.log(event);
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
-    this.programWithRolloutService.rollOutDetails.viewers = [262,295]
+    this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
   }
 
   getFormControlChange(event:any){
@@ -340,6 +341,25 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       case "EDIT":
         break;
       case "DELETE":
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          disableClose: true,
+          data: {
+            header: "DELETE_TARGETING_DETAILS",
+            content: "DELETE_TARGETING_DETAILS_MESSAGE",
+            cancelButton: "CANCEL",
+            exitButton: "DELETE"
+          }
+        });
+        dialogRef.afterClosed().subscribe((res: any) => {
+          if(res.data == "DELETE"){
+            this.dynamicFormData.forEach((element:any) => {
+              if(element.name == "targeting_criteria") {
+                element.value.splice(control.index, 1);
+              }
+            })
+          }
+        });
         break;
       default:
         break;
