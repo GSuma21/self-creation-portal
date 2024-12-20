@@ -23,6 +23,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   viewOnly:any = false;
   resourceId:string = '';
   resourceItem:any;
+  intervalId:any;
   infoFieldsData: any = [
     {
         "label": "TITLE",
@@ -59,6 +60,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
     {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
   private subscription: Subscription = new Subscription();
+  mode: string = '';
   constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router) {
     this.subscription.add(
       this.route.queryParams.subscribe((params:any) => {
@@ -71,6 +73,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getResourceDetails()
+    this.startAutoSaving();
   }
 
   getResourceDetails() {
@@ -267,6 +270,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   getDynamicFormData(event:any){
+    this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
     this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
   }
@@ -365,6 +369,14 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         break;
     }
 
+  }
+
+  startAutoSaving() {
+    this.subscription.add(
+      this.programWithRolloutService
+      .startAutoSave()
+      .subscribe((data) => {this.programWithRolloutService.isFormDirty = false})
+    )
   }
 
   ngOnDestroy(): void {

@@ -154,18 +154,18 @@ export class TargetCriteriaComponent implements OnInit{
         //     })
         // }
         if(key == 'state') {
-            this.formService.getEntitiesList(this.criteria[0].form[1].meta.url,'',this.formData.state._id).subscribe((res:any)=>{
-                this.criteria[0].form[1].options = res.result;
-            })
-            this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,'','').subscribe((res:any)=>{
+            this.formService.getEntitiesList(this.criteria[0].form[1].meta.url,'',this.formData.state.externalId).subscribe((res:any)=>{
                 this.targetEntityArray = res.result[0].childHierarchyPath;
-                this.criteria[0].form[2].options = res.result[0].childHierarchyPath.map((element:string) => {
+                this.criteria[0].form[1].options = res.result[0].childHierarchyPath.map((element:string) => {
                     return {
                         _id:element,
                         value:element,
                         name:element
                     }
                 });
+            })
+            this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,'',this.formData.state._id).subscribe((res:any)=>{
+                this.criteria[0].form[2].options = res.result;
             })
         }
         if(key == 'entity_targeting') {
