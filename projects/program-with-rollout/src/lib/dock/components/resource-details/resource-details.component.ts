@@ -3,7 +3,7 @@ import { TargetCriteriaComponent } from '../target-criteria/target-criteria.comp
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent, DialogPopupComponent, FormService, PreviewComponent, ROLL_OUT_DETAILS, UtilService } from 'lib-shared-modules';
+import { CardComponent, DialogPopupComponent, FormService, PreviewComponent, ROLL_OUT_DETAILS, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -61,7 +61,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
   private subscription: Subscription = new Subscription();
   mode: string = '';
-  constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router) {
+  constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router,private toastService:ToastService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params:any) => {
         this.resourceId = params.resourceId;
@@ -381,6 +381,13 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+      let data = {
+        message: 'SAVED_SUCCESSFULLY',
+        class: 'success',
+      };
+      this.toastService.openSnackBar(data);
+    })
     this.programWithRolloutService.resourceDetails = {};
     this.programWithRolloutService.rollOutDetails = {};
     this.subscription.unsubscribe();
