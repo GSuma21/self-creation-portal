@@ -63,7 +63,9 @@ export class LayoutComponent {
       }
       case 'SAVE': {
         this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
-          this.programWithRolloutService.rolloutId = res.result.id;
+          if(!this.programWithRolloutService.rolloutId) {
+            this.programWithRolloutService.rolloutId = res.result.id;
+          }
           this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {
