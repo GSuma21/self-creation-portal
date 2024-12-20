@@ -222,6 +222,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                 this.programWithRolloutService.rollOutDetails = res.result;
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
+                this.programWithRolloutService.rollOutDetails.viewers = this.programWithRolloutService.rollOutDetails.viewers.map((item: any) => item.id);
               })
             }
             else {
