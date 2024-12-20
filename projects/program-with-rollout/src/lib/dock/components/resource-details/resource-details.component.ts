@@ -325,6 +325,14 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
               // this.programWithRolloutService.rollOutDetails.targeting_criteria
             }
           })
+          const targetingCriteria = this.dynamicFormData.find(
+            (element: any) => element.name === "targeting_criteria"
+          )?.value;
+          
+          if (targetingCriteria) {
+            this.programWithRolloutService.rollOutDetails.targeting_criteria = targetingCriteria;
+          }
+          
         });
         break;
       default:
@@ -362,6 +370,13 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                 element.value.splice(control.index, 1);
               }
             })
+            const targetingCriteria = this.dynamicFormData.find(
+              (element: any) => element.name === "targeting_criteria"
+            )?.value;
+            
+            if (targetingCriteria) {
+              this.programWithRolloutService.rollOutDetails.targeting_criteria = targetingCriteria;
+            }
           }
         });
         break;
