@@ -8,6 +8,7 @@ import { ProgramWithRolloutService } from '../../../program-with-rollout.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'lib-resource-details',
@@ -18,7 +19,7 @@ import { CommonModule, DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ResourceDetailsComponent implements OnInit, OnDestroy {
-  @ViewChild('formLib') formLib: MainFormComponent | undefined;
+  @ViewChild('formLib') formLib!: MainFormComponent;
   dynamicFormData:any ;
   viewOnly:any = false;
   resourceId:string = '';
@@ -74,6 +75,17 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getResourceDetails()
     this.startAutoSaving();
+    this.subscription.add( // Check validation before sending for review.
+      this.programWithRolloutService.isRolledOutTriger.subscribe(
+        (reviewValidation: boolean) => {
+         if(reviewValidation){
+          this.formLib?.myForm.markAllAsTouched();
+          this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib.myForm.status;
+          this.programWithRolloutService.checkisRolledOutTriger(false);
+         }
+        }
+      )
+    );
   }
 
   getResourceDetails() {
@@ -109,6 +121,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                   disableClose: false,
                   data: {
                     projectData: cleanedData,
+                    cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
                   },
                 });
               }
@@ -136,6 +149,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           disableClose: false,
           data: {
             projectData: cleanedData,
+            cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
           },
         });
       }
@@ -263,18 +277,16 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       }
     });
     this.dynamicFormData = formControls;
-    // if( this.formLib){
-    //   this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
-    // }
-    // if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
-    //   this.libProjectService.validateTasksData()
-    // }
+    if (this.formLib) {
+      this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status
+    }
   }
 
   getDynamicFormData(event:any){
     this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
     this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
+    this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status
   }
 
   getFormControlChange(event:any){
@@ -322,9 +334,14 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((res: any) => {
           console.log('Dialog result:', res,this.programWithRolloutService.rollOutDetails);
           this.dynamicFormData.forEach((element:any) => {
-            if(element.name == "targeting_criteria") {
-              element.value.push(res);
-              // this.programWithRolloutService.rollOutDetails.targeting_criteria
+            if(res){
+              if(element.name == "targeting_criteria") {
+                element.value.push(res);
+                this.formLib.myForm.patchValue({ // adding target criteria to form 
+                  targeting_criteria: element.value,
+                });
+                // this.programWithRolloutService.rollOutDetails.targeting_criteria
+              }
             }
           })
           this.updateTargetCriteria()
@@ -363,6 +380,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria") {
                 element.value.splice(control.index, 1);
+                this.formLib.myForm.patchValue({ // adding target criteria to form 
+                  targeting_criteria: element.value,
+                });
               }
             })
             this.updateTargetCriteria()
@@ -388,13 +408,15 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.programWithRolloutService.saveRollOut().subscribe((res)=> {
-      let data = {
-        message: 'SAVED_SUCCESSFULLY',
-        class: 'success',
-      };
-      this.toastService.openSnackBar(data);
-    })
+    if(this.programWithRolloutService.rolloutId){
+      this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+        let data = {
+          message: 'SAVED_SUCCESSFULLY',
+          class: 'success',
+        };
+        this.toastService.openSnackBar(data);
+      })
+    }
     this.programWithRolloutService.resourceDetails = {};
     this.programWithRolloutService.rollOutDetails = {};
     this.subscription.unsubscribe();

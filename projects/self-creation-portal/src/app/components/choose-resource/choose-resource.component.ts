@@ -9,11 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
 import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-choose-resource',
   standalone: true,
-  imports: [HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent],
+  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent],
   templateUrl: './choose-resource.component.html',
   styleUrl: './choose-resource.component.scss'
 })
@@ -35,7 +36,10 @@ export class ChooseResourceComponent {
   selectedResource:any;
   selectedValue: string | null = null;
   searchText:string = '';
-  data:any;
+  data:any ={
+    "resourceData":[],
+    "cssClass":"h-[80%]"
+  }
   showPreview:boolean = false
   filters = {
     "activeFilterButton":"",
@@ -97,7 +101,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
     this.showPreview = false;
     this.getDetailsOfResource(item)?.subscribe((details:any) => {
       this.utilService.removeEmptyKey(details.result).subscribe((res:any) =>{
-        this.data = res
+        this.data.resourceData = res
         this.showPreview = true
       })
     })

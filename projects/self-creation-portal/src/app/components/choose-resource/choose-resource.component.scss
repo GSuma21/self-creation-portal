@@ -1,3 +1,4 @@
+@import "../../../styles.scss";
 .overflow-ellipsis{
     width: 100%;
     overflow: hidden;
@@ -7,4 +8,10 @@
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+}
+
+.active {
+    background: $cardLightBlue;
+    border-top: 1px solid $borderGray;
+    border-bottom: 1px solid $borderGray;
 }

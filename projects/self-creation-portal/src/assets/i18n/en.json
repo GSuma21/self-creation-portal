@@ -196,6 +196,11 @@
     "ROLLOUT_DELETED":"Rollout deleted successfully",
     "SELECT_TARGETING_DETAILS":"Select targeting details",
     "DELETE_TARGETING_DETAILS":"Delete targeting details?",
-    "DELETE_TARGETING_DETAILS_MESSAGE":"Are you sure you want to delete this targeting details?"
+    "DELETE_TARGETING_DETAILS_MESSAGE":"Are you sure you want to delete this targeting details?",
+    "ROLL_OUT_RESOURCE":"Rollout resource?",
+    "CONFIRM_MESSAGE_ROLLOUT":"Do you want to preceed with the roll out?",
+    "YOUR_CHANGES_HAVE_BEEN_PUBLISHED":"Your changes have been published",
+    "TRY_SEARCHING_FOR_SOMETHING_ELSE":"Try searching for something else.",
+    "NO_PUBLISHED_RESOURCES_MESSAGE":"No resources are published on the platform."
     
 }

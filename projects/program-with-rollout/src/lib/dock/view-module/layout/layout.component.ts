@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormService, PreviewComponent, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { FormService, PreviewComponent, ROLL_OUT, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,6 +55,7 @@ export class LayoutComponent {
               disableClose: false,
               data: {
                 projectData: cleanedData,
+                cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
               },
             });
           }
@@ -79,6 +80,31 @@ export class LayoutComponent {
             class: 'success',
           };
           this.toastService.openSnackBar(data);
+        })
+        break;
+      }
+      case 'ROLL_OUT': {
+        this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
+          if(result){
+            this.programWithRolloutService.checkisRolledOutTriger(true);
+            this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
+              if(res){
+                if(this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
+                   this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
+                  if(res.responseCode === "OK"){
+                    this.router.navigate([ROLL_OUT]);
+                    this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED',  class: 'success',});
+                    this.programWithRolloutService.rolloutId = ""
+                  }else{
+                    this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                  }
+                })
+                }else{
+                  this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                }
+              }
+            })
+          }
         })
         break;
       }
