@@ -399,7 +399,19 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.programWithRolloutService
       .startAutoSave()
-      .subscribe((data) => {this.programWithRolloutService.isFormDirty = false})
+      .subscribe((data:any) => {
+        if(!this.programWithRolloutService.rolloutId){
+          this.programWithRolloutService.rolloutId = data?.result.id;
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              rolloutId:this.programWithRolloutService.rolloutId
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl:true
+          });
+        }
+        this.programWithRolloutService.isFormDirty = false})
     )
   }
 

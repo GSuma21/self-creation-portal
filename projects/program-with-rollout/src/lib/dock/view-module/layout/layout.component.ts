@@ -89,7 +89,18 @@ export class LayoutComponent {
             this.programWithRolloutService.checkisRolledOutTriger(true);
             this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
               if(res){
-                if(this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
+                if(!this.programWithRolloutService.rolloutId){
+                  this.programWithRolloutService.rolloutId = res.result.id;
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: {
+                      rolloutId: res.result.id ? res.result.id : res.result
+                    },
+                    queryParamsHandling: 'merge',
+                    replaceUrl:true
+                  });
+                }
+                if( this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
                    this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
                   if(res.responseCode === "OK"){
                     this.router.navigate([ROLL_OUT]);
