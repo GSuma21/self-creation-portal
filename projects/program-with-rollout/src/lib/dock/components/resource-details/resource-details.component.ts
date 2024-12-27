@@ -295,33 +295,13 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           height: '80%',
           disableClose: true,
           autoFocus: false,
-          data: {
-            sideNavData: [
-              {
-                action: "",
-                icon: "description",
-                label: "State",
-                page: "projectDetails",
-                url: "project-details"
-              },
-              {
-                action: "",
-                icon: "description",
-                label: "Gender",
-                page: "projectDetails",
-                url: "project-details"
-              }
-            ],
-            header: 'SAVE_CHANGES',
-            content: 'ADD_TITLE_TO_CONTINUE_SAVING',
-            exitButton: 'CONTINUE',
-          },
+          data: null,
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
           console.log('Dialog result:', res,this.programWithRolloutService.rollOutDetails);
           this.dynamicFormData.forEach((element:any) => {
-            if(element.name == "targeting_criteria") {
+            if(element.name == "targeting_criteria" && res) {
               element.value.push(res);
               // this.programWithRolloutService.rollOutDetails.targeting_criteria
             }
@@ -345,6 +325,22 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       case "VIEW":
         break;
       case "EDIT":
+        const dialogEditRef = this.dialog.open(TargetCriteriaComponent, {
+          width: '80%',
+          height: '80%',
+          disableClose: true,
+          autoFocus: false,
+          data: control.item,
+        });
+
+        dialogEditRef.afterClosed().subscribe((res: any) => {
+          this.dynamicFormData.forEach((element:any) => {
+            if(element.name == "targeting_criteria") {
+              element.value.splice(control.index, 1,res);
+            }
+          })
+          this.updateTargetCriteria()
+        });
         break;
       case "DELETE":
         const dialogRef = this.dialog.open(DialogPopupComponent, {
