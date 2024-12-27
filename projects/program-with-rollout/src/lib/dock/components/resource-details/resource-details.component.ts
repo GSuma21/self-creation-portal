@@ -76,12 +76,12 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.getResourceDetails()
     this.startAutoSaving();
     this.subscription.add( // Check validation before sending for review.
-      this.programWithRolloutService.isRolledOutTriger.subscribe(
+      this.programWithRolloutService.isRolledOutValid.subscribe(
         (reviewValidation: boolean) => {
          if(reviewValidation){
           this.formLib?.myForm.markAllAsTouched();
           this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib.myForm.status;
-          this.programWithRolloutService.checkisRolledOutTriger(false);
+          this.programWithRolloutService.checkIsRolledOutValid(false);
          }
         }
       )

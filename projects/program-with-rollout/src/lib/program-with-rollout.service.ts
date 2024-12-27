@@ -8,8 +8,8 @@ import { BehaviorSubject, EMPTY, interval, switchMap } from 'rxjs';
 export class ProgramWithRolloutService {
   rolloutDataSubject = new BehaviorSubject<any>(null);
   currentRolloutData = this.rolloutDataSubject.asObservable();
-  private rolledOutTriger = new BehaviorSubject<boolean>(false);
-  isRolledOutTriger = this.rolledOutTriger.asObservable();
+  private getValidationForRollout= new BehaviorSubject<boolean>(false); // check and get the validation for rolled out resource
+  isRolledOutValid = this.getValidationForRollout.asObservable();
   rollOutDetails:any = {};
   resourceDetails:any = {};
   rolloutId:string = '';
@@ -25,8 +25,8 @@ export class ProgramWithRolloutService {
     this.rolloutDataSubject.next(data);
   }
 
-  checkisRolledOutTriger(newAction: boolean) {
-    this.rolledOutTriger.next(newAction);
+  checkIsRolledOutValid(newAction: boolean) {
+    this.getValidationForRollout.next(newAction);
   }
 
   getDataManagerList(){

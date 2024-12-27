@@ -86,7 +86,7 @@ export class LayoutComponent {
       case 'ROLL_OUT': {
         this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
           if(result){
-            this.programWithRolloutService.checkisRolledOutTriger(true);
+            this.programWithRolloutService.checkIsRolledOutValid(true);
             this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
               if(res){
                 if(!this.programWithRolloutService.rolloutId){
