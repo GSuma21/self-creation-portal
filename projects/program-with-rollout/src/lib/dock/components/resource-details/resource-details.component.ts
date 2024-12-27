@@ -243,7 +243,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                    this.resourceItem.actionButton = this.resourceButtons
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
-                this.programWithRolloutService.rollOutDetails.viewers = this.programWithRolloutService.rollOutDetails.viewers.map((item: any) => item.id);
+                this.programWithRolloutService.rollOutDetails.viewers = this.programWithRolloutService.rollOutDetails.viewers.map((item: any) => item.id? item.id : item.value);
               })
             }
             else {
@@ -314,7 +314,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   getDynamicFormData(event:any){
     this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
-    this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
+    this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.id? item.id : item.value);
     this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status;
   }
 
