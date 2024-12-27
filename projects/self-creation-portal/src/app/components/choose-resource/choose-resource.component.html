@@ -25,7 +25,7 @@
       }
     </mat-list>
     }
-    @if(showNoResultComponent ){
+    @if(showNoResultComponent && !searchText ){
     <div class="flex flex-col justify-center items-center text-center">
       {{ "TRY_SEARCHING_FOR_SOMETHING_ELSE" | translate}}
     </div>
@@ -39,7 +39,7 @@
     }
     <div class="flex flex-col justify-center items-center text-center">
       @if(showNoResultComponent ){
-        <lib-no-result-found [noResultMessage]="noResultMessage"></lib-no-result-found>
+        <lib-no-result-found [noResultMessage]="searchText ? noSearchResultMessage : noPublishedResourceMessage"></lib-no-result-found>
       }
   </div>
   </div>

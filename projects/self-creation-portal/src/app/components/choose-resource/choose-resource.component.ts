@@ -69,7 +69,8 @@ export class ChooseResourceComponent {
       "isMultiple": false
   }]
   }
-  noResultMessage:any;
+  noSearchResultMessage:any;
+  noPublishedResourceMessage:any;
   showNoResultComponent:boolean = false;
   
 
@@ -77,7 +78,8 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   ngOnInit(){
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
       const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
-      this.noResultMessage = selectedSideNavData?.noResultMessage || '' ;
+      this.noSearchResultMessage = selectedSideNavData?.noSearchResultMessage || '' ;
+      this.noPublishedResourceMessage =  selectedSideNavData?.noPublishedResourceMessage || ""
     });
    this.getResourceList().subscribe((resourceList:any) => {
     this.contentList = resourceList.result.data
