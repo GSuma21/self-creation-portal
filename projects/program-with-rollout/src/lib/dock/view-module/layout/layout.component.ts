@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormService, PreviewComponent, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { FormService, PreviewComponent, ROLL_OUT, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class LayoutComponent {
   private subscription: Subscription = new Subscription();
-  headerData:any;
+  headerData:any = {};
+  mode:any;
   sidenavData:any;
   constructor(private formService:FormService,  private programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
   ngOnInit(){
@@ -33,6 +34,9 @@ export class LayoutComponent {
       this.programWithRolloutService.setRolloutData( {
         "sidenavData": form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT")
       });
+      this.programWithRolloutService.resourceStatus.subscribe(data => {
+         this.mode = data.status ? data.status : "PENDING"
+      })
     }))
   }
 
@@ -55,6 +59,7 @@ export class LayoutComponent {
               disableClose: false,
               data: {
                 projectData: cleanedData,
+                cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
               },
             });
           }
@@ -79,6 +84,43 @@ export class LayoutComponent {
             class: 'success',
           };
           this.toastService.openSnackBar(data);
+        })
+        break;
+      }
+      case 'ROLL_OUT_CHANGES':
+      case 'ROLL_OUT': {
+        this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
+          if(result){
+            this.programWithRolloutService.checkIsRolledOutValid(true);
+            this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
+              if(res){
+                if(!this.programWithRolloutService.rolloutId){
+                  this.programWithRolloutService.rolloutId = res.result.id;
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: {
+                      rolloutId: res.result.id ? res.result.id : res.result
+                    },
+                    queryParamsHandling: 'merge',
+                    replaceUrl:true
+                  });
+                }
+                if( this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
+                   this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
+                  if(res.responseCode === "OK"){
+                    this.router.navigate([ROLL_OUT]);
+                    this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED',  class: 'success',});
+                    this.programWithRolloutService.rolloutId = ""
+                  }else{
+                    this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                  }
+                })
+                }else{
+                  this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                }
+              }
+            })
+          }
         })
         break;
       }

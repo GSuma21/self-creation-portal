@@ -21,6 +21,7 @@ export class HeaderComponent {
   @Input() backButton : boolean = true ;
   @Input() title!: string;
   @Input() headerData : any;
+  @Input() modeFromParent?: string;
   @Input() toParent:boolean = false;
   @Output() backToParent = new EventEmitter<boolean>();
 

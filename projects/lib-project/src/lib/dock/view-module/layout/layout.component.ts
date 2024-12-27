@@ -98,6 +98,7 @@ export class LayoutComponent {
               disableClose: false,
               data: {
                 projectData: cleanedData,
+                cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
               },
             });
           }

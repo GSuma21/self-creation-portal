@@ -24,7 +24,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "authentication_frontend_library": "0.0.62",
-    "dynamic-form-suma": "^0.0.10",
+    "dynamic-form-suma": "^0.0.12",
     "idb": "^8.0.0",
     "ng-otp-input": "^1.9.3",
     "ngx-indexed-db": "^19.0.1",

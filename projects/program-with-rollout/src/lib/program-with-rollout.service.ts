@@ -8,16 +8,31 @@ import { BehaviorSubject, EMPTY, interval, switchMap } from 'rxjs';
 export class ProgramWithRolloutService {
   rolloutDataSubject = new BehaviorSubject<any>(null);
   currentRolloutData = this.rolloutDataSubject.asObservable();
+  private getValidationForRollout= new BehaviorSubject<boolean>(false); // check and get the validation for rolled out resource
+  isRolledOutValid = this.getValidationForRollout.asObservable();
+  getResourceStatus = new BehaviorSubject<any>(null);
+  resourceStatus= this.getResourceStatus.asObservable();
   rollOutDetails:any = {};
   resourceDetails:any = {};
   rolloutId:string = '';
   instanceConfig: any;
   isFormDirty:boolean = true;
+  tabValidation:any={
+    rolloutDetails: "INVALID",
+  }
   constructor( private httpService: HttpProviderService,  private Configuration: ConfigService,) { }
 
 
   setRolloutData(data: any) {
     this.rolloutDataSubject.next(data);
+  }
+
+  checkIsRolledOutValid(newAction: boolean) {
+    this.getValidationForRollout.next(newAction);
+  }
+
+  setResourceStatus(data: any) {
+    this.getResourceStatus.next(data);
   }
 
   getDataManagerList(){
@@ -48,6 +63,10 @@ export class ProgramWithRolloutService {
 
   saveRollOut() {
     return this.httpService.post(this.Configuration.urlConFig.ROLL_OUT.CREATE_UPDATE_DELETE + (this.rolloutId ? ('/'+this.rolloutId) : ''),this.rollOutDetails);
+  }
+
+  publishRollout() {
+    return this.httpService.get(this.Configuration.urlConFig.ROLL_OUT.PUBLISH + (this.rolloutId ? ('/'+this.rolloutId) : ''));
   }
 
   getRolloutDetails() {

@@ -8,6 +8,7 @@ import { ProgramWithRolloutService } from '../../../program-with-rollout.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'lib-resource-details',
@@ -18,7 +19,7 @@ import { CommonModule, DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ResourceDetailsComponent implements OnInit, OnDestroy {
-  @ViewChild('formLib') formLib: MainFormComponent | undefined;
+  @ViewChild('formLib') formLib!: MainFormComponent;
   dynamicFormData:any ;
   viewOnly:any = false;
   resourceId:string = '';
@@ -56,9 +57,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         "name": "published_on"
     }
   ];
-  resourceButtons:any = [
-    {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
-    {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+  resourceButtons:any;
   private subscription: Subscription = new Subscription();
   mode: string = '';
   constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router,private toastService:ToastService) {
@@ -74,6 +73,17 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getResourceDetails()
     this.startAutoSaving();
+    this.subscription.add( // Check validation before sending for review.
+      this.programWithRolloutService.isRolledOutValid.subscribe(
+        (reviewValidation: boolean) => {
+         if(reviewValidation){
+          this.formLib?.myForm.markAllAsTouched();
+          this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib.myForm.status;
+          this.programWithRolloutService.checkIsRolledOutValid(false);
+         }
+        }
+      )
+    );
   }
 
   getResourceDetails() {
@@ -81,7 +91,6 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.programWithRolloutService.readPublishedResources(this.resourceId).subscribe((res:any)=> {
       this.resourceItem = res.result.data[0];
       this.programWithRolloutService.resourceDetails = res.result.data[0];
-      this.resourceItem.actionButton = this.resourceButtons
       this.getRollOutDetails(); // rollout details should be called after resource details fetched
     })
    )
@@ -109,6 +118,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                   disableClose: false,
                   data: {
                     projectData: cleanedData,
+                    cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
                   },
                 });
               }
@@ -136,6 +146,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           disableClose: false,
           data: {
             projectData: cleanedData,
+            cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
           },
         });
       }
@@ -220,8 +231,19 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             if(this.programWithRolloutService.rolloutId) {
               this.programWithRolloutService.getRolloutDetails().subscribe((res:any) => {
                 this.programWithRolloutService.rollOutDetails = res.result;
+                this.programWithRolloutService.setResourceStatus({status:res.result.status})
+                if(res.result.status === "ROLLED_OUT"){
+                  this.resourceButtons = [
+                    {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"}]
+                   }else{
+                    this.resourceButtons = [
+                      {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
+                      {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+                   }
+                   this.resourceItem.actionButton = this.resourceButtons
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
+                this.programWithRolloutService.rollOutDetails.viewers = this.programWithRolloutService.rollOutDetails.viewers.map((item: any) => item.id);
               })
             }
             else {
@@ -231,6 +253,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                   this.programWithRolloutService.rollOutDetails.title = this.resourceItem.title;
                 }
               });
+              this.resourceButtons = [
+                {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
+                {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+             this.resourceItem.actionButton = this.resourceButtons
               this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
               this.dynamicFormData = rolloutDetails.result.data.fields?.controls;
             }
@@ -261,19 +287,35 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         element.value = element.value.map((item: any) => item.id);
       }
     });
-    this.dynamicFormData = formControls;
-    // if( this.formLib){
-    //   this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
-    // }
-    // if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
-    //   this.libProjectService.validateTasksData()
-    // }
+    if(res.status === "ROLLED_OUT"){
+      // check the roll out is started or not , if started title and start date  is not editable.
+      const currentDate = new Date();
+      const startDateField = formControls.find((field:any) => field.name === 'start_date');
+
+      if (startDateField && startDateField.value) {
+        const startDate = new Date(startDateField.value);
+        if (currentDate >= startDate) {
+          formControls.forEach((field:any) => {
+            if (field.name === "title" || field.name === "start_date") {
+                field.viewOnly = true;
+            }
+        });
+        }
+      }
+      this.dynamicFormData = formControls;
+    }else{
+      this.dynamicFormData = formControls;
+    }
+    if (this.formLib) {
+      this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status
+    }
   }
 
   getDynamicFormData(event:any){
     this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
     this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
+    this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status;
   }
 
   getFormControlChange(event:any){
@@ -299,7 +341,6 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
-          console.log('Dialog result:', res,this.programWithRolloutService.rollOutDetails);
           this.dynamicFormData.forEach((element:any) => {
             if(element.name == "targeting_criteria" && res) {
               element.value.push(res);
@@ -358,6 +399,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria") {
                 element.value.splice(control.index, 1);
+                this.formLib.myForm.patchValue({ // adding target criteria to form
+                  targeting_criteria: element.value,
+                });
               }
             })
             this.updateTargetCriteria()
@@ -374,7 +418,19 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.programWithRolloutService
       .startAutoSave()
-      .subscribe((data) => {this.programWithRolloutService.isFormDirty = false})
+      .subscribe((data:any) => {
+        if(!this.programWithRolloutService.rolloutId){
+          this.programWithRolloutService.rolloutId = data?.result.id;
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              rolloutId:this.programWithRolloutService.rolloutId
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl:true
+          });
+        }
+        this.programWithRolloutService.isFormDirty = false})
     )
   }
 
@@ -383,15 +439,18 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.programWithRolloutService.saveRollOut().subscribe((res)=> {
-      let data = {
-        message: 'SAVED_SUCCESSFULLY',
-        class: 'success',
-      };
-      this.toastService.openSnackBar(data);
-    })
+    if(this.programWithRolloutService.rolloutId){
+      this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+        let data = {
+          message: 'SAVED_SUCCESSFULLY',
+          class: 'success',
+        };
+        this.toastService.openSnackBar(data);
+      })
+    }
     this.programWithRolloutService.resourceDetails = {};
     this.programWithRolloutService.rollOutDetails = {};
+    this.programWithRolloutService.setResourceStatus({})
     this.subscription.unsubscribe();
   }
 
