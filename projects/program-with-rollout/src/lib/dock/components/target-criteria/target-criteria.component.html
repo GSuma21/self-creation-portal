@@ -12,7 +12,7 @@
                     @for (item of tab?.form; track item;let index = $index) {
                         <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
                             <mat-label> {{ item.label}}</mat-label>
-                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [value]="getValueOfOption(item.meta.type)" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
+                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
                                 <mat-option *ngFor="let option of item.options" [value]="option">
                                     {{ option.name ? option.name : option?.label }}
                                 </mat-option>
@@ -38,7 +38,7 @@
                                     </th>
                                     <td mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="$event.stopPropagation()"
-                                                    (change)="$event ? selection.toggle(row) : null"
+                                                    (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
                                                     [aria-label]="checkboxLabel(row)">
                                     </mat-checkbox>
