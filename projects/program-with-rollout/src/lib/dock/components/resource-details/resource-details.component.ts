@@ -341,6 +341,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
+          debugger;
           this.dynamicFormData.forEach((element:any) => {
             if(element.name == "targeting_criteria" && res) {
               element.value.push(res);
@@ -375,12 +376,14 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogEditRef.afterClosed().subscribe((res: any) => {
-          this.dynamicFormData.forEach((element:any) => {
-            if(element.name == "targeting_criteria") {
-              element.value.splice(control.index, 1,res);
-            }
-          })
-          this.updateTargetCriteria()
+          if(res) {
+            this.dynamicFormData.forEach((element:any) => {
+              if(element.name == "targeting_criteria") {
+                element.value.splice(control.index, 1,res);
+              }
+            })
+            this.updateTargetCriteria()
+          }
         });
         break;
       case "DELETE":

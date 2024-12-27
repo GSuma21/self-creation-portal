@@ -131,7 +131,6 @@ export class TargetCriteriaComponent implements OnInit{
                         this.selection.clear();
                         this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
                             this.selection.select(element);
-                            console.log(this.selection)
                         })
                     })
                 }
@@ -325,7 +324,9 @@ export class TargetCriteriaComponent implements OnInit{
               )
           );
         if(this.formData.state) {
-            this.dialogRef.close({label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')'),...this.formData});
+            this.dialogRef.close(
+                {...this.formData,...{label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
+            );
         }
         else {
             this.dialogRef.close(this.formData);
