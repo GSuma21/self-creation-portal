@@ -57,9 +57,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         "name": "published_on"
     }
   ];
-  resourceButtons:any = [
-    {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
-    {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+  resourceButtons:any;
   private subscription: Subscription = new Subscription();
   mode: string = '';
   constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router,private toastService:ToastService) {
@@ -93,7 +91,6 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.programWithRolloutService.readPublishedResources(this.resourceId).subscribe((res:any)=> {
       this.resourceItem = res.result.data[0];
       this.programWithRolloutService.resourceDetails = res.result.data[0];
-      this.resourceItem.actionButton = this.resourceButtons
       this.getRollOutDetails(); // rollout details should be called after resource details fetched
     })
    )
@@ -234,6 +231,16 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             if(this.programWithRolloutService.rolloutId) {
               this.programWithRolloutService.getRolloutDetails().subscribe((res:any) => {
                 this.programWithRolloutService.rollOutDetails = res.result;
+                this.programWithRolloutService.setResourceStatus({status:res.result.status})
+                if(res.result.status === "ROLLED_OUT"){
+                  this.resourceButtons = [
+                    {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"}]
+                   }else{
+                    this.resourceButtons = [
+                      {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
+                      {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+                   }
+                   this.resourceItem.actionButton = this.resourceButtons
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
                 this.readProjectDeatilsAndMap(rolloutDetails.result.data.fields?.controls,res.result);
                 this.programWithRolloutService.rollOutDetails.viewers = this.programWithRolloutService.rollOutDetails.viewers.map((item: any) => item.id);
@@ -246,6 +253,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                   this.programWithRolloutService.rollOutDetails.title = this.resourceItem.title;
                 }
               });
+              this.resourceButtons = [
+                {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
+                {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+             this.resourceItem.actionButton = this.resourceButtons
               this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
               this.dynamicFormData = rolloutDetails.result.data.fields?.controls;
             }
@@ -276,7 +287,27 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         element.value = element.value.map((item: any) => item.id);
       }
     });
-    this.dynamicFormData = formControls;
+    if(res.status === "ROLLED_OUT"){
+      const currentDate = new Date();
+
+      // Check start date
+      const startDateField = formControls.find((field:any) => field.name === 'start_date');
+      let started = 'No';
+
+      if (startDateField && startDateField.value) {
+        const startDate = new Date(startDateField.value);
+        if (currentDate >= startDate) {
+          formControls.forEach((field:any) => {
+            if (field.name === "title" || field.name === "start_date") {
+                field.viewOnly = true;
+            }
+        });
+        }
+      }
+      this.dynamicFormData = formControls;
+    }else{
+      this.dynamicFormData = formControls;
+    }
     if (this.formLib) {
       this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status
     }
@@ -286,7 +317,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
     this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.value);
-    this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status
+    this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status;
   }
 
   getFormControlChange(event:any){
@@ -332,7 +363,6 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
-          console.log('Dialog result:', res,this.programWithRolloutService.rollOutDetails);
           this.dynamicFormData.forEach((element:any) => {
             if(res){
               if(element.name == "targeting_criteria") {
@@ -431,6 +461,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     }
     this.programWithRolloutService.resourceDetails = {};
     this.programWithRolloutService.rollOutDetails = {};
+    this.programWithRolloutService.setResourceStatus({})
     this.subscription.unsubscribe();
   }
 

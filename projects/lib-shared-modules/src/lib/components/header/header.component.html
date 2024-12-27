@@ -25,7 +25,7 @@
   <div class="title" [matTooltip]="headerData?.title | translate">{{ headerData?.title | translate }}</div>
   @if (headerData?.buttons) {
     <div class="buttons-container">
-        @for (button of headerData?.buttons[mode]; track button) {
+        @for (button of headerData?.buttons[modeFromParent ? modeFromParent : mode]; track button) {
           <button [disabled]="button.disable" [ngClass]="[ button.disable ? 'button-disable' : button.cssClass]" mat-raised-button (click)="onButtonClick(button)">{{ button?.title | translate }}</button>
         }
     </div>

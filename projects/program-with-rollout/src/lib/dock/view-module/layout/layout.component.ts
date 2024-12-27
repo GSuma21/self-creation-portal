@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class LayoutComponent {
   private subscription: Subscription = new Subscription();
-  headerData:any;
+  headerData:any = {};
+  mode:any;
   sidenavData:any;
   constructor(private formService:FormService,  private programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
   ngOnInit(){
@@ -33,6 +34,9 @@ export class LayoutComponent {
       this.programWithRolloutService.setRolloutData( {
         "sidenavData": form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT")
       });
+      this.programWithRolloutService.resourceStatus.subscribe(data => {
+         this.mode = data.status ? data.status : "PENDING"
+      })
     }))
   }
 
@@ -83,6 +87,7 @@ export class LayoutComponent {
         })
         break;
       }
+      case 'ROLL_OUT_CHANGES':
       case 'ROLL_OUT': {
         this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
           if(result){
