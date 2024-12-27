@@ -10,6 +10,8 @@ export class ProgramWithRolloutService {
   currentRolloutData = this.rolloutDataSubject.asObservable();
   private getValidationForRollout= new BehaviorSubject<boolean>(false); // check and get the validation for rolled out resource
   isRolledOutValid = this.getValidationForRollout.asObservable();
+  getResourceStatus = new BehaviorSubject<any>(null);
+  resourceStatus= this.getResourceStatus.asObservable();
   rollOutDetails:any = {};
   resourceDetails:any = {};
   rolloutId:string = '';
@@ -27,6 +29,10 @@ export class ProgramWithRolloutService {
 
   checkIsRolledOutValid(newAction: boolean) {
     this.getValidationForRollout.next(newAction);
+  }
+
+  setResourceStatus(data: any) {
+    this.getResourceStatus.next(data);
   }
 
   getDataManagerList(){

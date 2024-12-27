@@ -202,5 +202,6 @@
     "YOUR_CHANGES_HAVE_BEEN_PUBLISHED":"Your changes have been published",
     "TRY_SEARCHING_FOR_SOMETHING_ELSE":"Try searching for something else.",
     "NO_PUBLISHED_RESOURCES_MESSAGE":"No resources are published on the platform.",
-    "SEARCH_RESULT_NOT_FOUND":"Search results not found."
+    "SEARCH_RESULT_NOT_FOUND":"Search results not found.",
+    "ROLL_OUT_CHANGES":"Roll out changes"
 }
