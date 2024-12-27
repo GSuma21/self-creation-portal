@@ -288,11 +288,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
       }
     });
     if(res.status === "ROLLED_OUT"){
+      // check the roll out is started or not , if started title and start date  is not editable.
       const currentDate = new Date();
-
-      // Check start date
       const startDateField = formControls.find((field:any) => field.name === 'start_date');
-      let started = 'No';
 
       if (startDateField && startDateField.value) {
         const startDate = new Date(startDateField.value);
