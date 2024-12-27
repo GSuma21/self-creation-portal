@@ -158,7 +158,6 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     getValueOfOption(value:string) {
-        debugger;
         return this.formData[value];
     }
 
