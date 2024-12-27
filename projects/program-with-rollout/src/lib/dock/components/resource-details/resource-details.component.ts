@@ -341,11 +341,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
-          debugger;
           this.dynamicFormData.forEach((element:any) => {
             if(element.name == "targeting_criteria" && res) {
               element.value.push(res);
-              this.formLib.myForm.patchValue({ // adding target criteria to form 
+              this.formLib.myForm.patchValue({ // adding target criteria to form
                 targeting_criteria: element.value,
               });
               // this.programWithRolloutService.rollOutDetails.targeting_criteria
@@ -383,7 +382,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria") {
                 element.value.splice(control.index, 1,res);
-                this.formLib.myForm.patchValue({ // adding target criteria to form 
+                this.formLib.myForm.patchValue({ // adding target criteria to form
                   targeting_criteria: element.value,
                 });
               }

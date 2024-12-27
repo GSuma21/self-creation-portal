@@ -212,7 +212,7 @@ export class TargetCriteriaComponent implements OnInit{
                 this.insertDataIntoTable(res.result.data)
             })
         }
-        console.log(this.formData);
+        this.criteria = this.criteria;
     }
 
     getEntityAndRoles() {
@@ -267,13 +267,13 @@ export class TargetCriteriaComponent implements OnInit{
 
     onFilterChange(event:any) {
         console.log(event,this.selection);
-        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.filterName,event.values[0]).subscribe((res:any) => {
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0]).subscribe((res:any) => {
             this.insertDataIntoTable(res.result.data)
         })
     }
 
     compareObjects(o1: any, o2: any): boolean {
-        return o1 && o2 ? o1.id === o2.id : o1 === o2;
+        return o1 && o2 ? o1._id === o2._id : o1 === o2;
     }
 
     checkIsRowAvailable(row:any) {
@@ -293,9 +293,10 @@ export class TargetCriteriaComponent implements OnInit{
     toggleAllRows() {
         if (this.isAllSelected()) {
             this.selection.clear();
+            this.formData[this.formData.entity_targeting.value] = [];
             return;
         }
-
+        this.formData[this.formData.entity_targeting.value] = this.dataSource.data;
         this.selection.select(...this.dataSource.data);
     }
 
@@ -315,17 +316,39 @@ export class TargetCriteriaComponent implements OnInit{
         return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
     }
 
+    selectSingleRow(event:any,row:any) {
+        console.log(event)
+        this.selection.toggle(row)
+        if(!this.formData[this.formData.entity_targeting.name]) {
+            this.formData[this.formData.entity_targeting.name] = [];
+        }
+        if(event.checked && this.formData[this.formData.entity_targeting.name]) {
+            this.formData[this.formData.entity_targeting.name].push(row)
+        }
+        else if (!event.checked && this.formData[this.formData.entity_targeting.name]) {
+            const index = this.formData[this.formData.entity_targeting.name].findIndex((element:any) => JSON.stringify(element) === JSON.stringify(row))
+            if(index >= 0) {
+                this.formData[this.formData.entity_targeting.name].splice(index,1)
+            }
+        }
+    }
+
     closeDialog() {
-        this.formData[this.targetedEntity] = this.selection.selected;
-        this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
-            (item:any, index:number, self:any) =>
-              index === self.findIndex(
-                (obj:any) => JSON.stringify(obj) === JSON.stringify(item)
-              )
-          );
-        if(this.formData.state) {
+        if(this.formData.state && this.targetedEntity.length > 0) {
+            this.formData[this.targetedEntity] = this.selection.selected;
+            this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
+                (item:any, index:number, self:any) =>
+                  index === self.findIndex(
+                    (obj:any) => JSON.stringify(obj) === JSON.stringify(item)
+                  )
+              );
             this.dialogRef.close(
                 {...this.formData,...{label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
+            );
+        }
+        else if (this.formData.state && this.targetedEntity.length == 0) {
+            this.dialogRef.close(
+                {...this.formData,...{label:this.formData.state.name}}
             );
         }
         else {
