@@ -335,7 +335,7 @@ export class TargetCriteriaComponent implements OnInit{
 
     closeDialog() {
         if(this.formData.state && this.targetedEntity.length > 0) {
-            this.formData[this.targetedEntity] = this.selection.selected;
+            // this.formData[this.targetedEntity] = this.selection.selected;
             this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
                 (item:any, index:number, self:any) =>
                   index === self.findIndex(
