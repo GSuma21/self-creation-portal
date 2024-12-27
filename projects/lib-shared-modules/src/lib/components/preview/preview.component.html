@@ -3,8 +3,8 @@
     <mat-icon class="cursor-pointer text-white" [mat-dialog-close]="false">close</mat-icon>
     }
 </div>
-<div class="preview-container p-2">
-    <project-player [config]="config" [projectData]="dialogData ? dialogData.projectData:  inputData"></project-player>
+<div class="preview-container p-2 {{ dialogData?.cssClass || inputData?.cssClass || '' }}">
+    <project-player [config]="config" [projectData]="dialogData ? dialogData.projectData:  inputData.resourceData"></project-player>
 </div>
 <hr>
 <footer class="text-gray-500 flex justify-between px-20 py-2 gap-10 bg-white">

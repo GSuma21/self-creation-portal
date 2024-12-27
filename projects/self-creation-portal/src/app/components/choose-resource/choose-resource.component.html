@@ -8,11 +8,12 @@
   </div>
 </div>
 <div class="flex h-[70vh] overscroll-none z-0">
-  <div class="sticky w-1/4 p-4 border-r border-gray-300 overflow-y-auto" (scroll)="onScroll($event)">
+  <div class="sticky w-1/4 p-4 border-r border-gray-300 overflow-y-auto" (scroll)="onScroll($event)" [ngClass]="{'flex flex-col justify-center items-center text-center': showNoResultComponent}">
+    @if(!showNoResultComponent ){
     <mat-list>
       @for(item of contentList; track item) {
-      <mat-list-item class="flex items-center p-2 hover:bg-gray-200 cursor-pointer">
-        <mat-radio-button class="mr-2" [value]="item.id" [checked]="selectedValue === item.id"
+      <mat-list-item color="primary" class="flex items-center p-2 hover:bg-gray-200 cursor-pointer" (click)="onSelectionChange(item)" [ngClass]="{'active': selectedValue === item.id}">
+        <mat-radio-button color="primary" class="mr-2" [value]="item.id" [checked]="selectedValue === item.id"
           (change)="onSelectionChange(item)">
           <div class="flex flex-col">
             <p class="overflow-ellipsis">{{ item.title }}</p>
@@ -23,16 +24,22 @@
       <hr>
       }
     </mat-list>
+    }
+    @if(showNoResultComponent && searchText ){
+    <div class="flex flex-col justify-center items-center text-center">
+      {{ "TRY_SEARCHING_FOR_SOMETHING_ELSE" | translate}}
+    </div>
+    }
   </div>
   <div class="sticktop w-3/4 p-4 border-r border-gray-300 bg-white flex flex-col items-center">
     @if(showPreview && !showNoResultComponent ){
-      <div class="w-[80%] border border-gray-300">
+      <div class="w-[40%] h-[85%] border border-gray-300 {{data?.cssClass}}">
         <lib-preview [inputData]="data" class="w-[100%]"></lib-preview>
       </div>
     }
     <div class="flex flex-col justify-center items-center text-center">
       @if(showNoResultComponent ){
-        <lib-no-result-found [noResultMessage]="noResultMessage"></lib-no-result-found>
+        <lib-no-result-found [noResultMessage]="searchText ? noSearchResultMessage : noPublishedResourceMessage"></lib-no-result-found>
       }
   </div>
   </div>

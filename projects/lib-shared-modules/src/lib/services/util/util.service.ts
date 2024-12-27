@@ -4,6 +4,9 @@ import { HttpProviderService } from '../http-provider.service';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { DialogPopupComponent } from '../../components/dialogs/dialog-popup/dialog-popup.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ import { Observable, of } from 'rxjs';
 export class UtilService {
   saveComment :boolean= true;
 
-  constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient) { }
+  constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient,private dialog : MatDialog) { }
 
   approveResource(resourceId:string|number,payload:any){
     const config = {
@@ -142,4 +145,25 @@ export class UtilService {
     );
   }
 
+  confirmAndActionResources(headerMessage:any ='', message:any='' , cancelButton:any='', exitButton:any=''): Observable<boolean> {
+      const dialogRef = this.dialog.open(DialogPopupComponent, {
+        width: '39.375rem',
+        disableClose: true,
+        data: {
+          header: headerMessage,
+          content: message,
+          cancelButton: cancelButton,
+          exitButton: exitButton
+        }
+      });
+  
+      return dialogRef.afterClosed().pipe(
+        map((result:any) => {
+          if (result?.data === exitButton) {
+            return true;
+          }
+          return false;
+        })
+      );
+    }
 }
