@@ -1,7 +1,7 @@
 <header class="">
     <div class="header">
       <h3 class="text-white">{{"SELECT_TARGETING_DETAILS" | translate}}</h3>
-      <mat-icon class="cursor-pointer text-white" (click)="closeDialog()">close</mat-icon>
+      <mat-icon class="cursor-pointer text-white" [mat-dialog-close]="false">close</mat-icon>
     </div>
 </header>
 <mat-tab-group class="mt-9">
@@ -12,7 +12,7 @@
                     @for (item of tab?.form; track item;let index = $index) {
                         <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
                             <mat-label> {{ item.label}}</mat-label>
-                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required">
+                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [value]="getValueOfOption(item.meta.type)" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
                                 <mat-option *ngFor="let option of item.options" [value]="option">
                                     {{ option.name ? option.name : option?.label }}
                                 </mat-option>
@@ -20,9 +20,9 @@
                         </mat-form-field>
                     }
                     <section>
-                        <section class="flex justify-between pt-7">
-                            <input matInput (keyup)="applyFilter($event)" class="filter-input" placeholder="Search..." #input>
-                            <lib-filter [filterData]="criteriaFilters" (filteredData)="onFilterChange($event)"></lib-filter>
+                        <section class="flex justify-between pt-7 mb-3">
+                            <lib-search (searchEvent)="applyFilter($event)" [maxLength]="150" #input [placeHolder]="placeHolder"></lib-search>
+                            <lib-filter [filterData]="criteriaFilters" (filteredData)="onFilterChange($event)" class="ml-2"></lib-filter>
                         </section>
                           <div class="mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort>
@@ -39,7 +39,7 @@
                                     <td mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                                     (change)="$event ? selection.toggle(row) : null"
-                                                    [checked]="selection.isSelected(row)"
+                                                    [checked]="checkIsRowAvailable(row)"
                                                     [aria-label]="checkboxLabel(row)">
                                     </mat-checkbox>
                                     </td>
@@ -55,7 +55,7 @@
 
                                 <!-- Row shown when there is no matching data. -->
                                 <tr class="mat-row" *matNoDataRow>
-                                    <td class="mat-cell text-center py-3" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                    <td class="mat-cell text-center py-3" colspan="4">No data available</td>
                                 </tr>
                             </table>
 
@@ -67,6 +67,6 @@
         </mat-tab>
     }
 </mat-tab-group>
-<section class="flex justify-end mr-5 mb-3">
+<section class="flex justify-end mr-5 mb-3 submit-section">
     <button mat-raised-button class="btn-submit primary-button-enable py-2 px-3" (click)="closeDialog()" [disabled]="selection?.selected?.length == 0">Submit</button>
 </section>

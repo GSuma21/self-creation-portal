@@ -18,9 +18,10 @@ export class SearchComponent {
   @Input()  minLength:any = 3
   @Input() maxLength: number = 250;
   @Output() searchEvent = new EventEmitter<any>();
+  @Input() placeHolder:string = 'Search library'
   searchControl = new FormControl('');
   constructor() {
-    // debounce timer for search 
+    // debounce timer for search
     this.searchControl.valueChanges
       .pipe(
         debounceTime(1000),
