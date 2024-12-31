@@ -38,8 +38,8 @@
       </div>
     }
     <div class="flex flex-col justify-center items-center text-center">
-      @if(showNoResultComponent ){
-        <lib-no-result-found [noResultMessage]="searchText ? noSearchResultMessage : noPublishedResourceMessage"></lib-no-result-found>
+      @if(showNoResultComponent || showNoPulishedMessage ){
+        <lib-no-result-found [noResultMessage]="showNoPulishedMessage ? noPublishedResourceMessage : noSearchResultMessage"></lib-no-result-found>
       }
   </div>
   </div>

@@ -128,7 +128,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         break;
       }
       case "CHANGE_SELECTION":{
-        this.router.navigate(['choose-resource'],{queryParams:{parent:"roll-out"}})
+        this.router.navigate(['choose-resource'],{queryParams:{parent:"roll-out",rolloutId:this.programWithRolloutService.rolloutId}})
         break;
       }
        default:

@@ -36,7 +36,11 @@ export class LibSharedModulesService {
     const solutionId = this.route.snapshot.queryParamMap.get('projectId')
     switch (state) {
       case 'create':
-        this.router.navigate(['../'], { relativeTo: this.route });
+        if(solutionId){
+          this.router.navigate([DRAFTS]);
+        }else{
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }        
         if (solutionId) {
           this.toastService.openSnackBar({
             message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
