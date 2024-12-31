@@ -72,7 +72,8 @@ export class ChooseResourceComponent {
   noSearchResultMessage:any;
   noPublishedResourceMessage:any;
   showNoResultComponent:boolean = false;
-  
+  showNoPulishedMessage:boolean = false;
+  rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private resourceService:ResourceService, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
@@ -86,6 +87,8 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
     this.showNoResultComponent = this.contentList.length === 0 ? true : false;
     if(this.contentList.length !== 0){
       this.onSelectionChange(resourceList.result.data[0])
+    }else{
+      this.showNoPulishedMessage = true
     }
    })
   }
@@ -159,7 +162,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   onSelect(){
-      this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id}})
+      this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id, rolloutId:this.rolloutId}})
       // this.resourceService.createRollOut(this.selectedResource.id).subscribe((res)=>{
       //   console.log(res);
       //   // this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id}})
