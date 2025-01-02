@@ -19,7 +19,7 @@
                             </mat-select>
                         </mat-form-field>
                     }
-                    <section>
+                    <section *ngIf="tab?.showTable">
                         <section class="flex justify-between pt-7 mb-3">
                             <lib-search (searchEvent)="applyFilter($event)" [maxLength]="150" #input [placeHolder]="placeHolder"></lib-search>
                             <lib-filter [filterData]="criteriaFilters" (filteredData)="onFilterChange($event)" class="ml-2"></lib-filter>
@@ -59,7 +59,7 @@
                                 </tr>
                             </table>
 
-                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                            <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page of users" (page)="pageEvent($event)"></mat-paginator>
                           </div>
                     </section>
                 </div>
@@ -68,5 +68,5 @@
     }
 </mat-tab-group>
 <section class="flex justify-end mr-5 mb-3 submit-section">
-    <button mat-raised-button class="btn-submit primary-button-enable py-2 px-3" (click)="closeDialog()" [disabled]="selection?.selected?.length == 0">Submit</button>
+    <button mat-raised-button class="btn-submit primary-button-enable py-2 px-3" (click)="closeDialog()" [disabled]="isDisable()">Submit</button>
 </section>
