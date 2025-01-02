@@ -314,7 +314,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   getDynamicFormData(event:any){
     this.programWithRolloutService.isFormDirty = true;
     this.programWithRolloutService.rollOutDetails = {...this.programWithRolloutService.rollOutDetails,...event};
-    this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.id? item.id : item.value);
+    if(event.viewers.every((item:any) => typeof item === "object" && item !== null)){
+      this.programWithRolloutService.rollOutDetails.viewers = event?.viewers.map((item:any) => item.id? item.id : item.value);
+    }
     this.programWithRolloutService.tabValidation.rolloutDetails = this.formLib?.myForm?.status;
   }
 
