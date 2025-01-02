@@ -117,6 +117,7 @@ export class UtilService {
         const isEmpty = (value: any): boolean => {
           return (
             value === null ||
+            value === undefined || // Check for undefined
             value === '' ||
             (Array.isArray(value) && value.length === 0) ||
             (typeof value === 'object' &&
@@ -127,9 +128,13 @@ export class UtilService {
 
         const cleanData = (input: any): any => {
           if (Array.isArray(input)) {
-            return input.map(cleanData).filter((item) => !isEmpty(item)); // Filter out empty items
+            return input.map(cleanData).filter((item) => !isEmpty(item)); // Filter out empty and undefined items
           } else if (typeof input === 'object' && input !== null) {
             return Object.entries(input).reduce((acc, [key, value]) => {
+              if (key === 'id') {
+                acc[key] = value; // Always preserve the 'id' field as is, even if undefined
+                return acc;
+              }
               const cleanedValue = cleanData(value);
               if (!isEmpty(cleanedValue)) {
                 acc[key] = cleanedValue;
