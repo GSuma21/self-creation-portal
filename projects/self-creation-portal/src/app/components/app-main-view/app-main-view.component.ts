@@ -27,15 +27,14 @@ export class AppMainViewComponent {
   titleObj = {
     "title" : "CREATION_PORTAL"
   }
-  
-  public sidenavData: any;
+
+  sidenavData: any;
   clearQueryParamsOnNavigate: boolean = true;
   constructor(private formService:FormService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(){
     this.getnavData();
-    this.getPermissions();
     if(environment.parentURL.length > 0) {
       this.backButton = true;
     }
@@ -50,19 +49,20 @@ export class AppMainViewComponent {
 
   getnavData(){
      this.formService.getForm(SIDE_NAV_DATA).subscribe((form) =>{
-      this.sidenavData = form?.result?.data?.fields?.controls
-      let userRoles:any = localStorage.getItem('user_roles')
-      userRoles = JSON.parse(userRoles);
-      this.sidenavData = this.sidenavData.filter((item:any) =>
-        item.roles.some((role:any) =>
-            userRoles.some((innerRole:any) => innerRole.title === role)
-        )
-    );
+      // let userRoles:any = localStorage.getItem('user_roles')
+      // userRoles = JSON.parse(userRoles);
+      this.getPermissions(form?.result?.data?.fields?.controls);
     })
   }
 
-  getPermissions() {
-    this.formService.getPermissions().subscribe((res) => {})
+  getPermissions(navData:any) {
+    this.formService.getPermissions().subscribe((res:any) => {
+      this.sidenavData = navData.filter((element:any) =>{
+        if(res.result.find((item:any) => JSON.stringify(item) == JSON.stringify(element.permission_modules[0]))) {
+          return element;
+        }
+      })
+    })
   }
 
   onSideNavNavigate(item: any): void {

@@ -625,9 +625,9 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
         let userRoles:any = localStorage.getItem('user_roles')
         userRoles = JSON.parse(userRoles)
-        if(!userRoles.find((item:any)=> item.title == 'content_creator')) {
-          this.router.navigate(['/home/up-for-review'])
-        }
+        // if(!userRoles.find((item:any)=> item.title == 'content_creator')) {
+        //   this.router.navigate(['/home/up-for-review'])
+        // }
       })
     })
   }
