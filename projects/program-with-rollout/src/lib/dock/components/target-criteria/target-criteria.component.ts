@@ -301,14 +301,6 @@ export class TargetCriteriaComponent implements OnInit{
         this.selection.select(...this.dataSource.data);
     }
 
-    /**
-     * This function is used for the search functionality
-     * @param event - The search event which contains the searchtext
-     */
-    receiveSearchResults(event: string) {
-        console.log(event);
-    }
-
     /** The label for the checkbox on the passed row */
     checkboxLabel(row?: any): string {
         if (!row) {
@@ -318,7 +310,6 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     selectSingleRow(event:any,row:any) {
-        console.log(event)
         this.selection.toggle(row)
         if(!this.formData[this.formData.entity_targeting.name]) {
             this.formData[this.formData.entity_targeting.name] = [];
@@ -371,7 +362,7 @@ export class TargetCriteriaComponent implements OnInit{
         }
         this.criteria?.find((element:any) =>{
             element?.form.find((innerElement:any) => {
-                if(innerElement?.validators?.required &&this.formData[innerElement?.meta?.type]?.length == 0) {
+                if(innerElement?.validators?.required && !this.formData[innerElement?.meta?.type]) {
                     disable = true;
                 }
             })
