@@ -105,6 +105,7 @@ export class TargetCriteriaComponent implements OnInit{
     sort!: MatSort;
     tableColumns:string[] = []
     tableData:any = []; // to show the data in HTML Loop
+    searchText:boolean = false;
 
     constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private formService:FormService, private cdr:ChangeDetectorRef) {
         // Assign the data to the data source for the table to render
@@ -162,7 +163,9 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     setFormData(event:any,key:any,formElementIndex:number) {
-        this.selection.clear();
+        if(key !== "roles"){
+            this.selection.clear();
+        }
         if(key) {
             this.formData[key] = event.value;
         }
@@ -306,6 +309,7 @@ export class TargetCriteriaComponent implements OnInit{
      */
     receiveSearchResults(event: string) {
         console.log(event);
+        this.searchText = event ? true:false;
     }
 
     /** The label for the checkbox on the passed row */
@@ -358,6 +362,7 @@ export class TargetCriteriaComponent implements OnInit{
 
 
     applyFilter(event:any) {
+        this.searchText = event ? true:false
         this.dataSource.filter = event.trim().toLowerCase();
         this.paginator.firstPage();
     }

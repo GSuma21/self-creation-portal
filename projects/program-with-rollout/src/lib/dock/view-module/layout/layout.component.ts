@@ -15,6 +15,7 @@ export class LayoutComponent {
   headerData:any = {};
   mode:any;
   sidenavData:any;
+  saveRolloutData:boolean = true;
   constructor(private formService:FormService,  private programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
   ngOnInit(){
     this.getData()
@@ -67,24 +68,33 @@ export class LayoutComponent {
         break;
       }
       case 'SAVE': {
-        this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
-          if(!this.programWithRolloutService.rolloutId) {
-            this.programWithRolloutService.rolloutId = res.result.id;
-          }
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {
-              rolloutId: res.result.id ? res.result.id : res.result
+        if (this.saveRolloutData) {
+          this.saveRolloutData = false;
+          this.programWithRolloutService.saveRollOut().subscribe(
+            (res: any) => {
+              if (!this.programWithRolloutService.rolloutId) {
+                this.programWithRolloutService.rolloutId = res.result.id;
+              }
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: {
+                  rolloutId: res.result.id ? res.result.id : res.result,
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true,
+              });
+              let data = {
+                message: 'SAVED_SUCCESSFULLY',
+                class: 'success',
+              };
+              this.saveRolloutData = true;
+              this.toastService.openSnackBar(data);
             },
-            queryParamsHandling: 'merge',
-            replaceUrl:true
-          });
-          let data = {
-            message: 'SAVED_SUCCESSFULLY',
-            class: 'success',
-          };
-          this.toastService.openSnackBar(data);
-        })
+            (err: any) => {
+              this.saveRolloutData = true;
+            }
+          );
+        }
         break;
       }
       case 'ROLL_OUT_CHANGES':
