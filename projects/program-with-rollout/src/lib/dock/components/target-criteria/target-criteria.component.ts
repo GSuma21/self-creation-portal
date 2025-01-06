@@ -94,6 +94,7 @@ export class TargetCriteriaComponent implements OnInit{
     placeHolder:string = 'Search target element';
     criteriaFilters:any = [];
     formData:any = {};
+    filterSelectedValue:string = '';
     displayedColumns: string[] = ['name'];
     dataSource: MatTableDataSource<any>;
     selection = new SelectionModel<any>(true, []);
@@ -127,8 +128,8 @@ export class TargetCriteriaComponent implements OnInit{
                 this.criteria[0].form[0].options = res.result;
                 if(this.dialogData) { // this condition will check and add data to the form and table
                     this.getEntityAndRoles();
-                    this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.formData.entity_targeting.value,this.formData.state._id).subscribe((res:any) => {
-                        this.insertDataIntoTable(res.result.data)
+                    this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.formData.entity_targeting.value,this.formData.state._id,1,5).subscribe((res:any) => {
+                        this.insertDataIntoTable(res.result.data,res.result.count)
                         this.selection.clear();
                         this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
                             this.selection.select(element);
@@ -143,9 +144,8 @@ export class TargetCriteriaComponent implements OnInit{
     //     return ['select', ...this.displayedColumns];
     // }
 
-    insertDataIntoTable(data:any) {
+    insertDataIntoTable(data:any,count?:number) {
         let newArray = data.map((element:any) => {
-            delete element._id;
             delete element.label;
             delete element.externalId
             delete element.entityType
@@ -153,9 +153,9 @@ export class TargetCriteriaComponent implements OnInit{
             return element
         })
         this.displayedColumns = Object.keys(newArray[0]);
-        this.tableColumns = ['select', ...this.displayedColumns];
+        this.tableColumns = ['select', ...this.displayedColumns].filter((element) => element != '_id');
         this.dataSource = new MatTableDataSource(newArray);
-        this.paginator.length = data.length;
+        this.paginator.length = count ? count : data.length;
     }
 
     getValueOfOption(value:string) {
@@ -206,11 +206,11 @@ export class TargetCriteriaComponent implements OnInit{
             this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,this.targetedEntity,this.formData.state._id).subscribe((res:any)=>{
                 this.criteria[0].form[2].options = res.result;
             })
-            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value._id,this.formData.state._id).subscribe((res:any) => {
-                this.insertDataIntoTable(res.result.data)
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value._id,this.formData.state._id,1,5).subscribe((res:any) => {
+                this.insertDataIntoTable(res.result.data,res.result.count)
             })
         }
-        if(key != 'roles' && key != 'entity_targeting' && key != 'state') {
+        if(key != 'roles' && key != 'entity_targeting' && key != 'state' && key != 'gender') {
             this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetEntityArray[formElementIndex-1],event.value._id).subscribe((res:any) => {
                 this.insertDataIntoTable(res.result.data)
             })
@@ -270,8 +270,9 @@ export class TargetCriteriaComponent implements OnInit{
 
     onFilterChange(event:any) {
         console.log(event,this.selection);
-        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0]).subscribe((res:any) => {
-            this.insertDataIntoTable(res.result.data)
+        this.filterSelectedValue = event.values[0]
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0],1,5).subscribe((res:any) => {
+            this.insertDataIntoTable(res.result.data,res.result.count)
         })
     }
 
@@ -321,7 +322,6 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     selectSingleRow(event:any,row:any) {
-        console.log(event)
         this.selection.toggle(row)
         if(!this.formData[this.formData.entity_targeting.name]) {
             this.formData[this.formData.entity_targeting.name] = [];
@@ -358,6 +358,28 @@ export class TargetCriteriaComponent implements OnInit{
         else {
             this.dialogRef.close(this.formData);
         }
+    }
+
+    pageEvent(event:any) {
+        console.log(event);
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,this.filterSelectedValue.length > 0 ? this.filterSelectedValue : this.formData.state._id,event.pageIndex+1,event.pageSize).subscribe((res:any) => {
+            this.insertDataIntoTable(res.result.data,res.result.count)
+        })
+    }
+
+    isDisable() {
+        let disable = false;
+        if(this.targetedEntity.length > 0 && this.selection.selected.length == 0) {
+            disable = true;
+        }
+        this.criteria?.find((element:any) =>{
+            element?.form.find((innerElement:any) => {
+                if(innerElement?.validators?.required && !this.formData[innerElement?.meta?.type]) {
+                    disable = true;
+                }
+            })
+        })
+        return disable;
     }
 
 
