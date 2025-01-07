@@ -309,7 +309,6 @@ export class TargetCriteriaComponent implements OnInit{
      * @param event - The search event which contains the searchtext
      */
     receiveSearchResults(event: string) {
-        console.log(event);
         this.searchText = event ? true:false;
     }
 
