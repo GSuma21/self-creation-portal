@@ -124,6 +124,9 @@ export class LayoutComponent {
                   }else{
                     this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
                   }
+                },
+                (err) => {
+                  this.programWithRolloutService.validateAndHighlightErrors(err)
                 })
                 }else{
                   this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });

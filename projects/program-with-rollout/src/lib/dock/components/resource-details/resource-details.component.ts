@@ -84,6 +84,20 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         }
       )
     );
+    this.subscription.add(
+      this.programWithRolloutService.rolloutApiErrors.subscribe(
+        (errors: any) => {
+          if(this.dynamicFormData) {
+            for (let index = 0; index < errors.length; index++) {
+              if(this.dynamicFormData.find((item:any) => item.name === errors[index].param)?.errorMessage) {
+               this.dynamicFormData.find((item:any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
+              }
+               this.formLib?.myForm.controls[errors[index].param]?.setErrors({pattern:errors[index].msg})
+             }
+          }
+        }
+      )
+    );
   }
 
   getResourceDetails() {
