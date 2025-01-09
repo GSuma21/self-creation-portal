@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ConfigService, HttpProviderService } from 'lib-shared-modules';
-import { BehaviorSubject, EMPTY, interval, switchMap } from 'rxjs';
+import { ConfigService, FormService, HttpProviderService, ROLL_OUT_DETAILS } from 'lib-shared-modules';
+import { BehaviorSubject, EMPTY, interval, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,8 @@ export class ProgramWithRolloutService {
   isRolledOutValid = this.getValidationForRollout.asObservable();
   getResourceStatus = new BehaviorSubject<any>(null);
   resourceStatus= this.getResourceStatus.asObservable();
+  private setRolloutApiErrors = new BehaviorSubject<boolean>(false);
+  rolloutApiErrors = this.setRolloutApiErrors.asObservable();
   rollOutDetails:any = {};
   resourceDetails:any = {};
   rolloutId:string = '';
@@ -20,7 +22,7 @@ export class ProgramWithRolloutService {
   tabValidation:any={
     rolloutDetails: "INVALID",
   }
-  constructor( private httpService: HttpProviderService,  private Configuration: ConfigService,) { }
+  constructor( private httpService: HttpProviderService,  private Configuration: ConfigService, private formService: FormService,) { }
 
 
   setRolloutData(data: any) {
@@ -33,6 +35,10 @@ export class ProgramWithRolloutService {
 
   setResourceStatus(data: any) {
     this.getResourceStatus.next(data);
+  }
+
+  setRolloutErrorsFunc(newAction:any) {
+    this.setRolloutApiErrors.next(newAction);
   }
 
   getDataManagerList(){
@@ -99,4 +105,20 @@ export class ProgramWithRolloutService {
       })
     );
   }
+
+  validateAndHighlightErrors(err:any){
+    this.formService.getForm(ROLL_OUT_DETAILS).subscribe((data:any) => {
+      if (data) {
+        err.error.forEach((err:any) => {
+          data.result.data.fields.controls.some((item: any) => {
+            if (item.name === err.param) {
+              this.tabValidation.rolloutDetails = 'INVALID'; 
+            }
+          });
+        });
+        this.setRolloutErrorsFunc(err.error)
+      }
+    })
+  }
+
 }
