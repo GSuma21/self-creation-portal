@@ -47,7 +47,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   commentPayload:any;
   commentsList:any = [];
   projectInReview:boolean = false;
-  observationFormDetails:any
+  observationFormDetails:any;
+  allowOpenLinks:boolean = false;
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
 
@@ -60,6 +61,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   ngOnInit() {
     this.subscription.add(
     this.libProjectService.currentProjectMetaData.subscribe(data => {
+      this.allowOpenLinks =  data?.tasksData.allowOpenLinks
       this.learningResources = data?.tasksData.subTaskLearningResources
       this.observationFormDetails =  data?.tasksData.observationDeatils
     })
@@ -404,8 +406,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
     this.saveSubtask()
   }
 
-  openObservation(url:any){
-    if(this.observationFormDetails.allowOpenObservation){
+  openResourceLink(url:any){
+    if(this.allowOpenLinks){
       window.open(url, '_blank');
     }
   }

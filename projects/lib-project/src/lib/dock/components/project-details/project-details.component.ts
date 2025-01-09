@@ -24,6 +24,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   commentsList:any = [];
   projectInReview:boolean = false;
   isFormDirty:boolean = true;
+  allowOpenLinks:boolean = false;
   resourceId:string|number = '' // This variable represent projectId for comments.
   @ViewChild('formLib') formLib: MainFormComponent | undefined;
   private subscription: Subscription = new Subscription();
@@ -221,6 +222,9 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         );
       }
     });
+    this.libProjectService.currentProjectMetaData.subscribe(data => {
+      this.allowOpenLinks =  data?.tasksData.allowOpenLinks;
+    })
   }
   readProjectDeatilsAndMap(formControls:any,res: any) {
     formControls.forEach((element: any) => {
