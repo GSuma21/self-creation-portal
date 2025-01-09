@@ -162,6 +162,11 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     setFormData(event:any,key:any,formElementIndex:number) {
+        if(key == 'state') {
+            this.dataSource = new MatTableDataSource();
+            this.getEntityAndRoles();
+            this.formData = {}
+        }
         if(key !== "roles"){
             this.selection.clear();
         }
@@ -175,9 +180,6 @@ export class TargetCriteriaComponent implements OnInit{
         //         })
         //     })
         // }
-        if(key == 'state') {
-            this.getEntityAndRoles();
-        }
         if(key == 'entity_targeting') {
             this.targetedEntity = event.value._id;
             this.criteriaFilters = [];
