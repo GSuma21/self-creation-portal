@@ -390,8 +390,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
     else {
       this.libProjectService.tabValidation.subTasks = "VALID"
     }
-    this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
-    this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
+    // this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
+    // this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
   }
 
   addMinSubmissionsRequired(event:any,taskIndex:any){

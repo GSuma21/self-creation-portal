@@ -147,7 +147,6 @@ export class TargetCriteriaComponent implements OnInit{
     insertDataIntoTable(data:any,count?:number) {
         let newArray = data.map((element:any) => {
             delete element.label;
-            delete element.externalId
             delete element.entityType
             delete element.value
             return element
@@ -163,6 +162,11 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     setFormData(event:any,key:any,formElementIndex:number) {
+        if(key == 'state') {
+            this.dataSource = new MatTableDataSource();
+            this.getEntityAndRoles();
+            this.formData = {}
+        }
         if(key !== "roles"){
             this.selection.clear();
         }
@@ -176,9 +180,6 @@ export class TargetCriteriaComponent implements OnInit{
         //         })
         //     })
         // }
-        if(key == 'state') {
-            this.getEntityAndRoles();
-        }
         if(key == 'entity_targeting') {
             this.targetedEntity = event.value._id;
             this.criteriaFilters = [];
