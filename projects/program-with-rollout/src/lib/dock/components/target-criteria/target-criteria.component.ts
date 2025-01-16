@@ -346,6 +346,9 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     closeDialog() {
+        if (this.formData.state && !Array.isArray(this.formData.state)) {  // changing state format to an array of object
+            this.formData.state = [this.formData.state];
+        }
         if(this.formData.state && this.targetedEntity.length > 0) {
             // this.formData[this.targetedEntity] = this.selection.selected;
             this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
@@ -355,19 +358,13 @@ export class TargetCriteriaComponent implements OnInit{
                   )
               );
             this.dialogRef.close(
-                {...this.formData,...{label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
+                {...this.formData,...{label:(this.formData.state[0].name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
             );
-            if (this.formData.state && !Array.isArray(this.formData.state)) {
-                this.formData.state = [this.formData.state];
-            }
         }
         else if (this.formData.state && this.targetedEntity.length == 0) {
             this.dialogRef.close(
-                {...this.formData,...{label:this.formData.state.name},...{entity_targeting:{"_id": "state","value": "state","name": "state"}}}
+                {...this.formData,...{label:this.formData.state[0].name},...{entity_targeting:{"_id": "state","value": "state","name": "state"}}}
             );
-            if (this.formData.state && !Array.isArray(this.formData.state)) {
-                this.formData.state = [this.formData.state];
-            }
         }
         else {
             this.dialogRef.close(this.formData);
