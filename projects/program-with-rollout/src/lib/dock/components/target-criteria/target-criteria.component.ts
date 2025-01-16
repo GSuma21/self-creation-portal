@@ -357,11 +357,17 @@ export class TargetCriteriaComponent implements OnInit{
             this.dialogRef.close(
                 {...this.formData,...{label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
             );
+            if (this.formData.state && !Array.isArray(this.formData.state)) {
+                this.formData.state = [this.formData.state];
+            }
         }
         else if (this.formData.state && this.targetedEntity.length == 0) {
             this.dialogRef.close(
-                {...this.formData,...{label:this.formData.state.name}}
+                {...this.formData,...{label:this.formData.state.name},...{entity_targeting:{"_id": "state","value": "state","name": "state"}}}
             );
+            if (this.formData.state && !Array.isArray(this.formData.state)) {
+                this.formData.state = [this.formData.state];
+            }
         }
         else {
             this.dialogRef.close(this.formData);
