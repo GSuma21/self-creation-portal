@@ -66,6 +66,7 @@ export class ResourceHolderComponent implements OnInit{
   buttonsCSS : any;
   activeRole:any;
   areQueryParamsEmpty:boolean = false;
+  showDates:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -117,6 +118,9 @@ export class ResourceHolderComponent implements OnInit{
       this.noResultFound = this.noResultMessage;
       this.filters.showActionButton = this.buttonsData;
       this.filters.showInfoIcon = true;
+      if(this.pageStatus === 'roll-out'){
+        this.showDates = true
+      }
     });
   }
 
