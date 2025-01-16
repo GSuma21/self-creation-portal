@@ -37,7 +37,7 @@
     @for(list of filters.filteredLists; track list){
     <div class="pb-3">
       <lib-card [list]="list" [showActionButton]="filters.showActionButton"  [activeRole]="activeRole" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)"
-      [showInfoIcon]="filters.showInfoIcon"></lib-card>
+      [showInfoIcon]="filters.showInfoIcon" [showDates]="showDates"></lib-card>
     </div>
     }
     <div class="flex flex-col justify-center items-center text-center">

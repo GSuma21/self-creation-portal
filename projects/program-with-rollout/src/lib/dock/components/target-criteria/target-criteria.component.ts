@@ -95,7 +95,7 @@ export class TargetCriteriaComponent implements OnInit{
     criteriaFilters:any = [];
     formData:any = {};
     filterSelectedValue:string = '';
-    displayedColumns: string[] = ['name'];
+    displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     selection = new SelectionModel<any>(true, []);
     targetEntityArray = [];
@@ -149,9 +149,10 @@ export class TargetCriteriaComponent implements OnInit{
             delete element.label;
             delete element.entityType
             delete element.value
+            delete element.name
             return element
         })
-        this.displayedColumns = Object.keys(newArray[0]);
+        this.displayedColumns = newArray.length ? Object.keys(newArray[0]) : [];
         this.tableColumns = ['select', ...this.displayedColumns].filter((element) => element != '_id');
         this.dataSource = new MatTableDataSource(newArray);
         this.paginator.length = count ? count : data.length;
@@ -169,6 +170,8 @@ export class TargetCriteriaComponent implements OnInit{
         }
         if(key !== "roles"){
             this.selection.clear();
+            this.criteriaFilters = [];
+            this.displayedColumns =[];
         }
         if(key) {
             this.formData[key] = event.value;
@@ -272,9 +275,14 @@ export class TargetCriteriaComponent implements OnInit{
     onFilterChange(event:any) {
         console.log(event,this.selection);
         this.filterSelectedValue = event.values[0]
-        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0],1,5).subscribe((res:any) => {
-            this.insertDataIntoTable(res.result.data,res.result.count)
-        })
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0],1,5)
+          .subscribe((res:any) => {
+            if (res.result.data) {
+              this.insertDataIntoTable(res.result.data, res.result.count);
+            } else {
+              this.insertDataIntoTable(res.result, res.result.length);
+            }
+          });
     }
 
     compareObjects(o1: any, o2: any): boolean {
@@ -338,6 +346,9 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     closeDialog() {
+        if (this.formData.state && !Array.isArray(this.formData.state)) {  // changing state format to an array of object
+            this.formData.state = [this.formData.state];
+        }
         if(this.formData.state && this.targetedEntity.length > 0) {
             // this.formData[this.targetedEntity] = this.selection.selected;
             this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
@@ -347,12 +358,12 @@ export class TargetCriteriaComponent implements OnInit{
                   )
               );
             this.dialogRef.close(
-                {...this.formData,...{label:(this.formData.state.name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
+                {...this.formData,...{label:(this.formData.state[0].name+' - '+this.formData.entity_targeting.name+' ('+this.formData[this.formData.entity_targeting.name].length+')')}}
             );
         }
         else if (this.formData.state && this.targetedEntity.length == 0) {
             this.dialogRef.close(
-                {...this.formData,...{label:this.formData.state.name}}
+                {...this.formData,...{label:this.formData.state[0].name},...{entity_targeting:{"_id": "state","value": "state","name": "state"}}}
             );
         }
         else {
