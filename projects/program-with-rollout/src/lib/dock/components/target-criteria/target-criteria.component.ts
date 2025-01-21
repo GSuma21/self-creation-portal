@@ -305,9 +305,11 @@ export class TargetCriteriaComponent implements OnInit{
     isAllSelected() {
         // Convert arrayB to a map for faster lookup
         const mapB = new Map();
-        this.formData[this.formData.entity_targeting.value].forEach((item:any) => {
-            mapB.set(JSON.stringify(item), true);
-        });
+        if(this.formData[this.formData.entity_targeting]) {
+            this.formData[this.formData.entity_targeting.value].forEach((item:any) => {
+                mapB.set(JSON.stringify(item), true);
+            });
+        }
 
         // Check if all objects in arrayA are present in arrayB
         for (let objA of this.selection.selected) {
