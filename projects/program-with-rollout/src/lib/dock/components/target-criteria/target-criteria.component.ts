@@ -137,8 +137,6 @@ export class TargetCriteriaComponent implements OnInit{
                             for(let index=0;index <5;index++) {
                                 this.selection.select(targetingArray[index]);
                             }
-                            this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
-                            })
                         })
                     }
                 }
@@ -322,7 +320,7 @@ export class TargetCriteriaComponent implements OnInit{
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     toggleAllRows(event:any) {
-        if(!this.formData[this.formData.entity_targeting]) {
+        if(!this.formData[this.formData.entity_targeting.value]) {
             this.formData[this.formData.entity_targeting.value] = [];
         }
         if(!event.checked) {
