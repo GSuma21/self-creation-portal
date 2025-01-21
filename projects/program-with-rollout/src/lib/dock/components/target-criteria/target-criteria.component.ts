@@ -322,6 +322,9 @@ export class TargetCriteriaComponent implements OnInit{
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     toggleAllRows(event:any) {
+        if(!this.formData[this.formData.entity_targeting]) {
+            this.formData[this.formData.entity_targeting.value] = [];
+        }
         if(!event.checked) {
             const setA = new Set(this.dataSource.data.map((item:any) => JSON.stringify(item)));
             this.formData[this.formData.entity_targeting.value] = this.formData[this.formData.entity_targeting.value].filter((item:any) => !setA.has(JSON.stringify(item)));
