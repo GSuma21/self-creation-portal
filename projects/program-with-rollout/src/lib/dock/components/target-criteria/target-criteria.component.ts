@@ -340,10 +340,10 @@ export class TargetCriteriaComponent implements OnInit{
             this.formData[this.formData.entity_targeting.name].push(row)
         }
         else if (!event.checked && this.formData[this.formData.entity_targeting.name]) {
-            const index = this.formData[this.formData.entity_targeting.name].findIndex((element:any) => JSON.stringify(element) === JSON.stringify(row))
-            if(index >= 0) {
-                this.formData[this.formData.entity_targeting.name].splice(index,1)
-            }
+            // const index = this.formData[this.formData.entity_targeting.name].findIndex((element:any) => JSON.stringify(element) === JSON.stringify(row))
+            // if(index >= 0) {
+            //     this.formData[this.formData.entity_targeting.name].splice(index,1)
+            // }
         }
     }
 
@@ -358,7 +358,7 @@ export class TargetCriteriaComponent implements OnInit{
         }
         if(this.formData.state && this.targetedEntity.length > 0) {
             // this.formData[this.targetedEntity] = this.selection.selected;
-            this.formData[this.formData.entity_targeting.name] = this.formData[this.formData.entity_targeting.name].filter(
+            this.formData[this.formData.entity_targeting.name] = this.selection.selected.filter(
                 (item:any, index:number, self:any) =>
                   index === self.findIndex(
                     (obj:any) => JSON.stringify(obj) === JSON.stringify(item)
