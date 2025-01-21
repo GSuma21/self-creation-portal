@@ -327,6 +327,9 @@ export class TargetCriteriaComponent implements OnInit{
             this.formData[this.formData.entity_targeting.value] = this.formData[this.formData.entity_targeting.value].filter((item:any) => !setA.has(JSON.stringify(item)));
             return;
         }
+        if(this.formData[this.formData.entity_targeting]) {
+            this.formData[this.formData.entity_targeting.value] = [];
+        }
         this.formData[this.formData.entity_targeting.value] =  this.formData[this.formData.entity_targeting.value].concat(this.dataSource.data);
         this.selection.select(...this.dataSource.data);
     }
