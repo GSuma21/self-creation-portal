@@ -411,6 +411,9 @@ export class TargetCriteriaComponent implements OnInit{
         if(this.targetedEntity.length > 0 && this.selection.selected.length == 0) {
             disable = true;
         }
+        if(this.formData && this.formData.entity_targeting && this.formData[this.formData.entity_targeting.value] && this.formData[this.formData.entity_targeting.value].length == 0) {
+            disable = true;
+        }
         this.criteria?.find((element:any) =>{
             element?.form.find((innerElement:any) => {
                 if((innerElement?.validators?.required && !this.formData[innerElement?.meta?.type]) || (innerElement?.validators?.required && this.formData[innerElement?.meta?.type].length == 0)) {
