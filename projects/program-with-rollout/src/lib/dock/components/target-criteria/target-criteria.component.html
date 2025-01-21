@@ -30,7 +30,7 @@
                                 <!-- Checkbox Column -->
                                 <ng-container matColumnDef="select">
                                     <th mat-header-cell *matHeaderCellDef>
-                                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                    <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
                                                     [aria-label]="checkboxLabel()">
