@@ -21,6 +21,7 @@ export class LayoutComponent {
     this.getData()
     this.subscription.add(
       this.programWithRolloutService.currentRolloutData.subscribe(data => {
+        console.log(data)
         this.headerData = data?.sidenavData.headerData
         this.sidenavData= data?.sidenavData.sidenav
       })
@@ -32,8 +33,12 @@ export class LayoutComponent {
   getData(){
     this.subscription.add(
     this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+      console.log( form?.result?.data?.fields?.controls) 
+      if (this.router.url.includes('project-details')) {
+        
+      }
       this.programWithRolloutService.setRolloutData( {
-        "sidenavData": form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT")
+        "sidenavData": this.router.url.includes('project-details') ? form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT") : form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "PROGRAM")
       });
       this.programWithRolloutService.resourceStatus.subscribe(data => {
          this.mode = data.status ? data.status : "PENDING"

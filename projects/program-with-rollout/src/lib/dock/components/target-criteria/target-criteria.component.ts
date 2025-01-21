@@ -308,9 +308,6 @@ export class TargetCriteriaComponent implements OnInit{
         if (this.isAllSelected() || this.selection.hasValue()) {
             this.selection.clear();
             this.formData[this.formData.entity_targeting.value] = [];
-            console.log(this.selection.hasValue())
-            console.log(this.selection.selected.length)
-            console.log(this.isAllSelected())
             return;
         }
         console.log(this.selection.hasValue())
