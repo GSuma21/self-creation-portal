@@ -1,7 +1,7 @@
 <header class="">
     <div class="header">
       <h3 class="text-white">{{"SELECT_TARGETING_DETAILS" | translate}}</h3>
-      <mat-icon class="cursor-pointer text-white" [mat-dialog-close]="false">close</mat-icon>
+      <mat-icon class="cursor-pointer text-white" [mat-dialog-close]="false" (click)="closeTargetCriteriaPopup()">close</mat-icon>
     </div>
 </header>
 <mat-tab-group class="mt-9">
@@ -30,7 +30,7 @@
                                 <!-- Checkbox Column -->
                                 <ng-container matColumnDef="select">
                                     <th mat-header-cell *matHeaderCellDef>
-                                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                    <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
                                                     [aria-label]="checkboxLabel()">

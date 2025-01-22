@@ -107,6 +107,7 @@ export class TargetCriteriaComponent implements OnInit{
     tableColumns:string[] = []
     tableData:any = []; // to show the data in HTML Loop
     searchText:boolean = false;
+    pageCount:number = 5
 
     constructor(public dialogRef: MatDialogRef<TargetCriteriaComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any, private formService:FormService, private cdr:ChangeDetectorRef) {
         // Assign the data to the data source for the table to render
@@ -126,15 +127,20 @@ export class TargetCriteriaComponent implements OnInit{
             this.criteria = data.result.data.fields?.controls
             this.formService.getEntitiesList("GET_ENTITIES_LIST","state").subscribe((res:any)=> {
                 this.criteria[0].form[0].options = res.result;
-                if(this.dialogData) { // this condition will check and add data to the form and table
+                if(this.dialogData && res.result) { // this condition will check and add data to the form and table
                     this.getEntityAndRoles();
-                    this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.formData.entity_targeting.value,Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id,1,5).subscribe((res:any) => {
-                        this.insertDataIntoTable(res.result.data,res.result.count)
-                        this.selection.clear();
-                        this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
-                            this.selection.select(element);
+                    if(this.dialogData.entity_targeting.name !== 'state'){
+                        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.formData.entity_targeting.value,Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id,1,this.pageCount).subscribe((res:any) => {
+                            this.insertDataIntoTable(res.result.data,res.result.count)
+                            this.selection.clear();
+                            let targetingArray = this.formData[this.formData.entity_targeting.value]
+                            for(let index=0;index <5;index++) {
+                                this.selection.select(targetingArray[index]);
+                            }
+                            this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
+                            })
                         })
-                    })
+                    }
                 }
             })
           });
@@ -210,7 +216,7 @@ export class TargetCriteriaComponent implements OnInit{
             this.formService.getEntitiesList(this.criteria[0].form[2].meta.url,this.targetedEntity,Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id).subscribe((res:any)=>{
                 this.criteria[0].form[2].options = res.result;
             })
-            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value._id,Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id,1,5).subscribe((res:any) => {
+            this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",event.value._id,Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id,1,this.pageCount).subscribe((res:any) => {
                 this.insertDataIntoTable(res.result.data,res.result.count)
             })
         }
@@ -233,7 +239,7 @@ export class TargetCriteriaComponent implements OnInit{
                     name:element
                 }
             });
-            if(this.dialogData) {
+            if(this.dialogData && this.dialogData.entity_targeting.name !== "state") {
                 this.targetedEntity = this.formData.entity_targeting.value;
                 this.criteriaFilters = [];
                 for(let index=0;this.targetEntityArray[index]!= this.formData.entity_targeting.value;index++) { // index starts 1 to skip state fetching
@@ -276,7 +282,7 @@ export class TargetCriteriaComponent implements OnInit{
     onFilterChange(event:any) {
         console.log(event,this.selection);
         this.filterSelectedValue = event.values[0]
-        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0],1,5)
+        this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,event.values[0],1,this.pageCount)
           .subscribe((res:any) => {
             if (res.result.data) {
               this.insertDataIntoTable(res.result.data, res.result.count);
@@ -285,7 +291,6 @@ export class TargetCriteriaComponent implements OnInit{
             }
           });
     }
-
     compareObjects(o1: any, o2: any): boolean {
         return o1 && o2 ? o1._id === o2._id : o1 === o2;
     }
@@ -298,20 +303,29 @@ export class TargetCriteriaComponent implements OnInit{
 
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
+        // Convert arrayB to a map for faster lookup
+        const mapB = new Map();
+        this.formData[this.formData.entity_targeting.value].forEach((item:any) => {
+            mapB.set(JSON.stringify(item), true);
+        });
+
+        // Check if all objects in arrayA are present in arrayB
+        for (let objA of this.selection.selected) {
+            if (!mapB.has(JSON.stringify(objA))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-        if (this.isAllSelected() || this.selection.hasValue()) {
-            this.selection.clear();
-            this.formData[this.formData.entity_targeting.value] = [];
+    toggleAllRows(event:any) {
+        if(!event.checked) {
+            const setA = new Set(this.dataSource.data.map((item:any) => JSON.stringify(item)));
+            this.formData[this.formData.entity_targeting.value] = this.formData[this.formData.entity_targeting.value].filter((item:any) => !setA.has(JSON.stringify(item)));
             return;
         }
-        console.log(this.selection.hasValue())
-        this.formData[this.formData.entity_targeting.value] = this.dataSource.data;
+        this.formData[this.formData.entity_targeting.value] =  this.formData[this.formData.entity_targeting.value].concat(this.dataSource.data);
         this.selection.select(...this.dataSource.data);
     }
 
@@ -333,8 +347,6 @@ export class TargetCriteriaComponent implements OnInit{
 
     selectSingleRow(event:any,row:any) {
         this.selection.toggle(row)
-        console.log(event, row)
-        console.log(this.selection.hasValue())
         if(!this.formData[this.formData.entity_targeting.name]) {
             this.formData[this.formData.entity_targeting.name] = [];
         }
@@ -349,6 +361,11 @@ export class TargetCriteriaComponent implements OnInit{
         }
     }
 
+    closeTargetCriteriaPopup(){
+        if (this.formData.state && !Array.isArray(this.formData.state)) {  // changing state format to an array of object
+            this.formData.state = [this.formData.state];
+        }
+    }
     closeDialog() {
         if (this.formData.state && !Array.isArray(this.formData.state)) {  // changing state format to an array of object
             this.formData.state = [this.formData.state];
@@ -376,9 +393,13 @@ export class TargetCriteriaComponent implements OnInit{
     }
 
     pageEvent(event:any) {
-        console.log(event);
         this.formService.getEntitiesListAsType("GET_SUB_ENTITIES_LIST",this.targetedEntity,this.filterSelectedValue.length > 0 ? this.filterSelectedValue : Array.isArray(this.formData.state) ? this.formData.state[0]._id : this.formData.state._id,event.pageIndex+1,event.pageSize).subscribe((res:any) => {
             this.insertDataIntoTable(res.result.data,res.result.count)
+            const setA = new Set(res.result.data.map((item:any) => JSON.stringify(item)));
+            let selected = this.formData[this.formData.entity_targeting.value].filter((item:any) => setA.has(JSON.stringify(item)));
+            selected.forEach((element:any) => {
+                this.selection.select(element);
+            });
         })
     }
 
@@ -389,7 +410,7 @@ export class TargetCriteriaComponent implements OnInit{
         }
         this.criteria?.find((element:any) =>{
             element?.form.find((innerElement:any) => {
-                if(innerElement?.validators?.required && !this.formData[innerElement?.meta?.type]) {
+                if((innerElement?.validators?.required && !this.formData[innerElement?.meta?.type]) || (innerElement?.validators?.required && this.formData[innerElement?.meta?.type].length == 0)) {
                     disable = true;
                 }
             })
