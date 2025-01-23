@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { ConfigService } from '../../configs/config.service';
 import { HttpProviderService } from '../http-provider.service';
-import { PROJECT_DETAILS, CERTIFICATE_DETAILS } from '../../constants/formConstant';
+import { PROJECT_DETAILS, CERTIFICATE_DETAILS , PROGRAM_DETAILS} from '../../constants/formConstant';
 import { IndexDbService } from '../index-db/index-db.service';
+import { IFORM } from '../../interface/form';
 
 
 
@@ -110,10 +111,10 @@ export class FormService {
   }
 
 
-  getFormWithEntities(form: any): Promise<any> {
+  getFormWithEntities(form: IFORM | string): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        this.getForm(PROJECT_DETAILS).subscribe((formResponse:any) => {
+        this.getForm(form).subscribe((formResponse:any) => {
           let formData = formResponse?.result?.data?.fields || [];
           let entityNames = this.getEntityNames(formData);
           this.getEntities(entityNames).subscribe((entities:any) => {
