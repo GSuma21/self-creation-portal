@@ -6,7 +6,7 @@
 <div class="pd-top items-center form-container">
     <dynamic-form [formJson]="dynamicFormData" [classFlex]="'flex flex-wrap gap-[6%]'" [viewOnly]="viewOnly" #formLib
         (formChange)="getDynamicFormData($event)" (controlChange)="getFormControlChange($event)"
-        [allowOpenLinks]="allowOpenLinks"></dynamic-form>
+        [allowOpenLinks]="allowOpenLinks" (onClickTriggerParent)="onClickTriggeredParent($event)" (onActionTriggerParent)="onActionTriggeredParent($event)"></dynamic-form>
 </div>
 }
 <!-- @if(commentPayload || projectInReview) {

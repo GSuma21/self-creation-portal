@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { FormService, PROGRAM_DETAILS } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 
 @Component({
   selector: 'lib-program-details',
@@ -18,7 +20,7 @@ export class ProgramDetailsComponent {
   viewOnly = false;
   dynamicFormData:any;
 
-  constructor( private formService: FormService,) {
+  constructor( private formService: FormService,private dialog:MatDialog) {
       // this.startAutoSaving()
       // this.subscription.add(
       //   this.route.queryParams.subscribe((params: any) => {
@@ -123,6 +125,57 @@ export class ProgramDetailsComponent {
   getFormControlChange(event:any){}
 
 
+   /**
+   * Handles click events triggered by controls.
+   * Opens a dialog with predefined configurations and listens for the dialog close event.
+   * Currently supports the "targeting_criteria" control name.
+   *
+   * @param control - The control object containing the name and associated data.
+   */
+    onClickTriggeredParent(control: any) {
+      switch (control.name) {
+        case "targeting_criteria":
+          const dialogRef = this.dialog.open(TargetCriteriaComponent, {
+            width: '80%',
+            height: '80%',
+            disableClose: true,
+            autoFocus: false,
+            data: null,
+          });
+  
+          dialogRef.afterClosed().subscribe((res: any) => {
+            this.dynamicFormData.forEach((element:any) => {
+              if(element.name == "targeting_criteria" && res) {
+                element.value.push(res);
+                // this.formLib.myForm.patchValue({ // adding target criteria to form
+                //   targeting_criteria: element.value,
+                // });
+                // this.programWithRolloutService.rollOutDetails.targeting_criteria
+              }
+            })
+            // this.updateTargetCriteria()
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  
+    /**
+   * Handles action events triggered by controls.
+   * Performs operations based on the "action" property of the control, such as "VIEW", "EDIT", or "DELETE".
+   *
+   * @param control - The control object containing the action and associated item with an index.
+   */
+    onActionTriggeredParent(control:any){
+      switch (control.action) {
+        case "VIEW":
+          break;
+        default:
+          break;
+      }
+  
+    }
 
    ngOnDestroy() {
       this.subscription.unsubscribe();
