@@ -24,6 +24,7 @@ export class LayoutComponent {
         console.log(data)
         this.headerData = data?.sidenavData.headerData
         this.sidenavData= data?.sidenavData.sidenav
+        this.headerData.title = "PROGRAM_NAME"
       })
     )
     this.setConfig();
