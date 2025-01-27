@@ -137,8 +137,6 @@ export class TargetCriteriaComponent implements OnInit{
                             for(let index=0;index <5;index++) {
                                 this.selection.select(targetingArray[index]);
                             }
-                            this.formData[this.formData.entity_targeting.value].forEach((element:any) => {
-                            })
                         })
                     }
                 }
@@ -305,9 +303,11 @@ export class TargetCriteriaComponent implements OnInit{
     isAllSelected() {
         // Convert arrayB to a map for faster lookup
         const mapB = new Map();
-        this.formData[this.formData.entity_targeting.value].forEach((item:any) => {
-            mapB.set(JSON.stringify(item), true);
-        });
+        if(this.formData[this.formData.entity_targeting]) {
+            this.formData[this.formData.entity_targeting.value].forEach((item:any) => {
+                mapB.set(JSON.stringify(item), true);
+            });
+        }
 
         // Check if all objects in arrayA are present in arrayB
         for (let objA of this.selection.selected) {
@@ -320,6 +320,9 @@ export class TargetCriteriaComponent implements OnInit{
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     toggleAllRows(event:any) {
+        if(!this.formData[this.formData.entity_targeting.value]) {
+            this.formData[this.formData.entity_targeting.value] = [];
+        }
         if(!event.checked) {
             const setA = new Set(this.dataSource.data.map((item:any) => JSON.stringify(item)));
             this.formData[this.formData.entity_targeting.value] = this.formData[this.formData.entity_targeting.value].filter((item:any) => !setA.has(JSON.stringify(item)));
@@ -406,6 +409,9 @@ export class TargetCriteriaComponent implements OnInit{
     isDisable() {
         let disable = false;
         if(this.targetedEntity.length > 0 && this.selection.selected.length == 0) {
+            disable = true;
+        }
+        if(this.formData && this.formData.entity_targeting && this.formData[this.formData.entity_targeting.value] && this.formData[this.formData.entity_targeting.value].length == 0) {
             disable = true;
         }
         this.criteria?.find((element:any) =>{
