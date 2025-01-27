@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
-import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent} from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent, PROJECT_DETAILS} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -61,7 +61,7 @@ export class LayoutComponent {
       projectData = form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "PROJECT")
     })
   )
-    this.formService.getFormWithEntities("PROJECT_DETAILS")
+    this.formService.getFormWithEntities(PROJECT_DETAILS)
     .then((result) => {
       this.subscription.add(
       this.formService.getForm(TASK_DETAILS).subscribe((tasksData) => {

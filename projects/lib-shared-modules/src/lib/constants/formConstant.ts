@@ -34,3 +34,8 @@ export const TARGET_CRITERIA_DETAILS : IFORM = {
 	"type": "targetCriteriaDetails",
 	"sub_type": "targetCriteriaDetailsForm",
 }
+
+export const PROGRAM_DETAILS : IFORM = {
+	"type": "programDetails",
+	"sub_type": "programDetailsForm",
+}

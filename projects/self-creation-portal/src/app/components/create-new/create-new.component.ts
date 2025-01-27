@@ -20,26 +20,6 @@ import { CommonModule } from '@angular/common';
 export class CreateNewComponent {
   resourceList : any;
 
-  resourceHeader = {
-    "title":"PROJECT_NAME",
-    "buttons":[
-      { title: "SAVE_AS_DRAFT"},
-      { title: "PREVIEW"},
-      { title: "SEND_FOR_REVIEW"}
-    ]
-  }
-
-  observationwithrubricsHeader = {
-    "title" : "OBSERVATION_FORM",
-    "buttons":[
-      { title: "PAGINATION"},
-      { title: "PROGRESS_STATUS"},
-      { title: "SAVE_AS_DRAFT"},
-      { title: "PREVIEW"},
-      { title: "SEND_FOR_REVIEW"}
-    ]
-  }
-
   constructor(private router:Router,private formService:FormService) {
   }
 

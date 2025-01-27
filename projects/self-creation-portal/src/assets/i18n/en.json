@@ -205,5 +205,6 @@
     "SEARCH_RESULT_NOT_FOUND":"Search results not found.",
     "ROLL_OUT_CHANGES":"Roll out changes",
     "NO_ROLLED_OUT_FOUND":"No resources are rolled out at the moment.",
-    "ENTITY_NOT_FOUND":"Entity not found"
+    "ENTITY_NOT_FOUND":"Entity not found",
+    "PROGRAM_NAME":"Program name"
 }

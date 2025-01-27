@@ -5,7 +5,7 @@ import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentsBoxComponent, DialogPopupComponent, FormService, ToastService, UtilService, projectMode,resourceStatus } from 'lib-shared-modules';
+import { CommentsBoxComponent, DialogPopupComponent, FormService, PROJECT_DETAILS, ToastService, UtilService, projectMode,resourceStatus } from 'lib-shared-modules';
 @Component({
   selector: 'lib-project-details',
   standalone: true,
@@ -118,7 +118,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   getProjectDetailsForViewOnly(){
-    this.formService.getFormWithEntities('PROJECT_DETAILS').then((data) => {
+    this.formService.getFormWithEntities(PROJECT_DETAILS).then((data) => {
       if (data) {
         this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
           this.subscription.add(
@@ -173,7 +173,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
 
 
   getFormWithEntitiesAndMap(){
-    this.formService.getFormWithEntities('PROJECT_DETAILS').then((data) => {
+    this.formService.getFormWithEntities(PROJECT_DETAILS).then((data) => {
       if (data) {
         this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
         this.subscription.add(
