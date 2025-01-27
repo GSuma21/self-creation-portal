@@ -33,10 +33,6 @@ export class LayoutComponent {
   getData(){
     this.subscription.add(
     this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
-      console.log( form?.result?.data?.fields?.controls) 
-      if (this.router.url.includes('project-details')) {
-        
-      }
       this.programWithRolloutService.setRolloutData( {
         "sidenavData": this.router.url.includes('project-details') ? form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT") : form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "PROGRAM")
       });
