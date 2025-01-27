@@ -5,6 +5,7 @@ import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { FormService, PROGRAM_DETAILS } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
+import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 
 @Component({
   selector: 'lib-program-details',
@@ -20,7 +21,7 @@ export class ProgramDetailsComponent {
   viewOnly = false;
   dynamicFormData:any;
 
-  constructor( private formService: FormService,private dialog:MatDialog) {
+  constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService) {
       // this.startAutoSaving()
       // this.subscription.add(
       //   this.route.queryParams.subscribe((params: any) => {
@@ -118,8 +119,9 @@ export class ProgramDetailsComponent {
         // }
       }
 
-  getDynamicFormData(event:any){
-
+  getDynamicFormData(data:any){
+    this.programWithRolloutService.setProgramData(data)
+    this.programWithRolloutService.upDateProgramTitle(data.title)
   }
 
   getFormControlChange(event:any){}
