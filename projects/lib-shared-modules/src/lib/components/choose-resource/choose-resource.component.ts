@@ -1,15 +1,21 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation } from '@angular/core';
-import { environment } from 'environments';
-import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
+import { Component } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import { RESOURCE_URLS} from '../../services/configs/url.config.json';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResourceService } from '../../services/resource-service/resource.service';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../header/header.component';
+import { PreviewComponent } from '../preview/preview.component';
+import { SearchComponent } from '../search/search.component';
+import { FilterComponent } from '../filter/filter.component';
+import { NoResultFoundComponent } from '../no-result-found/no-result-found.component';
+import { HttpProviderService } from '../../services/http-provider.service';
+import { ConfigService } from '../../configs/config.service';
+import { UtilService } from '../../services/util/util.service';
+import { FormService } from '../../services/form/form.service';
+import { SIDE_NAV_DATA } from '../../constants/formConstant';
 
 @Component({
   selector: 'app-choose-resource',
@@ -75,7 +81,7 @@ export class ChooseResourceComponent {
   showNoPulishedMessage:boolean = false;
   rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
 
-constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private resourceService:ResourceService, private route: ActivatedRoute,   private formService: FormService,) {}
+constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
       const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
@@ -96,7 +102,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
-      url : RESOURCE_URLS.BASE + RESOURCE_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
+      url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
       params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by,sort_order:sort_order })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
@@ -163,10 +169,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   onSelect(){
       this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id, rolloutId:this.rolloutId}})
-      // this.resourceService.createRollOut(this.selectedResource.id).subscribe((res)=>{
-      //   console.log(res);
-      //   // this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id}})
-      // })
   }
 
   navigateToCreateNew() {

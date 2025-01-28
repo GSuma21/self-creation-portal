@@ -138,6 +138,13 @@ export class LayoutComponent {
         })
         break;
       }
+      case "SAVE_AS_DRAFT":{
+        // this.subscription.add(
+        //   this.sharedService.triggerSaveComment()  // Triggers the save comment action from the comment module
+        // )
+        this.programWithRolloutService.saveProgramFunc(true);
+        break;
+      }
       default:
         break;
     }

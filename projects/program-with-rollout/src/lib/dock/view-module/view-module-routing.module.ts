@@ -5,6 +5,7 @@ import { ResourceDetailsComponent } from '../components/resource-details/resourc
 import { ProgramDetailsComponent } from '../components/program-details/program-details.component';
 import { ProgramResourcesComponent } from '../components/program-resources/program-resources.component';
 import { ResourceLevelTargetingComponent } from '../components/resource-level-targeting/resource-level-targeting.component';
+import { ChoosingResourceComponent } from '../components/choosing-resource/choosing-resource.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,10 @@ const routes: Routes = [
     path:'',
     redirectTo:'roll-out',
     pathMatch:'full',
+  },
+  {
+    path:'choose-resource',
+    component:ChoosingResourceComponent,
   },
   {
     path:'details',

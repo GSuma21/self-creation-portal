@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ConfigService, FormService, HttpProviderService, ROLL_OUT_DETAILS } from 'lib-shared-modules';
-import { BehaviorSubject, EMPTY, interval, Observable, of, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { ConfigService, FormService, HttpProviderService, ROLL_OUT_DETAILS, ToastService } from 'lib-shared-modules';
+import { BehaviorSubject, EMPTY, interval, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,9 @@ export class ProgramWithRolloutService {
     rolloutDetails: "INVALID",
   }
   programData:any ={}
-  constructor( private httpService: HttpProviderService,  private Configuration: ConfigService, private formService: FormService,) { }
+  private saveProgram = new BehaviorSubject<boolean>(false);
+  isProgramSave = this.saveProgram.asObservable();
+  constructor( private httpService: HttpProviderService,  private Configuration: ConfigService, private formService: FormService,private toastService: ToastService,private router: Router) { }
 
 
   setRolloutData(data: any) {
@@ -127,6 +130,10 @@ export class ProgramWithRolloutService {
     this.programData = { ...this.programData, ...data };
   }
 
+  saveProgramFunc(newAction: boolean) {
+    this.saveProgram.next(newAction);
+  }
+
   upDateProgramTitle(title?: string) {
     const currentProjectMetaData = this.rolloutDataSubject.getValue();
     const updatedData = {
@@ -145,4 +152,70 @@ export class ProgramWithRolloutService {
     };
     this.setRolloutData(updatedData);
   }
+
+  createOrUpdateProgram(programData?: any, programId?: string | number,removeMetaData?:boolean) {
+    console.log("comes here ")
+    this.programData.title =
+      this.programData?.title?.length > 0
+        ? this.programData.title
+        : 'Untitled project';
+    // for (let key in programData) {
+    //   if (Array.isArray(programData[key])) {
+    //     programData[key] = programData[key].map((element: any) =>
+    //       element.value ? element.value : element
+    //     );
+    //   }
+    //   programData[key] = programData[key]?.value
+    //     ? programData[key].value
+    //     : programData[key];
+    // }
+    const config = {
+      url: programId
+      ? this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
+        '/' +
+        programId
+      : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
+      payload: programData ? programData : '',
+    };
+
+    // if(removeMetaData) {
+    //   delete programData.formMeta
+    // }
+    // else {
+      // programData.formMeta = this.formMeta;
+    // }
+    console.log(config)
+    return this.httpService.post(config.url, config.payload);
+  }
+  updateProgramDraft(projectId: string | number){
+        return this.createOrUpdateProgram(this.programData, projectId).pipe(
+          map((res: any) => {
+            this.setProgramData(res.result);
+            this.openSnackBarAndRedirect(res.message);
+            this.saveProgramFunc(false);
+            this.upDateProgramTitle();
+            return res;
+          })
+        );
+      }
+  
+
+
+
+      openSnackBarAndRedirect(
+        message?: string,
+        panelClass?: string,
+        url: any = ''
+      ) {
+        let data = {
+          message: message ? message : 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
+          class: panelClass ? panelClass : 'success',
+        };
+        this.toastService.openSnackBar(data);
+        if (url?.length) {
+          this.router.navigate([`/home/${url}`]);
+        }
+      }
+    
+
 }

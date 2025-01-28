@@ -4,7 +4,6 @@ import { AppMainViewComponent } from './components/app-main-view/app-main-view.c
 import { SolutionsLibHolderComponent } from './components/solutions-lib-holder/solutions-lib-holder.component';
 import { CreateNewComponent } from './components/create-new/create-new.component';
 import { AuthGuard } from 'authentication_frontend_library';
-import { ChooseResourceComponent } from './components/choose-resource/choose-resource.component';
 
 export const routes: Routes = [
     {
@@ -60,12 +59,6 @@ export const routes: Routes = [
         path:"roll-out",
         canActivate:[AuthGuard],
         loadChildren:() => import('program-with-rollout').then(m => m.ViewModuleModule),
-        data: { preload: true, delay: 15000 }
-    },
-    {
-        path:"choose-resource",
-        component:ChooseResourceComponent,
-        canActivate:[AuthGuard],
         data: { preload: true, delay: 15000 }
     },
     { path: '', loadChildren: () => import('authentication_frontend_library').then(m => m.SlRoutingRoutingModule) }
