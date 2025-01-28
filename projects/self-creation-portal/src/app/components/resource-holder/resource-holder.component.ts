@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST, ArrayContainsAllDirective} from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -22,7 +22,7 @@ import { ProgramWithRolloutService } from 'program-with-rollout';
 @Component({
   selector: 'app-resource-holder',
   standalone: true,
-  imports: [HeaderComponent,SideNavbarComponent, CardComponent, SearchComponent, PaginationComponent, FilterComponent, MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule, NoResultFoundComponent, CommonModule],
+  imports: [HeaderComponent,SideNavbarComponent, CardComponent, SearchComponent, PaginationComponent, FilterComponent, MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule, NoResultFoundComponent, CommonModule, ArrayContainsAllDirective],
   templateUrl: './resource-holder.component.html',
   styleUrl: './resource-holder.component.scss',
   providers: [DatePipe]
@@ -37,6 +37,7 @@ export class ResourceHolderComponent implements OnInit{
     pageSizeOptions: [5, 10, 20, 100],
     currentPage: 0
   };
+  permissions:any = [];
 
   filters = {
     search: '',
@@ -625,10 +626,18 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
   getsolutionList() {
     this.formService.getPermissions().subscribe((res:any) => {
       this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+        this.permissions = res.result;
         this.resourceList = form?.result?.data?.fields?.controls
-        this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
-        let userRoles:any = localStorage.getItem('user_roles')
-        userRoles = JSON.parse(userRoles)
+        if(this.pageStatus == 'roll-out') {
+          this.resourceList = this.resourceList.filter((item:any) => {
+            if(item.title != "PROGRAM") {
+              return item
+            }
+          })
+        }
+        // this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
+        // let userRoles:any = localStorage.getItem('user_roles')
+        // userRoles = JSON.parse(userRoles)
         // if(!userRoles.find((item:any)=> item.title == 'content_creator')) {
         //   this.router.navigate(['/home/up-for-review'])
         // }

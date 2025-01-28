@@ -22,6 +22,7 @@ export class ProgramWithRolloutService {
   tabValidation:any={
     rolloutDetails: "INVALID",
   }
+  programData:any ={}
   constructor( private httpService: HttpProviderService,  private Configuration: ConfigService, private formService: FormService,) { }
 
 
@@ -121,4 +122,27 @@ export class ProgramWithRolloutService {
     })
   }
 
+
+  setProgramData(data: any) {
+    this.programData = { ...this.programData, ...data };
+  }
+
+  upDateProgramTitle(title?: string) {
+    const currentProjectMetaData = this.rolloutDataSubject.getValue();
+    const updatedData = {
+      ...currentProjectMetaData,
+      sidenavData: {
+        ...currentProjectMetaData.sidenavData,
+        headerData: {
+          ...currentProjectMetaData.sidenavData.headerData,
+          title: title
+            ? title
+            : this.programData?.title
+            ? this.programData?.title
+            : 'PROgram_NAME',
+        },
+      },
+    };
+    this.setRolloutData(updatedData);
+  }
 }

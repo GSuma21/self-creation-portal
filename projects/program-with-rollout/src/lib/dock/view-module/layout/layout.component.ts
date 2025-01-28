@@ -21,10 +21,9 @@ export class LayoutComponent {
     this.getData()
     this.subscription.add(
       this.programWithRolloutService.currentRolloutData.subscribe(data => {
-        console.log(data)
         this.headerData = data?.sidenavData.headerData
         this.sidenavData= data?.sidenavData.sidenav
-        this.headerData.title = "PROGRAM_NAME"
+        this.headerData.title =  this.headerData.title ?  this.headerData.title : "PROGRAM_NAME"
       })
     )
     this.setConfig();
