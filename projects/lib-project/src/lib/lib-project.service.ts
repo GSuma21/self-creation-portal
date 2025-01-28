@@ -110,6 +110,10 @@ export class LibProjectService {
       (this.formMeta.isCertificateSelected && this.formMeta.formValidation.certificates === 'VALID') &&
       this.projectData.tasks.length <= (this.projectConfig?.max_task_count ? this.projectConfig.max_task_count : 10)
     ) {
+      if(this.projectData.certificate && this.projectData.certificate.criteria.conditions.C3 && this.projectData.certificate.criteria.conditions.C3.expression.length == 0) {
+        delete this.projectData.certificate.criteria.conditions.C3;
+        this.projectData.certificate.criteria.expression = this.projectData.certificate.criteria.expression.includes("&&C3") ? this.projectData.certificate.criteria.expression.replace("&&C3", "") : this.projectData.certificate.criteria.expression;
+      }
       if (
         this.projectConfig?.show_reviewer_list &&
         this.projectData.stage !== resourceStatus.REVIEW
@@ -156,6 +160,7 @@ export class LibProjectService {
                     this.projectData = {};
                     this.router.navigate([SUBMITTED_FOR_REVIEW]);
                   },((err)=> {
+                    this.setTaskEvidenceMetaData();
                     this.validateAndHighlightErrors(err)
                   })
                 );
@@ -186,6 +191,7 @@ export class LibProjectService {
                 this.projectData = {};
                 this.router.navigate([SUBMITTED_FOR_REVIEW]);
               },((err)=> {
+                this.setTaskEvidenceMetaData()
                 this.validateAndHighlightErrors(err)
               })
             );
@@ -197,6 +203,17 @@ export class LibProjectService {
       this.openSnackBarAndRedirect('Fill all the mandatory fields.', 'error');
     }
     this.checkSendForReviewValidation(false);
+  }
+
+  setTaskEvidenceMetaData() {
+    if(this.projectData.certificate && !this.projectData.certificate.criteria.conditions.C3) {
+      this.projectData.certificate.criteria.conditions.C3 = {
+        validationText: 'Evidence task level validation',
+        expression: '',
+        conditions: {},
+      }
+      this.projectData.certificate.criteria.expression = this.projectData.certificate.criteria.expression + "&&C3"
+    }
   }
 
 
@@ -278,6 +295,7 @@ export class LibProjectService {
       this.projectData?.title?.length > 0
         ? this.projectData.title
         : 'Untitled project';
+    // to check is task Evidence required added in criteria or to remove criteria
     for (let key in projectData) {
       if (Array.isArray(projectData[key])) {
         projectData[key] = projectData[key].map((element: any) =>
