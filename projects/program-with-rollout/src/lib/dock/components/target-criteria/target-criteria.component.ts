@@ -227,6 +227,7 @@ export class TargetCriteriaComponent implements OnInit {
         placeHolder: 'Role',
         validators: { required: true },
       };
+      this.targetedEntity = '';
     }
     if (key !== 'roles') {
       this.selection.clear();
