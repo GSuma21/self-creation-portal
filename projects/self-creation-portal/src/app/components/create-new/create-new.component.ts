@@ -43,8 +43,17 @@ export class CreateNewComponent {
         if(!userRoles.find((item:any)=> item.title == 'content_creator') && !userRoles.find((item:any)=> item.title == 'reviewer')) {
           this.router.navigate(['/home/roll-out'])
         }
+        else if(userRoles.find((item:any)=> item.title == 'content_creator')) {
+          this.router.navigate(['/home/create-new'])
+        }
         else if(!userRoles.find((item:any)=> item.title == 'content_creator') && !userRoles.find((item:any)=> item.title == "rollout_manager")) {
           this.router.navigate(['/home/up-for-review'])
+        }
+        else if(userRoles.find((item:any)=> item.title == 'reviewer')) {
+          this.router.navigate(['/home/up-for-review'])
+        }
+        else if (!userRoles.find((item:any)=> item.title == 'reviewer') && userRoles.find((item:any)=> item.title == "rollout_manager")) {
+          this.router.navigate(['/home/roll-out'])
         }
       })
     })
