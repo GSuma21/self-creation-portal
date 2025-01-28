@@ -446,7 +446,6 @@ export class TargetCriteriaComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    console.log(this.formData[this.formData.entity_targeting.value],this.selection.selected);
     // Convert arrayB to a map for faster lookup
     if(this.formData[this.formData.entity_targeting.value]) {
         return this.dataSource.data.every((obj1:any) =>
@@ -470,6 +469,9 @@ export class TargetCriteriaComponent implements OnInit {
       this.formData[this.formData.entity_targeting.value] = this.formData[
         this.formData.entity_targeting.value
       ].filter((item: any) => !setA.has(JSON.stringify(item)));
+      if(this.formData[this.formData.entity_targeting.value].length == 0) {
+        this.selection.clear();
+      }
       return;
     }
     this.formData[this.formData.entity_targeting.value] = this.formData[
@@ -517,6 +519,9 @@ export class TargetCriteriaComponent implements OnInit {
       );
       if (index >= 0) {
         this.formData[this.formData.entity_targeting.name].splice(index, 1);
+      }
+      if(this.formData[this.formData.entity_targeting.value].length == 0) {
+        this.selection.clear();
       }
     }
   }
