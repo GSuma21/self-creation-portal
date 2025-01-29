@@ -178,6 +178,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         if (Object.keys(this.libProjectService.projectData).length > 1 && this.mode) {
           if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT) {
             this.startAutoSaving();
+            this.setTaskEvidenceMetaData();
             if(this.libProjectService.projectData.tasks) {
               this.tasks = this.libProjectService.projectData.tasks.filter((task:any) => {
                 if(task?.evidence_details?.min_no_of_evidences) {
@@ -211,6 +212,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             if(this.libProjectService.projectData.certificate) {
               this.selectedYes = "1"
             }
+            this.setTaskEvidenceMetaData();
             this.addTasktoCertificatePage(this.libProjectService.projectData)
           }
           this.setCertificateSelection();
@@ -259,6 +261,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
               this.libProjectService.setProjectData(res.result);
               this.libProjectService.projectData = res?.result;
+              this.setTaskEvidenceMetaData();
               if(this.libProjectService.formMeta.isCertificateSelected || (this.libProjectService.projectData.certificate && this.libProjectService.formMeta.isCertificateSelected == "2")) {
                 // set certificate data in parent project data when certificate data is not project
                 if(!this.libProjectService.projectData.certificate) {
@@ -321,6 +324,17 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         return task;
       }
     });
+  }
+
+  setTaskEvidenceMetaData() {
+    if(this.libProjectService.projectData.certificate && !this.libProjectService.projectData.certificate.criteria.conditions.C3) {
+      this.libProjectService.projectData.certificate.criteria.conditions.C3 = {
+        validationText: 'Evidence task level validation',
+        expression: '',
+        conditions: {},
+      }
+      this.libProjectService.projectData.certificate.criteria.expression = this.libProjectService.projectData.certificate.criteria.expression + "&&C3"
+    }
   }
 
   checkValidations() {
@@ -792,7 +806,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   checkTaskEvidenceIsAvailable(id:string) {
-    if(this.libProjectService.projectData.certificate) {
+    if(this.libProjectService.projectData.certificate && this.libProjectService.projectData.certificate.criteria.conditions.C3) {
       return this.libProjectService.projectData.certificate.criteria.conditions.C3.conditions[id] ? true : false;
     }
     else {

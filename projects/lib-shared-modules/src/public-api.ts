@@ -25,3 +25,4 @@ export * from './lib/assets/rejectform';
 export * from './lib/services/pre-loading/timed-preloading-strategy.service';
 export * from './lib/components/preview/preview.component'
 export * from './lib/components/choose-resource/choose-resource.component'
+export * from './lib/directive/permission.directive'
