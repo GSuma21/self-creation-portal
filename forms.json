@@ -2,1983 +2,1983 @@
   {
     "type": "projectDetails",
     "sub_type": "projectDetailsForm",
-    "action": "update",
+    "action": "skip",
     "id": 1,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "name": "title",
-                "label": "Project title",
-                "value": "",
-                "class": "",
-                "type": "text",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Enter project title",
-                "position": "floating",
-                "infoMessage": "Name your project as it should appear to the user on the consumption app.",
-                "errorMessage": {
-                    "required": "Enter valid project title",
-                    "maxlength": "Project title must not exceed 256 characters"
-                },
-                "validators": {
-                    "required": true,
-                    "maxLength": 255
-                }
+          {
+            "name": "title",
+            "label": "Project title",
+            "value": "",
+            "class": "",
+            "type": "text",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Enter project title",
+            "position": "floating",
+            "infoMessage": "Name your project as it should appear to the user on the consumption app.",
+            "errorMessage": {
+              "required": "Enter valid project title",
+              "maxlength": "Project title must not exceed 256 characters"
             },
-            {
-                "name": "categories",
-                "label": "Category",
-                "value": "",
-                "class": "",
-                "type": "select",
-                "cssStyle": "relative w-[100%]",
-                "isMultiSelect": "true",
-                "placeHolder": "Add project category",
-                "position": "floating",
-                "infoMessage": "A project can have multiple categories.",
-                "errorMessage": {
-                    "required": "Add project category"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "categories"
-                }
+            "validators": {
+              "required": true,
+              "maxLength": 255
+            }
+          },
+          {
+            "name": "categories",
+            "label": "Category",
+            "value": "",
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "true",
+            "placeHolder": "Add project category",
+            "position": "floating",
+            "infoMessage": "A project can have multiple categories.",
+            "errorMessage": {
+              "required": "Add project category"
             },
-            {
-                "name": "objective",
-                "label": "Objective",
-                "value": "",
-                "class": "",
-                "type": "textarea",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Summarize the goal of the project",
-                "position": "floating",
-                "infoMessage": "Describe the projects main goal in one or two lines.",
-                "errorMessage": {
-                    "required": "Summarize the goal of the project",
-                    "maxlength": "Objective must not exceed 2000 characters"
-                },
-                "validators": {
-                    "required": true,
-                    "maxLength": 2000
-                }
+            "validators": {
+              "required": true
             },
-            {
-                "name": "recommended_duration",
+            "options": [],
+            "meta": {
+              "entityType": "categories"
+            }
+          },
+          {
+            "name": "objective",
+            "label": "Objective",
+            "value": "",
+            "class": "",
+            "type": "textarea",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Summarize the goal of the project",
+            "position": "floating",
+            "infoMessage": "Describe the projects main goal in one or two lines.",
+            "errorMessage": {
+              "required": "Summarize the goal of the project",
+              "maxlength": "Objective must not exceed 2000 characters"
+            },
+            "validators": {
+              "required": true,
+              "maxLength": 2000
+            }
+          },
+          {
+            "name": "recommended_duration",
+            "label": "Recommended duration",
+            "value": "",
+            "class": "",
+            "type": "subFields",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "",
+            "subfields": [
+              {
+                "name": "number",
                 "label": "Recommended duration",
                 "value": "",
                 "class": "",
-                "type": "subFields",
+                "type": "number",
                 "cssStyle": "relative w-[100%]",
-                "placeHolder": "",
-                "subfields": [
-                    {
-                        "name": "number",
-                        "label": "Recommended duration",
-                        "value": "",
-                        "class": "",
-                        "type": "number",
-                        "cssStyle": "relative w-[100%]",
-                        "placeHolder": "Number",
-                        "position": "floating",
-                        "errorMessage": {
-                            "required": "Enter duration in numbers",
-                            "min": "Duration must be at least 1",
-                            "max": "Duration must not exceed 100,000"
-                        },
-                        "validators": {
-                            "required": true,
-                            "min": 1,
-                            "max": 100000
-                        }
-                    },
-                    {
-                        "name": "duration",
-                        "label": "",
-                        "value": "",
-                        "class": "",
-                        "type": "select",
-                        "cssStyle": "relative w-[100%]",
-                        "isMultiSelect": "false",
-                        "placeHolder": "Add a duration",
-                        "position": "floating",
-                        "errorMessage": {
-                            "required": "Enter duration"
-                        },
-                        "validators": {
-                            "required": true
-                        },
-                        "options": [],
-                        "meta": {
-                            "entityType": "duration"
-                        }
-                    }
-                ],
+                "placeHolder": "Number",
                 "position": "floating",
-                "infoMessage": "Specify the time user will take to complete the Improvement Project.",
-                "validators": {
-                    "required": true
-                }
-            },
-            {
-                "name": "keywords",
-                "label": "Add keywords",
-                "value": "",
-                "class": "",
-                "type": "text",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Add a tag",
-                "position": "floating",
-                "infoMessage": "Keywords improve searchability. Help users find your project easily with relevant keywords.",
                 "errorMessage": {
-                    "required": "Add a tag",
-                    "maxlength": "Keyword must not exceed 256 characters"
+                  "required": "Enter duration in numbers",
+                  "min": "Duration must be at least 1",
+                  "max": "Duration must not exceed 100,000"
                 },
                 "validators": {
-                    "required": false,
-                    "maxLength": 255
+                  "required": true,
+                  "min": 1,
+                  "max": 100000
                 }
-            },
-            {
-                "name": "recommended_for",
-                "label": "Recommended for",
+              },
+              {
+                "name": "duration",
+                "label": "",
                 "value": "",
-                "class": "",
-                "type": "select",
-                "cssStyle": "relative w-[100%]",
-                "isMultiSelect": "true",
-                "placeHolder": "Select role",
-                "position": "floating",
-                "infoMessage": "Select the target audience for your project. Multiple user types can be selected.",
-                "errorMessage": {
-                    "required": "Select role"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "recommended_for"
-                }
-            },
-            {
-                "name": "languages",
-                "label": "Language",
-                "value": "",
-                "class": "",
-                "type": "select",
-                "cssStyle": "relative w-[100%]",
-                "isMultiSelect": "true",
-                "placeHolder": "Select language",
-                "position": "floating",
-                "infoMessage": "Select languages used in your project.",
-                "errorMessage": {
-                    "required": "Select language"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "languages"
-                }
-            },
-            {
-                "name": "learning_resources",
-                "label": "Project resource (You can add learning resource(s) as a project level)",
-                "value": "",
-                "class": "",
-                "icon": "add_circle",
-                "type": "addResource",
-                "cssStyle": "relative w-[100%]",
-                "textForLink": "Add learning resource(s)",
-                "placeHolder": "",
-                "position": "floating",
-                "infoMessage": "Add Name and the link of the Learning resource for users to view while doing the project. These learning resources are added at a project level. ",
-                "listIcon": "videocam_off",
-                "listLabel": "Video information",
-                "dialogData": {
-                    "header": "Add learning resource(s)",
-                    "headerCss": "flex flex-row justify-between items-center bg-[#0a4f9d] h-10",
-                    "resource": [
-                        [
-                            {
-                                "name": "name",
-                                "label": "Name of the resource",
-                                "value": "",
-                                "class": "",
-                                "type": "text",
-                                "placeHolder": "Name",
-                                "position": "floating",
-                                "errorMessage": {
-                                    "required": "Enter Name of the resource",
-                                    "maxlength": "Name must not exceed 256 characters"
-                                },
-                                "validators": {
-                                    "required": true,
-                                    "maxLength": 255
-                                }
-                            },
-                            {
-                                "name": "url",
-                                "label": "Link to the resource",
-                                "value": "",
-                                "class": "",
-                                "type": "text",
-                                "placeHolder": "Link",
-                                "position": "floating",
-                                "errorMessage": {
-                                    "required": "Enter link to the resource",
-                                    "pattern": "Please add a valid link to resource",
-                                    "maxlength": "Url must not exceed 256 characters"
-                                },
-                                "validators": {
-                                    "required": true,
-                                    "pattern": "^(https?://)?([\\w-]+\\.)+[\\w-]{2,}(/\\S*)*/?(#[\\w-]*)?(\\?.*)?$",
-                                    "maxLength": 255
-                                }
-                            }
-                        ]
-                    ],
-                    "confirmButton": "Save",
-                    "cancelButton": "Cancel",
-                    "addButton": "Add learning resource(s)"
-                },
-                "errorMessage": {
-                    "required": "Enter project title"
-                },
-                "validators": {
-                    "required": false,
-                    "maxLength": 255
-                }
-            },
-            {
-                "name": "licenses",
-                "label": "License",
-                "value": "cc_by_4.0",
                 "class": "",
                 "type": "select",
                 "cssStyle": "relative w-[100%]",
                 "isMultiSelect": "false",
-                "placeHolder": "Select license",
+                "placeHolder": "Add a duration",
                 "position": "floating",
-                "infoMessage": "Select license type of your project.",
                 "errorMessage": {
-                    "required": "Select license"
+                  "required": "Enter duration"
                 },
                 "validators": {
-                    "required": true
+                  "required": true
                 },
                 "options": [],
                 "meta": {
-                    "entityType": "licenses"
+                  "entityType": "duration"
                 }
+              }
+            ],
+            "position": "floating",
+            "infoMessage": "Specify the time user will take to complete the Improvement Project.",
+            "validators": {
+              "required": true
             }
+          },
+          {
+            "name": "keywords",
+            "label": "Add keywords",
+            "value": "",
+            "class": "",
+            "type": "text",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Add a tag",
+            "position": "floating",
+            "infoMessage": "Keywords improve searchability. Help users find your project easily with relevant keywords.",
+            "errorMessage": {
+              "required": "Add a tag",
+              "maxlength": "Keyword must not exceed 256 characters"
+            },
+            "validators": {
+              "required": false,
+              "maxLength": 255
+            }
+          },
+          {
+            "name": "recommended_for",
+            "label": "Recommended for",
+            "value": "",
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "true",
+            "placeHolder": "Select role",
+            "position": "floating",
+            "infoMessage": "Select the target audience for your project. Multiple user types can be selected.",
+            "errorMessage": {
+              "required": "Select role"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "recommended_for"
+            }
+          },
+          {
+            "name": "languages",
+            "label": "Language",
+            "value": "",
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "true",
+            "placeHolder": "Select language",
+            "position": "floating",
+            "infoMessage": "Select languages used in your project.",
+            "errorMessage": {
+              "required": "Select language"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "languages"
+            }
+          },
+          {
+            "name": "learning_resources",
+            "label": "Project resource (You can add learning resource(s) as a project level)",
+            "value": "",
+            "class": "",
+            "icon": "add_circle",
+            "type": "addResource",
+            "cssStyle": "relative w-[100%]",
+            "textForLink": "Add learning resource(s)",
+            "placeHolder": "",
+            "position": "floating",
+            "infoMessage": "Add Name and the link of the Learning resource for users to view while doing the project. These learning resources are added at a project level. ",
+            "listIcon": "videocam_off",
+            "listLabel": "Video information",
+            "dialogData": {
+              "header": "Add learning resource(s)",
+              "headerCss": "flex flex-row justify-between items-center bg-[#0a4f9d] h-10",
+              "resource": [
+                [
+                  {
+                    "name": "name",
+                    "label": "Name of the resource",
+                    "value": "",
+                    "class": "",
+                    "type": "text",
+                    "placeHolder": "Name",
+                    "position": "floating",
+                    "errorMessage": {
+                      "required": "Enter Name of the resource",
+                      "maxlength": "Name must not exceed 256 characters"
+                    },
+                    "validators": {
+                      "required": true,
+                      "maxLength": 255
+                    }
+                  },
+                  {
+                    "name": "url",
+                    "label": "Link to the resource",
+                    "value": "",
+                    "class": "",
+                    "type": "text",
+                    "placeHolder": "Link",
+                    "position": "floating",
+                    "errorMessage": {
+                      "required": "Enter link to the resource",
+                      "pattern": "Please add a valid link to resource",
+                      "maxlength": "Url must not exceed 256 characters"
+                    },
+                    "validators": {
+                      "required": true,
+                      "pattern": "^(https?://)?([\\w-]+\\.)+[\\w-]{2,}(/\\S*)*/?(#[\\w-]*)?(\\?.*)?$",
+                      "maxLength": 255
+                    }
+                  }
+                ]
+              ],
+              "confirmButton": "Save",
+              "cancelButton": "Cancel",
+              "addButton": "Add learning resource(s)"
+            },
+            "errorMessage": {
+              "required": "Enter project title"
+            },
+            "validators": {
+              "required": false,
+              "maxLength": 255
+            }
+          },
+          {
+            "name": "licenses",
+            "label": "License",
+            "value": "cc_by_4.0",
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "false",
+            "placeHolder": "Select license",
+            "position": "floating",
+            "infoMessage": "Select license type of your project.",
+            "errorMessage": {
+              "required": "Select license"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "licenses"
+            }
+          }
         ]
-    }
+      }
     }
   },
   {
     "type": "sidenavData",
     "sub_type": "sidenavDataForm",
-    "action": "update",
-    "id":2,
+    "action": "skip",
+    "id": 2,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "label": "CREATE_NEW",
-                "value": "create_new",
-                "action": "",
-                "icon": "note_add",
-                "url": "create-new",
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    },
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
-                ],
+          {
+            "label": "CREATE_NEW",
+            "value": "create_new",
+            "action": "",
+            "icon": "note_add",
+            "url": "create-new",
+            "permission_modules": [
+              {
+                "module": "projects",
                 "request_type": [
-                    "POST"
-                ],
-                "roles": [
-                    "content_creator"
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
                 ]
-            },
-            {
-                "label": "BROWSE_EXISTING",
-                "value": "browse_existing",
-                "action": "",
-                "icon": "find_in_page",
-                "url": "browse-existing",
-                "noResultMessage": "NO_BROWSE_EXISTING",
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    },
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
-                ],
-                "roles": [
-                    "content_creator"
-                ],
-                "filterData": [
-                    {
-                        "label": "TYPE",
-                        "value": "type",
-                        "option": [
-                            {
-                                "label": "PROJECT",
-                                "value": "project"
-                            },
-                            {
-                                "label": "OBSERVATION",
-                                "value": "observation"
-                            },
-                            {
-                                "label": "OBSERVATION_WITH_RUBRICS",
-                                "value": "observation_with_rubric"
-                            },
-                            {
-                                "label": "SURVEY",
-                                "value": "survey"
-                            },
-                            {
-                                "label": "PROGRAM",
-                                "value": "program"
-                            }
-                        ],
-                        "isMultiple": true
-                    },
-                    {
-                        "label": "SORT_BY",
-                        "value": "sort_by",
-                        "option": [
-                            {
-                                "label": "A_TO_Z",
-                                "value": "A_TO_Z"
-                            },
-                            {
-                                "label": "Z_TO_A",
-                                "value": "Z_TO_A"
-                            },
-                            {
-                                "label": "LATEST_FIRST",
-                                "value": "LATEST_FIRST"
-                            },
-                            {
-                                "label": "OLDEST_FIRST",
-                                "value": "OLDEST_FIRST"
-                            }
-                        ],
-                        "isMultiple": false
-                    }
-                ],
-                "buttonsData": [
-                    {
-                        "buttons": [
-                            "VIEW"
-                        ]
-                    },
-                    {
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "PUBLISHED_ON",
-                                "value": "",
-                                "name": "published_on"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "label": "DRAFTS",
-                "value": "drafts",
-                "action": "",
-                "icon": "edit_document",
-                "url": "drafts",
-                "noResultMessage": "NO_DRAFT",
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    },
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
-                ],
-                "roles": [
-                    "content_creator"
-                ],
+              },
+              {
+                "module": "programs",
                 "request_type": [
-                    "POST",
-                    "PUT"
-                ],
-                "filterData": [
-                    {
-                        "label": "TYPE",
-                        "value": "type",
-                        "option": [
-                            {
-                                "label": "PROJECT",
-                                "value": "project"
-                            },
-                            {
-                                "label": "OBSERVATION",
-                                "value": "observation"
-                            },
-                            {
-                                "label": "OBSERVATION_WITH_RUBRICS",
-                                "value": "observation_with_rubric"
-                            },
-                            {
-                                "label": "SURVEY",
-                                "value": "survey"
-                            },
-                            {
-                                "label": "PROGRAM",
-                                "value": "program"
-                            }
-                        ],
-                        "isMultiple": true
-                    },
-                    {
-                        "label": "SORT_BY",
-                        "value": "sort_by",
-                        "option": [
-                            {
-                                "label": "A_TO_Z",
-                                "value": "A_TO_Z"
-                            },
-                            {
-                                "label": "Z_TO_A",
-                                "value": "Z_TO_A"
-                            },
-                            {
-                                "label": "LATEST_FIRST",
-                                "value": "LATEST_FIRST"
-                            },
-                            {
-                                "label": "OLDEST_FIRST",
-                                "value": "OLDEST_FIRST"
-                            }
-                        ],
-                        "isMultiple": false
-                    }
-                ],
-                "buttonsData": [
-                    {
-                        "buttons": [
-                            "EDIT",
-                            "DELETE"
-                        ]
-                    },
-                    {
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "LAST_UPDATED_ON",
-                                "value": "",
-                                "name": "updated_at"
-                            }
-                        ]
-                    }
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
                 ]
-            },
-            {
-                "label": "SUBMITTED_FOR_REVIEW",
-                "value": "submitted_for_review",
-                "action": "",
-                "icon": "published_with_changes",
-                "url": "submit-for-review",
-                "activeRole": "creator",
-                "noResultMessage": "NO_SUBMITTED_FOR_REVIEW",
-                "roles": [
-                    "content_creator"
-                ],
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    },
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
-                ],
+              }
+            ],
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "content_creator"
+            ]
+          },
+          {
+            "label": "BROWSE_EXISTING",
+            "value": "browse_existing",
+            "action": "",
+            "icon": "find_in_page",
+            "url": "browse-existing",
+            "noResultMessage": "NO_BROWSE_EXISTING",
+            "permission_modules": [
+              {
+                "module": "projects",
                 "request_type": [
-                    "POST",
-                    "PUT"
-                ],
-                "filterData": [
-                    {
-                        "label": "TYPE",
-                        "value": "type",
-                        "option": [
-                            {
-                                "label": "PROJECT",
-                                "value": "project"
-                            },
-                            {
-                                "label": "OBSERVATION",
-                                "value": "observation"
-                            },
-                            {
-                                "label": "OBSERVATION_WITH_RUBRICS",
-                                "value": "observation_with_rubric"
-                            },
-                            {
-                                "label": "SURVEY",
-                                "value": "survey"
-                            },
-                            {
-                                "label": "PROGRAM",
-                                "value": "program"
-                            }
-                        ],
-                        "isMultiple": true
-                    },
-                    {
-                        "label": "SORT_BY",
-                        "value": "sort_by",
-                        "option": [
-                            {
-                                "label": "A_TO_Z",
-                                "value": "A_TO_Z"
-                            },
-                            {
-                                "label": "Z_TO_A",
-                                "value": "Z_TO_A"
-                            },
-                            {
-                                "label": "LATEST_FIRST",
-                                "value": "LATEST_FIRST"
-                            },
-                            {
-                                "label": "OLDEST_FIRST",
-                                "value": "OLDEST_FIRST"
-                            }
-                        ],
-                        "isMultiple": false
-                    },
-                    {
-                        "label": "ALL_STATUS",
-                        "value": "status",
-                        "option": [
-                            {
-                                "label": "ALL_STATUS",
-                                "value": ""
-                            },
-                            {
-                                "label": "NOT_STARTED",
-                                "value": "SUBMITTED"
-                            },
-                            {
-                                "label": "IN_PROGRESS",
-                                "value": "INPROGRESS"
-                            },
-                            {
-                                "label": "REJECTED",
-                                "value": "REJECTED"
-                            },
-                            {
-                                "label": "REPORTED_AND_REJECTED",
-                                "value": "REJECTED_AND_REPORTED"
-                            },
-                            {
-                                "label": "PUBLISHED",
-                                "value": "PUBLISHED"
-                            }
-                        ],
-                        "isMultiple": false
-                    },
-                    {
-                        "label": "REQUESTED_FOR_CHANGES",
-                        "value": "REQUESTED_FOR_CHANGES"
-                    }
-                ],
-                "statusButtons": [
-                    {
-                        "status": "SUBMITTED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "NOT_STARTED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "PUBLISHED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "RESOURCE_PUBLISHED_ON",
-                                "value": "",
-                                "name": "published_on"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "APPROVED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "RESOURCE_PUBLISHED_ON",
-                                "value": "",
-                                "name": "published_on"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "REQUESTED_FOR_CHANGES",
-                        "buttons": [
-                            "VIEW",
-                            "EDIT"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "CHANGES_REQUESTED_ON",
-                                "value": "",
-                                "name": "review_status_updated"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "INPROGRESS",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "REVIEWED_STARTED_ON",
-                                "value": "",
-                                "name": "reviewed_started_on"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "CHANGES_UPDATED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "REVIEWED_STARTED_ON",
-                                "value": "",
-                                "name": "reviewed_started_on"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "REJECTED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "RESOURCE_REJECTED_ON",
-                                "value": "",
-                                "name": "rejected_at"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "REJECTED_AND_REPORTED",
-                        "buttons": [
-                            "VIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "RESOURCE_REPORTED_ON",
-                                "value": "",
-                                "name": "rejected_at"
-                            },
-                            {
-                                "label": "REASON",
-                                "value": "",
-                                "name": "reviewer_notes"
-                            }
-                        ]
-                    }
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
                 ]
-            },
-            {
-                "label": "UP_FOR_REVIEW",
-                "value": "up_for_review",
-                "action": "",
-                "icon": "file_open",
-                "url": "up-for-review",
-                "activeRole": "reviewer",
-                "noResultMessage": "NO_UP_FOR_REVIEW",
-                "permission_modules": [
-                    {
-                        "module": "reviews",
-                        "request_type": [
-                            "POST",
-                            "PATCH"
-                        ]
-                    }
-                ],
+              },
+              {
+                "module": "programs",
                 "request_type": [
-                    "POST"
-                ],
-                "roles": [
-                    "reviewer"
-                ],
-                "filterData": [
-                    {
-                        "label": "TYPE",
-                        "value": "type",
-                        "option": [
-                            {
-                                "label": "PROJECT",
-                                "value": "project"
-                            },
-                            {
-                                "label": "OBSERVATION",
-                                "value": "observation"
-                            },
-                            {
-                                "label": "OBSERVATION_WITH_RUBRICS",
-                                "value": "observation_with_rubric"
-                            },
-                            {
-                                "label": "SURVEY",
-                                "value": "survey"
-                            },
-                            {
-                                "label": "PROGRAM",
-                                "value": "program"
-                            }
-                        ],
-                        "isMultiple": true
-                    },
-                    {
-                        "label": "SORT_BY",
-                        "value": "sort_by",
-                        "option": [
-                            {
-                                "label": "A_TO_Z",
-                                "value": "A_TO_Z"
-                            },
-                            {
-                                "label": "Z_TO_A",
-                                "value": "Z_TO_A"
-                            },
-                            {
-                                "label": "LATEST_FIRST",
-                                "value": "LATEST_FIRST"
-                            },
-                            {
-                                "label": "OLDEST_FIRST",
-                                "value": "OLDEST_FIRST"
-                            }
-                        ],
-                        "isMultiple": false
-                    },
-                    {
-                        "label": "INPROGRESS",
-                        "value": "INPROGRESS"
-                    }
-                ],
-                "statusButtons": [
-                    {
-                        "status": "CHANGES_UPDATED",
-                        "buttons": [
-                            "VIEW",
-                            "START_REVIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "CREATED_ON",
-                                "value": "",
-                                "name": "created_at"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "REVIEWED_BY",
-                                "value": "",
-                                "name": "reviewed_by"
-                            },
-                            {
-                                "label": "REVIEWED_STARTED_ON",
-                                "value": "",
-                                "name": "reviewed_started_on"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "NOT_STARTED",
-                        "buttons": [
-                            "VIEW",
-                            "START_REVIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "INPROGRESS",
-                        "buttons": [
-                            "RESUME_REVIEW"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "SUBMITTED_ON",
-                                "value": "",
-                                "name": "submitted_on"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "type"
-                            },
-                            {
-                                "label": "NOTE_TO_REVIEWER",
-                                "value": "",
-                                "name": "notes"
-                            },
-                            {
-                                "label": "LAST_REVIWED_ON",
-                                "value": "",
-                                "name": "last_reviewed_on"
-                            }
-                        ]
-                    }
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
                 ]
-            },
-            {
-                "label": "ROLL_OUT",
-                "value": "roll-out",
-                "action": "",
-                "icon": "send",
-                "url": "roll-out",
-                "noResultMessage": "NO_ROLLED_OUT_FOUND",
-                "noSearchResultMessage": "SEARCH_RESULT_NOT_FOUND",
-                "noPublishedResourceMessage": "NO_PUBLISHED_RESOURCES_MESSAGE",
-                "permission_modules": [
-                    {
-                        "module": "rollouts",
-                        "request_type": [
-                            "PUT",
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PATCH"
-                        ]
-                    }
+              }
+            ],
+            "roles": [
+              "content_creator"
+            ],
+            "filterData": [
+              {
+                "label": "TYPE",
+                "value": "type",
+                "option": [
+                  {
+                    "label": "PROJECT",
+                    "value": "project"
+                  },
+                  {
+                    "label": "OBSERVATION",
+                    "value": "observation"
+                  },
+                  {
+                    "label": "OBSERVATION_WITH_RUBRICS",
+                    "value": "observation_with_rubric"
+                  },
+                  {
+                    "label": "SURVEY",
+                    "value": "survey"
+                  },
+                  {
+                    "label": "PROGRAM",
+                    "value": "program"
+                  }
                 ],
+                "isMultiple": true
+              },
+              {
+                "label": "SORT_BY",
+                "value": "sort_by",
+                "option": [
+                  {
+                    "label": "A_TO_Z",
+                    "value": "A_TO_Z"
+                  },
+                  {
+                    "label": "Z_TO_A",
+                    "value": "Z_TO_A"
+                  },
+                  {
+                    "label": "LATEST_FIRST",
+                    "value": "LATEST_FIRST"
+                  },
+                  {
+                    "label": "OLDEST_FIRST",
+                    "value": "OLDEST_FIRST"
+                  }
+                ],
+                "isMultiple": false
+              }
+            ],
+            "buttonsData": [
+              {
+                "buttons": [
+                  "VIEW"
+                ]
+              },
+              {
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "PUBLISHED_ON",
+                    "value": "",
+                    "name": "published_on"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "DRAFTS",
+            "value": "drafts",
+            "action": "",
+            "icon": "edit_document",
+            "url": "drafts",
+            "noResultMessage": "NO_DRAFT",
+            "permission_modules": [
+              {
+                "module": "projects",
                 "request_type": [
-                    "POST"
-                ],
-                "roles": [
-                    "rollout_manager"
-                ],
-                "filterData": [
-                    {
-                        "label": "TYPE",
-                        "value": "resource_type",
-                        "option": [
-                            {
-                                "label": "PROJECT",
-                                "value": "project"
-                            },
-                            {
-                                "label": "OBSERVATION",
-                                "value": "observation"
-                            },
-                            {
-                                "label": "OBSERVATION_WITH_RUBRICS",
-                                "value": "observation_with_rubric"
-                            },
-                            {
-                                "label": "SURVEY",
-                                "value": "survey"
-                            }
-                        ],
-                        "isMultiple": true
-                    },
-                    {
-                        "label": "SORT_BY",
-                        "value": "sort_by",
-                        "option": [
-                            {
-                                "label": "A_TO_Z",
-                                "value": "A_TO_Z"
-                            },
-                            {
-                                "label": "Z_TO_A",
-                                "value": "Z_TO_A"
-                            },
-                            {
-                                "label": "LATEST_FIRST",
-                                "value": "LATEST_FIRST"
-                            },
-                            {
-                                "label": "OLDEST_FIRST",
-                                "value": "OLDEST_FIRST"
-                            }
-                        ],
-                        "isMultiple": false
-                    },
-                    {
-                        "label": "ALL_STATUS",
-                        "value": "status",
-                        "option": [
-                            {
-                                "label": "ALL_STATUS",
-                                "value": ""
-                            },
-                            {
-                                "label": "PENDING",
-                                "value": "PENDING"
-                            },
-                            {
-                                "label": "ROLLED_OUT",
-                                "value": "ROLLED_OUT"
-                            }
-                        ],
-                        "isMultiple": false
-                    }
-                ],
-                "statusButtons": [
-                    {
-                        "status": "PENDING",
-                        "buttons": [
-                            "EDIT",
-                            "DELETE"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "resource_type"
-                            },
-                            {
-                                "label": "Start date",
-                                "value": "",
-                                "name": "start_date"
-                            },
-                            {
-                                "label": "End date",
-                                "value": "",
-                                "name": "end_date"
-                            },
-                            {
-                                "label": "LAST_UPDATED_ON",
-                                "value": "",
-                                "name": "updated_at"
-                            }
-                        ]
-                    },
-                    {
-                        "status": "ROLLED_OUT",
-                        "buttons": [
-                            "EDIT"
-                        ],
-                        "infoFields": [
-                            {
-                                "label": "TITLE",
-                                "value": "",
-                                "name": "title"
-                            },
-                            {
-                                "label": "CREATOR",
-                                "value": "",
-                                "name": "creator"
-                            },
-                            {
-                                "label": "ORGANIZATION",
-                                "value": "",
-                                "name": "organization.name"
-                            },
-                            {
-                                "label": "RESOURCE_TYPE",
-                                "value": "",
-                                "name": "resource_type"
-                            },
-                            {
-                                "label": "Start date",
-                                "value": "",
-                                "name": "start_date"
-                            },
-                            {
-                                "label": "End date",
-                                "value": "",
-                                "name": "end_date"
-                            },
-                            {
-                                "label": "LAST_UPDATED_ON",
-                                "value": "",
-                                "name": "updated_at"
-                            }
-                        ]
-                    }
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
                 ]
-            }
+              },
+              {
+                "module": "programs",
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
+              }
+            ],
+            "roles": [
+              "content_creator"
+            ],
+            "request_type": [
+              "POST",
+              "PUT"
+            ],
+            "filterData": [
+              {
+                "label": "TYPE",
+                "value": "type",
+                "option": [
+                  {
+                    "label": "PROJECT",
+                    "value": "project"
+                  },
+                  {
+                    "label": "OBSERVATION",
+                    "value": "observation"
+                  },
+                  {
+                    "label": "OBSERVATION_WITH_RUBRICS",
+                    "value": "observation_with_rubric"
+                  },
+                  {
+                    "label": "SURVEY",
+                    "value": "survey"
+                  },
+                  {
+                    "label": "PROGRAM",
+                    "value": "program"
+                  }
+                ],
+                "isMultiple": true
+              },
+              {
+                "label": "SORT_BY",
+                "value": "sort_by",
+                "option": [
+                  {
+                    "label": "A_TO_Z",
+                    "value": "A_TO_Z"
+                  },
+                  {
+                    "label": "Z_TO_A",
+                    "value": "Z_TO_A"
+                  },
+                  {
+                    "label": "LATEST_FIRST",
+                    "value": "LATEST_FIRST"
+                  },
+                  {
+                    "label": "OLDEST_FIRST",
+                    "value": "OLDEST_FIRST"
+                  }
+                ],
+                "isMultiple": false
+              }
+            ],
+            "buttonsData": [
+              {
+                "buttons": [
+                  "EDIT",
+                  "DELETE"
+                ]
+              },
+              {
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "LAST_UPDATED_ON",
+                    "value": "",
+                    "name": "updated_at"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "SUBMITTED_FOR_REVIEW",
+            "value": "submitted_for_review",
+            "action": "",
+            "icon": "published_with_changes",
+            "url": "submit-for-review",
+            "activeRole": "creator",
+            "noResultMessage": "NO_SUBMITTED_FOR_REVIEW",
+            "roles": [
+              "content_creator"
+            ],
+            "permission_modules": [
+              {
+                "module": "projects",
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
+              },
+              {
+                "module": "programs",
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
+              }
+            ],
+            "request_type": [
+              "POST",
+              "PUT"
+            ],
+            "filterData": [
+              {
+                "label": "TYPE",
+                "value": "type",
+                "option": [
+                  {
+                    "label": "PROJECT",
+                    "value": "project"
+                  },
+                  {
+                    "label": "OBSERVATION",
+                    "value": "observation"
+                  },
+                  {
+                    "label": "OBSERVATION_WITH_RUBRICS",
+                    "value": "observation_with_rubric"
+                  },
+                  {
+                    "label": "SURVEY",
+                    "value": "survey"
+                  },
+                  {
+                    "label": "PROGRAM",
+                    "value": "program"
+                  }
+                ],
+                "isMultiple": true
+              },
+              {
+                "label": "SORT_BY",
+                "value": "sort_by",
+                "option": [
+                  {
+                    "label": "A_TO_Z",
+                    "value": "A_TO_Z"
+                  },
+                  {
+                    "label": "Z_TO_A",
+                    "value": "Z_TO_A"
+                  },
+                  {
+                    "label": "LATEST_FIRST",
+                    "value": "LATEST_FIRST"
+                  },
+                  {
+                    "label": "OLDEST_FIRST",
+                    "value": "OLDEST_FIRST"
+                  }
+                ],
+                "isMultiple": false
+              },
+              {
+                "label": "ALL_STATUS",
+                "value": "status",
+                "option": [
+                  {
+                    "label": "ALL_STATUS",
+                    "value": ""
+                  },
+                  {
+                    "label": "NOT_STARTED",
+                    "value": "SUBMITTED"
+                  },
+                  {
+                    "label": "IN_PROGRESS",
+                    "value": "INPROGRESS"
+                  },
+                  {
+                    "label": "REJECTED",
+                    "value": "REJECTED"
+                  },
+                  {
+                    "label": "REPORTED_AND_REJECTED",
+                    "value": "REJECTED_AND_REPORTED"
+                  },
+                  {
+                    "label": "PUBLISHED",
+                    "value": "PUBLISHED"
+                  }
+                ],
+                "isMultiple": false
+              },
+              {
+                "label": "REQUESTED_FOR_CHANGES",
+                "value": "REQUESTED_FOR_CHANGES"
+              }
+            ],
+            "statusButtons": [
+              {
+                "status": "SUBMITTED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "NOT_STARTED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "PUBLISHED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "RESOURCE_PUBLISHED_ON",
+                    "value": "",
+                    "name": "published_on"
+                  }
+                ]
+              },
+              {
+                "status": "APPROVED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "RESOURCE_PUBLISHED_ON",
+                    "value": "",
+                    "name": "published_on"
+                  }
+                ]
+              },
+              {
+                "status": "REQUESTED_FOR_CHANGES",
+                "buttons": [
+                  "VIEW",
+                  "EDIT"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "CHANGES_REQUESTED_ON",
+                    "value": "",
+                    "name": "review_status_updated"
+                  }
+                ]
+              },
+              {
+                "status": "INPROGRESS",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "REVIEWED_STARTED_ON",
+                    "value": "",
+                    "name": "reviewed_started_on"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "CHANGES_UPDATED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "REVIEWED_STARTED_ON",
+                    "value": "",
+                    "name": "reviewed_started_on"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "REJECTED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "RESOURCE_REJECTED_ON",
+                    "value": "",
+                    "name": "rejected_at"
+                  }
+                ]
+              },
+              {
+                "status": "REJECTED_AND_REPORTED",
+                "buttons": [
+                  "VIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "RESOURCE_REPORTED_ON",
+                    "value": "",
+                    "name": "rejected_at"
+                  },
+                  {
+                    "label": "REASON",
+                    "value": "",
+                    "name": "reviewer_notes"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "UP_FOR_REVIEW",
+            "value": "up_for_review",
+            "action": "",
+            "icon": "file_open",
+            "url": "up-for-review",
+            "activeRole": "reviewer",
+            "noResultMessage": "NO_UP_FOR_REVIEW",
+            "permission_modules": [
+              {
+                "module": "reviews",
+                "request_type": [
+                  "POST",
+                  "PATCH"
+                ]
+              }
+            ],
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "reviewer"
+            ],
+            "filterData": [
+              {
+                "label": "TYPE",
+                "value": "type",
+                "option": [
+                  {
+                    "label": "PROJECT",
+                    "value": "project"
+                  },
+                  {
+                    "label": "OBSERVATION",
+                    "value": "observation"
+                  },
+                  {
+                    "label": "OBSERVATION_WITH_RUBRICS",
+                    "value": "observation_with_rubric"
+                  },
+                  {
+                    "label": "SURVEY",
+                    "value": "survey"
+                  },
+                  {
+                    "label": "PROGRAM",
+                    "value": "program"
+                  }
+                ],
+                "isMultiple": true
+              },
+              {
+                "label": "SORT_BY",
+                "value": "sort_by",
+                "option": [
+                  {
+                    "label": "A_TO_Z",
+                    "value": "A_TO_Z"
+                  },
+                  {
+                    "label": "Z_TO_A",
+                    "value": "Z_TO_A"
+                  },
+                  {
+                    "label": "LATEST_FIRST",
+                    "value": "LATEST_FIRST"
+                  },
+                  {
+                    "label": "OLDEST_FIRST",
+                    "value": "OLDEST_FIRST"
+                  }
+                ],
+                "isMultiple": false
+              },
+              {
+                "label": "INPROGRESS",
+                "value": "INPROGRESS"
+              }
+            ],
+            "statusButtons": [
+              {
+                "status": "CHANGES_UPDATED",
+                "buttons": [
+                  "VIEW",
+                  "START_REVIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "CREATED_ON",
+                    "value": "",
+                    "name": "created_at"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "REVIEWED_BY",
+                    "value": "",
+                    "name": "reviewed_by"
+                  },
+                  {
+                    "label": "REVIEWED_STARTED_ON",
+                    "value": "",
+                    "name": "reviewed_started_on"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "NOT_STARTED",
+                "buttons": [
+                  "VIEW",
+                  "START_REVIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  }
+                ]
+              },
+              {
+                "status": "INPROGRESS",
+                "buttons": [
+                  "RESUME_REVIEW"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "SUBMITTED_ON",
+                    "value": "",
+                    "name": "submitted_on"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "type"
+                  },
+                  {
+                    "label": "NOTE_TO_REVIEWER",
+                    "value": "",
+                    "name": "notes"
+                  },
+                  {
+                    "label": "LAST_REVIWED_ON",
+                    "value": "",
+                    "name": "last_reviewed_on"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "ROLL_OUT",
+            "value": "roll-out",
+            "action": "",
+            "icon": "send",
+            "url": "roll-out",
+            "noResultMessage": "NO_ROLLED_OUT_FOUND",
+            "noSearchResultMessage": "SEARCH_RESULT_NOT_FOUND",
+            "noPublishedResourceMessage": "NO_PUBLISHED_RESOURCES_MESSAGE",
+            "permission_modules": [
+              {
+                "module": "rollouts",
+                "request_type": [
+                  "PUT",
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PATCH"
+                ]
+              }
+            ],
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "rollout_manager"
+            ],
+            "filterData": [
+              {
+                "label": "TYPE",
+                "value": "resource_type",
+                "option": [
+                  {
+                    "label": "PROJECT",
+                    "value": "project"
+                  },
+                  {
+                    "label": "OBSERVATION",
+                    "value": "observation"
+                  },
+                  {
+                    "label": "OBSERVATION_WITH_RUBRICS",
+                    "value": "observation_with_rubric"
+                  },
+                  {
+                    "label": "SURVEY",
+                    "value": "survey"
+                  }
+                ],
+                "isMultiple": true
+              },
+              {
+                "label": "SORT_BY",
+                "value": "sort_by",
+                "option": [
+                  {
+                    "label": "A_TO_Z",
+                    "value": "A_TO_Z"
+                  },
+                  {
+                    "label": "Z_TO_A",
+                    "value": "Z_TO_A"
+                  },
+                  {
+                    "label": "LATEST_FIRST",
+                    "value": "LATEST_FIRST"
+                  },
+                  {
+                    "label": "OLDEST_FIRST",
+                    "value": "OLDEST_FIRST"
+                  }
+                ],
+                "isMultiple": false
+              },
+              {
+                "label": "ALL_STATUS",
+                "value": "status",
+                "option": [
+                  {
+                    "label": "ALL_STATUS",
+                    "value": ""
+                  },
+                  {
+                    "label": "PENDING",
+                    "value": "PENDING"
+                  },
+                  {
+                    "label": "ROLLED_OUT",
+                    "value": "ROLLED_OUT"
+                  }
+                ],
+                "isMultiple": false
+              }
+            ],
+            "statusButtons": [
+              {
+                "status": "PENDING",
+                "buttons": [
+                  "EDIT",
+                  "DELETE"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "resource_type"
+                  },
+                  {
+                    "label": "Start date",
+                    "value": "",
+                    "name": "start_date"
+                  },
+                  {
+                    "label": "End date",
+                    "value": "",
+                    "name": "end_date"
+                  },
+                  {
+                    "label": "LAST_UPDATED_ON",
+                    "value": "",
+                    "name": "updated_at"
+                  }
+                ]
+              },
+              {
+                "status": "ROLLED_OUT",
+                "buttons": [
+                  "EDIT"
+                ],
+                "infoFields": [
+                  {
+                    "label": "TITLE",
+                    "value": "",
+                    "name": "title"
+                  },
+                  {
+                    "label": "CREATOR",
+                    "value": "",
+                    "name": "creator"
+                  },
+                  {
+                    "label": "ORGANIZATION",
+                    "value": "",
+                    "name": "organization.name"
+                  },
+                  {
+                    "label": "RESOURCE_TYPE",
+                    "value": "",
+                    "name": "resource_type"
+                  },
+                  {
+                    "label": "Start date",
+                    "value": "",
+                    "name": "start_date"
+                  },
+                  {
+                    "label": "End date",
+                    "value": "",
+                    "name": "end_date"
+                  },
+                  {
+                    "label": "LAST_UPDATED_ON",
+                    "value": "",
+                    "name": "updated_at"
+                  }
+                ]
+              }
+            ]
+          }
         ],
         "buttons": {
-            "EDIT": {
-                "action": "EDIT",
-                "label": "EDIT",
-                "background_color": "#0a4f9d"
-            },
-            "DELETE": {
-                "action": "DELETE",
-                "label": "DELETE",
-                "background_color": "#EC555D"
-            },
-            "VIEW": {
-                "action": "VIEW",
-                "label": "VIEW",
-                "background_color": "#0a4f9d"
-            },
-            "START_REVIEW": {
-                "action": "START_REVIEW",
-                "label": "START_REVIEW",
-                "background_color": "#0a4f9d"
-            },
-            "RESUME_REVIEW": {
-                "action": "RESUME_REVIEW",
-                "label": "RESUME_REVIEW",
-                "background_color": "#0a4f9d"
-            },
-            "RESUME_EDITING": {
-                "action": "RESUME_EDITING",
-                "label": "RESUME_EDITING",
-                "background_color": "#0a4f9d"
-            }
+          "EDIT": {
+            "action": "EDIT",
+            "label": "EDIT",
+            "background_color": "#0a4f9d"
+          },
+          "DELETE": {
+            "action": "DELETE",
+            "label": "DELETE",
+            "background_color": "#EC555D"
+          },
+          "VIEW": {
+            "action": "VIEW",
+            "label": "VIEW",
+            "background_color": "#0a4f9d"
+          },
+          "START_REVIEW": {
+            "action": "START_REVIEW",
+            "label": "START_REVIEW",
+            "background_color": "#0a4f9d"
+          },
+          "RESUME_REVIEW": {
+            "action": "RESUME_REVIEW",
+            "label": "RESUME_REVIEW",
+            "background_color": "#0a4f9d"
+          },
+          "RESUME_EDITING": {
+            "action": "RESUME_EDITING",
+            "label": "RESUME_EDITING",
+            "background_color": "#0a4f9d"
+          }
         },
         "configuration": {
-            "itemsPerPage": 5
+          "itemsPerPage": 5
         }
-    }
+      }
     }
   },
   {
     "type": "solutionlist",
     "sub_type": "solutionlistForm",
-    "action": "update",
-    "id":3,
+    "action": "skip",
+    "id": 3,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "title": "PROJECT",
-                "image": "./../assets/images/project.svg",
-                "sidenav": [
-                    {
-                        "label": "PROJECT_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "project-details",
-                        "page": "projectDetails"
-                    },
-                    {
-                        "label": "TASKS",
-                        "action": "",
-                        "icon": "add_task",
-                        "url": "tasks",
-                        "page": "tasks"
-                    },
-                    {
-                        "label": "SUBTASKS_AND_RESOURCES",
-                        "action": "",
-                        "icon": "note_add",
-                        "url": "sub-tasks",
-                        "page": "subTasks"
-                    },
-                    {
-                        "label": "CERTIFICATE",
-                        "action": "",
-                        "icon": "card_membership",
-                        "url": "certificate",
-                        "page": "certificates"
-                    }
+          {
+            "title": "PROJECT",
+            "image": "./../assets/images/project.svg",
+            "sidenav": [
+              {
+                "label": "PROJECT_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              },
+              {
+                "label": "TASKS",
+                "action": "",
+                "icon": "add_task",
+                "url": "tasks",
+                "page": "tasks"
+              },
+              {
+                "label": "SUBTASKS_AND_RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "sub-tasks",
+                "page": "subTasks"
+              },
+              {
+                "label": "CERTIFICATE",
+                "action": "",
+                "icon": "card_membership",
+                "url": "certificate",
+                "page": "certificates"
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "headerData": {
-                    "title": "",
-                    "buttons": {
-                        "edit": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "reqEdit": [
-                            {
-                                "title": "SAVE_CHANGES",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "viewOnly": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "view": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "review": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "REQUEST_CHANGES",
-                                "disable": true,
-                                "cssClass": "primary-button-enable"
-                            },
-                            {
-                                "title": "REJECT",
-                                "disable": false,
-                                "cssClass": "enable-reject-button"
-                            },
-                            {
-                                "title": "ACCEPT",
-                                "disable": false,
-                                "cssClass": "enable-success-button"
-                            }
-                        ],
-                        "reviewerView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "START_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "creatorView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "copyEdit": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "COPY_AND_EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "showBackButton": true,
-                "url": "solution/project/project-details",
-                "formName": "PROJECT_DETAILS",
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "REJECT",
+                    "disable": false,
+                    "cssClass": "enable-reject-button"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ]
+              }
             },
-            {
-                "title": "OBSERVATION",
-                "image": "./../assets/images/observation.svg",
-                "sidenav": [
-                    {
-                        "label": "OBSERVATION_NAME"
-                    }
-                ],
-                "showBackButton": true,
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "OBSERVATION_WITH_RUBRIC",
-                "image": "./../assets/images/observationwithrubric.svg",
-                "sidenav": [
-                    {
-                        "label": "OBSERVATION_NAME"
-                    }
-                ],
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "SURVEY",
-                "image": "./../assets/images/survey.svg",
-                "sidenav": [
-                    {
-                        "label": "SURVEY_NAME"
-                    }
-                ],
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "PROGRAM",
-                "image": "./../assets/images/program.svg",
-                "sidenav": [
-                    {
-                        "label": "PROGRAM_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "program-details",
-                        "page": ""
-                    },
-                    {
-                        "label": "RESOURCES",
-                        "action": "",
-                        "icon": "note_add",
-                        "url": "program-resources",
-                        "page": ""
-                    },
-                    {
-                        "label": "RESOURCE_LEVEL_TARGETING",
-                        "action": "",
-                        "icon": "track_changes",
-                        "url": "resource-level-targeting",
-                        "page": ""
-                    }
-                ],
-                "headerData": {
-                    "title": "",
-                    "buttons": {
-                        "edit": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "reqEdit": [
-                            {
-                                "title": "SAVE_CHANGES",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "viewOnly": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "view": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "review": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "REQUEST_CHANGES",
-                                "disable": true,
-                                "cssClass": "primary-button-enable"
-                            },
-                            {
-                                "title": "REJECT",
-                                "disable": false,
-                                "cssClass": "enable-reject-button"
-                            },
-                            {
-                                "title": "ACCEPT",
-                                "disable": false,
-                                "cssClass": "enable-success-button"
-                            }
-                        ],
-                        "reviewerView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "START_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "creatorView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "copyEdit": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "COPY_AND_EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "url": "roll-out/details/program-details",
-                "permission_modules": [
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
+            "showBackButton": true,
+            "url": "solution/project/project-details",
+            "formName": "PROJECT_DETAILS",
+            "permission_modules": [
+              {
+                "module": "projects",
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
                 ]
-            },
-            {
-                "title": "ROLL_OUT",
-                "image": "./../assets/images/program.svg",
-                "sidenav": [
-                    {
-                        "label": "TARGETING_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "project-details",
-                        "page": "projectDetails"
-                    }
+              }
+            ]
+          },
+          {
+            "title": "OBSERVATION",
+            "image": "./../assets/images/observation.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "showBackButton": true,
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "OBSERVATION_WITH_RUBRIC",
+            "image": "./../assets/images/observationwithrubric.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "SURVEY",
+            "image": "./../assets/images/survey.svg",
+            "sidenav": [
+              {
+                "label": "SURVEY_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "PROGRAM",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "PROGRAM_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "program-details",
+                "page": ""
+              },
+              {
+                "label": "RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "program-resources",
+                "page": ""
+              },
+              {
+                "label": "RESOURCE_LEVEL_TARGETING",
+                "action": "",
+                "icon": "track_changes",
+                "url": "resource-level-targeting",
+                "page": ""
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "headerData": {
-                    "title": "Project targeting",
-                    "buttons": {
-                        "ROLLED_OUT": [
-                            {
-                                "title": "ROLL_OUT_CHANGES",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "PENDING": [
-                            {
-                                "title": "SAVE",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "ROLL_OUT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "edit": [
-                            {
-                                "title": "SAVE",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "ROLL_OUT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "url": "",
-                "permission_modules": []
-            }
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "REJECT",
+                    "disable": false,
+                    "cssClass": "enable-reject-button"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "url": "roll-out/details/program-details",
+            "permission_modules": [
+              {
+                "module": "programs",
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "ROLL_OUT",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "TARGETING_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              }
+            ],
+            "headerData": {
+              "title": "Project targeting",
+              "buttons": {
+                "ROLLED_OUT": [
+                  {
+                    "title": "ROLL_OUT_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "PENDING": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "edit": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "url": "",
+            "permission_modules": []
+          }
         ]
-    }
+      }
     }
   },
   {
     "type": "tasksDetails",
     "sub_type": "tasksDetailsForm",
-    "action": "update",
-    "id":4,
+    "action": "skip",
+    "id": 4,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -2142,7 +2142,7 @@
                     },
                     "validators": {
                       "required": true,
-                      "pattern": "^https://qa\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
+                      "pattern": "^https://dev\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
                       "maxLength": 255
                     }
                   }
@@ -2160,619 +2160,620 @@
   {
     "type": "certificateDetails",
     "sub_type": "certificateDetailsForm",
-    "action": "update",
-    "id":5,
+    "action": "skip",
+    "id": 5,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "name": "addcertificate",
-                "label": "CERTIFICATE_DESCRIPTION",
-                "sublabel": "CERTIFICATE_SUB_DESCRIPTION",
-                "value": "",
-                "class": "",
-                "type": "radio",
-                "formControlName": "selectedOption",
-                "options": [
-                    {
-                        "label": "YES",
-                        "value": "1"
-                    },
-                    {
-                        "label": "NO",
-                        "value": "2"
-                    }
-                ],
-                "meta": {
-                    "entityType": "addcertificate"
-                },
-                "scope": "project"
+          {
+            "name": "addcertificate",
+            "label": "CERTIFICATE_DESCRIPTION",
+            "sublabel": "CERTIFICATE_SUB_DESCRIPTION",
+            "value": "",
+            "class": "",
+            "type": "radio",
+            "formControlName": "selectedOption",
+            "options": [
+              {
+                "label": "YES",
+                "value": "1"
+              },
+              {
+                "label": "NO",
+                "value": "2"
+              }
+            ],
+            "meta": {
+              "entityType": "addcertificate"
             },
-            {
-                "name": "certificatetype",
-                "label": "CERTIFICATE_TYPE",
-                "value": "",
-                "class": "",
-                "type": "select",
-                "formControlName": "certificateType",
-                "isMultiSelect": "false",
-                "placeHolder": "SELECT_CERTIFICATE_TYPE",
-                "infoMessage": "Select one of the four certificate formats. You can see a preview of the chosen format on the right side of the screen.",
-                "errorMessage": {
-                    "required": "Add certificate type"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "certificatetype"
-                },
-                "scope": "project"
+            "scope": "project"
+          },
+          {
+            "name": "certificatetype",
+            "label": "CERTIFICATE_TYPE",
+            "value": "",
+            "class": "",
+            "type": "select",
+            "formControlName": "certificateType",
+            "isMultiSelect": "false",
+            "placeHolder": "SELECT_CERTIFICATE_TYPE",
+            "infoMessage": "Select one of the four certificate formats. You can see a preview of the chosen format on the right side of the screen.",
+            "errorMessage": {
+              "required": "Add certificate type"
             },
-            {
-                "name": "name",
-                "label": "CERTIFICATE_ISSUER_NAME",
-                "value": "",
-                "class": "",
-                "type": "input",
-                "formControlName": "issuerName",
-                "placeHolder": "ENTER_CERTIFICATE_ISSUER_NAME",
-                "position": "floating",
-                "infoMessage": "Provide the Name of the organization issuing the certificate.",
-                "errorMessage": {
-                    "required": "Enter valid certificate issuer name",
-                    "maxLength": "Certificate issuer name must not exceed 256 characters"
-                },
-                "validators": {
-                    "required": true,
-                    "maxLength": 255
-                },
-                "scope": "project"
+            "validators": {
+              "required": true
             },
-            {
-                "name": "attachlogo",
-                "label": "ATTACH_LOGOS",
-                "value": "",
-                "class": "",
-                "icon": "add_circle",
-                "type": "attachLogo",
-                "textForLink": "Add image 1",
-                "placeHolder": "",
-                "listIcon": "",
-                "dialogData": {
-                    "header": "ATTACH_LOGO",
-                    "subheader": "ATTACH_LOGOS_DETAIlS",
-                    "filespecificationheader": "Make sure your file:",
-                    "subcontent": [
-                        {
-                            "no": "1",
-                            "option": "Is 80px X 80px in dimension"
-                        },
-                        {
-                            "no": "2",
-                            "option": "Size <= 50kb"
-                        },
-                        {
-                            "no": "3",
-                            "option": "File type = PNG only"
-                        }
-                    ],
-                    "attachButton": "ATTACH",
-                    "imageSpecification": {
-                        "height": 80,
-                        "width": 80
-                    }
-                },
-                "errorMessage": {
-                    "required": "Attach logo"
-                },
-                "validators": {
-                    "required": true
-                },
-                "scope": "project"
+            "options": [],
+            "meta": {
+              "entityType": "certificatetype"
             },
-            {
-                "name": "attachsign",
-                "label": "ATTACH_SIGNATURES",
-                "value": "",
-                "class": "",
-                "icon": "add_circle",
-                "type": "attachSign",
-                "textForLink": "Add image 1",
-                "placeHolder": "",
-                "listIcon": "",
-                "dialogData": {
-                    "header": "ATTACH_SIGNATURE",
-                    "subheader": "ADD_SIGNATURE_DETALS",
-                    "inputfields": [
-                        {
-                            "name": "name",
-                            "label": "SIGNATURE_NAME",
-                            "value": "",
-                            "class": "",
-                            "type": "text",
-                            "placeHolder": "Name",
-                            "position": "",
-                            "errorMessage": {
-                                "required": "Enter Name of the signature",
-                                "maxLength": "Name must not exceed 256 characters"
-                            }
-                        },
-                        {
-                            "name": "designation",
-                            "label": "SIGNATURE_DESIGNATION",
-                            "value": "",
-                            "class": "",
-                            "type": "text",
-                            "placeHolder": "Designation",
-                            "position": "",
-                            "errorMessage": {
-                                "required": "Enter designation to the resource"
-                            }
-                        }
-                    ],
-                    "filespecificationheader": "Make sure your file:",
-                    "subcontent": [
-                        {
-                            "no": "1",
-                            "option": "50px height X 120px base"
-                        },
-                        {
-                            "no": "2",
-                            "option": "Size <= 50kb"
-                        },
-                        {
-                            "no": "3",
-                            "option": "File type = PNG only"
-                        }
-                    ],
-                    "attachButton": "ATTACH",
-                    "imageSpecification": {
-                        "height": 50,
-                        "width": 120
-                    }
-                },
-                "errorMessage": {
-                    "required": "Attach sign"
-                },
-                "validators": {
-                    "required": false
-                },
-                "scope": "project"
+            "scope": "project"
+          },
+          {
+            "name": "name",
+            "label": "CERTIFICATE_ISSUER_NAME",
+            "value": "",
+            "class": "",
+            "type": "input",
+            "formControlName": "issuerName",
+            "placeHolder": "ENTER_CERTIFICATE_ISSUER_NAME",
+            "position": "floating",
+            "infoMessage": "Provide the Name of the organization issuing the certificate.",
+            "errorMessage": {
+              "required": "Enter valid certificate issuer name",
+              "maxLength": "Certificate issuer name must not exceed 256 characters"
             },
-            {
-                "name": "attachprojectevidence",
-                "label": "ENABLE_PROJECT_LEVEL_EVIDENCE",
-                "value": "",
-                "class": "",
-                "type": "radio",
-                "formControlName": "enableTaskEvidence",
-                "infoMessage": "Select Yes if you want the user to upload evidence for the project to get the certificate.",
-                "options": [],
-                "meta": {
-                    "entityType": "attachprojectevidence"
-                },
-                "scope": "project"
+            "validators": {
+              "required": true,
+              "maxLength": 255
             },
-            {
-                "name": "noofevidence",
-                "label": "NUMBER_OF_EVIDENCE_REQUIRED",
-                "value": "1",
-                "class": "",
-                "type": "number",
-                "formControlName": "evidenceRequired",
-                "placeHolder": "Enter number",
-                "infoMessage": "The default value will be '1' if you leave it blank.",
-                "errorMessage": {
-                    "required": "Enter number of evidences",
-                    "min": "Evidence number must be at least 1",
-                    "max": "Evidence number must not exceed 100,000"
+            "scope": "project"
+          },
+          {
+            "name": "attachlogo",
+            "label": "ATTACH_LOGOS",
+            "value": "",
+            "class": "",
+            "icon": "add_circle",
+            "type": "attachLogo",
+            "textForLink": "Add image 1",
+            "placeHolder": "",
+            "listIcon": "",
+            "dialogData": {
+              "header": "ATTACH_LOGO",
+              "subheader": "ATTACH_LOGOS_DETAIlS",
+              "filespecificationheader": "Make sure your file:",
+              "subcontent": [
+                {
+                  "no": "1",
+                  "option": "Is 80px X 80px in dimension"
                 },
-                "validators": {
-                    "required": false,
-                    "min": 1,
-                    "max": 100000
+                {
+                  "no": "2",
+                  "option": "Size <= 50kb"
                 },
-                "scope": "project"
+                {
+                  "no": "3",
+                  "option": "File type = PNG only"
+                }
+              ],
+              "attachButton": "ATTACH",
+              "imageSpecification": {
+                "height": 80,
+                "width": 80
+              }
             },
-            {
-                "name": "attachtaskevidence",
-                "label": "ENABLE_TASK_EVIDENCE",
-                "value": "",
-                "class": "",
-                "type": "radio",
-                "infoMessage": "Select Yes if you want the user to upload evidence for this task to get the certificate",
-                "options": [],
-                "meta": {
-                    "entityType": "attachtaskevidence"
-                },
-                "scope": "task"
+            "errorMessage": {
+              "required": "Attach logo"
             },
-            {
-                "name": "noofevidence",
-                "label": "No of evidence criteria of this task",
-                "value": "",
-                "class": "",
-                "type": "number",
-                "formControlName": "evidenceCriteria",
-                "placeHolder": "Enter number",
-                "infoMessage": "Enter a number equal to or greater than the minimum number of evidence set for this task on 'Tasks' page. If left blank, the default value will be '1' or same as minimum value set on the 'Tasks' page, whichever is greater.",
-                "errorMessage": {
-                    "required": "Enter number of evidences",
-                    "min": "Evidence number must be at least 1",
-                    "max": "Evidence number must not exceed 100,000"
+            "validators": {
+              "required": true
+            },
+            "scope": "project"
+          },
+          {
+            "name": "attachsign",
+            "label": "ATTACH_SIGNATURES",
+            "value": "",
+            "class": "",
+            "icon": "add_circle",
+            "type": "attachSign",
+            "textForLink": "Add image 1",
+            "placeHolder": "",
+            "listIcon": "",
+            "dialogData": {
+              "header": "ATTACH_SIGNATURE",
+              "subheader": "ADD_SIGNATURE_DETALS",
+              "inputfields": [
+                {
+                  "name": "name",
+                  "label": "SIGNATURE_NAME",
+                  "value": "",
+                  "class": "",
+                  "type": "text",
+                  "placeHolder": "Name",
+                  "position": "",
+                  "errorMessage": {
+                    "required": "Enter Name of the signature",
+                    "maxLength": "Name must not exceed 256 characters"
+                  }
                 },
-                "validators": {
-                    "required": false,
-                    "min": 1,
-                    "max": 100000
+                {
+                  "name": "designation",
+                  "label": "SIGNATURE_DESIGNATION",
+                  "value": "",
+                  "class": "",
+                  "type": "text",
+                  "placeHolder": "Designation",
+                  "position": "",
+                  "errorMessage": {
+                    "required": "Enter designation to the resource"
+                  }
+                }
+              ],
+              "filespecificationheader": "Make sure your file:",
+              "subcontent": [
+                {
+                  "no": "1",
+                  "option": "50px height X 120px base"
                 },
-                "scope": "task"
-            }
+                {
+                  "no": "2",
+                  "option": "Size <= 50kb"
+                },
+                {
+                  "no": "3",
+                  "option": "File type = PNG only"
+                }
+              ],
+              "attachButton": "ATTACH",
+              "imageSpecification": {
+                "height": 50,
+                "width": 120
+              }
+            },
+            "errorMessage": {
+              "required": "Attach sign"
+            },
+            "validators": {
+              "required": false
+            },
+            "scope": "project"
+          },
+          {
+            "name": "attachprojectevidence",
+            "label": "ENABLE_PROJECT_LEVEL_EVIDENCE",
+            "value": "",
+            "class": "",
+            "type": "radio",
+            "formControlName": "enableTaskEvidence",
+            "infoMessage": "Select Yes if you want the user to upload evidence for the project to get the certificate.",
+            "options": [],
+            "meta": {
+              "entityType": "attachprojectevidence"
+            },
+            "scope": "project"
+          },
+          {
+            "name": "noofevidence",
+            "label": "NUMBER_OF_EVIDENCE_REQUIRED",
+            "value": "1",
+            "class": "",
+            "type": "number",
+            "formControlName": "evidenceRequired",
+            "placeHolder": "Enter number",
+            "infoMessage": "The default value will be '1' if you leave it blank.",
+            "errorMessage": {
+              "required": "Enter number of evidences",
+              "min": "Evidence number must be at least 1",
+              "max": "Evidence number must not exceed 100,000"
+            },
+            "validators": {
+              "required": false,
+              "min": 1,
+              "max": 100000
+            },
+            "scope": "project"
+          },
+          {
+            "name": "attachtaskevidence",
+            "label": "ENABLE_TASK_EVIDENCE",
+            "value": "",
+            "class": "",
+            "type": "radio",
+            "infoMessage": "Select Yes if you want the user to upload evidence for this task to get the certificate",
+            "options": [],
+            "meta": {
+              "entityType": "attachtaskevidence"
+            },
+            "scope": "task"
+          },
+          {
+            "name": "noofevidence",
+            "label": "No of evidence criteria of this task",
+            "value": "",
+            "class": "",
+            "type": "number",
+            "formControlName": "evidenceCriteria",
+            "placeHolder": "Enter number",
+            "infoMessage": "Enter a number equal to or greater than the minimum number of evidence set for this task on 'Tasks' page. If left blank, the default value will be '1' or same as minimum value set on the 'Tasks' page, whichever is greater.",
+            "errorMessage": {
+              "required": "Enter number of evidences",
+              "min": "Evidence number must be at least 1",
+              "max": "Evidence number must not exceed 100,000"
+            },
+            "validators": {
+              "required": false,
+              "min": 1,
+              "max": 100000
+            },
+            "scope": "task"
+          }
         ]
-    }
+      }
     }
   },
   {
     "type": "rollOutDetails",
     "sub_type": "rollOutDetailsForm",
-    "action": "update",
-    "id":8,
+    "action": "skip",
+    "id": 6,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
-            "controls": [
-                {
-                    "name": "title",
-                    "label": "Title",
-                    "value": "",
-                    "class": "",
-                    "type": "text",
-                    "cssStyle": "relative w-[100%]",
-                    "placeHolder": "Enter project title",
-                    "position": "floating",
-                    "infoMessage": "Name your project as it should appear to the user on the consumption app.",
-                    "errorMessage": {
-                        "required": "Enter valid project title",
-                        "maxlength": "Project title must not exceed 256 characters"
-                    },
-                    "validators": {
-                        "required": true,
-                        "maxLength": 255
-                    }
-                },
-                {
-                    "name": "targeting_criteria",
-                    "label": "Target criteria",
-                    "value": [],
-                    "class": "",
-                    "icon": "add_circle",
-                    "type": "triggerParent",
-                    "cssStyle": "relative w-[100%]",
-                    "textForLink": "Select targeting details",
-                    "isMultiSelect": "false",
-                    "placeHolder": "Select targeting details",
-                    "position": "floating",
-                    "infoMessage": "Select the targeting criteria for your resource. Multiple criteria can be selected.",
-                    "errorMessage": {},
-                    "validators": {
-                        "required": true
-                    }
-                },
-                {
-                    "name": "start_date",
-                    "label": "Start date",
-                    "value": "",
-                    "class": "",
-                    "type": "date",
-                    "cssStyle": "relative w-[47%]",
-                    "placeHolder": "Enter start date",
-                    "position": "floating",
-                    "infoMessage": "Enter the start date of the resource rollout in DD-MM-YYYY format",
-                    "maxDependentChild": "end_date",
-                    "errorMessage": {
-                        "required": "Enter start date "
-                    },
-                    "validators": {
-                        "required": true
-                    }
-                },
-                {
-                    "name": "end_date",
-                    "label": "End date",
-                    "value": "",
-                    "class": "",
-                    "type": "date",
-                    "cssStyle": "relative w-[47%]",
-                    "placeHolder": "Enter end date",
-                    "position": "floating",
-                    "infoMessage": "Enter the end date of the resource rollout in DD-MM-YYYY format",
-                    "minDependentChild": "start_date",
-                    "errorMessage": {
-                        "required": "Enter end date "
-                    },
-                    "validators": {
-                        "required": true
-                    }
-                },
-                {
-                    "name": "viewers",
-                    "label": "Data manager",
-                    "value": [],
-                    "class": "",
-                    "type": "select",
-                    "cssStyle": "relative w-[100%]",
-                    "isMultiSelect": "true",
-                    "placeHolder": "Select data manager",
-                    "position": "floating",
-                    "infoMessage": "Select Data Manager of your resource who will get access to the detailed data of the roll out.",
-                    "errorMessage": {
-                        "required": "Select data manager"
-                    },
-                    "validators": {
-                        "required": true
-                    },
-                    "options": [],
-                    "meta": {
-                        "entityType": "viewers"
-                    }
-                }
-            ]
-        }
+        "controls": [
+          {
+            "name": "title",
+            "label": "Title",
+            "value": "",
+            "class": "",
+            "type": "text",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Enter project title",
+            "position": "floating",
+            "infoMessage": "Name your project as it should appear to the user on the consumption app.",
+            "errorMessage": {
+              "required": "Enter valid project title",
+              "maxlength": "Project title must not exceed 256 characters"
+            },
+            "validators": {
+              "required": true,
+              "maxLength": 255
+            }
+          },
+          {
+            "name": "targeting_criteria",
+            "label": "Target criteria",
+            "value": [],
+            "class": "",
+            "icon": "add_circle",
+            "type": "triggerParent",
+            "cssStyle": "relative w-[100%]",
+            "textForLink": "Select targeting details",
+            "isMultiSelect": "false",
+            "placeHolder": "Select targeting details",
+            "position": "floating",
+            "infoMessage": "Select the targeting criteria for your resource. Multiple criteria can be selected.",
+            "errorMessage": {},
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "start_date",
+            "label": "Start date",
+            "value": "",
+            "class": "",
+            "type": "date",
+            "cssStyle": "relative w-[47%]",
+            "placeHolder": "Enter start date",
+            "position": "floating",
+            "infoMessage": "Enter the start date of the resource rollout in DD-MM-YYYY format",
+            "maxDependentChild": "end_date",
+            "errorMessage": {
+              "required": "Enter start date "
+            },
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "end_date",
+            "label": "End date",
+            "value": "",
+            "class": "",
+            "type": "date",
+            "cssStyle": "relative w-[47%]",
+            "placeHolder": "Enter end date",
+            "position": "floating",
+            "infoMessage": "Enter the end date of the resource rollout in DD-MM-YYYY format",
+            "minDependentChild": "start_date",
+            "errorMessage": {
+              "required": "Enter end date "
+            },
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "viewers",
+            "label": "Data manager",
+            "value": [],
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "true",
+            "placeHolder": "Select data manager",
+            "position": "floating",
+            "infoMessage": "Select Data Manager of your resource who will get access to the detailed data of the roll out.",
+            "errorMessage": {
+              "required": "Select data manager"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "viewers"
+            }
+          }
+        ]
+      }
     }
   },
   {
     "type": "targetCriteriaDetails",
     "sub_type": "targetCriteriaDetailsForm",
-    "action": "update",
-    "id":9,
+    "action": "skip",
+    "id": 7,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
-                "controls": [
-                    {
-                        "label": "Location",
-                        "showTable": true,
-                        "form": [
-                            {
-                                "placeHolder": "Choose State",
-                                "isMultiple": false,
-                                "label": "Select State",
-                                "validators": {
-                                    "required": true
-                                },
-                                "meta": {
-                                    "url": "GET_ENTITIES_LIST",
-                                    "type": "state",
-                                    "dependantIndex": [
-                                        1,
-                                        2
-                                    ]
-                                },
-                                "options": []
-                            },
-                            {
-                                "placeHolder": "Choose Entity targetting",
-                                "isMultiple": false,
-                                "meta": {
-                                    "url": "GET_ENTITY_HIERARCHY",
-                                    "type": "entity_targeting"
-                                },
-                                "label": "Select Entity Targeting",
-                                "options": []
-                            },
-                            {
-                                "placeHolder": "Role",
-                                "isMultiple": true,
-                                "label": "Select Target",
-                                "meta": {
-                                    "url": "GET_ENTITY_ROLES",
-                                    "type": "roles"
-                                },
-                                "validators": {
-                                    "required": true
-                                },
-                                "options": []
-                            }
-                        ]
-                    },
-                    {
-                        "label": "Gender",
-                        "showTable": false,
-                        "form": [
-                            {
-                                "placeHolder": "Select Gender",
-                                "isMultiple": true,
-                                "label": "Gender",
-                                "meta": {
-                                    "type": "gender"
-                                },
-                                "options": [
-                                    {
-                                        "_id": "male",
-                                        "name": "Male",
-                                        "externalId": "enf3"
-                                    },
-                                    {
-                                        "_id": "female",
-                                        "name": "Female",
-                                        "externalId": "enkhfjg"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
+        "controls": [
+          {
+            "label": "Location",
+            "showTable": true,
+            "form": [
+              {
+                "placeHolder": "Choose State",
+                "isMultiple": false,
+                "label": "Select State",
+                "validators": {
+                  "required": true
+                },
+                "meta": {
+                  "url": "GET_ENTITIES_LIST",
+                  "type": "state",
+                  "dependantIndex": [
+                    1,
+                    2
+                  ]
+                },
+                "options": []
+              },
+              {
+                "placeHolder": "Choose Entity targetting",
+                "isMultiple": false,
+                "meta": {
+                  "url": "GET_ENTITY_HIERARCHY",
+                  "type": "entity_targeting"
+                },
+                "label": "Select Entity Targeting",
+                "options": []
+              },
+              {
+                "placeHolder": "Role",
+                "isMultiple": true,
+                "label": "Select Target",
+                "meta": {
+                  "url": "GET_ENTITY_ROLES",
+                  "type": "roles"
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": []
+              }
+            ]
+          },
+          {
+            "label": "Gender",
+            "showTable": false,
+            "form": [
+              {
+                "placeHolder": "Select Gender",
+                "isMultiple": true,
+                "label": "Gender",
+                "meta": {
+                  "type": "gender"
+                },
+                "options": [
+                  {
+                    "_id": "male",
+                    "name": "Male",
+                    "externalId": "enf3"
+                  },
+                  {
+                    "_id": "female",
+                    "name": "Female",
+                    "externalId": "enkhfjg"
+                  }
                 ]
-            }
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   {
     "type": "programDetails",
     "sub_type": "programDetailsForm",
-    "action": "create",
+    "action": "skip",
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "name": "title",
-                "label": "Program title",
-                "value": "",
-                "class": "",
-                "type": "text",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Enter program title",
-                "position": "floating",
-                "infoMessage": "Name your program as it should appear to the user on the consumption app.",
-                "errorMessage": {
-                    "required": "Enter valid program title",
-                    "maxlength": "Program title must not exceed 256 characters"
-                },
-                "validators": {
-                    "required": true,
-                    "maxLength": 255
-                }
+          {
+            "name": "title",
+            "label": "Program title",
+            "value": "",
+            "class": "",
+            "type": "text",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Enter program title",
+            "position": "floating",
+            "infoMessage": "Name your program as it should appear to the user on the consumption app.",
+            "errorMessage": {
+              "required": "Enter valid program title",
+              "maxlength": "Program title must not exceed 256 characters"
             },
-            {
-                "name": "targeting_criteria",
-                "label": "Target criteria",
-                "value": [],
-                "class": "",
-                "icon": "add_circle",
-                "type": "triggerParent",
-                "cssStyle": "relative w-[100%]",
-                "textForLink": "Add target criteria",
-                "isMultiSelect": "false",
-                "placeHolder": "Select license",
-                "position": "floating",
-                "infoMessage": "Select the targeting details for your program. Details for multiple criteria can be added.",
-                "errorMessage": {},
-                "validators": {
-                    "required": true
-                }
-            },
-            {
-                "name": "objective",
-                "label": "Objective",
-                "value": "",
-                "class": "",
-                "type": "textarea",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Summarize the goal of the program",
-                "position": "floating",
-                "infoMessage": "Describe the program's main goal in one or two lines.",
-                "errorMessage": {
-                    "required": "Summarize the goal of the program",
-                    "maxlength": "Objective must not exceed 2000 characters"
-                },
-                "validators": {
-                    "required": true,
-                    "maxLength": 2000
-                }
-            },
-            {
-                "name": "start_date",
-                "label": "Start date",
-                "value": "",
-                "class": "",
-                "type": "date",
-                "cssStyle": "relative w-[47%]",
-                "placeHolder": "Enter start date",
-                "position": "floating",
-                "infoMessage": "Enter the start date of the program in DD-MM-YYYY format",
-                "maxDependentChild": "end_date",
-                "errorMessage": {
-                    "required": "Enter start date "
-                },
-                "validators": {
-                    "required": true
-                }
-            },
-            {
-                "name": "end_date",
-                "label": "End date",
-                "value": "",
-                "class": "",
-                "type": "date",
-                "cssStyle": "relative w-[47%]",
-                "placeHolder": "Enter end date",
-                "position": "floating",
-                "infoMessage": "Enter the end date of the program in DD-MM-YYYY format",
-                "minDependentChild": "start_date",
-                "errorMessage": {
-                    "required": "Enter end date "
-                },
-                "validators": {
-                    "required": true
-                }
-            },
-            {
-                "name": "keywords",
-                "label": "Add keywords",
-                "value": "",
-                "class": "",
-                "type": "text",
-                "cssStyle": "relative w-[100%]",
-                "placeHolder": "Add a tag",
-                "position": "floating",
-                "infoMessage": "Keywords improve searchability. Help users find your program easily with relevant keywords.",
-                "errorMessage": {
-                    "required": "Add a tag",
-                    "maxlength": "Keyword must not exceed 256 characters"
-                },
-                "validators": {
-                    "required": false,
-                    "maxLength": 255
-                }
-            },
-            {
-                "name": "viewers",
-                "label": "Program manager",
-                "value": [],
-                "class": "",
-                "type": "select",
-                "cssStyle": "relative w-[100%]",
-                "isMultiSelect": "true",
-                "placeHolder": "Select program manager",
-                "position": "floating",
-                "infoMessage": "Select Program Manager of your program",
-                "errorMessage": {
-                    "required": "Select program manager"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "viewers"
-                }
-            },
-            {
-                "name": "licenses",
-                "label": "License",
-                "value": "cc_by_4.0",
-                "class": "",
-                "type": "select",
-                "cssStyle": "relative w-[100%]",
-                "isMultiSelect": "false",
-                "placeHolder": "Select license",
-                "position": "floating",
-                "infoMessage": "Select license type of your program",
-                "errorMessage": {
-                    "required": "Select license"
-                },
-                "validators": {
-                    "required": true
-                },
-                "options": [],
-                "meta": {
-                    "entityType": "licenses"
-                }
+            "validators": {
+              "required": true,
+              "maxLength": 255
             }
+          },
+          {
+            "name": "targeting_criteria",
+            "label": "Target criteria",
+            "value": [],
+            "class": "",
+            "icon": "add_circle",
+            "type": "triggerParent",
+            "cssStyle": "relative w-[100%]",
+            "textForLink": "Add target criteria",
+            "isMultiSelect": "false",
+            "placeHolder": "Select license",
+            "position": "floating",
+            "infoMessage": "Select the targeting details for your program. Details for multiple criteria can be added.",
+            "errorMessage": {},
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "objective",
+            "label": "Objective",
+            "value": "",
+            "class": "",
+            "type": "textarea",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Summarize the goal of the program",
+            "position": "floating",
+            "infoMessage": "Describe the program's main goal in one or two lines.",
+            "errorMessage": {
+              "required": "Summarize the goal of the program",
+              "maxlength": "Objective must not exceed 2000 characters"
+            },
+            "validators": {
+              "required": true,
+              "maxLength": 2000
+            }
+          },
+          {
+            "name": "start_date",
+            "label": "Start date",
+            "value": "",
+            "class": "",
+            "type": "date",
+            "cssStyle": "relative w-[47%]",
+            "placeHolder": "Enter start date",
+            "position": "floating",
+            "infoMessage": "Enter the start date of the program in DD-MM-YYYY format",
+            "maxDependentChild": "end_date",
+            "errorMessage": {
+              "required": "Enter start date "
+            },
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "end_date",
+            "label": "End date",
+            "value": "",
+            "class": "",
+            "type": "date",
+            "cssStyle": "relative w-[47%]",
+            "placeHolder": "Enter end date",
+            "position": "floating",
+            "infoMessage": "Enter the end date of the program in DD-MM-YYYY format",
+            "minDependentChild": "start_date",
+            "errorMessage": {
+              "required": "Enter end date "
+            },
+            "validators": {
+              "required": true
+            }
+          },
+          {
+            "name": "keywords",
+            "label": "Add keywords",
+            "value": "",
+            "class": "",
+            "type": "text",
+            "cssStyle": "relative w-[100%]",
+            "placeHolder": "Add a tag",
+            "position": "floating",
+            "infoMessage": "Keywords improve searchability. Help users find your program easily with relevant keywords.",
+            "errorMessage": {
+              "required": "Add a tag",
+              "maxlength": "Keyword must not exceed 256 characters"
+            },
+            "validators": {
+              "required": false,
+              "maxLength": 255
+            }
+          },
+          {
+            "name": "viewers",
+            "label": "Program manager",
+            "value": [],
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "true",
+            "placeHolder": "Select program manager",
+            "position": "floating",
+            "infoMessage": "Select Program Manager of your program",
+            "errorMessage": {
+              "required": "Select program manager"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "viewers"
+            }
+          },
+          {
+            "name": "licenses",
+            "label": "License",
+            "value": "cc_by_4.0",
+            "class": "",
+            "type": "select",
+            "cssStyle": "relative w-[100%]",
+            "isMultiSelect": "false",
+            "placeHolder": "Select license",
+            "position": "floating",
+            "infoMessage": "Select license type of your program",
+            "errorMessage": {
+              "required": "Select license"
+            },
+            "validators": {
+              "required": true
+            },
+            "options": [],
+            "meta": {
+              "entityType": "licenses"
+            }
+          }
         ]
-    }
-    }
+      }
+    },
+    "id": 8
   }
 ]
