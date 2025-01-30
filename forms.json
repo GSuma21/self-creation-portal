@@ -2142,7 +2142,7 @@
                     },
                     "validators": {
                       "required": true,
-                      "pattern": "^https://dev\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
+                      "pattern": "^https://qa\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
                       "maxLength": 255
                     }
                   }
