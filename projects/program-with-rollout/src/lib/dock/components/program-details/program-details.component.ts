@@ -288,6 +288,11 @@ export class ProgramDetailsComponent {
       }
 
    ngOnDestroy() {
+      if(this.mode === modes.EDIT){
+          if(this.programWithRolloutService.programData.id) {
+            this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe((res:any)=> console.log(res))
+          }
+        }
       this.subscription.unsubscribe();
       if (this.intervalId) {
         clearInterval(this.intervalId);
