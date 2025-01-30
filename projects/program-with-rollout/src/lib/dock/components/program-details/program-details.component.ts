@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './program-details.component.scss'
 })
 export class ProgramDetailsComponent {
-  @ViewChild('formLib') formLib: MainFormComponent | undefined;
+  @ViewChild('formLib') formLib!: MainFormComponent;
   private subscription: Subscription = new Subscription();
   allowOpenLinks = true;
   viewOnly = false;
@@ -34,15 +34,11 @@ export class ProgramDetailsComponent {
           this.mode = params.mode ? params.mode : ""
         })
       )
+      this.programId =  this.route.snapshot.queryParamMap.get('programId');
      }
   
    ngOnInit() {
     this.getFormWithEntitiesAndMap()
-    // this.subscription.add(
-    //   this.programWithRolloutService.createProgramTest().subscribe((res:any)=>{
-    //     console.log(res)
-    //   })
-    // )
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
         (isProjectSave: boolean) => {
@@ -56,8 +52,19 @@ export class ProgramDetailsComponent {
 
     getFormWithEntitiesAndMap(){
         this.formService.getFormWithEntities(PROGRAM_DETAILS).then((data) => {
+          data.controls.forEach((control:any) => {
+            if (control.name === "viewers") {
+              this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
+                const items = dataManagerList.result?.data || []; // Access the array safely
+                const formattedOptions = items.map((item: any) => ({
+                    label: item.name,
+                    value: item.id
+                }));
+                control.options = [...formattedOptions];
+                })
+              }
+            })
           this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
-          this.readProjectDeatilsAndMap(data.controls,[]);
           if (data) {
             this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
             this.subscription.add(
@@ -73,12 +80,9 @@ export class ProgramDetailsComponent {
                         this.programWithRolloutService
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
-                            console.log(res)
-                          //   this.libProjectService.setProjectData(res.result);
-                          //  this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
-                          //   this.readProjectDeatilsAndMap(data.controls,res.result);
-                          //   this.libProjectService.upDateProjectTitle();
-                            // comments list and configuration
+                            this.programWithRolloutService.setProgramData(res.result);
+                            this.readProjectDeatilsAndMap(data.controls,res.result);
+                            this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
                     }
@@ -129,6 +133,11 @@ export class ProgramDetailsComponent {
                 : res[element.name]?.[subElement.name];
             });
           }
+          if (element.name === "viewers") {
+            if(Array.isArray(element.value) && element.value.every((item:any) => typeof item !== 'number')){
+              element.value = element.value.map((item: any) => item.id);
+            }
+          }
         });
         this.dynamicFormData = formControls;
         // if( this.formLib){
@@ -142,6 +151,9 @@ export class ProgramDetailsComponent {
   getDynamicFormData(data:any){
     this.programWithRolloutService.setProgramData(data)
     this.programWithRolloutService.upDateProgramTitle(data.title)
+    if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
+      this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
+    }
   }
 
   getFormControlChange(event:any){}
@@ -169,9 +181,9 @@ export class ProgramDetailsComponent {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria" && res) {
                 element.value.push(res);
-                // this.formLib.myForm.patchValue({ // adding target criteria to form
-                //   targeting_criteria: element.value,
-                // });
+                this.formLib.myForm.patchValue({ // adding target criteria to form
+                  targeting_criteria: element.value,
+                });
                 // this.programWithRolloutService.rollOutDetails.targeting_criteria
               }
             })
@@ -202,7 +214,6 @@ export class ProgramDetailsComponent {
 
      startAutoSaving() {
         this.intervalId = setInterval(() => {
-          console.log(this.programId)
           if(!this.programId) {
             this.createProgram({title:'Untitled project'})
           } else {
@@ -231,7 +242,6 @@ export class ProgramDetailsComponent {
               replaceUrl: true,
             });
             this.programWithRolloutService.programData.id = res.result.id;
-            console.log(res)
             if(showToast) {
               this.toastService.openSnackBar({
                 message: res.message,

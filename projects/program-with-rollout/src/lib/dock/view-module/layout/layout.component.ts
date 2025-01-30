@@ -149,4 +149,10 @@ export class LayoutComponent {
         break;
     }
   }
+
+  ngOnDestroy() {
+    this.programWithRolloutService.programData = {}
+    this.programWithRolloutService.resetProgramMetaData();
+    this.subscription.unsubscribe();
+  }
 }

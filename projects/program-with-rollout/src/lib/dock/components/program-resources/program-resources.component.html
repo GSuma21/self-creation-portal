@@ -15,6 +15,13 @@
   </div>
 </div>
 <div  class="px-10 py-4 w-[100%]">
-  <p>{{"ADDED_RESOURCES" | translate}}( {{resource_count}})</p>
+  <p>{{"ADDED_RESOURCES" | translate}}( {{resourceCount}})</p>
+</div>
+<div class="px-10 py-4 w-[100%]">
+  @for(list of resources; track list){
+    <div class="pb-3">
+      <lib-card [list]="list" [showActionButton]="true" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)"></lib-card>
+    </div>
+    }
 </div>
 
