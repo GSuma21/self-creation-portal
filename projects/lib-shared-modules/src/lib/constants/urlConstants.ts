@@ -43,3 +43,12 @@ export const ROUTE_PATHS = {
       PROJECT_DETAILS: PROJECT_DETAILS_PAGE,
     }
 };
+export const modes = {
+  VIEWONLY: 'viewOnly',
+  EDIT: 'edit',
+  REQUEST_FOR_EDIT:'reqEdit',
+  CREATOR_VIEW:'creatorView',
+  REVIEWER_VIEW:'reviewerView',
+  REVIEW:'review',
+  COPY_EDIT:"copyEdit"
+};
