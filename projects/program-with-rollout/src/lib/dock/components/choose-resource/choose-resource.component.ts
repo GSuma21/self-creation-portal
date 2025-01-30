@@ -1,30 +1,23 @@
 import { Component } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../header/header.component';
-import { PreviewComponent } from '../preview/preview.component';
-import { SearchComponent } from '../search/search.component';
-import { FilterComponent } from '../filter/filter.component';
-import { NoResultFoundComponent } from '../no-result-found/no-result-found.component';
-import { HttpProviderService } from '../../services/http-provider.service';
-import { ConfigService } from '../../configs/config.service';
-import { UtilService } from '../../services/util/util.service';
-import { FormService } from '../../services/form/form.service';
-import { SIDE_NAV_DATA } from '../../constants/formConstant';
+import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-choose-resource',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent],
+  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent, MatCheckboxModule],
   templateUrl: './choose-resource.component.html',
   styleUrl: './choose-resource.component.scss'
 })
 export class ChooseResourceComponent {
+  redirectData:any={}
   backButton : boolean = true;
   headerData = {
     title : "RESOURCE_LIBRARY"
@@ -80,9 +73,15 @@ export class ChooseResourceComponent {
   showNoResultComponent:boolean = false;
   showNoPulishedMessage:boolean = false;
   rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
+  selectFor:any = this.route.snapshot.queryParamMap.get('selectFor')
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
+    this.redirectData={
+      selectDesourceTitle: (this.selectFor =='roll-out') ? "SELECT" : "ADD_TO_PROGRAM",
+      subTitle:"",
+      redirectUrl: (this.selectFor =='roll-out') ? 'roll-out/details/project-details' : 'roll-out/details/program-resources'
+   }
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
       const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
       this.noSearchResultMessage = selectedSideNavData?.noSearchResultMessage || '' ;
@@ -168,7 +167,9 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   onSelect(){
-      this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id, rolloutId:this.rolloutId}})
+    console.log(this.selectedResource)
+    console.log(this.selectedValuesForPrograms)
+      this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, resourceIds:this.selectedValuesForPrograms}})
   }
 
   navigateToCreateNew() {
@@ -188,4 +189,22 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   filterButtonClickEvent(event:any){}
+
+  selectedValuesForPrograms: string[] = [];
+
+  onSelectionChangeForPrograms(item: any) {
+    this.onSelectionChange(item)
+    console.log(item)
+    console.log(typeof(item.id))
+    if (!item || !item.id) {
+      console.error("Invalid item selected", item);
+      return;
+    }
+    const index = this.selectedValuesForPrograms.indexOf(item.id);
+    if (index === -1) {
+      this.selectedValuesForPrograms.push(item.id);
+    } else {
+      this.selectedValuesForPrograms.splice(index, 1);
+    }
+  }
 }

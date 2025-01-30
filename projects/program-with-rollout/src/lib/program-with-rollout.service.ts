@@ -146,7 +146,7 @@ export class ProgramWithRolloutService {
             ? title
             : this.programData?.title
             ? this.programData?.title
-            : 'PROgram_NAME',
+            : 'PROGRAM_NAME',
         },
       },
     };
@@ -199,9 +199,6 @@ export class ProgramWithRolloutService {
         );
       }
   
-
-
-
       openSnackBarAndRedirect(
         message?: string,
         panelClass?: string,
@@ -216,6 +213,10 @@ export class ProgramWithRolloutService {
           this.router.navigate([`/home/${url}`]);
         }
       }
-    
+
+
+      addResourceToProgram(payload:any, programId:any) {
+        return this.httpService.post(this.Configuration.urlConFig.PROGRAM_URLS.ADD_RESOURCES_TO_PROGRAMS + ('/'+programId), payload);
+      }
 
 }

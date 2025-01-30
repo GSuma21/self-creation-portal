@@ -5,7 +5,8 @@ import { ResourceDetailsComponent } from '../components/resource-details/resourc
 import { ProgramDetailsComponent } from '../components/program-details/program-details.component';
 import { ProgramResourcesComponent } from '../components/program-resources/program-resources.component';
 import { ResourceLevelTargetingComponent } from '../components/resource-level-targeting/resource-level-targeting.component';
-import { ChoosingResourceComponent } from '../components/choosing-resource/choosing-resource.component';
+import { ChooseResourceComponent } from '../components/choose-resource/choose-resource.component';
+
 
 
 const routes: Routes = [
@@ -16,7 +17,7 @@ const routes: Routes = [
   },
   {
     path:'choose-resource',
-    component:ChoosingResourceComponent,
+    component:ChooseResourceComponent,
   },
   {
     path:'details',
