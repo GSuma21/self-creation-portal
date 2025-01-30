@@ -74,6 +74,7 @@ export class ChooseResourceComponent {
   showNoPulishedMessage:boolean = false;
   rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
   selectFor:any = this.route.snapshot.queryParamMap.get('selectFor')
+  selectedValuesForPrograms: number[] = [];
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
@@ -169,7 +170,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onSelect(){
     console.log(this.selectedResource)
     console.log(this.selectedValuesForPrograms)
-      this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, resourceIds:this.selectedValuesForPrograms}})
+      this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}})
   }
 
   navigateToCreateNew() {
@@ -189,8 +190,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   filterButtonClickEvent(event:any){}
-
-  selectedValuesForPrograms: string[] = [];
 
   onSelectionChangeForPrograms(item: any) {
     this.onSelectionChange(item)

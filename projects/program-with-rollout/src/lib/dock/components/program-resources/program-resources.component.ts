@@ -30,7 +30,7 @@ export class ProgramResourcesComponent {
 constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,private programWithRolloutService:ProgramWithRolloutService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
   this.route.queryParamMap.subscribe((params) => {
-    this.resourceIds = params.getAll('resourceIds'); // Get multiple values
+    this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
     this.programId =  this.route.snapshot.queryParamMap.get('programId');
     console.log(this.resourceIds); // Output: ['1023', '1022', '1021']
   });
@@ -39,7 +39,7 @@ constructor(private formService: FormService, private router:Router,private rout
 ngOnInit(){
   this.getsolutionList()
   if(this.resourceIds.length){
-    this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},1028).subscribe((res:any) => {
+    this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
       
     })
   }
@@ -100,6 +100,6 @@ getsolutionList() {
 
 
   onCardClick(cardItem: any) {
-    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: this.parent, selectFor:'programs'}})
+    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: this.parent, selectFor:'programs', programId: this.programId}})
   }
 }
