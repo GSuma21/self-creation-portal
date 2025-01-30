@@ -73,7 +73,7 @@ submit() {
                 this.programWithRolloutService.programData.id = res.result.id;})
 
   }else{
-  
+    this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
   }
  
   // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
@@ -101,5 +101,9 @@ getsolutionList() {
 
   onCardClick(cardItem: any) {
     this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: this.parent, selectFor:'programs', programId: this.programId}})
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

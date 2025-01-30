@@ -219,4 +219,10 @@ export class ProgramWithRolloutService {
         return this.httpService.post(this.Configuration.urlConFig.PROGRAM_URLS.ADD_RESOURCES_TO_PROGRAMS + ('/'+programId), payload);
       }
 
+      readProgram(programId: number | string) {
+        return this.httpService.get(
+          this.Configuration.urlConFig.PROGRAM_URLS.READ_PROGRAM + programId
+        );
+      }
+
 }

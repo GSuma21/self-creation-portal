@@ -54,59 +54,58 @@ export class ProgramDetailsComponent {
     );
     }
 
-
-
     getFormWithEntitiesAndMap(){
         this.formService.getFormWithEntities(PROGRAM_DETAILS).then((data) => {
           this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
           this.readProjectDeatilsAndMap(data.controls,[]);
-          // if (data) {
-          //   this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
-          //   this.subscription.add(
-          //     this.route.queryParams.subscribe((params: any) => {
-          //       this.projectId = params.projectId;
-          //       this.libProjectService.projectData.id = params.projectId;
-          //       if (params.projectId) {
-          //         if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
-          //           if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
-          //             this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
-          //           } else {
-          //             this.subscription.add(
-          //               this.libProjectService
-          //                 .readProject(this.projectId)
-          //                 .subscribe((res: any) => {
-          //                   this.libProjectService.setProjectData(res.result);
-          //                  this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
-          //                   this.readProjectDeatilsAndMap(data.controls,res.result);
-          //                   this.libProjectService.upDateProjectTitle();
-          //                   // comments list and configuration
-          //                 })
-          //             );
-          //           }
-          //           this.checkAndGetCommentConfigs()
-          //         }else{
-          //           if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
-          //             this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
-          //           } else {
-          //             this.subscription.add(
-          //               this.libProjectService
-          //                 .readProject(this.projectId)
-          //                 .subscribe((res: any) => {
-          //                   this.libProjectService.setProjectData(res.result);
-          //                  this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
-          //                   this.readProjectDeatilsAndMap(data.controls,res.result);
-          //                   // comments list and configuration
-          //                 })
-          //             );
-          //           }
-          //           this.checkAndGetCommentConfigs()
-          //         }
-          //       } else {
-          //         this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
-          //       }
-          //     })
-          //   );
-          // }
+          if (data) {
+            this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
+            this.subscription.add(
+              this.route.queryParams.subscribe((params: any) => {
+                this.programId = params.programId;
+                this.programWithRolloutService.programData.id = params.programId;
+                if (params.programId) {
+                  if (params.mode === modes.EDIT) {
+                    if (Object.keys(this.programWithRolloutService.programData).length > 1) { // project ID will be there so length considered as more than 1
+                      this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
+                    } else {
+                      this.subscription.add(
+                        this.programWithRolloutService
+                          .readProgram(this.programId)
+                          .subscribe((res: any) => {
+                            console.log(res)
+                          //   this.libProjectService.setProjectData(res.result);
+                          //  this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
+                          //   this.readProjectDeatilsAndMap(data.controls,res.result);
+                          //   this.libProjectService.upDateProjectTitle();
+                            // comments list and configuration
+                          })
+                      );
+                    }
+                    // this.checkAndGetCommentConfigs()
+                  }else{
+                    if (Object.keys(this.programWithRolloutService.programData).length > 1) { // project ID will be there so length considered as more than 1
+                      this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
+                    } else {
+                      this.subscription.add(
+                        this.programWithRolloutService
+                          .readProgram(this.programId)
+                          .subscribe((res: any) => {
+                            this.programWithRolloutService.setProgramData(res.result);
+                          //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
+                            this.readProjectDeatilsAndMap(data.controls,res.result);
+                            // comments list and configuration
+                          })
+                      );
+                    }
+                    // this.checkAndGetCommentConfigs()
+                  }
+                } else {
+                  this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
+                }
+              })
+            );
+          }
         });
         // this.libProjectService.currentProjectMetaData.subscribe(data => {
         //   this.allowOpenLinks =  data?.tasksData.allowOpenLinks;
