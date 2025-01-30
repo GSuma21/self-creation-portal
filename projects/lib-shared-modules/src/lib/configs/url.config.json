@@ -28,7 +28,11 @@
     },
     "PROGRAM_URLS":{
        "DATA_MANAGER_LIST":"scp/v1/rollouts/getDataManagers",
-       "PUBLISHED_RESOURCES":"scp/v1/resource/getPublishedResources"
+       "PUBLISHED_RESOURCES":"scp/v1/resource/getPublishedResources",
+       "CREATE_OR_UPDATE_PROGRAM":"scp/v1/programs/update",
+       "ADD_RESOURCES_TO_PROGRAMS":"scp/v1/programs/addResources",
+       "READ_PROGRAM":"scp/v1/programs/details/",
+       "PROGRAM_MANAGER_LIST":"scp/v1/programs/getProgramManagers"
     },
     "LOGOUT_URLS": {
         "LOGOUT_API": "/user/v1/account/logout"
@@ -44,5 +48,13 @@
     },
     "UPLOAD":{
         "SIGNED_URL":"scp/v1/cloud-services/file/getSignedUrl"
+    },
+    "RESOURCE_LISTS_URLS": {
+        "BASE": "scp/v1/resource/",
+        "ENDPOINTS": {
+            "RESOURCE_LIST": "list",
+            "UP_FOR_REVIEW_LIST": "upForReview",
+            "BROWSE_EXISTING_LIST": "getPublishedResources"
+        }
     }
 }
