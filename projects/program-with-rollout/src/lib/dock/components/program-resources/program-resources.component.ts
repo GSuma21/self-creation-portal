@@ -38,6 +38,7 @@ constructor(private formService: FormService, private router:Router,private rout
 
 ngOnInit(){
   this.getsolutionList()
+  this.submit()
   if(this.resourceIds.length){
     this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
       const updatedParams = { parent: this.parent, programId: this.programId };
@@ -63,6 +64,7 @@ ngOnInit(){
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
       (isProjectSave: boolean) => {
+        console.log(isProjectSave)
         if (isProjectSave) {
           this.submit();
         }
@@ -72,9 +74,10 @@ ngOnInit(){
 }
 
 submit() {
+  console.log(this.programId)
   if(!this.programId){
     this.programWithRolloutService
-            .createOrUpdateProgram()
+            .createOrUpdateProgram({title:'Untitled project'})
             .subscribe((res: any) => {
               (this.programId = res.result.id),
                 this.router.navigate([], {
@@ -104,12 +107,6 @@ getsolutionList() {
             return item
           }
       })
-      // this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
-      // let userRoles:any = localStorage.getItem('user_roles')
-      // userRoles = JSON.parse(userRoles)
-      // if(!userRoles.find((item:any)=> item.title == 'content_creator')) {
-      //   this.router.navigate(['/home/up-for-review'])
-      // }
     })
   })
 }

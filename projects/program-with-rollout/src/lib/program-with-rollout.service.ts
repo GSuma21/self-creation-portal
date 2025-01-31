@@ -185,7 +185,7 @@ export class ProgramWithRolloutService {
     removeMetaData?: boolean
   ) {
     this.programData.title =
-      this.programData?.title?.length > 0
+      this.programData?.title > 0
         ? this.programData.title
         : 'Untitled project';
     // for (let key in programData) {
@@ -204,7 +204,7 @@ export class ProgramWithRolloutService {
           '/' +
           programId
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
-      payload: programData ? programData : '',
+      payload: programData
     };
 
     // if(removeMetaData) {
