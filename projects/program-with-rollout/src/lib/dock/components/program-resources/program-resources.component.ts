@@ -89,10 +89,12 @@ submit() {
                   queryParamsHandling: 'merge',
                   replaceUrl: true,
                 });
-                this.programWithRolloutService.programData.id = res.result.id;})
+                this.programWithRolloutService.programData.id = res.result.id;
+                this.programWithRolloutService.upDateProgramTitle(this.programWithRolloutService.programData.title)
+              })
 
   }else{
-    this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+    this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe();
   }
  
   // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();

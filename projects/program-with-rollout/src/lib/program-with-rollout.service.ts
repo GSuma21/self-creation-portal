@@ -184,10 +184,14 @@ export class ProgramWithRolloutService {
     programId?: string | number,
     removeMetaData?: boolean
   ) {
-    this.programData.title =
-      this.programData?.title > 0
-        ? this.programData.title
-        : 'Untitled project';
+    console.log(programData)
+    console.log(this.programData)
+    this.programData.title = programData?.title 
+  ? programData.title 
+  : this.programData?.title && this.programData.title.length > 0 
+    ? this.programData.title 
+    : 'Untitled project';
+        this.setProgramData(programData);
     // for (let key in programData) {
     //   if (Array.isArray(programData[key])) {
     //     programData[key] = programData[key].map((element: any) =>
@@ -204,7 +208,7 @@ export class ProgramWithRolloutService {
           '/' +
           programId
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
-      payload: programData
+      payload:  this.programData
     };
 
     // if(removeMetaData) {
