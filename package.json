@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "build:libraries": "concurrently \"ng build lib-shared-modules\" \"ng build lib-observation\" \"ng build lib-project\"  \"ng build lib-program\"  \"ng build lib-observation-with-rubrics\"",
-    "test": "ng test"
+    "test": "ng test",
+    "manage-forms": "node formManager --param=dev"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "authentication_frontend_library": "0.0.62",
+    "axios": "^1.7.9",
     "dynamic-form-suma": "^0.0.17",
     "idb": "^8.0.0",
     "ng-otp-input": "^1.9.3",
