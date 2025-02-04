@@ -32,7 +32,6 @@ const createForm = async (form) => {
     if(response){
         console.log("Form created successfully:", response.data);
         form.action = "skip";
-        form.id = response.data.meta.formsVersion.find((item) => item.type === form.type).id;
     }
   } catch (error) {
     console.error("Error creating form:", error);
@@ -47,14 +46,13 @@ const updateForm = async (form) => {
   
   try {
     const response = await axios.post(
-      `${apiUrl}/scp/v1/form/update/${form.id}`,
+      `${apiUrl}/scp/v1/form/update`,
       form,
       { headers: { 'X-auth-token': `bearer ${authToken}` } }
     );
     if(response){
         console.log("Form updated successfully:", response.data);
         form.action = "skip";
-        form.id = response.data.meta.formsVersion.find((item) => item.type === form.type).id;
     }
   } catch (error) {
     console.error("Error updating form:", error);

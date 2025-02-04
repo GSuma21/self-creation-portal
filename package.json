@@ -8,8 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "build:libraries": "concurrently \"ng build lib-shared-modules\" \"ng build lib-observation\" \"ng build lib-project\"  \"ng build lib-program\"  \"ng build lib-observation-with-rubrics\"",
     "test": "ng test",
-    "manage-forms": "node formManager --param=dev",
-    "create-forms": "node formManager --create"
+    "manage-forms": "node formManager --param=dev"
   },
   "private": true,
   "dependencies": {

@@ -3,7 +3,6 @@
     "type": "projectDetails",
     "sub_type": "projectDetailsForm",
     "action": "skip",
-    "id": 1,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -287,7 +286,6 @@
     "type": "sidenavData",
     "sub_type": "sidenavDataForm",
     "action": "skip",
-    "id": 2,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -1569,7 +1567,6 @@
     "type": "solutionlist",
     "sub_type": "solutionlistForm",
     "action": "skip",
-    "id": 3,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -1978,7 +1975,6 @@
     "type": "tasksDetails",
     "sub_type": "tasksDetailsForm",
     "action": "skip",
-    "id": 4,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -2161,7 +2157,6 @@
     "type": "certificateDetails",
     "sub_type": "certificateDetailsForm",
     "action": "skip",
-    "id": 5,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -2419,7 +2414,6 @@
     "type": "rollOutDetails",
     "sub_type": "rollOutDetailsForm",
     "action": "skip",
-    "id": 6,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -2527,7 +2521,6 @@
     "type": "targetCriteriaDetails",
     "sub_type": "targetCriteriaDetailsForm",
     "action": "skip",
-    "id": 7,
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
@@ -2773,7 +2766,6 @@
           }
         ]
       }
-    },
-    "id": 8
+    }
   }
 ]
