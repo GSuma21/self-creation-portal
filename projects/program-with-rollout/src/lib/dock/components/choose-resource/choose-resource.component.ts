@@ -1,24 +1,23 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation } from '@angular/core';
-import { environment } from 'environments';
-import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
-import { MatListModule } from '@angular/material/list';
+import { Component } from '@angular/core';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import { RESOURCE_URLS} from '../../services/configs/url.config.json';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResourceService } from '../../services/resource-service/resource.service';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-choose-resource',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent],
+  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent, MatCheckboxModule],
   templateUrl: './choose-resource.component.html',
   styleUrl: './choose-resource.component.scss'
 })
 export class ChooseResourceComponent {
+  redirectData:any={}
   backButton : boolean = true;
   headerData = {
     title : "RESOURCE_LIBRARY"
@@ -74,9 +73,16 @@ export class ChooseResourceComponent {
   showNoResultComponent:boolean = false;
   showNoPulishedMessage:boolean = false;
   rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
+  selectFor:any = this.route.snapshot.queryParamMap.get('selectFor')
+  selectedValuesForPrograms: number[] = [];
 
-constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private resourceService:ResourceService, private route: ActivatedRoute,   private formService: FormService,) {}
+constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService,) {}
   ngOnInit(){
+    this.redirectData={
+      selectDesourceTitle: (this.selectFor =='roll-out') ? "SELECT" : "ADD_TO_PROGRAM",
+      subTitle:"",
+      redirectUrl: (this.selectFor =='roll-out') ? 'roll-out/details/project-details' : 'roll-out/details/program-resources'
+   }
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
       const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
       this.noSearchResultMessage = selectedSideNavData?.noSearchResultMessage || '' ;
@@ -96,7 +102,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
-      url : RESOURCE_URLS.BASE + RESOURCE_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
+      url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
       params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by,sort_order:sort_order })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
@@ -162,11 +168,9 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   onSelect(){
-      this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id, rolloutId:this.rolloutId}})
-      // this.resourceService.createRollOut(this.selectedResource.id).subscribe((res)=>{
-      //   console.log(res);
-      //   // this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:this.selectedResource.id}})
-      // })
+    console.log(this.selectedResource)
+    console.log(this.selectedValuesForPrograms)
+      this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}})
   }
 
   navigateToCreateNew() {
@@ -186,4 +190,20 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   filterButtonClickEvent(event:any){}
+
+  onSelectionChangeForPrograms(item: any) {
+    this.onSelectionChange(item)
+    console.log(item)
+    console.log(typeof(item.id))
+    if (!item || !item.id) {
+      console.error("Invalid item selected", item);
+      return;
+    }
+    const index = this.selectedValuesForPrograms.indexOf(item.id);
+    if (index === -1) {
+      this.selectedValuesForPrograms.push(item.id);
+    } else {
+      this.selectedValuesForPrograms.splice(index, 1);
+    }
+  }
 }

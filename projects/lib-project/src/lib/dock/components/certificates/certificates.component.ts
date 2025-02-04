@@ -806,7 +806,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   checkTaskEvidenceIsAvailable(id:string) {
-    if(this.libProjectService.projectData.certificate) {
+    if(this.libProjectService.projectData.certificate && this.libProjectService.projectData.certificate.criteria.conditions.C3) {
       return this.libProjectService.projectData.certificate.criteria.conditions.C3.conditions[id] ? true : false;
     }
     else {
