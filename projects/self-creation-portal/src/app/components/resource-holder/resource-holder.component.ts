@@ -369,7 +369,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
           this.confirmAndDeleteProject( this.pageStatus === 'roll-out' ? "DELETE_ROLLOUT":"CONFIRM_DELETE_MESSAGE").subscribe((isdelete) => {
             if(isdelete){
               if(item.type == 'program' &&  this.pageStatus !== 'roll-out'){
-               
+               // delete api integartion for program delete
               }
               else if(this.pageStatus === 'roll-out'){
                 this.deleteRollout(item);

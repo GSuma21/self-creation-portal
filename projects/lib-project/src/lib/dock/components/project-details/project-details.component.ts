@@ -284,7 +284,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   allowEditForMetaData(formControls:any){
-    const fieldsToExclude = [
+    const metaFields = [
       "title",
       "categories",
       "objective",
@@ -294,7 +294,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       "languages",
     ]
 
-    if (!fieldsToExclude.includes(formControls.name)) {
+    if (!metaFields.includes(formControls.name)) {
       formControls.viewOnly = true;
     }
     this.dynamicFormData = formControls;
