@@ -215,7 +215,7 @@ export class ProgramDetailsComponent {
      startAutoSaving() {
         this.intervalId = setInterval(() => {
           if(!this.programId) {
-            this.createProgram(this.programWithRolloutService.programData)
+            this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
             if(this.mode === modes.EDIT) {
               this.subscription.add(
@@ -257,10 +257,10 @@ export class ProgramDetailsComponent {
             this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
           }
           else {
-            return this.createProgram({title:this.programWithRolloutService.programData.title},true)
+            return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
           }
         } else{
-          return this.createProgram({title:this.programWithRolloutService.programData.title},true)
+          return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title :'Untitled program'},true)
         }
       }
 

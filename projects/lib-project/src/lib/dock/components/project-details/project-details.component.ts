@@ -37,14 +37,12 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     private utilService:UtilService,
     private toastService: ToastService,
   ) {
+    this.startAutoSaving()
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : ""
       })
     )
-    if(this.mode !== modes.META_EDIT){
-      this.startAutoSaving()
-    }
    }
    ngOnInit() {
     if(this.mode === modes.META_EDIT){
@@ -64,6 +62,26 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             this.saveForm();
           }
         }
+      )
+    );
+
+    // save resource of program 
+    this.subscription.add(
+      this.libProjectService.isProgramResourceSave.subscribe(
+        (isProgramResourceSave: boolean) => {
+          if (isProgramResourceSave) {
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+              resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+            );
+            this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
+              this.toastService.openSnackBar({
+                message: 'SAVED_SUCCESSFULLY',
+                class: 'success',
+              });
+              this.libProjectService.saveProgramResourceFunc(false)
+            })
+            }
+          }
       )
     );
     this.subscription.add(
@@ -242,9 +260,11 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             this.libProjectService
               .readProgram(programId)
               .subscribe((res: any) => {
+                this.libProjectService.programData = res.result;
                const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
                this.readProjectDeatilsAndMap(data.controls,matchedResource)
                this.libProjectService.setProjectData(matchedResource);
+               this.libProjectService.formMeta = matchedResource.formMeta ? matchedResource.formMeta : this.libProjectService.formMeta;
                this.libProjectService.upDateProjectTitle()
             }))
         })
@@ -300,17 +320,24 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.dynamicFormData = formControls;
   }
   startAutoSaving() {
-    this.intervalId = setInterval(() => {
-      if(!this.projectId) {
-        this.createProject({title:'Untitled project'})
-      } else {
-        if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.isFormDirty) {
-          this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
-            this.isFormDirty = false;
-          }))
+      this.intervalId = setInterval(() => {
+        if(this.mode === modes.META_EDIT && !this.projectId){
+          this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+            resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+          );
+          this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
         }
-      }
-    }, 30000);
+        else if(!this.projectId && this.mode !== modes.META_EDIT) {
+          this.createProject({title:'Untitled project'})
+        } else {
+          if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.isFormDirty) {
+            this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
+              this.isFormDirty = false;
+            }))
+          }
+        }
+      }, 30000);
+  
   }
   createProject(payload?:any,showToast?:boolean) { // title should be send from calling methods only, due to title can be filled before project creation
       this.libProjectService
@@ -408,6 +435,12 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+    if(this.mode === modes.META_EDIT){
+      this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+        resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+      );
+      this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
     }
     if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
       if(this.libProjectService.projectData.id) {

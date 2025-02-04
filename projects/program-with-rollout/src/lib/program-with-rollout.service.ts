@@ -79,11 +79,11 @@ export class ProgramWithRolloutService {
     return this.httpService.delete(config.url);
   }
 
-  readPublishedResources(projectId: number | string) {
+  readPublishedResources(resourceId: number | string) {
     return this.httpService.post(
       this.Configuration.urlConFig.PROGRAM_URLS.PUBLISHED_RESOURCES,
       {
-        resource_ids: [projectId],
+        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
       }
     );
   }
@@ -240,6 +240,17 @@ export class ProgramWithRolloutService {
   readProgram(programId: number | string) {
     return this.httpService.get(
       this.Configuration.urlConFig.PROGRAM_URLS.READ_PROGRAM + programId
+    );
+  }
+
+  removeResourcesFromPrograms(resourceId:any){
+    return this.httpService.post(
+      this.Configuration.urlConFig.PROGRAM_URLS.REMOVE_RESOURCE  +
+          '/' +
+          this.programData.id,
+      {
+        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
+      }
     );
   }
 

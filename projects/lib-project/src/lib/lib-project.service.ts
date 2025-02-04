@@ -9,7 +9,8 @@ import {
   ROUTE_PATHS,
   resourceStatus, reviewStatus , projectMode,
   LibSharedModulesService,
-  FormService
+  FormService,
+  modes
 } from 'lib-shared-modules';
 import { BehaviorSubject, map, Observable, switchMap, tap, EMPTY, of  } from 'rxjs';
 import { ConfigService } from 'lib-shared-modules';
@@ -25,6 +26,7 @@ export class LibProjectService {
   dataSubject = new BehaviorSubject<any>(null);
   currentProjectMetaData = this.dataSubject.asObservable();
   projectData: any = {};
+  programData:any = {};
   private saveProject = new BehaviorSubject<boolean>(false);
   isProjectSave = this.saveProject.asObservable();
   private setProjectApiErrors = new BehaviorSubject<boolean>(false);
@@ -40,6 +42,8 @@ export class LibProjectService {
   isFormDirty:boolean = true;
   tabValidation:any;
   reviewErrors:any = [];
+  private saveProgramResource = new BehaviorSubject<boolean>(false);
+  isProgramResourceSave = this.saveProgramResource.asObservable();
 
   constructor(
     private httpService: HttpProviderService,
@@ -75,6 +79,10 @@ export class LibProjectService {
 
   saveProjectFunc(newAction: boolean) {
     this.saveProject.next(newAction);
+  }
+
+  saveProgramResourceFunc(newAction: boolean) {
+    this.saveProgramResource.next(newAction);
   }
 
   setProjectErrorsFunc(newAction:any) {
@@ -414,14 +422,20 @@ export class LibProjectService {
     return this.httpService.post(config.url, config.payload);
   }
 
-  startAutoSave(projectID: string | number) {
+  startAutoSave(projectID: string | number, mode:any ="") {
     return interval(
       this.instanceConfig.auto_save_interval
         ? this.instanceConfig.auto_save_interval
         : 30000
     ).pipe(
       switchMap(() => {
-        if(this.isFormDirty) {
+        if(mode === modes.META_EDIT && this.programData){
+          this.programData.resources = this.programData.resources.map((resource:any) => 
+            resource.id === this.projectData.id ? { ...this.projectData } : resource
+          );
+          return  this.updateProgramData(this.programData)
+        }
+        else if(this.isFormDirty && mode !== modes.META_EDIT) {
           return this.createOrUpdateProject(
             this.projectData,
             this.projectData.id
@@ -610,5 +624,15 @@ export class LibProjectService {
     return this.httpService.get(
       this.Configuration.urlConFig.PROGRAM_URLS.READ_PROGRAM + programId
     );
+  }
+
+  updateProgramData(programData:any){
+    const config = {
+      url: this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
+          '/' +
+          programData.id,
+      payload:  programData
+    };
+    return this.httpService.post(config.url, config.payload);
   }
 }

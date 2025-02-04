@@ -20,7 +20,7 @@
 <div class="px-10 py-4 w-[100%]">
   @for(list of resources; track list){
     <div class="pb-3">
-      <lib-card [list]="list" [showActionButton]="true" (buttonClickEvent)="statusButtonClick($event)"(infoClickEvent)="infoIconClickEvent($event)"></lib-card>
+      <lib-card [list]="list" [showActionButton]="true" (buttonClickEvent)="statusButtonClick($event)" (infoClickEvent)="infoIconClickEvent($event)" [showInfoIcon]="true"></lib-card>
     </div>
     }
 </div>

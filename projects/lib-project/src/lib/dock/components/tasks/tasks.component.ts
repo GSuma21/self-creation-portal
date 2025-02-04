@@ -93,9 +93,12 @@ export class TasksComponent implements OnInit, OnDestroy {
             else {
               this.libProjectService.readProgram(params.programId).subscribe((res:any)=> {
                 this.tasksForm.reset()
-                this.libProjectService.projectData = res.result;
                 let fileType:any
+                this.libProjectService.programData = res.result;
                 const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
+                this.libProjectService.setProjectData(matchedResource)
+                this.libProjectService.projectData = matchedResource;
+                this.libProjectService.formMeta = matchedResource.formMeta ? matchedResource.formMeta : this.libProjectService.formMeta;
                 if(matchedResource && matchedResource.tasks && matchedResource.tasks.length) {
                   matchedResource.tasks.forEach((element:any) => {
                     fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
@@ -150,7 +153,7 @@ export class TasksComponent implements OnInit, OnDestroy {
               else{
                 this.addTask();
               }
-              if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+              if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT){
                 this.startAutoSaving();
               }
               if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
@@ -191,7 +194,7 @@ export class TasksComponent implements OnInit, OnDestroy {
                 else {
                   this.addTask();
                 }
-                if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+                if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
                   this.startAutoSaving();
                 }
               })
@@ -265,6 +268,26 @@ export class TasksComponent implements OnInit, OnDestroy {
           }
 
         }
+      )
+    );
+
+    // save resource of program 
+    this.subscription.add(
+      this.libProjectService.isProgramResourceSave.subscribe(
+        (isProgramResourceSave: boolean) => {
+          if (isProgramResourceSave) {
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+              resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+            );
+            this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
+              this.toastService.openSnackBar({
+                message: 'SAVED_SUCCESSFULLY',
+                class: 'success',
+              });
+              this.libProjectService.saveProgramResourceFunc(false)
+            })
+            }
+          }
       )
     );
   }
@@ -351,11 +374,11 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   startAutoSaving() {
-    this.subscription.add(
-      this.libProjectService
-      .startAutoSave(this.projectId)
-      .subscribe((data) => {this.libProjectService.isFormDirty = false})
-    )
+      this.subscription.add(
+        this.libProjectService
+        .startAutoSave(this.projectId, this.mode)
+        .subscribe((data) => {this.libProjectService.isFormDirty = false})
+      )
   }
 
   moveTask(index: number, direction: number) {
