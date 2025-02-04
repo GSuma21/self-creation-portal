@@ -1,0 +1,16 @@
+@import "../../../../../../self-creation-portal/src/styles.scss";
+
+.form-container {
+    margin-top: 10rem !important;
+}
+
+.resource-card {
+    border-radius: 2rem;
+    margin: 3rem;
+    padding: 2rem;
+}
+.resource-button {
+    margin-top: .5rem;
+    display: flex;
+    color:$primary;
+}

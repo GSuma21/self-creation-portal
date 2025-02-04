@@ -1,1 +1,31 @@
-<p>resource-level-targeting works!</p>
+<form [formGroup]="resourceForm">
+  <div formArrayName="resources" class="form-container">
+    <div *ngFor="let resourceGroup of resourceFields.controls; let i=index" [formGroupName]="i">
+      <mat-card appearance="outlined" class="resource-card">
+        <lib-card [list]="resources[i]" [showActionButton]="true" [showInfoIcon]="true" class="mb-3"></lib-card>
+        <div class="mat-mdc-form-field-infix ng-tns-c3736059725-23"><label matformfieldfloatinglabel="" class="mdc-floating-label mat-mdc-floating-label ng-tns-c3736059725-23 mdc-floating-label--float-above ng-star-inserted" ng-reflect-floating="true" ng-reflect-monitor-resize="false" id="mat-mdc-form-field-label-18" for="mat-input-8"><mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted">Target criteria</mat-label><!--bindings={
+          "ng-reflect-ng-if": "Target criteria"
+        }--><span aria-hidden="true" class="mat-mdc-form-field-required-marker mdc-floating-label--required ng-tns-c3736059725-23 ng-star-inserted"></span><!--container--></label><!--container--><!--bindings={
+          "ng-reflect-ng-template-outlet": "[object Object]"
+        }--><!--container--><div _ngcontent-ng-c2505383043="" class="resource-button cursor-pointer ng-tns-c3736059725-23" (click)="openTargetCriteria(i)"><mat-icon _ngcontent-ng-c2505383043="" role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">add_circle</mat-icon>&nbsp; <p _ngcontent-ng-c2505383043="">Add target criteria</p></div><div _ngcontent-ng-c2505383043="" class="flex flex-col gap-4 mt-4 ng-tns-c3736059725-23"><!--bindings={
+          "ng-reflect-ng-for-of": ""
+        }--></div><input _ngcontent-ng-c2505383043="" matinput="" hidden="" class="mat-mdc-input-element visibility-hidden ng-tns-c3736059725-23 ng-untouched ng-pristine ng-invalid mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored" ng-reflect-name="targeting_criteria" ng-reflect-required="true" required="" id="mat-input-8" aria-required="true"></div>
+        <section class="flex">
+          <mat-form-field appearance="outline" class="mr-3">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="picker" readonly formControlName="start_date" placeholder="Start Date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="picker" readonly formControlName="end_date" placeholder="End Date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </section>
+      </mat-card>
+    </div>
+  </div>
+</form>
