@@ -217,7 +217,6 @@ export class LayoutComponent {
   }
 
   navChangeEvent(data:any) {
-    console.log(data)
   }
 
   ngOnDestroy() {

@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus} from 'lib-shared-modules';
+import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus, modes} from 'lib-shared-modules';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -60,7 +60,68 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.projectId = params.projectId;
         this.libProjectService.projectData.id = params.projectId;
         this.mode = params.mode;
-        if (params.projectId) {
+        if(params.programId){
+          if (params.mode) {
+            if (Object.keys(this.libProjectService.projectData).length > 1) {
+              this.tasksForm.reset()
+              let fileType:any
+              if (this.libProjectService.projectData.tasks && this.libProjectService.projectData.tasks.length) {
+                this.libProjectService.projectData.tasks.forEach((element:any) => {
+                  fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
+                  const task = this.fb.group({
+                    id: [element.id],
+                    name: [element.name ? element.name : '', Validators.required],
+                    is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
+                    allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
+                    evidence_details: this.fb.group({
+                      file_types: fileType,
+                      min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details?.min_no_of_evidences : 1, Validators.min(1)]
+                    }),
+                    learning_resources:element?.learning_resources? [element.learning_resources] : [],
+                    children: [element?.children],
+                    type:[element?.type],
+                    sequence_no:[element?.sequence_no],
+                    solution_details:element?.solution_details ?element.solution_details :{}
+                  });
+                  this.tasks.push(task);
+                })
+              }
+              else{
+                this.addTask();
+              }
+            }
+            else {
+              this.libProjectService.readProgram(params.programId).subscribe((res:any)=> {
+                this.tasksForm.reset()
+                this.libProjectService.projectData = res.result;
+                let fileType:any
+                const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
+                if(matchedResource && matchedResource.tasks && matchedResource.tasks.length) {
+                  matchedResource.tasks.forEach((element:any) => {
+                    fileType = element.allow_evidences === false ? [this.taskFileTypes] : [element.evidence_details?.file_types || ''];
+                    const task = this.fb.group({
+                      id:[element.id],
+                      name: [element.name ? element.name : '', Validators.required],
+                      is_mandatory: [element.is_mandatory ? element.is_mandatory : false],
+                      allow_evidences: [element.allow_evidences ? element.allow_evidences : false],
+                      evidence_details: this.fb.group({
+                        file_types: fileType,
+                        min_no_of_evidences: [element.evidence_details?.min_no_of_evidences ? element.evidence_details.min_no_of_evidences : 1, Validators.min(1)]
+                      }),
+                      learning_resources:[element.learning_resources ?  element.learning_resources : []],
+                      children: [element.children],
+                      type:[element.type],
+                      sequence_no: [element.sequence_no],
+                      solution_details:element.solution_details ?element.solution_details :{}
+                    });
+                    this.tasks.push(task);
+                  })
+                }
+              })
+            }
+          }
+        }
+        else if (params.projectId) {
           if (params.mode) {
             if (Object.keys(this.libProjectService.projectData).length > 1) {
               this.tasksForm.reset()
@@ -155,7 +216,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           })
         }
 
-        if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+        if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT || this.mode === modes.META_EDIT) {
           this.viewOnly = true
           // this.tasksForm.disable()
         }
@@ -197,7 +258,6 @@ export class TasksComponent implements OnInit, OnDestroy {
               if(i == errors[index].parsedLocation.index ){
                 this.tasksData.description.errorMessage.pattern = errors[index].msg
                 taskGroup.controls.name.setErrors({ pattern: errors[index].msg });
-                console.log(this.tasks.status)
                 this.tasksForm.markAllAsTouched();
               }
             });

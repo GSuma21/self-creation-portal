@@ -215,13 +215,12 @@ export class ProgramDetailsComponent {
      startAutoSaving() {
         this.intervalId = setInterval(() => {
           if(!this.programId) {
-            this.createProgram({title:'Untitled project'})
+            this.createProgram(this.programWithRolloutService.programData)
           } else {
-            // if((this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.isFormDirty) {
-            //   this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
-            //     this.isFormDirty = false;
-            //   }))
-            // }
+            if(this.mode === modes.EDIT) {
+              this.subscription.add(
+                this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+            }
           }
         }, 30000);
       }
@@ -261,7 +260,7 @@ export class ProgramDetailsComponent {
             return this.createProgram({title:this.programWithRolloutService.programData.title},true)
           }
         } else{
-          return this.createProgram({title:'Untitled project'})
+          return this.createProgram({title:this.programWithRolloutService.programData.title},true)
         }
       }
 

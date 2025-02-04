@@ -78,7 +78,6 @@ export class LibProjectService {
   }
 
   setProjectErrorsFunc(newAction:any) {
-    console.log(newAction)
     this.setProjectApiErrors.next(newAction);
   }
 
@@ -605,6 +604,11 @@ export class LibProjectService {
   removeItemFromAPIErrors(location:any) {
     this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.location !== location)]
     this.setProjectErrorsFunc(this.reviewErrors);
-    console.log([...this.reviewErrors.filter((obj:any) => obj.location !== location)])
+  }
+
+  readProgram(programId: number | string) {
+    return this.httpService.get(
+      this.Configuration.urlConFig.PROGRAM_URLS.READ_PROGRAM + programId
+    );
   }
 }

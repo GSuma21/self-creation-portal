@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayContainsAllDirective, CardComponent, FormService, modes, SOLUTION_LIST } from 'lib-shared-modules';
+import { ArrayContainsAllDirective, CardComponent, FormService, modes, PROJECT_DETAILS_PAGE, SOLUTION_LIST } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,46 +38,52 @@ constructor(private formService: FormService, private router:Router,private rout
 
 ngOnInit(){
   this.getsolutionList()
-  this.submit()
-  if(this.resourceIds.length){
+  if(this.resourceIds?.length){
     this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
-      const updatedParams = { parent: this.parent, programId: this.programId };
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { parent: this.parent, programId: this.programId }
+        queryParams: { parent: this.parent, programId: this.programId, mode: modes.EDIT }
       });
       // Optionally, clear resourceIds in your component
-      this.resourceIds = [];
-
-      this.subscription.add(
-        this.programWithRolloutService
-          .readProgram(this.programId)
-          .subscribe((res: any) => {
-            this.programWithRolloutService.setProgramData(res.result)
-            this.resourceCount  = this.programWithRolloutService.programData.resources.length;
-            this.resources = this.programWithRolloutService.programData.resources
-        }))
+      this.readProgram();
     })
   }
-  this.resourceCount  = this.programWithRolloutService.programData.resources.length;
-  this.resources = this.programWithRolloutService.programData.resources
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
       (isProjectSave: boolean) => {
         console.log(isProjectSave)
         if (isProjectSave) {
-          this.submit();
+          this.saveForm();
         }
       }
     )
   );
+  if(!this.resourceIds?.length  && !this.programId){
+    this.createProgram();
+  }
+  if(this.programId && !this.resourceIds?.length){
+    this.readProgram();
+  }
 }
 
-submit() {
-  console.log(this.programId)
+readProgram(){
+  this.resourceIds = [];
+  this.subscription.add(
+    this.programWithRolloutService
+      .readProgram(this.programId)
+      .subscribe((res: any) => {
+        this.programWithRolloutService.setProgramData(res.result)
+        this.resourceCount  = this.programWithRolloutService.programData.resources.length;
+        this.resources = this.programWithRolloutService.programData.resources
+        this.addActionButtons()
+        this.programWithRolloutService.upDateProgramTitle()
+    }))
+}
+
+createProgram() {
   if(!this.programId){
     this.programWithRolloutService
-            .createOrUpdateProgram({title:'Untitled project'})
+            .createOrUpdateProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title: 'Untitled project'})
             .subscribe((res: any) => {
               (this.programId = res.result.id),
                 this.router.navigate([], {
@@ -90,14 +96,34 @@ submit() {
                   replaceUrl: true,
                 });
                 this.programWithRolloutService.programData.id = res.result.id;
-                this.programWithRolloutService.upDateProgramTitle(this.programWithRolloutService.programData.title)
               })
+  }
+}
 
-  }else{
+saveForm(){
+  if(this.programId){
     this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe();
   }
- 
-  // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+}
+
+addActionButtons(){
+  let buttonData = [
+    {
+      "action": "EDIT",
+      "label": "EDIT",
+      "background_color": "#0a4f9d"
+  }, {
+    "action": "DELETE",
+    "label": "DELETE",
+    "background_color": "#EC555D"
+}
+  ]
+
+
+this.resources = this.resources.map((resource:any) => ({
+  ...resource,
+  actionButton: buttonData // Use spread operator to add 'EDIT' and 'DELETE' to each object
+}));
 }
 
 getsolutionList() {
@@ -118,7 +144,31 @@ getsolutionList() {
     this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: this.parent, selectFor:'programs', programId: this.programId}})
   }
 
-  statusButtonClick(event: { label: string, item: any }) {}
+  statusButtonClick(event: { label: string, item: any }) {
+    const { label, item } = event;
+
+    switch (label) {
+            case 'EDIT':
+              if(item.type === 'project'){
+                this.router.navigate([PROJECT_DETAILS_PAGE], {
+                              queryParams: {
+                                programId:this.programId,
+                                programResourceId: item.id,
+                                mode: modes.META_EDIT,
+                              }
+                            });
+                break;
+              }else{
+                break;
+              }
+            case 'DELETE':
+              
+              
+              break;
+            default:
+              break;
+          }
+  }
 
   infoIconClickEvent(data:any){}
 

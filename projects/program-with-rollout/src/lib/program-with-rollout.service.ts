@@ -37,6 +37,7 @@ export class ProgramWithRolloutService {
   tabValidation: any = {
     rolloutDetails: 'INVALID',
   };
+  buttonData:any;
   programData: any = {};
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
@@ -165,9 +166,9 @@ export class ProgramWithRolloutService {
     const updatedData = {
       ...currentProjectMetaData,
       sidenavData: {
-        ...currentProjectMetaData.sidenavData,
+        ...currentProjectMetaData?.sidenavData,
         headerData: {
-          ...currentProjectMetaData.sidenavData.headerData,
+          ...currentProjectMetaData?.sidenavData.headerData,
           title: title
             ? title
             : this.programData?.title
@@ -184,24 +185,13 @@ export class ProgramWithRolloutService {
     programId?: string | number,
     removeMetaData?: boolean
   ) {
-    console.log(programData)
-    console.log(this.programData)
     this.programData.title = programData?.title 
   ? programData.title 
   : this.programData?.title && this.programData.title.length > 0 
     ? this.programData.title 
     : 'Untitled project';
         this.setProgramData(programData);
-    // for (let key in programData) {
-    //   if (Array.isArray(programData[key])) {
-    //     programData[key] = programData[key].map((element: any) =>
-    //       element.value ? element.value : element
-    //     );
-    //   }
-    //   programData[key] = programData[key]?.value
-    //     ? programData[key].value
-    //     : programData[key];
-    // }
+        this.upDateProgramTitle();
     const config = {
       url: programId
         ? this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
@@ -210,15 +200,8 @@ export class ProgramWithRolloutService {
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
       payload:  this.programData
     };
-
-    // if(removeMetaData) {
-    //   delete programData.formMeta
-    // }
-    // else {
-    // programData.formMeta = this.formMeta;
-    // }
     return this.httpService.post(config.url, config.payload);
-  }
+  } 
   updateProgramDraft(projectId: string | number) {
     return this.createOrUpdateProgram(this.programData, projectId).pipe(
       map((res: any) => {

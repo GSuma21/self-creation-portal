@@ -20,6 +20,7 @@ import {
   FormService,
   ToastService,
   UtilService,
+  modes,
   projectMode,resourceStatus
 } from 'lib-shared-modules';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -170,7 +171,8 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
           params.mode === projectMode.REVIEW ||
           params.mode === projectMode.REVIEWER_VIEW ||
           this.mode === projectMode.CREATOR_VIEW ||
-          this.mode === projectMode.COPY_EDIT
+          this.mode === projectMode.COPY_EDIT ||
+          params.mode === modes.META_EDIT
         ) {
           this.viewOnly = true;
           this.getCertificateForm();
@@ -205,6 +207,24 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             this.checkValidations();
             if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
               this.certificateForm.controls['issuerName']?.markAsTouched()
+            }
+          }
+          if(params.mode === modes.META_EDIT){
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+              this.getCertificateForm()
+              if(this.libProjectService.projectData.certificate) {
+                this.selectedYes = "1"
+              }
+              this.setTaskEvidenceMetaData();
+              this.addTasktoCertificatePage(this.libProjectService.projectData)
+            }
+            this.setCertificateSelection();
+            if(this.viewOnly) {
+              this.selectedYes = this.libProjectService.projectData.certificate ? "1":"2";
+              if(this.libProjectService.projectData.certificate) {
+                this.addTasktoCertificatePage(this.libProjectService.projectData)
+                this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
+              }
             }
           }
           if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {

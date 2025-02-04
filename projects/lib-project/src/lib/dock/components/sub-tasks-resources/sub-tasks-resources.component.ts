@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus} from 'lib-shared-modules';
+import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus, modes} from 'lib-shared-modules';
 import { MatIconModule, getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { MatCardModule }  from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -70,8 +70,24 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
       this.route.queryParams.subscribe((params:any) => {
         this.mode = params.mode;
         this.projectId = params.projectId;
-        if(params.mode){
-          if(Object.keys(this.libProjectService.projectData)?.length) {
+       if(params.mode){
+          if(params.programId){
+            if(Object.keys(this.libProjectService.projectData)?.length) {
+              this.projectData = this.libProjectService.projectData;
+              this.createSubTaskForm()
+              this.addSubtaskData()
+            }
+            else {
+              this.libProjectService.readProgram(params.programId).subscribe((res:any)=> {
+                const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
+                this.libProjectService.setProjectData(matchedResource);
+                this.projectData = matchedResource
+                this.createSubTaskForm()
+                this.addSubtaskData()
+              })
+            }
+          }
+          else if(Object.keys(this.libProjectService.projectData)?.length && this.projectId) {
             this.projectData = this.libProjectService.projectData;
             this.createSubTaskForm()
             this.addSubtaskData()
@@ -118,7 +134,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           );
           // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
-          if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+          if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT || params.mode === modes.META_EDIT) {
             this.viewOnly = true;
           }
         }else{

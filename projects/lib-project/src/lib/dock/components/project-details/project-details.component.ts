@@ -5,7 +5,7 @@ import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentsBoxComponent, DialogPopupComponent, FormService, PROJECT_DETAILS, ToastService, UtilService, projectMode,resourceStatus } from 'lib-shared-modules';
+import { CommentsBoxComponent, DialogPopupComponent, FormService, PROJECT_DETAILS, ToastService, UtilService, modes, projectMode,resourceStatus } from 'lib-shared-modules';
 @Component({
   selector: 'lib-project-details',
   standalone: true,
@@ -37,14 +37,19 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     private utilService:UtilService,
     private toastService: ToastService,
   ) {
-    this.startAutoSaving()
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : ""
       })
     )
+    if(this.mode !== modes.META_EDIT){
+      this.startAutoSaving()
+    }
    }
    ngOnInit() {
+    if(this.mode === modes.META_EDIT){
+       this.programResourceDetailsAndMap();
+    }
     if(this.mode === projectMode.EDIT || this.mode === "" || this.mode === projectMode.REQUEST_FOR_EDIT){
       this.getFormWithEntitiesAndMap();
     }
@@ -226,6 +231,26 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       this.allowOpenLinks =  data?.tasksData.allowOpenLinks;
     })
   }
+
+  programResourceDetailsAndMap(){
+    this.formService.getFormWithEntities(PROJECT_DETAILS).then((data) => {
+      if (data) {
+        this.route.queryParams.subscribe((params: any) => {
+          let programId = params.programId;
+          let programResourceId = params.programResourceId;
+          this.subscription.add(
+            this.libProjectService
+              .readProgram(programId)
+              .subscribe((res: any) => {
+               const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
+               this.readProjectDeatilsAndMap(data.controls,matchedResource)
+               this.libProjectService.setProjectData(matchedResource);
+               this.libProjectService.upDateProjectTitle()
+            }))
+        })
+      }
+    })
+  }
   readProjectDeatilsAndMap(formControls:any,res: any) {
     formControls.forEach((element: any) => {
       if (Array.isArray(res[element.name])) {
@@ -244,6 +269,10 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             : res[element.name]?.[subElement.name];
         });
       }
+
+      if(this.mode === modes.META_EDIT){
+        this.allowEditForMetaData(element)
+      }
     });
     this.dynamicFormData = formControls;
     if( this.formLib){
@@ -252,6 +281,23 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
       this.libProjectService.validateTasksData()
     }
+  }
+
+  allowEditForMetaData(formControls:any){
+    const fieldsToExclude = [
+      "title",
+      "categories",
+      "objective",
+      "recommended_duration",
+      "keywords",
+      "recommended_for",
+      "languages",
+    ]
+
+    if (!fieldsToExclude.includes(formControls.name)) {
+      formControls.viewOnly = true;
+    }
+    this.dynamicFormData = formControls;
   }
   startAutoSaving() {
     this.intervalId = setInterval(() => {
