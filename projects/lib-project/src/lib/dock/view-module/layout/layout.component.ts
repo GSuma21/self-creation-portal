@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
-import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, ReviewModelComponent, SOLUTION_LIST, SUBMITTED_FOR_REVIEW, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent, PROJECT_DETAILS} from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, SOLUTION_LIST, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent, PROJECT_DETAILS, modes} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -71,14 +71,6 @@ export class LayoutComponent {
         "projectDetails":result.controls,
       });
       this.libProjectService.upDateProjectTitle()
-      // this.route.queryParams.subscribe((params: any) => {
-      //   if (params.projectId) {
-      //       this.libProjectService.readProject(params.projectId).subscribe((res: any) => {
-      //           this.libProjectService.projectData = res.result;
-      //           this.libProjectService.upDateProjectTitle()
-      //         });
-      //       }
-      // })
     })
    )
     })
@@ -107,11 +99,16 @@ export class LayoutComponent {
       }
       case "SAVE_CHANGES":
       case "SAVE_AS_DRAFT":{
-        this.subscription.add(
-          this.sharedService.triggerSaveComment()  // Triggers the save comment action from the comment module
-        )
-        this.libProjectService.saveProjectFunc(true);
-        break;
+        if(this.mode === modes.META_EDIT){
+          this.libProjectService.saveProgramResourceFunc(true)
+          break;
+        }else{
+          this.subscription.add(
+            this.sharedService.triggerSaveComment()  // Triggers the save comment action from the comment module
+          )
+          this.libProjectService.saveProjectFunc(true);
+          break;
+        }
       }
       case "SEND_FOR_REVIEW":{
         this.utilService.saveComment = false
@@ -217,10 +214,10 @@ export class LayoutComponent {
   }
 
   navChangeEvent(data:any) {
-    console.log(data)
   }
 
   ngOnDestroy() {
+    this.libProjectService.programData = {}
     this.libProjectService.projectData = {}
     this.libProjectService.resetProjectMetaData();
     this.subscription.unsubscribe();

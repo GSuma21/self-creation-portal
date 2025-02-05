@@ -80,7 +80,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   ngOnInit(){
     this.redirectData={
       selectDesourceTitle: (this.selectFor =='roll-out') ? "SELECT" : "ADD_TO_PROGRAM",
-      subTitle:"",
+      subTitle:(this.selectFor =='roll-out') ? "" : "ADD_TO_PROGRAM_SUBTEXT",
       redirectUrl: (this.selectFor =='roll-out') ? 'roll-out/details/project-details' : 'roll-out/details/program-resources'
    }
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
@@ -168,9 +168,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   onSelect(){
-    console.log(this.selectedResource)
-    console.log(this.selectedValuesForPrograms)
-      this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}})
+    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('selectFor'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}})
   }
 
   navigateToCreateNew() {
@@ -193,10 +191,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   onSelectionChangeForPrograms(item: any) {
     this.onSelectionChange(item)
-    console.log(item)
-    console.log(typeof(item.id))
     if (!item || !item.id) {
-      console.error("Invalid item selected", item);
       return;
     }
     const index = this.selectedValuesForPrograms.indexOf(item.id);

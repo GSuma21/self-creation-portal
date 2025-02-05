@@ -50,5 +50,6 @@ export const modes = {
   CREATOR_VIEW:'creatorView',
   REVIEWER_VIEW:'reviewerView',
   REVIEW:'review',
-  COPY_EDIT:"copyEdit"
+  COPY_EDIT:"copyEdit",
+  META_EDIT:'metaEdit'
 };

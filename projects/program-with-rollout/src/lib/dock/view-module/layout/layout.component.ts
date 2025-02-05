@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormService, PreviewComponent, ROLL_OUT, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { FormService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,9 +21,8 @@ export class LayoutComponent {
     this.getData()
     this.subscription.add(
       this.programWithRolloutService.currentRolloutData.subscribe(data => {
-        this.headerData = data?.sidenavData.headerData
         this.sidenavData= data?.sidenavData.sidenav
-        this.headerData.title =  this.headerData.title ?  this.headerData.title : "PROGRAM_NAME"
+        this.headerData = data?.sidenavData.headerData
       })
     )
     this.setConfig();
@@ -36,10 +35,20 @@ export class LayoutComponent {
       this.programWithRolloutService.setRolloutData( {
         "sidenavData": this.router.url.includes('project-details') ? form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "ROLL_OUT") : form?.result?.data?.fields?.controls.find((item:any)=> item.title ===  "PROGRAM")
       });
-      this.programWithRolloutService.resourceStatus.subscribe(data => {
-         this.mode = data.status ? data.status : "PENDING"
-      })
-    }))
+      this.programWithRolloutService.upDateProgramTitle();
+      if(this.router.url.includes('project-details')){
+        this.programWithRolloutService.resourceStatus.subscribe(data => {
+          this.mode = data?.status ? data.status : "PENDING"
+       })
+      }else{
+        this.subscription.add(
+          this.route.queryParams.subscribe((params: any) => {
+            this.mode = params.mode ? params.mode : ""
+          })
+        )
+      }
+    })
+  )
   }
 
   setConfig(){

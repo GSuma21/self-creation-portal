@@ -32,7 +32,8 @@
        "CREATE_OR_UPDATE_PROGRAM":"scp/v1/programs/update",
        "ADD_RESOURCES_TO_PROGRAMS":"scp/v1/programs/addResources",
        "READ_PROGRAM":"scp/v1/programs/details/",
-       "PROGRAM_MANAGER_LIST":"scp/v1/programs/getProgramManagers"
+       "PROGRAM_MANAGER_LIST":"scp/v1/programs/getProgramManagers",
+       "REMOVE_RESOURCE":"scp/v1/programs/removeResources"
     },
     "LOGOUT_URLS": {
         "LOGOUT_API": "/user/v1/account/logout"

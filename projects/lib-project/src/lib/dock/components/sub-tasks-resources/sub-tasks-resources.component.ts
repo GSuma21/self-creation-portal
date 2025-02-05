@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus} from 'lib-shared-modules';
+import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus, modes, ToastService} from 'lib-shared-modules';
 import { MatIconModule, getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { MatCardModule }  from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,7 +52,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
 
-  constructor(private dialog : MatDialog,private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router, private utilService:UtilService) {
+  constructor(private dialog : MatDialog,private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router, private utilService:UtilService, private toastService:ToastService) {
     this.subtask = this.fb.group({
       subtasks: this.fb.array([])
     });
@@ -70,12 +70,31 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
       this.route.queryParams.subscribe((params:any) => {
         this.mode = params.mode;
         this.projectId = params.projectId;
-        if(params.mode){
-          if(Object.keys(this.libProjectService.projectData)?.length) {
+       if(params.mode){
+          if(params.programId){
+            if(Object.keys(this.libProjectService.projectData)?.length) {
+              this.projectData = this.libProjectService.projectData;
+              this.createSubTaskForm()
+              this.addSubtaskData()
+            }
+            else {
+              this.libProjectService.readProgram(params.programId).subscribe((res:any)=> {
+                this.libProjectService.programData = res.result;
+                const matchedResource = res.result.resources.find((resource:any) =>resource.id == params.programResourceId);
+                this.libProjectService.setProjectData(matchedResource);
+                this.libProjectService.projectData = matchedResource;
+                this.libProjectService.formMeta = matchedResource.formMeta ? matchedResource.formMeta : this.libProjectService.formMeta;
+                this.projectData = matchedResource
+                this.createSubTaskForm()
+                this.addSubtaskData()
+              })
+            }
+          }
+          else if(Object.keys(this.libProjectService.projectData)?.length && this.projectId) {
             this.projectData = this.libProjectService.projectData;
             this.createSubTaskForm()
             this.addSubtaskData()
-            if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT) {
+            if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT || params.mode === modes.META_EDIT) {
               this.startAutoSaving();
             }
             if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
@@ -89,7 +108,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
              this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
               this.createSubTaskForm()
               this.addSubtaskData()
-              if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+              if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
               this.startAutoSaving();
             }
             if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
@@ -118,7 +137,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           );
           // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
-          if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+          if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT || params.mode === modes.META_EDIT) {
             this.viewOnly = true;
           }
         }else{
@@ -144,6 +163,26 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           }
 
         }
+      )
+    );
+
+    // save resource of program 
+    this.subscription.add(
+      this.libProjectService.isProgramResourceSave.subscribe(
+        (isProgramResourceSave: boolean) => {
+          if (isProgramResourceSave) {
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+              resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+            );
+            this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
+              this.toastService.openSnackBar({
+                message: 'SAVED_SUCCESSFULLY',
+                class: 'success',
+              });
+              this.libProjectService.saveProgramResourceFunc(false)
+            })
+            }
+          }
       )
     );
   }
@@ -305,11 +344,11 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
 
 
   startAutoSaving() {
-    this.subscription.add(
-      this.libProjectService
-      .startAutoSave(this.projectId)
-      .subscribe((data) => {this.libProjectService.isFormDirty = false})
-    )
+      this.subscription.add(
+        this.libProjectService
+        .startAutoSave(this.projectId, this.mode)
+        .subscribe((data) => {this.libProjectService.isFormDirty = false})
+      )
   }
 
   addSubtaskData(){
