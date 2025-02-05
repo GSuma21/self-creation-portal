@@ -215,13 +215,12 @@ export class ProgramDetailsComponent {
      startAutoSaving() {
         this.intervalId = setInterval(() => {
           if(!this.programId) {
-            this.createProgram({title:'Untitled project'})
+            this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
-            // if((this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.isFormDirty) {
-            //   this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
-            //     this.isFormDirty = false;
-            //   }))
-            // }
+            if(this.mode === modes.EDIT) {
+              this.subscription.add(
+                this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+            }
           }
         }, 30000);
       }
@@ -258,42 +257,10 @@ export class ProgramDetailsComponent {
             this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
           }
           else {
-            return this.createProgram({title:this.programWithRolloutService.programData.title},true)
+            return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
           }
-        } else {
-          const dialogRef = this.dialog.open(DialogPopupComponent, {
-            width: '39.375rem',
-            disableClose: true,
-            autoFocus : false,
-            data: {
-              header: 'SAVE_CHANGES',
-              content: 'ADD_TITLE_TO_CONTINUE_SAVING',
-              form:[this.formDataForTitle],
-              exitButton: 'CONTINUE',
-            },
-          });
-          return dialogRef
-            .afterClosed()
-            .toPromise()
-            .then((result) => {
-               if (result.data === 'CONTINUE') {
-                if(result.title){
-                  this.programWithRolloutService.upDateProgramTitle(result.title);
-                  this.programWithRolloutService.setProgramData({title:result.title});
-                  if (this.programId) {
-                    this.programWithRolloutService.upDateProgramTitle(this.programId);
-                  }
-                  else {
-                    return this.createProgram(this.programWithRolloutService.programData,true)
-                  }
-                  this.getFormWithEntitiesAndMap()
-                  this.saveForm()
-                }
-                return true;
-              } else {
-                return false;
-              }
-            });
+        } else{
+          return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title :'Untitled program'},true)
         }
       }
 

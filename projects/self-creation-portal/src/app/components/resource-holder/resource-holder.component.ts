@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST, ArrayContainsAllDirective} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST, ArrayContainsAllDirective, modes} from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -317,6 +317,10 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     //  }else{
       switch (label) {
         case 'EDIT':
+          if(item.type == 'program' && this.pageStatus !== 'roll-out'){
+            this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: modes.EDIT}})
+            break;
+          }
           if(this.pageStatus === 'roll-out'){
             this.router.navigate(['roll-out/details/project-details'],{queryParams:{parent:"roll-out", resourceId:event.item.resource_id,rolloutId:event.item.id}})
             break;
@@ -364,7 +368,10 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         case 'DELETE':
           this.confirmAndDeleteProject( this.pageStatus === 'roll-out' ? "DELETE_ROLLOUT":"CONFIRM_DELETE_MESSAGE").subscribe((isdelete) => {
             if(isdelete){
-              if(this.pageStatus === 'roll-out'){
+              if(item.type == 'program' &&  this.pageStatus !== 'roll-out'){
+               // delete api integartion for program delete
+              }
+              else if(this.pageStatus === 'roll-out'){
                 this.deleteRollout(item);
               }else{
                 this.deleteProject(item);

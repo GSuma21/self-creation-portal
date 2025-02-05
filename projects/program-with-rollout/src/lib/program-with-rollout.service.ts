@@ -37,6 +37,7 @@ export class ProgramWithRolloutService {
   tabValidation: any = {
     rolloutDetails: 'INVALID',
   };
+  buttonData:any;
   programData: any = {};
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
@@ -78,11 +79,11 @@ export class ProgramWithRolloutService {
     return this.httpService.delete(config.url);
   }
 
-  readPublishedResources(projectId: number | string) {
+  readPublishedResources(resourceId: number | string) {
     return this.httpService.post(
       this.Configuration.urlConFig.PROGRAM_URLS.PUBLISHED_RESOURCES,
       {
-        resource_ids: [projectId],
+        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
       }
     );
   }
@@ -165,9 +166,9 @@ export class ProgramWithRolloutService {
     const updatedData = {
       ...currentProjectMetaData,
       sidenavData: {
-        ...currentProjectMetaData.sidenavData,
+        ...currentProjectMetaData?.sidenavData,
         headerData: {
-          ...currentProjectMetaData.sidenavData.headerData,
+          ...currentProjectMetaData?.sidenavData.headerData,
           title: title
             ? title
             : this.programData?.title
@@ -184,37 +185,23 @@ export class ProgramWithRolloutService {
     programId?: string | number,
     removeMetaData?: boolean
   ) {
-    this.programData.title =
-      this.programData?.title?.length > 0
-        ? this.programData.title
-        : 'Untitled project';
-    // for (let key in programData) {
-    //   if (Array.isArray(programData[key])) {
-    //     programData[key] = programData[key].map((element: any) =>
-    //       element.value ? element.value : element
-    //     );
-    //   }
-    //   programData[key] = programData[key]?.value
-    //     ? programData[key].value
-    //     : programData[key];
-    // }
+    this.programData.title = programData?.title 
+  ? programData.title 
+  : this.programData?.title && this.programData.title.length > 0 
+    ? this.programData.title 
+    : 'Untitled project';
+        this.setProgramData(programData);
+        this.upDateProgramTitle();
     const config = {
       url: programId
         ? this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
           '/' +
           programId
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
-      payload: programData ? programData : '',
+      payload:  this.programData
     };
-
-    // if(removeMetaData) {
-    //   delete programData.formMeta
-    // }
-    // else {
-    // programData.formMeta = this.formMeta;
-    // }
     return this.httpService.post(config.url, config.payload);
-  }
+  } 
   updateProgramDraft(projectId: string | number) {
     return this.createOrUpdateProgram(this.programData, projectId).pipe(
       map((res: any) => {
@@ -253,6 +240,17 @@ export class ProgramWithRolloutService {
   readProgram(programId: number | string) {
     return this.httpService.get(
       this.Configuration.urlConFig.PROGRAM_URLS.READ_PROGRAM + programId
+    );
+  }
+
+  removeResourcesFromPrograms(resourceId:any){
+    return this.httpService.post(
+      this.Configuration.urlConFig.PROGRAM_URLS.REMOVE_RESOURCE  +
+          '/' +
+          this.programData.id,
+      {
+        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
+      }
     );
   }
 
