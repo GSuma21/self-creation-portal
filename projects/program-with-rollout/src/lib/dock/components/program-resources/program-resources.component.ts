@@ -11,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { map, Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'lib-program-resources',
@@ -19,7 +18,6 @@ import { DatePipe } from '@angular/common';
   imports: [ MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule,ArrayContainsAllDirective, CardComponent],
   templateUrl: './program-resources.component.html',
   styleUrl: './program-resources.component.scss',
-  providers: [DatePipe]
 })
 export class ProgramResourcesComponent {
   resourceList:any
@@ -30,40 +28,8 @@ export class ProgramResourcesComponent {
   resourceIds:any=[]
   programId:any;
   private subscription: Subscription = new Subscription();
-  infoFieldsData: any = [
-    {
-        "label": "TITLE",
-        "value": "",
-        "name": "title"
-    },
-    {
-        "label": "CREATOR",
-        "value": "",
-        "name": "creator"
-    },
-    {
-        "label": "ORGANIZATION",
-        "value": "",
-        "name": "organization.name"
-    },
-    {
-        "label": "RESOURCE_TYPE",
-        "value": "",
-        "name": "type"
-    },
-    {
-        "label": "REVIEWED_BY",
-        "value": "",
-        "name": "reviewed_by"
-    },
-    {
-        "label": "PUBLISHED_ON",
-        "value": "",
-        "name": "published_on"
-    }
-  ];
 
-constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,private programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog,  private datePipe: DatePipe, private toastService:ToastService){
+constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,private programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
   this.route.queryParamMap.subscribe((params) => {
     this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
@@ -77,7 +43,7 @@ ngOnInit(){
     this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { parent: this.parent, programId: this.programId, mode: modes.EDIT }
+        queryParams: { parent: 'draft', programId: this.programId, mode: modes.EDIT }
       });
       let data = {
         message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
@@ -113,23 +79,11 @@ readProgram(){
       .subscribe((res: any) => {
         this.programWithRolloutService.setProgramData(res.result)
         this.resourceCount  = this.programWithRolloutService.programData.resources.length;
-        const resourceIds = this.programWithRolloutService.programData.resources.map((resource:any) => resource.id);
-        if(resourceIds.length){
-          this.getResourceDetails(resourceIds)
-        }
+        this.resources = this.programWithRolloutService.programData.resources
+        this.addActionButtons()
         this.programWithRolloutService.upDateProgramTitle()
     }))
 }
-
-
-getResourceDetails(resourceIds:any) {
-  this.subscription.add(
-    this.programWithRolloutService.readPublishedResources(resourceIds).subscribe((res:any)=> {
-      this.resources = res.result.data
-      this.addActionButtons()
-    })
-   )
- }
 
 createProgram() {
   if(!this.programId){
@@ -191,7 +145,7 @@ getsolutionList() {
 
 
   onCardClick(cardItem: any) {
-    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: this.parent, selectFor:'programs', programId: this.programId}})
+    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId}})
   }
 
   statusButtonClick(event: { label: string, item: any }) {
@@ -202,6 +156,7 @@ getsolutionList() {
               if(item.type === 'project'){
                 this.router.navigate([PROJECT_DETAILS_PAGE], {
                               queryParams: {
+                                parent:'program-resources',
                                 programId:this.programId,
                                 programResourceId: item.id,
                                 mode: modes.META_EDIT,
@@ -237,55 +192,6 @@ getsolutionList() {
     const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z?$/;
     return isoDateRegex.test(value);
   }
-
-   infoIconClickEvent(event: any) {
-       const cardItem = event.item;
-   
-       //to get field data from listapi to map in json
-       const getFieldData = (field: any) => {
-         let value = cardItem[field.name] || '';
-         if (field.name.includes('organization')) {
-           value = cardItem.organization ? cardItem.organization.name : '';
-         } else if (this.isISODate(value)) {
-           value = this.datePipe.transform(value, 'dd/MM/yyyy');
-         }
-         return {
-           label: field.label,
-           value: value
-         };
-       };
-   
-       // Function to filter and map fields based on conditions
-       const filterAndMapFields = (status: string | null) => {
-         return this.infoFieldsData
-           .filter((field: any) => field.status === status || !field.status)
-           .map(getFieldData);
-       };
-   
-       //info fields to display as per the review_status
-       let infoFields = [];
-       infoFields = filterAndMapFields(cardItem.review_status);
-   
-       // If no fields match the conditions, default to 'NOT_STARTED' fields
-       if (infoFields.length === 0) {
-         infoFields = filterAndMapFields('NOT_STARTED');
-       }
-       if(!cardItem.review_status) {
-         infoFields = filterAndMapFields(cardItem.status);
-       }
-   
-       const dialogRef = this.dialog.open(DialogPopupComponent, {
-         width: '39.375rem',
-         data: {
-           header: "DETAILS",
-           fields: infoFields
-         }
-       });
-   
-       dialogRef.afterClosed().subscribe(result => {
-         return result ? true : false;
-       });
-     }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
