@@ -19,15 +19,15 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <!-- @if(taskForm[0]?.infoMessage){ -->
+                            @if(item?.infoMessage){
                                 <mat-icon class="cursor-pointer mt-[0.40rem] pl-1 text-iconGray text-xl enable-with-pointer-events"
-                                    matTooltip="Info message" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                                    [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                     [matTooltipDisabled]="true"
                                     #tooltip="matTooltip"
                                     (click)="showTooltip(tooltip)"
                                     (mouseleave)="hideTooltip(tooltip)"
                                     >info</mat-icon>
-                            <!-- } -->
+                            }
                         </section>
                     }
                     <section *ngIf="tab?.showTable">

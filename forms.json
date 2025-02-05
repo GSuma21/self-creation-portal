@@ -2536,6 +2536,7 @@
                 "validators": {
                   "required": true
                 },
+                "infoMessage": "Select the State that to which the resource needs to be targeted to",
                 "meta": {
                   "url": "GET_ENTITIES_LIST",
                   "type": "state",
@@ -2553,6 +2554,7 @@
                   "url": "GET_ENTITY_HIERARCHY",
                   "type": "entity_targeting"
                 },
+                "infoMessage": "Select any one of the entity type for the level at which the resource needs to be targeted to. You can then choose the values for only this level in the table below.",
                 "label": "Select Entity Targeting",
                 "options": []
               },
@@ -2564,6 +2566,7 @@
                   "url": "GET_ENTITY_ROLES",
                   "type": "roles"
                 },
+                "infoMessage": "Select the role/users to whom the resource is targeted to ",
                 "validators": {
                   "required": true
                 },
