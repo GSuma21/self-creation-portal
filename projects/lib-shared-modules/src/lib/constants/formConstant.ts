@@ -39,3 +39,8 @@ export const PROGRAM_DETAILS : IFORM = {
 	"type": "programDetails",
 	"sub_type": "programDetailsForm",
 }
+
+export const RESOURCE_LIST : IFORM = {
+	"type": "resourceList",
+	"sub_type": "resourceListForm",
+}
