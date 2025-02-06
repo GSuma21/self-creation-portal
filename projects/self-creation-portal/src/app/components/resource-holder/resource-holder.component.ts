@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, SOLUTION_LIST, ArrayContainsAllDirective, modes} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, ArrayContainsAllDirective, modes, RESOURCE_LIST} from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -658,7 +658,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
   getsolutionList() {
     this.formService.getPermissions().subscribe((res:any) => {
-      this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+      this.formService.getForm(RESOURCE_LIST).subscribe((form) =>{
         this.permissions = res.result;
         this.resourceList = form?.result?.data?.fields?.controls
         if(this.pageStatus == 'roll-out') {

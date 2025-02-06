@@ -1712,6 +1712,18 @@
                     "disable": false,
                     "cssClass": "primary-button-enable"
                   }
+                ],
+                "metaEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ]
               }
             },
@@ -1803,7 +1815,8 @@
                   {
                     "title": "PREVIEW",
                     "disable": false,
-                    "cssClass": "button-enable"
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
                   },
                   {
                     "title": "SEND_FOR_REVIEW",
@@ -2766,6 +2779,33 @@
             "meta": {
               "entityType": "licenses"
             }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "resourceList",
+    "sub_type": "resourceListForm",
+    "action": "skip",
+    "data": {
+      "template_name": "defaultTemplate",
+      "fields": {
+        "controls": [
+          {
+            "title": "PROJECT",
+            "image": "./../assets/images/project.svg",
+            "showBackButton": true,
+            "url": "solution/project/project-details",
+            "formName": "PROJECT_DETAILS",
+            "permission_modules": [
+              {
+                "module": "projects",
+                "request_type": [
+                  "GET"
+                ]
+              }
+            ]
           }
         ]
       }
