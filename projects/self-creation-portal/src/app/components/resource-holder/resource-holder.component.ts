@@ -244,6 +244,10 @@ export class ResourceHolderComponent implements OnInit{
     }
     cardItems.forEach((cardItem: any) => {
       cardItem.actionButton = [];
+      cardItem.showDates = false
+      if(cardItem.type === 'program'){
+        cardItem.showDates = true;
+      }
       if (this.buttonsData) {
         this.buttonsData.some((button: any) => {
           if (this.buttonsCSS[button]) {
@@ -370,6 +374,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             if(isdelete){
               if(item.type == 'program' &&  this.pageStatus !== 'roll-out'){
                // delete api integartion for program delete
+                this.deleteProgram(item);
               }
               else if(this.pageStatus === 'roll-out'){
                 this.deleteRollout(item);
@@ -560,7 +565,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
   }
 
   /**
-   * This functions delete the resource using delete resource api.
+   * This functions delete the project using delete project api.
    * @param item - listresource api response.
  */
   deleteProject(item: any) {
@@ -587,6 +592,27 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       }
       this.toastService.openSnackBar({
         "message": 'ROLLOUT_DELETED',
+        "class": "success"
+      })
+      if(this.paginationComponent) {
+      this.paginationComponent.setToPage(this.pagination.currentPage);
+    }
+    this.getList();
+    this.updateQueryParams();
+    })
+  }
+
+ /**
+   * This functions delete the program using delete program api.
+   * @param item - listresource api response.
+ */
+  deleteProgram(item:any){
+    this.programWithRolloutService.deleteProgram(item.id).subscribe((response : any) => {
+      if (this.lists.length === 1 && this.pagination.currentPage > 0) {
+        this.pagination.currentPage -= 1;
+      }
+      this.toastService.openSnackBar({
+        "message": 'RESOURCE_DELETED_SUCCESSFULLY',
         "class": "success"
       })
       if(this.paginationComponent) {

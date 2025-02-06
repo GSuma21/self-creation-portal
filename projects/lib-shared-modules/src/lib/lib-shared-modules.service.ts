@@ -6,7 +6,7 @@ import { LOGOUT_URLS } from './configs/url.config.json';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from './services/toast/toast.service';
-import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT } from './constants/urlConstants';
+import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT, PROGRAM_RESOURCES, modes } from './constants/urlConstants';
 import { Subject } from 'rxjs';
 import { IndexDbService } from './services/index-db/index-db.service';
 
@@ -33,7 +33,9 @@ export class LibSharedModulesService {
 
   goBack(): void {
     const state = this.route.snapshot.queryParamMap.get('parent')
-    const solutionId = this.route.snapshot.queryParamMap.get('projectId')
+    const solutionId = this.route.snapshot.queryParamMap.get('projectId') 
+                ?? this.route.snapshot.queryParamMap.get('programId');
+
     switch (state) {
       case 'create':
         if(solutionId){
@@ -68,6 +70,9 @@ export class LibSharedModulesService {
         break;
       case 'roll-out':
         this.router.navigate([ROLL_OUT]);
+        break;
+      case 'program-resources':
+        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
         break;
       default:
         this.router.navigate(['../'], { relativeTo: this.route });

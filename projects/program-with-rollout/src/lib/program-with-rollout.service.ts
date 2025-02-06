@@ -257,4 +257,11 @@ export class ProgramWithRolloutService {
   resetProgramMetaData() {
     this.rolloutDataSubject.next(null); // Emit null to clear the current data
   }
+
+  deleteProgram(programId: number | string) {
+    const config = {
+      url: `${this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM}/${programId}`,
+    };
+    return this.httpService.delete(config.url);
+  }
 }
