@@ -57,69 +57,6 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 })
 export class TargetCriteriaComponent implements OnInit {
   criteria: any;
-  //  [
-  //     {
-  //         label:"Location",
-  //         form:[
-  //             {
-  //                 placeHolder:"Choose State",
-  //                 isMultiple:false,
-  //                 label:"State",
-  //                 meta:{
-  //                     url:"GET_ENTITIES_LIST",
-  //                     type:"state",
-  //                     dependantIndex:[1,2]
-  //                 },
-  //                 options:[]
-  //             },
-  //             {
-  //                 placeHolder:"Role",
-  //                 isMultiple:false,
-  //                 label:"Select Target",
-  //                 meta:{
-  //                     url:"GET_ENTITY_ROLES",
-  //                     type:"role"
-  //                 },
-  //                 options:[]
-  //             },
-  //             {
-  //                 placeHolder:"Choose Entity targetting",
-  //                 isMultiple:false,
-  //                 meta:{
-  //                     url:"GET_ENTITY_HIERARCHY",
-  //                     type:"hierarchy"
-  //                 },
-  //                 label:"Entity Targeting",
-  //                 options:[]
-  //             }
-  //         ]
-  //     },
-  //     {
-  //         label:"Gender",
-  //         form:[
-  //             {
-  //                 placeHolder:"Select Gender",
-  //                 isMultiple:true,
-  //                 label:"Gender",
-  //                 meta:{
-  //                     type:"gender"
-  //                 },
-  //                 options:[
-  //                     {
-  //                         "_id": "male",
-  //                         "name": "Male",
-  //                         "externalId": "enf3"
-  //                     },
-  //                     {
-  //                         "_id": "female",
-  //                         "name": "Female",
-  //                         "externalId": "enkhfjg"
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     }
-  // ]
   placeHolder: string = 'Search target element';
   criteriaFilters: any = [];
   formData: any = {};
@@ -236,6 +173,7 @@ export class TargetCriteriaComponent implements OnInit {
       this.selection.clear();
       this.criteriaFilters = [];
       this.displayedColumns = [];
+      this.tableColumns = [];
     }
     if (key) {
       this.formData[key] = event.value;

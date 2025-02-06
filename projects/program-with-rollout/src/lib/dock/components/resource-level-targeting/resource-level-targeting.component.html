@@ -13,16 +13,16 @@
         <section class="flex">
           <mat-form-field appearance="outline" class="mr-3">
             <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="picker" readonly formControlName="start_date" placeholder="Start Date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date" [max]="endInput.value" #startInput (dateChange)="setValueToProgram($event,i,'start_date')">
+            <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="picker" readonly formControlName="end_date" placeholder="End Date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="End Date" [min]="startInput.value" #endInput (dateChange)="setValueToProgram($event,i,'end_date')">
+            <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
           </mat-form-field>
         </section>
       </mat-card>

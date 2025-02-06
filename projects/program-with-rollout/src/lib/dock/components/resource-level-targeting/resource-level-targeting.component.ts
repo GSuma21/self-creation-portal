@@ -78,12 +78,10 @@ export class ResourceLevelTargetingComponent {
               })
           );
         });
+        this.resourceCount = this.programWithRolloutService.programData.resources.length;
+        this.resources = this.programWithRolloutService.programData.resources;
+        this.addResourceFields();
     }
-    this.resourceCount =
-      this.programWithRolloutService.programData.resources.length;
-    this.resources = this.programWithRolloutService.programData.resources;
-    // Add initial form fields
-    this.addResourceFields();
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
         (isProjectSave: boolean) => {
@@ -93,6 +91,9 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
+    if(this.programId && !this.resourceIds?.length){
+      this.readProgram();
+    }
   }
 
   initForm(): void {
@@ -104,6 +105,32 @@ export class ResourceLevelTargetingComponent {
   get resourceFields(): FormArray {
     return this.resourceForm.get('resources') as FormArray;
   }
+
+  readProgram(){
+    this.resourceIds = [];
+    this.subscription.add(
+      this.programWithRolloutService
+        .readProgram(this.programId)
+        .subscribe((res: any) => {
+          this.programWithRolloutService.setProgramData(res.result)
+          this.resourceCount  = this.programWithRolloutService.programData.resources.length;
+          const resourceIds = this.programWithRolloutService.programData.resources.map((resource:any) => resource.id);
+          if(resourceIds.length){
+            this.getResourceDetails(resourceIds)
+          }
+          this.resources = this.programWithRolloutService.programData.resources;
+          this.programWithRolloutService.upDateProgramTitle()
+          this.addResourceFields();
+      }))
+  }
+
+  getResourceDetails(resourceIds:any) {
+    this.subscription.add(
+      this.programWithRolloutService.readPublishedResources(resourceIds).subscribe((res:any)=> {
+        this.resources = res.result.data
+      })
+     )
+   }
 
   addResourceFields(): void {
     this.resources.forEach((element:any) => {
@@ -152,6 +179,7 @@ export class ResourceLevelTargetingComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: any) => {
+      console.log(res);
       // this.dynamicFormData.forEach((element:any) => {
       //   if(element.name == "targeting_criteria" && res) {
       //     element.value.push(res);
@@ -173,6 +201,11 @@ export class ResourceLevelTargetingComponent {
         programId: this.programId,
       },
     });
+  }
+
+  setValueToProgram(event:any,index:any,key:string) {
+    this.programWithRolloutService.programData.resources[index][key] = event.targetElement.value;
+    console.log(event,index)
   }
 
   statusButtonClick(event: { label: string; item: any }) {}
