@@ -10,14 +10,25 @@
             <div class="main flex">
                 <div class="dropdown-container">
                     @for (item of tab?.form; track item;let index = $index) {
-                        <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
-                            <mat-label> {{ item.label}}</mat-label>
-                            <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
-                                <mat-option *ngFor="let option of item.options" [value]="option">
-                                    {{ option.name ? option.name : option?.label }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                        <section class="flex">
+                            <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
+                                <mat-label> {{ item.label}}</mat-label>
+                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
+                                    <mat-option *ngFor="let option of item.options" [value]="option">
+                                        {{ option.name ? option.name : option?.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            @if(item?.infoMessage){
+                                <mat-icon class="cursor-pointer mt-[0.40rem] pl-1 text-iconGray text-xl enable-with-pointer-events"
+                                    [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                                    [matTooltipDisabled]="true"
+                                    #tooltip="matTooltip"
+                                    (click)="showTooltip(tooltip)"
+                                    (mouseleave)="hideTooltip(tooltip)"
+                                    >info</mat-icon>
+                            }
+                        </section>
                     }
                     <section *ngIf="tab?.showTable">
                         <section class="flex justify-between pt-7 mb-3">

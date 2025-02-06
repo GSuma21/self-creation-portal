@@ -26,6 +26,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'lib-target-criteria',
@@ -48,75 +49,14 @@ import { ChangeDetectorRef } from '@angular/core';
     TranslateModule,
     TitleCasePipe,
     SearchComponent,
+    MatTooltip,
+    MatTooltipModule,
   ],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss',
 })
 export class TargetCriteriaComponent implements OnInit {
   criteria: any;
-  //  [
-  //     {
-  //         label:"Location",
-  //         form:[
-  //             {
-  //                 placeHolder:"Choose State",
-  //                 isMultiple:false,
-  //                 label:"State",
-  //                 meta:{
-  //                     url:"GET_ENTITIES_LIST",
-  //                     type:"state",
-  //                     dependantIndex:[1,2]
-  //                 },
-  //                 options:[]
-  //             },
-  //             {
-  //                 placeHolder:"Role",
-  //                 isMultiple:false,
-  //                 label:"Select Target",
-  //                 meta:{
-  //                     url:"GET_ENTITY_ROLES",
-  //                     type:"role"
-  //                 },
-  //                 options:[]
-  //             },
-  //             {
-  //                 placeHolder:"Choose Entity targetting",
-  //                 isMultiple:false,
-  //                 meta:{
-  //                     url:"GET_ENTITY_HIERARCHY",
-  //                     type:"hierarchy"
-  //                 },
-  //                 label:"Entity Targeting",
-  //                 options:[]
-  //             }
-  //         ]
-  //     },
-  //     {
-  //         label:"Gender",
-  //         form:[
-  //             {
-  //                 placeHolder:"Select Gender",
-  //                 isMultiple:true,
-  //                 label:"Gender",
-  //                 meta:{
-  //                     type:"gender"
-  //                 },
-  //                 options:[
-  //                     {
-  //                         "_id": "male",
-  //                         "name": "Male",
-  //                         "externalId": "enf3"
-  //                     },
-  //                     {
-  //                         "_id": "female",
-  //                         "name": "Female",
-  //                         "externalId": "enkhfjg"
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     }
-  // ]
   placeHolder: string = 'Search target element';
   criteriaFilters: any = [];
   formData: any = {};
@@ -233,6 +173,7 @@ export class TargetCriteriaComponent implements OnInit {
       this.selection.clear();
       this.criteriaFilters = [];
       this.displayedColumns = [];
+      this.tableColumns = [];
     }
     if (key) {
       this.formData[key] = event.value;
@@ -448,14 +389,25 @@ export class TargetCriteriaComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     // Convert arrayB to a map for faster lookup
-    if(this.formData[this.formData.entity_targeting.value]) {
-        return this.dataSource.data.every((obj1:any) =>
-        this.formData[this.formData.entity_targeting.value].some((obj2:any) => JSON.stringify(obj1) === JSON.stringify(obj2))
+    if (this.formData[this.formData.entity_targeting.value]) {
+      return this.dataSource.data.every((obj1: any) =>
+        this.formData[this.formData.entity_targeting.value].some(
+          (obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2)
+        )
       );
+    } else {
+      return false;
     }
-    else {
-        return false
-    }
+  }
+
+  showTooltip(tooltip: MatTooltip) {
+    tooltip.disabled = false;
+    tooltip.show();
+  }
+
+  hideTooltip(tooltip: MatTooltip) {
+    tooltip.hide();
+    tooltip.disabled = true;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -470,7 +422,7 @@ export class TargetCriteriaComponent implements OnInit {
       this.formData[this.formData.entity_targeting.value] = this.formData[
         this.formData.entity_targeting.value
       ].filter((item: any) => !setA.has(JSON.stringify(item)));
-      if(this.formData[this.formData.entity_targeting.value].length == 0) {
+      if (this.formData[this.formData.entity_targeting.value].length == 0) {
         this.selection.clear();
       }
       return;
@@ -508,11 +460,8 @@ export class TargetCriteriaComponent implements OnInit {
     if (event.checked && this.formData[this.formData.entity_targeting.name]) {
       this.formData[this.formData.entity_targeting.name].push(row);
       this.selection.select(row);
-    } else if (
-      !event.checked &&
-      this.formData[this.formData.entity_targeting.name]
-    ) {
-        this.selection.deselect(row);
+    } else if (!event.checked && this.formData[this.formData.entity_targeting.name]) {
+      this.selection.deselect(row);
       const index = this.formData[
         this.formData.entity_targeting.name
       ].findIndex(
@@ -521,7 +470,7 @@ export class TargetCriteriaComponent implements OnInit {
       if (index >= 0) {
         this.formData[this.formData.entity_targeting.name].splice(index, 1);
       }
-      if(this.formData[this.formData.entity_targeting.value].length == 0) {
+      if (this.formData[this.formData.entity_targeting.value].length == 0) {
         this.selection.clear();
       }
     }
