@@ -66,6 +66,9 @@ export class AppMainViewComponent {
           })
         })
       })
+      this.sidenavData = this.sidenavData.filter((o:any, index:number, arr:any) =>
+          arr.findIndex((item:any) => JSON.stringify(item) === JSON.stringify(o)) === index
+      );
       // this.sidenavData = navData.filter((element:any) =>{
       //   if(res.result.find((item:any) => JSON.stringify(item) == JSON.stringify(element.permission_modules[0]) || JSON.stringify(item) == JSON.stringify(element.permission_modules[1]))) {
       //     return element;
