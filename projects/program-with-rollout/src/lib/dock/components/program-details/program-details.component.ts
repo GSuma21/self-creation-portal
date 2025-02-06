@@ -55,7 +55,7 @@ export class ProgramDetailsComponent {
           data.controls.forEach((control:any) => {
             if (control.name === "viewers") {
               this.subscription.add(
-                this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
+                this.programWithRolloutService.getDataManagerList('programs').subscribe((dataManagerList:any)=> {
                   const items = dataManagerList.result?.data || []; // Access the array safely
                   const formattedOptions = items.map((item: any) => ({
                       label: item.name,
@@ -308,26 +308,23 @@ export class ProgramDetailsComponent {
         if (this.programWithRolloutService.programData.title) {
           // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
           if (this.programId) {
-            this.subscription.add(
+            return this.subscription.add(
               this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
             )  
           }
           else {
-            return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
+            return  this.subscription.add(
+               this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
+            )
           }
         } else{
-          return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title :'Untitled program'},true)
+          return  this.subscription.add(
+            this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
+         )
         }
       }
 
    ngOnDestroy() {
-      if(this.mode === modes.EDIT){
-          if(this.programWithRolloutService.programData.id) {
-            this.subscription.add(
-              this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
-            )
-          }
-        }
       if (this.intervalId) {
         clearInterval(this.intervalId);
       }
