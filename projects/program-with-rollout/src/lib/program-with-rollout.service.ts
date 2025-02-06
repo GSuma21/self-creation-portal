@@ -65,9 +65,16 @@ export class ProgramWithRolloutService {
     this.setRolloutApiErrors.next(newAction);
   }
 
-  getDataManagerList() {
+  getRolloutManagerList() {
     const config = {
-      url: this.Configuration.urlConFig.PROGRAM_URLS.DATA_MANAGER_LIST,
+      url: this.Configuration.urlConFig.ROLL_OUT.ROLLOUT_MANAGER_LIST,
+    };
+    return this.httpService.get(config.url);
+  }
+
+  getProgramManagerList() {
+    const config = {
+      url: this.Configuration.urlConFig.PROGRAM_URLS.PROGRAM_MANAGER_LIST,
     };
     return this.httpService.get(config.url);
   }
@@ -83,7 +90,7 @@ export class ProgramWithRolloutService {
     return this.httpService.post(
       this.Configuration.urlConFig.PROGRAM_URLS.PUBLISHED_RESOURCES,
       {
-        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
+        resource_ids: Array.isArray(resourceId) ? resourceId : [resourceId],
       }
     );
   }
@@ -185,23 +192,23 @@ export class ProgramWithRolloutService {
     programId?: string | number,
     removeMetaData?: boolean
   ) {
-    this.programData.title = programData?.title 
-  ? programData.title 
-  : this.programData?.title && this.programData.title.length > 0 
-    ? this.programData.title 
-    : 'Untitled project';
-        this.setProgramData(programData);
-        this.upDateProgramTitle();
+    this.programData.title = programData?.title
+      ? programData.title
+      : this.programData?.title && this.programData.title.length > 0
+      ? this.programData.title
+      : 'Untitled project';
+    this.setProgramData(programData);
+    this.upDateProgramTitle();
     const config = {
       url: programId
         ? this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
           '/' +
           programId
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
-      payload:  this.programData
+      payload: this.programData,
     };
     return this.httpService.post(config.url, config.payload);
-  } 
+  }
   updateProgramDraft(projectId: string | number) {
     return this.createOrUpdateProgram(this.programData, projectId).pipe(
       map((res: any) => {
@@ -243,13 +250,13 @@ export class ProgramWithRolloutService {
     );
   }
 
-  removeResourcesFromPrograms(resourceId:any){
+  removeResourcesFromPrograms(resourceId: any) {
     return this.httpService.post(
-      this.Configuration.urlConFig.PROGRAM_URLS.REMOVE_RESOURCE  +
-          '/' +
-          this.programData.id,
+      this.Configuration.urlConFig.PROGRAM_URLS.REMOVE_RESOURCE +
+        '/' +
+        this.programData.id,
       {
-        resource_ids:Array.isArray(resourceId) ? resourceId : [resourceId],
+        resource_ids: Array.isArray(resourceId) ? resourceId : [resourceId],
       }
     );
   }
