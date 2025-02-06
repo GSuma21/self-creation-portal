@@ -49,35 +49,37 @@ export class ResourceLevelTargetingComponent {
   ngOnInit() {
     this.initForm()
     if (this.resourceIds.length) {
-      this.programWithRolloutService
-        .addResourceToProgram(
-          { resource_ids: this.resourceIds },
-          this.programId
-        )
-        .subscribe((res: any) => {
-          const updatedParams = {
-            parent: this.parent,
-            programId: this.programId,
-          };
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { parent: this.parent, programId: this.programId },
-          });
-          // Optionally, clear resourceIds in your component
-          this.resourceIds = [];
+        this.subscription.add(
+          this.programWithRolloutService
+          .addResourceToProgram(
+            { resource_ids: this.resourceIds },
+            this.programId
+          )
+          .subscribe((res: any) => {
+            const updatedParams = {
+              parent: this.parent,
+              programId: this.programId,
+            };
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { parent: this.parent, programId: this.programId },
+            });
+            // Optionally, clear resourceIds in your component
+            this.resourceIds = [];
 
-          this.subscription.add(
-            this.programWithRolloutService
-              .readProgram(this.programId)
-              .subscribe((res: any) => {
-                this.programWithRolloutService.setProgramData(res.result);
-                this.resourceCount =
-                  this.programWithRolloutService.programData.resources.length;
-                this.resources =
-                  this.programWithRolloutService.programData.resources;
-              })
-          );
-        });
+            this.subscription.add(
+              this.programWithRolloutService
+                .readProgram(this.programId)
+                .subscribe((res: any) => {
+                  this.programWithRolloutService.setProgramData(res.result);
+                  this.resourceCount =
+                    this.programWithRolloutService.programData.resources.length;
+                  this.resources =
+                    this.programWithRolloutService.programData.resources;
+                })
+            );
+          })
+        )
         this.resourceCount = this.programWithRolloutService.programData.resources.length;
         this.resources = this.programWithRolloutService.programData.resources;
         this.addResourceFields();
@@ -146,7 +148,8 @@ export class ResourceLevelTargetingComponent {
 
   submit() {
     if (!this.programId) {
-      this.programWithRolloutService
+      this.subscription.add(
+        this.programWithRolloutService
         .createOrUpdateProgram()
         .subscribe((res: any) => {
           (this.programId = res.result.id),
@@ -160,11 +163,14 @@ export class ResourceLevelTargetingComponent {
               replaceUrl: true,
             });
           this.programWithRolloutService.programData.id = res.result.id;
-        });
+        })
+      )
     } else {
-      this.programWithRolloutService
+      this.subscription.add(
+        this.programWithRolloutService
         .updateProgramDraft(this.programId)
-        .subscribe();
+        .subscribe()
+      )
     }
 
     // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
