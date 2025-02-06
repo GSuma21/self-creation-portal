@@ -31,28 +31,32 @@ export class ProgramResourcesComponent {
 
 constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,private programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
-  this.route.queryParamMap.subscribe((params) => {
-    this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
-    this.programId =  this.route.snapshot.queryParamMap.get('programId');
-  });
+  this.subscription.add(
+    this.route.queryParamMap.subscribe((params) => {
+      this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
+      this.programId =  this.route.snapshot.queryParamMap.get('programId');
+    })
+  )
 }
 
 ngOnInit(){
   this.getsolutionList()
   if(this.resourceIds?.length){
-    this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { parent: 'draft', programId: this.programId, mode: modes.EDIT }
-      });
-      let data = {
-        message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
-        class: 'success',
-      };
-      this.toastService.openSnackBar(data);
-      // Optionally, clear resourceIds in your component
-      this.readProgram();
-    })
+    this.subscription.add(
+      this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { parent: 'draft', programId: this.programId, mode: modes.EDIT }
+        });
+        let data = {
+          message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
+          class: 'success',
+        };
+        this.toastService.openSnackBar(data);
+        // Optionally, clear resourceIds in your component
+        this.readProgram();
+      })
+    )
   }
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
@@ -87,27 +91,31 @@ readProgram(){
 
 createProgram() {
   if(!this.programId){
-    this.programWithRolloutService
-            .createOrUpdateProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title: 'Untitled program'})
-            .subscribe((res: any) => {
-              (this.programId = res.result.id),
-                this.router.navigate([], {
-                  relativeTo: this.route,
-                  queryParams: {
-                    programId: this.programId,
-                    mode: modes.EDIT,
-                  },
-                  queryParamsHandling: 'merge',
-                  replaceUrl: true,
-                });
-                this.programWithRolloutService.programData.id = res.result.id;
-              })
+    this.subscription.add(
+      this.programWithRolloutService
+      .createOrUpdateProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title: 'Untitled program'})
+      .subscribe((res: any) => {
+        (this.programId = res.result.id),
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              programId: this.programId,
+              mode: modes.EDIT,
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+          this.programWithRolloutService.programData.id = res.result.id;
+        })
+    )
   }
 }
 
 saveForm(){
   if(this.programId){
-    this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe();
+    this.subscription.add(
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
+    )
   }
 }
 
@@ -131,16 +139,18 @@ this.resources = this.resources.map((resource:any) => ({
 }
 
 getsolutionList() {
-  this.formService.getPermissions().subscribe((res:any) => {
-    this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
-      this.permissions = res.result;
-        this.resourceList = form?.result?.data?.fields?.controls.filter((item:any) => {
-          if(item.title != "PROGRAM") {
-            return item
-          }
+  this.subscription.add(
+    this.formService.getPermissions().subscribe((res:any) => {
+      this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+        this.permissions = res.result;
+          this.resourceList = form?.result?.data?.fields?.controls.filter((item:any) => {
+            if(item.title != "PROGRAM") {
+              return item
+            }
+        })
       })
     })
-  })
+  )
 }
 
 
@@ -169,13 +179,15 @@ getsolutionList() {
             case 'DELETE':
               this.confirmAndDeleteProject("DELETE_ADDED_RESOURCE_MESSAGE").subscribe((isdelete:any) => {
                 if(isdelete){
-                  this.programWithRolloutService.removeResourcesFromPrograms(item.id).subscribe((res:any)=>{
-                    this.toastService.openSnackBar({
-                      "message": 'RESOURCE_DELETED_SUCCESSFULLY',
-                      "class": "success"
-                    })
-                    this.readProgram()
-                   })
+                  this.subscription.add(
+                    this.programWithRolloutService.removeResourcesFromPrograms(item.id).subscribe((res:any)=>{
+                      this.toastService.openSnackBar({
+                        "message": 'RESOURCE_DELETED_SUCCESSFULLY',
+                        "class": "success"
+                      })
+                      this.readProgram()
+                     })
+                  )
                 }
               })
               break;

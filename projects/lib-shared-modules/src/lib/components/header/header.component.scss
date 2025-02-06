@@ -71,3 +71,25 @@
 ::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
   color: $primary !important;
 }
+
+::ng-deep .tooltip-info .mdc-tooltip__surface {
+  color: black !important;
+  font-size: 1rem !important;
+  background-color: #feedd7 !important;
+  min-width: 20rem;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+::ng-deep .tooltip-info::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #feedd7 transparent;
+}
