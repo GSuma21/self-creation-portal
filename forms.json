@@ -2787,6 +2787,7 @@
   {
     "type": "resourceList",
     "sub_type": "resourceListForm",
+    "action": "skip",
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
