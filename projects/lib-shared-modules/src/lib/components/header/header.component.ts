@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LibSharedModulesService } from '../../lib-shared-modules.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
 import { Subscription } from 'rxjs/internal/Subscription';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  @ViewChild('tooltip') tooltip: MatTooltip | undefined;
   @Input() backButton : boolean = true ;
   @Input() title!: string;
   @Input() headerData : any;
@@ -29,6 +30,7 @@ export class HeaderComponent {
   supportLanguages : any = [
     {label: "ENGLISH", value: "en"}
   ]
+  showToolTip: boolean = false;
 
   mode:any = "edit";
   private subscription: Subscription = new Subscription();
@@ -78,5 +80,19 @@ export class HeaderComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  showTooltip(button:any) {
+    if (button.tooltip && this.tooltip) {
+      this.tooltip.disabled = false;
+      this.tooltip.show();
+    }
+  }
+  
+  hideTooltip(button:any) {
+    if(this.tooltip){
+      this.tooltip.hide();
+      this.tooltip.disabled = true;
+    }
   }
 }

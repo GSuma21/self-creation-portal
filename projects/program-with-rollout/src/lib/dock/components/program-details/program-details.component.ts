@@ -54,14 +54,16 @@ export class ProgramDetailsComponent {
         this.formService.getFormWithEntities(PROGRAM_DETAILS).then((data) => {
           data.controls.forEach((control:any) => {
             if (control.name === "viewers") {
-              this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
-                const items = dataManagerList.result?.data || []; // Access the array safely
-                const formattedOptions = items.map((item: any) => ({
-                    label: item.name,
-                    value: item.id
-                }));
-                control.options = [...formattedOptions];
-                })
+              this.subscription.add(
+                this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
+                  const items = dataManagerList.result?.data || []; // Access the array safely
+                  const formattedOptions = items.map((item: any) => ({
+                      label: item.name,
+                      value: item.id
+                  }));
+                  control.options = [...formattedOptions];
+                  })
+              )
               }
             })
           this.formDataForTitle = data.controls.find((item:any) => item.name === 'title');
@@ -184,10 +186,9 @@ export class ProgramDetailsComponent {
                 this.formLib.myForm.patchValue({ // adding target criteria to form
                   targeting_criteria: element.value,
                 });
-                // this.programWithRolloutService.rollOutDetails.targeting_criteria
               }
             })
-            // this.updateTargetCriteria()
+            this.updateTargetCriteria()
           });
           break;
         default:
@@ -205,12 +206,63 @@ export class ProgramDetailsComponent {
       switch (control.action) {
         case "VIEW":
           break;
+        case "EDIT":
+          const dialogEditRef = this.dialog.open(TargetCriteriaComponent, {
+            width: '80%',
+            height: '80%',
+            disableClose: true,
+            autoFocus: false,
+            data: control.item,
+          });
+  
+          dialogEditRef.afterClosed().subscribe((res: any) => {
+            if(res) {
+              this.dynamicFormData.forEach((element:any) => {
+                if(element.name == "targeting_criteria") {
+                  element.value.splice(control.index, 1,res);
+                  this.formLib.myForm.patchValue({ // adding target criteria to form
+                    targeting_criteria: element.value,
+                  });
+                }
+              })
+              this.updateTargetCriteria()
+            }
+          });
+          break;
+        case "DELETE":
+          const dialogRef = this.dialog.open(DialogPopupComponent, {
+            width: '39.375rem',
+            disableClose: true,
+            data: {
+              header: "DELETE_TARGETING_DETAILS",
+              content: "DELETE_TARGETING_DETAILS_MESSAGE",
+              cancelButton: "CANCEL",
+              exitButton: "DELETE"
+            }
+          });
+          dialogRef.afterClosed().subscribe((res: any) => {
+            if(res.data == "DELETE"){
+              this.dynamicFormData.forEach((element:any) => {
+                if(element.name == "targeting_criteria") {
+                  element.value.splice(control.index, 1);
+                  this.formLib.myForm.patchValue({ // adding target criteria to form
+                    targeting_criteria: element.value,
+                  });
+                }
+              })
+              this.updateTargetCriteria()
+            }
+          });
+          break;
         default:
           break;
       }
   
     }
 
+    updateTargetCriteria(){
+      this.programWithRolloutService.programData.targeting_criteria =  this.dynamicFormData.find((element: any) => element.name === "targeting_criteria")?.value;
+    }
 
      startAutoSaving() {
         this.intervalId = setInterval(() => {
@@ -227,34 +279,38 @@ export class ProgramDetailsComponent {
 
 
       createProgram(payload?:any,showToast?:boolean) { // title should be send from calling methods only, due to title can be filled before project creation
-        this.programWithRolloutService
-        .createOrUpdateProgram(payload)
-        .subscribe((res: any) => {
-          (this.programId = res.result.id),
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: {
-                programId: this.programId,
-                mode: modes.EDIT,
-              },
-              queryParamsHandling: 'merge',
-              replaceUrl: true,
-            });
-            this.programWithRolloutService.programData.id = res.result.id;
-            if(showToast) {
-              this.toastService.openSnackBar({
-                message: res.message,
-                class: 'success',
-              })
-            }
-        })
+        this.subscription.add(
+          this.programWithRolloutService
+          .createOrUpdateProgram(payload)
+          .subscribe((res: any) => {
+            (this.programId = res.result.id),
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: {
+                  programId: this.programId,
+                  mode: modes.EDIT,
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true,
+              });
+              this.programWithRolloutService.programData.id = res.result.id;
+              if(showToast) {
+                this.toastService.openSnackBar({
+                  message: res.message,
+                  class: 'success',
+                })
+              }
+          })
+        )
     }
 
      saveForm() {
         if (this.programWithRolloutService.programData.title) {
           // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
           if (this.programId) {
-            this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+            this.subscription.add(
+              this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
+            )  
           }
           else {
             return this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
@@ -267,12 +323,14 @@ export class ProgramDetailsComponent {
    ngOnDestroy() {
       if(this.mode === modes.EDIT){
           if(this.programWithRolloutService.programData.id) {
-            this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe((res:any)=> console.log(res))
+            this.subscription.add(
+              this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
+            )
           }
         }
-      this.subscription.unsubscribe();
       if (this.intervalId) {
         clearInterval(this.intervalId);
       }
+      this.subscription.unsubscribe();
     }
 }

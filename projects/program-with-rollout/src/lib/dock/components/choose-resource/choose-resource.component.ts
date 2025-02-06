@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-choose-resource',
@@ -17,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './choose-resource.component.scss'
 })
 export class ChooseResourceComponent {
+  private subscription: Subscription = new Subscription();
   redirectData:any={}
   backButton : boolean = true;
   headerData = {
@@ -83,20 +85,24 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       subTitle:(this.selectFor =='roll-out') ? "" : "ADD_TO_PROGRAM_SUBTEXT",
       redirectUrl: (this.selectFor =='roll-out') ? 'roll-out/details/project-details' : 'roll-out/details/program-resources'
    }
+   this.subscription.add(
     this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
       const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
       this.noSearchResultMessage = selectedSideNavData?.noSearchResultMessage || '' ;
       this.noPublishedResourceMessage =  selectedSideNavData?.noPublishedResourceMessage || ""
-    });
-   this.getResourceList().subscribe((resourceList:any) => {
-    this.contentList = resourceList.result.data
-    this.showNoResultComponent = this.contentList.length === 0 ? true : false;
-    if(this.contentList.length !== 0){
-      this.onSelectionChange(resourceList.result.data[0])
-    }else{
-      this.showNoPulishedMessage = true
-    }
-   })
+    })
+   )
+   this.subscription.add(
+    this.getResourceList().subscribe((resourceList:any) => {
+      this.contentList = resourceList.result.data
+      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+      if(this.contentList.length !== 0){
+        this.onSelectionChange(resourceList.result.data[0])
+      }else{
+        this.showNoPulishedMessage = true
+      }
+     })
+   )
   }
 
 
@@ -110,12 +116,14 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   onSelectionChange(item:any) {
     this.showPreview = false;
-    this.getDetailsOfResource(item)?.subscribe((details:any) => {
-      this.utilService.removeEmptyKey(details.result).subscribe((res:any) =>{
-        this.data.resourceData = res
-        this.showPreview = true
+    this.subscription.add(
+      this.getDetailsOfResource(item)?.subscribe((details:any) => {
+        this.utilService.removeEmptyKey(details.result).subscribe((res:any) =>{
+          this.data.resourceData = res
+          this.showPreview = true
+        })
       })
-    })
+    )
     this.selectedResource = item
     this.selectedValue = item.id;
   }
@@ -144,10 +152,12 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   loadMoreData(): void {
     this.page++; // Increment page number
-    this.getResourceList().subscribe((resourceList: any) => {
-      // Append new data to the existing list
-      this.contentList = [...this.contentList, ...resourceList.result.data];
-    });
+    this.subscription.add(
+      this.getResourceList().subscribe((resourceList: any) => {
+        // Append new data to the existing list
+        this.contentList = [...this.contentList, ...resourceList.result.data];
+      })
+    )
   }
 
   /**
@@ -157,14 +167,15 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   receiveSearchResults(event: string) {
     this.searchText = event.trim().toLowerCase();
     this.page=1
-    this.getResourceList().subscribe((resourceList:any) => {
-      this.contentList = resourceList.result.data
-      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
-      if(this.contentList.length !== 0){
-        this.onSelectionChange(resourceList.result.data[0])
-      }
-     })
-
+    this.subscription.add(
+      this.getResourceList().subscribe((resourceList:any) => {
+        this.contentList = resourceList.result.data
+        this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+        if(this.contentList.length !== 0){
+          this.onSelectionChange(resourceList.result.data[0])
+        }
+       })
+    )
   }
 
   onSelect(){
@@ -178,13 +189,15 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onFilterChange(event:any){}
 
   onSortOptionsChanged(event:any){
-    this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
-      this.contentList = resourceList.result.data
-      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
-      if(this.contentList.length !== 0){
-        this.onSelectionChange(resourceList.result.data[0])
-      }
-    });
+    this.subscription.add(
+      this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
+        this.contentList = resourceList.result.data
+        this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+        if(this.contentList.length !== 0){
+          this.onSelectionChange(resourceList.result.data[0])
+        }
+      })
+    )
   }
 
   filterButtonClickEvent(event:any){}
@@ -200,5 +213,9 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
     } else {
       this.selectedValuesForPrograms.splice(index, 1);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

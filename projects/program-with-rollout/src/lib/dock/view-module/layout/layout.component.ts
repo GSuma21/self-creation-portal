@@ -68,30 +68,32 @@ export class LayoutComponent {
       case 'SAVE': {
         if (this.saveRolloutData) {
           this.saveRolloutData = false;
-          this.programWithRolloutService.saveRollOut().subscribe(
-            (res: any) => {
-              if (!this.programWithRolloutService.rolloutId) {
-                this.programWithRolloutService.rolloutId = res.result.id;
+          this.subscription.add(
+            this.programWithRolloutService.saveRollOut().subscribe(
+              (res: any) => {
+                if (!this.programWithRolloutService.rolloutId) {
+                  this.programWithRolloutService.rolloutId = res.result.id;
+                }
+                this.router.navigate([], {
+                  relativeTo: this.route,
+                  queryParams: {
+                    rolloutId: res.result.id ? res.result.id : res.result,
+                  },
+                  queryParamsHandling: 'merge',
+                  replaceUrl: true,
+                });
+                let data = {
+                  message: 'SAVED_SUCCESSFULLY',
+                  class: 'success',
+                };
+                this.saveRolloutData = true;
+                this.toastService.openSnackBar(data);
+              },
+              (err: any) => {
+                this.saveRolloutData = true;
               }
-              this.router.navigate([], {
-                relativeTo: this.route,
-                queryParams: {
-                  rolloutId: res.result.id ? res.result.id : res.result,
-                },
-                queryParamsHandling: 'merge',
-                replaceUrl: true,
-              });
-              let data = {
-                message: 'SAVED_SUCCESSFULLY',
-                class: 'success',
-              };
-              this.saveRolloutData = true;
-              this.toastService.openSnackBar(data);
-            },
-            (err: any) => {
-              this.saveRolloutData = true;
-            }
-          );
+            )
+          )
         }
         break;
       }
@@ -100,37 +102,39 @@ export class LayoutComponent {
         this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
           if(result){
             this.programWithRolloutService.checkIsRolledOutValid(true);
-            this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
-              if(res){
-                if(!this.programWithRolloutService.rolloutId){
-                  this.programWithRolloutService.rolloutId = res.result.id;
-                  this.router.navigate([], {
-                    relativeTo: this.route,
-                    queryParams: {
-                      rolloutId: res.result.id ? res.result.id : res.result
-                    },
-                    queryParamsHandling: 'merge',
-                    replaceUrl:true
-                  });
-                }
-                if( this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
-                   this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
-                  if(res.responseCode === "OK"){
-                    this.router.navigate([ROLL_OUT]);
-                    this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED',  class: 'success',});
-                    this.programWithRolloutService.rolloutId = ""
+            this.subscription.add(
+              this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
+                if(res){
+                  if(!this.programWithRolloutService.rolloutId){
+                    this.programWithRolloutService.rolloutId = res.result.id;
+                    this.router.navigate([], {
+                      relativeTo: this.route,
+                      queryParams: {
+                        rolloutId: res.result.id ? res.result.id : res.result
+                      },
+                      queryParamsHandling: 'merge',
+                      replaceUrl:true
+                    });
+                  }
+                  if( this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
+                     this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
+                    if(res.responseCode === "OK"){
+                      this.router.navigate([ROLL_OUT]);
+                      this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED',  class: 'success',});
+                      this.programWithRolloutService.rolloutId = ""
+                    }else{
+                      this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                    }
+                  },
+                  (err) => {
+                    this.programWithRolloutService.validateAndHighlightErrors(err)
+                  })
                   }else{
                     this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
                   }
-                },
-                (err) => {
-                  this.programWithRolloutService.validateAndHighlightErrors(err)
-                })
-                }else{
-                  this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
                 }
-              }
-            })
+              })
+            )
           }
         })
         break;
