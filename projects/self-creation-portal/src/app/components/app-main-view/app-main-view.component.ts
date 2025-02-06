@@ -28,7 +28,7 @@ export class AppMainViewComponent {
     "title" : "CREATION_PORTAL"
   }
 
-  sidenavData: any;
+  sidenavData: any = [];
   clearQueryParamsOnNavigate: boolean = true;
   constructor(private formService:FormService, private router: Router, private route: ActivatedRoute) {
   }
@@ -57,11 +57,24 @@ export class AppMainViewComponent {
 
   getPermissions(navData:any) {
     this.formService.getPermissions().subscribe((res:any) => {
-      this.sidenavData = navData.filter((element:any) =>{
-        if(res.result.find((item:any) => JSON.stringify(item) == JSON.stringify(element.permission_modules[0]))) {
-          return element;
-        }
+      navData.forEach((element:any) => {
+        element.permission_modules.forEach((permission:any) => {
+          res.result.forEach((permissionMenuItem:any) => {
+            if(JSON.stringify(permissionMenuItem) == JSON.stringify(permission)) {
+              this.sidenavData.push(element)
+            }
+          })
+        })
       })
+      this.sidenavData = this.sidenavData.filter((o:any, index:number, arr:any) =>
+          arr.findIndex((item:any) => JSON.stringify(item) === JSON.stringify(o)) === index
+      );
+      // this.sidenavData = navData.filter((element:any) =>{
+      //   if(res.result.find((item:any) => JSON.stringify(item) == JSON.stringify(element.permission_modules[0]) || JSON.stringify(item) == JSON.stringify(element.permission_modules[1]))) {
+      //     return element;
+      //   }
+      // })
+      console.log(this.sidenavData)
     })
   }
 
