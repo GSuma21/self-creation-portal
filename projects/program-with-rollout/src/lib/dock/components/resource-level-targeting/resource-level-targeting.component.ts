@@ -187,7 +187,7 @@ export class ResourceLevelTargetingComponent {
 
     dialogRef.afterClosed().subscribe((res: any) => {
         if(this.programWithRolloutService.programData.resources[resourceIndex] && res) {
-          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria ? this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push(res): this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push([res]);
+          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria ? this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push(res): this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria = [res];
           this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
         }
       });
