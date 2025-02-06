@@ -55,7 +55,7 @@ export class ProgramDetailsComponent {
           data.controls.forEach((control:any) => {
             if (control.name === "viewers") {
               this.subscription.add(
-                this.programWithRolloutService.getProgramManagerList().subscribe((dataManagerList:any)=> {
+                this.programWithRolloutService.getDataManagerList('programs').subscribe((dataManagerList:any)=> {
                   const items = dataManagerList.result?.data || []; // Access the array safely
                   const formattedOptions = items.map((item: any) => ({
                       label: item.name,

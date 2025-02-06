@@ -65,16 +65,9 @@ export class ProgramWithRolloutService {
     this.setRolloutApiErrors.next(newAction);
   }
 
-  getRolloutManagerList() {
+  getDataManagerList(type:any=""){
     const config = {
-      url: this.Configuration.urlConFig.ROLL_OUT.ROLLOUT_MANAGER_LIST,
-    };
-    return this.httpService.get(config.url);
-  }
-
-  getProgramManagerList() {
-    const config = {
-      url: this.Configuration.urlConFig.PROGRAM_URLS.PROGRAM_MANAGER_LIST,
+      url: type == 'programs' ?  this.Configuration.urlConFig.PROGRAM_URLS.PROGRAM_MANAGER_LIST: this.Configuration.urlConFig.ROLL_OUT.ROLLOUT_MANAGER_LIST,
     };
     return this.httpService.get(config.url);
   }

@@ -234,7 +234,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
     this.formService.getForm(ROLL_OUT_DETAILS).subscribe((rolloutDetails:any) => {
       rolloutDetails.result.data.fields?.controls.forEach((control:any) => {
         if (control.name === "viewers") {
-          this.programWithRolloutService.getRolloutManagerList().subscribe((dataManagerList:any)=> {
+          this.programWithRolloutService.getDataManagerList().subscribe((dataManagerList:any)=> {
             const items = dataManagerList.result?.data || []; // Access the array safely
             const formattedOptions = items.map((item: any) => ({
                 label: item.name,
