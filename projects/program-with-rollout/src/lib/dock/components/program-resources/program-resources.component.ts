@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayContainsAllDirective, CardComponent, DialogPopupComponent, FormService, modes, PROJECT_DETAILS_PAGE, SOLUTION_LIST, ToastService } from 'lib-shared-modules';
+import { ArrayContainsAllDirective, CardComponent, DialogPopupComponent, FormService, modes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, ToastService } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -141,7 +141,7 @@ this.resources = this.resources.map((resource:any) => ({
 getsolutionList() {
   this.subscription.add(
     this.formService.getPermissions().subscribe((res:any) => {
-      this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
+      this.formService.getForm(RESOURCE_LIST).subscribe((form) =>{
         this.permissions = res.result;
           this.resourceList = form?.result?.data?.fields?.controls.filter((item:any) => {
             if(item.title != "PROGRAM") {
