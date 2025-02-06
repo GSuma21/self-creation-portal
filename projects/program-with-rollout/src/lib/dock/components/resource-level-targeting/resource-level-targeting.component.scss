@@ -14,3 +14,27 @@
     display: flex;
     color:$primary;
 }
+
+.resource-items-container {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    background: lightgray;
+    justify-content: space-between;
+    padding: 0 1rem;
+    border-radius: 5px;
+    margin-bottom: .5rem;
+    min-height: 2.5rem;
+}
+.resouce-inner-section {
+    display: flex;
+    align-items: center;
+}
+mat-error {
+    margin-top: -1rem;
+    font-size: 12px;
+}
+.target-criteria {
+    color: gray;
+    font-size: 20px;
+}

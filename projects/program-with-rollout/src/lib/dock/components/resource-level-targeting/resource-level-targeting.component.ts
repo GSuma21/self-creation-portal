@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CardComponent, FormService, modes, SOLUTION_LIST } from 'lib-shared-modules';
 
-import { Subscription } from 'rxjs';
+import { min, Subscription } from 'rxjs';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -115,32 +115,33 @@ export class ResourceLevelTargetingComponent {
           this.programWithRolloutService.setProgramData(res.result)
           this.resourceCount  = this.programWithRolloutService.programData.resources.length;
           const resourceIds = this.programWithRolloutService.programData.resources.map((resource:any) => resource.id);
-          if(resourceIds.length){
-            this.getResourceDetails(resourceIds)
-          }
           this.resources = this.programWithRolloutService.programData.resources;
           this.programWithRolloutService.upDateProgramTitle()
           this.addResourceFields();
       }))
   }
 
-  getResourceDetails(resourceIds:any) {
-    this.subscription.add(
-      this.programWithRolloutService.readPublishedResources(resourceIds).subscribe((res:any)=> {
-        this.resources = res.result.data
-      })
-     )
-   }
-
   addResourceFields(): void {
     this.resources.forEach((element:any) => {
       const resourceGroup = this.fb.group({
-        start_date: [element.start_date ? element.start_date : '', Validators.required],
-        end_date: [element.end_date ? element.end_date : '', Validators.required]
+        start_date: [element.start_date ? element.start_date : '',[Validators.required,Validators.max(element.end_date ? element.end_date : '')]],
+        end_date: [element.end_date ? element.end_date : '', [Validators.required,Validators.min(element.start_date ? element.start_date : '')]]
       });
 
       this.resourceFields.push(resourceGroup);
     });
+  }
+
+  getMaxDate(index:number) {
+    if(this.resources[index].end_date) {
+      return this.resources[index].end_date;
+    }
+  }
+
+  getMinDate(index:number) {
+    if(this.resources[index].start_date) {
+      return this.resources[index].start_date;
+    }
   }
 
   submit() {
@@ -169,7 +170,7 @@ export class ResourceLevelTargetingComponent {
     // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
   }
 
-  openTargetCriteria(item:any) {
+  openTargetCriteria(resourceIndex:number|string,elementIndex?:number|string) {
     const dialogRef = this.dialog.open(TargetCriteriaComponent, {
       width: '80%',
       height: '80%',
@@ -179,18 +180,11 @@ export class ResourceLevelTargetingComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: any) => {
-      console.log(res);
-      // this.dynamicFormData.forEach((element:any) => {
-      //   if(element.name == "targeting_criteria" && res) {
-      //     element.value.push(res);
-      //     this.formLib.myForm.patchValue({ // adding target criteria to form
-      //       targeting_criteria: element.value,
-      //     });
-      //     // this.programWithRolloutService.rollOutDetails.targeting_criteria
-      //   }
-      // })
-      // this.updateTargetCriteria()
-    });
+        if(this.programWithRolloutService.programData.resources[resourceIndex] && res) {
+          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria ? this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push(res): this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push([res]);
+          this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+        }
+      });
   }
 
   onCardClick(cardItem: any) {
@@ -203,9 +197,32 @@ export class ResourceLevelTargetingComponent {
     });
   }
 
+  updateResource(resourceIndex:number|string,targetIndex:string|number,targeItem?:any) {
+    if(!targeItem) {
+      this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.splice(targetIndex,1)
+      this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+    }
+    else {
+      const dialogRef = this.dialog.open(TargetCriteriaComponent, {
+        width: '80%',
+        height: '80%',
+        disableClose: true,
+        autoFocus: false,
+        data: targeItem,
+      });
+
+      dialogRef.afterClosed().subscribe((res: any) => {
+        if(res) {
+          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.splice(targetIndex,1,res);
+          this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+        }
+      });
+    }
+  }
+
   setValueToProgram(event:any,index:any,key:string) {
-    this.programWithRolloutService.programData.resources[index][key] = event.targetElement.value;
-    console.log(event,index)
+    this.programWithRolloutService.programData.resources[index][key] = new Date(event.targetElement.value);
+    this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
   }
 
   statusButtonClick(event: { label: string; item: any }) {}
