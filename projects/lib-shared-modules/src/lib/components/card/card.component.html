@@ -12,7 +12,7 @@
                                 {{( reviewStatus.NOT_STARTED || list.review_status )| translate}}
                             </div>
                         }
-                        @if(list.status === resourceStatus.PUBLISHED || list.status === 'ROLLED_OUT'){
+                        @if((list.status === resourceStatus.PUBLISHED || list.status === 'ROLLED_OUT') && (list.creator) ){
                             <div class="chip-container item-center text-center bg-chipPublished text-white">
                                 {{list.status | translate}}
                             </div>
@@ -55,10 +55,12 @@
                     <div class="flex flex-column">
                         <p class="text overflow-ellipsis" [matTooltip]="list.title | translate">{{list.title | translate}}</p>
                         <div class="flex items-center text-sm text-[$borderGray]">
+                            @if(list.creator){
                             By <span class="ml-1 overflow-ellipsis">{{ list.creator | translate }}</span>
+                            }
                         </div>
                     </div>
-                    @if(showDates){
+                    @if(showDates || list.showDates){
                         <div class="flex text-sm text-[$borderGray]">
                             <div class="flex font-semibold">
                                 Start date:&nbsp;

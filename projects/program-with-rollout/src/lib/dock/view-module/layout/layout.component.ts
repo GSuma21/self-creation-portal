@@ -62,19 +62,7 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {
-        this.utilService.removeEmptyKey(this.programWithRolloutService.resourceDetails).subscribe(
-          (cleanedData) => {
-            const dialogRef = this.dialog.open(PreviewComponent, {
-              width: '23rem',
-              autoFocus: false,
-              disableClose: false,
-              data: {
-                projectData: cleanedData,
-                cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
-              },
-            });
-          }
-        );
+
         break;
       }
       case 'SAVE': {
