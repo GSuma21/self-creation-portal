@@ -211,5 +211,6 @@
     "ADD_TO_PROGRAM_SUBTEXT":"Selected item(s) will be added to the program",
     "ADD_TO_PROGRAM":"Add to program",
     "ADDED_RESOURCE_SUCCESSFULLY_MESSAGE":"Resources have been added to the program successfully",
-    "DELETE_ADDED_RESOURCE_MESSAGE":"Would you like to delete the selected resource(s)?"
+    "DELETE_ADDED_RESOURCE_MESSAGE":"Would you like to delete the selected resource(s)?",
+    "COMING_SOON":"Coming soon"
 }
