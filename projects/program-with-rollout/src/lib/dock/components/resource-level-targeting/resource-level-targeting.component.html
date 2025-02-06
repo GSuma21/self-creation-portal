@@ -2,7 +2,7 @@
   <div formArrayName="resources" class="form-container">
     <div *ngFor="let resourceGroup of resourceFields.controls; let i=index" [formGroupName]="i">
       <mat-card appearance="outlined" class="resource-card">
-        <lib-card [list]="resources[i]" [showActionButton]="true" [showInfoIcon]="true" class="mb-3"></lib-card>
+        <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
         <div class="mat-mdc-form-field-infix ng-tns-c3736059725-23"><label matformfieldfloatinglabel="" class="mdc-floating-label mat-mdc-floating-label ng-tns-c3736059725-23 mdc-floating-label--float-above ng-star-inserted" ng-reflect-floating="true" ng-reflect-monitor-resize="false" id="mat-mdc-form-field-label-18" for="mat-input-8"><mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">Target criteria</mat-label><!--bindings={
           "ng-reflect-ng-if": "Target criteria"
         }--><span aria-hidden="true" class="mat-mdc-form-field-required-marker mdc-floating-label--required ng-tns-c3736059725-23 ng-star-inserted"></span><!--container--></label><!--container--><!--bindings={
@@ -51,3 +51,8 @@
     </div>
   </div>
 </form>
+@if(resources <= 0){
+  <div  class="top-32 w-full flex flex-col items-center justify-center h-[70%]">
+    No resources are currently added to the program. Add resources to view the resource targeting details.
+  </div>
+}
