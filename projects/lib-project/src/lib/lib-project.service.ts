@@ -10,7 +10,8 @@ import {
   resourceStatus, reviewStatus , projectMode,
   LibSharedModulesService,
   FormService,
-  modes
+  modes,
+  PROJECT_DETAILS
 } from 'lib-shared-modules';
 import { BehaviorSubject, map, Observable, switchMap, tap, EMPTY, of  } from 'rxjs';
 import { ConfigService } from 'lib-shared-modules';
@@ -226,7 +227,7 @@ export class LibProjectService {
 
   validateAndHighlightErrors(err:any){
     this.parseLocations(err.error).subscribe((errors:any) =>{
-      this.formService.getFormWithEntities('PROJECT_DETAILS').then((data:any) => {
+      this.formService.getFormWithEntities(PROJECT_DETAILS).then((data:any) => {
         if (data) {
           errors.forEach((err:any) => {
             data.controls.some((item: any) => {
