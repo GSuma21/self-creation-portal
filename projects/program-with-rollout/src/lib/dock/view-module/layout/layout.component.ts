@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, FormService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
-  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
+  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService){}
   ngOnInit(){
     this.getData()
     this.subscription.add(
@@ -55,6 +55,8 @@ export class LayoutComponent {
     this.subscription.add(
     this.programWithRolloutService.setConfig().subscribe((res:any) => {
       this.programWithRolloutService.instanceConfig = res?.result.instance;
+      this.programWithRolloutService.programConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
+      console.log(this.programWithRolloutService.programConfig)
     })
     )
   }
@@ -149,6 +151,7 @@ export class LayoutComponent {
       }
       case "SEND_FOR_REVIEW":{
         this.programWithRolloutService.checkProgramSendForReviewValidation(true);
+        console.log(this.programWithRolloutService.formMeta.formValidation)
         this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
         break;
       }

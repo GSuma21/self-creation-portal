@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
   ConfigService,
@@ -6,6 +7,7 @@ import {
   HttpProviderService,
   ROLL_OUT_DETAILS,
   ToastService,
+  ReviewModelComponent
 } from 'lib-shared-modules';
 import {
   BehaviorSubject,
@@ -41,7 +43,7 @@ export class ProgramWithRolloutService {
   programData: any = {};
   tabValidationForProgram:any;
   formMeta:any
-  
+  programConfig:any
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
   private programsendForReviewValidation = new BehaviorSubject<boolean>(false);
@@ -51,7 +53,8 @@ export class ProgramWithRolloutService {
     private Configuration: ConfigService,
     private formService: FormService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.setValidationForProgram();
     this.tabValidationForProgram={
@@ -207,6 +210,7 @@ export class ProgramWithRolloutService {
       ? this.programData.title
       : 'Untitled project';
     this.setProgramData(programData);
+    this.saveProgramFunc(false);
     this.upDateProgramTitle();
     const config = {
       url: programId
@@ -281,12 +285,74 @@ export class ProgramWithRolloutService {
     return this.httpService.delete(config.url);
   }
 
+
+  getReviewerData() {
+    const config = {
+      url: this.Configuration.urlConFig.PROGRAM_URLS.GET_REVIEWER_LIST,
+    };
+    return this.httpService.get(config.url);
+  }
+
   triggerProgramSendForReview(){
-   
-    console.log( this.programData.resources)
-    console.log(this.tabValidationForProgram.programResources, this.tabValidationForProgram.programDetails)
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID'){
       console.log("triggering send for review")
+      console.log( this.programConfig?.show_reviewer_list)
+       if (
+              this.programConfig?.show_reviewer_list
+            ) {
+              this.getReviewerData().subscribe((list: any) => {
+                const dialogRef = this.dialog.open(ReviewModelComponent, {
+                  disableClose: true,
+                  data: {
+                    header: 'SEND_FOR_REVIEW',
+                    reviewdata: list.result.data,
+                    sendForReview: 'SEND_FOR_REVIEW',
+                    note_length: this.instanceConfig.note_length
+                      ? this.instanceConfig.note_length
+                      : 200,
+                  },
+                });
+                dialogRef.afterClosed().subscribe((result: any) => {
+                  if (result.sendForReview == 'SEND_FOR_REVIEW') {
+                    console.log("send for review")
+                    // this.createOrUpdateProject(
+                    //   this.projectData,
+                    //   this.projectData.id,
+                    //   true
+                    // ).subscribe((res) => {
+                    //   const reviewer_ids =
+                    //     result.selectedValues.length === list.result.data.length
+                    //       ? result.reviewerNote
+                    //         ? { notes: result.reviewerNote }
+                    //         : {}
+                    //       : {
+                    //           reviewer_ids: result.selectedValues.map(
+                    //             (item: any) => item.id
+                    //           ),
+                    //           ...(result.reviewerNote && {
+                    //             notes: result.reviewerNote,
+                    //           }),
+                    //         };
+                    //   this.sendForReview(reviewer_ids, this.projectData.id).subscribe(
+                    //     (res: any) => {
+                    //       let data = {
+                    //         message: res.message,
+                    //         class: 'success',
+                    //       };
+                    //       this.toastService.openSnackBar(data);
+                    //       this.projectData = {};
+                    //       this.router.navigate([SUBMITTED_FOR_REVIEW]);
+                    //     },((err)=> {
+                    //       this.setTaskEvidenceMetaData();
+                    //       this.validateAndHighlightErrors(err)
+                    //     })
+                    //   );
+                    // });
+                  }
+                  return true;
+                });
+              });
+            } else {}
     }else{
       this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
     }
