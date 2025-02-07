@@ -1,7 +1,7 @@
 <lib-header [headerData]="headerData" [modeFromParent]="mode" (buttonClick)="onButtonClick($event)"></lib-header>
 <div class="main flex">
     <div class="min-h-[88vh] max-h-[100vh] sticktop">
-        <lib-side-navbar [sidenavData]="sidenavData"></lib-side-navbar>
+        <lib-side-navbar [sidenavData]="sidenavData" [tabValidation]="programWithRolloutService.tabValidationForProgram"></lib-side-navbar>
     </div>
     <div class="w-full">
         <router-outlet></router-outlet>

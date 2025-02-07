@@ -73,6 +73,18 @@ ngOnInit(){
   if(this.programId && !this.resourceIds?.length){
     this.readProgram();
   }
+
+  this.subscription.add( // Check validation before sending for review.
+    this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+      (reviewValidation: boolean) => {
+        if(reviewValidation) {
+          
+            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+          this.programWithRolloutService.triggerProgramSendForReview();
+        }
+      }
+    )
+  );
 }
 
 readProgram(){

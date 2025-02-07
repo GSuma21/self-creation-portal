@@ -48,6 +48,19 @@ export class ProgramDetailsComponent {
         }
       )
     );
+    this.subscription.add( // Check validation before sending for review.
+      this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+        (reviewValidation: boolean) => {
+          if(reviewValidation) {
+            this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+            this.formLib?.myForm.markAllAsTouched()
+            this.programWithRolloutService.triggerProgramSendForReview();
+          }
+        }
+      )
+    );
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     }
 
     getFormWithEntitiesAndMap(){

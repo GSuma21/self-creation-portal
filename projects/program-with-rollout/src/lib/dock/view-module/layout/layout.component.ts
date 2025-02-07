@@ -16,7 +16,7 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
-  constructor(private formService:FormService,  private programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
+  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
   ngOnInit(){
     this.getData()
     this.subscription.add(
@@ -60,6 +60,7 @@ export class LayoutComponent {
   }
 
   onButtonClick(buttonTitle: string) {
+    console.log(buttonTitle)
     switch (buttonTitle) {
       case 'PREVIEW': {
 
@@ -146,6 +147,11 @@ export class LayoutComponent {
         this.programWithRolloutService.saveProgramFunc(true);
         break;
       }
+      case "SEND_FOR_REVIEW":{
+        this.programWithRolloutService.checkProgramSendForReviewValidation(true);
+        this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
+        break;
+      }
       default:
         break;
     }
@@ -155,5 +161,11 @@ export class LayoutComponent {
     this.programWithRolloutService.programData = {}
     this.programWithRolloutService.resetProgramMetaData();
     this.subscription.unsubscribe();
+    this.programWithRolloutService.tabValidationForProgram = {
+      programDetails: "VALID",
+      resources:"VALID",
+      resourceLevelTargeting:"VALID",
+    }
+    this.programWithRolloutService.setValidationForProgram()
   }
 }
