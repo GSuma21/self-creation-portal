@@ -39,15 +39,27 @@ export class ProgramWithRolloutService {
   };
   buttonData:any;
   programData: any = {};
+  tabValidationForProgram:any;
+  formMeta:any
+  
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
+  private programsendForReviewValidation = new BehaviorSubject<boolean>(false);
+  isProgramSendForReviewValidation = this.programsendForReviewValidation.asObservable();
   constructor(
     private httpService: HttpProviderService,
     private Configuration: ConfigService,
     private formService: FormService,
     private toastService: ToastService,
     private router: Router
-  ) {}
+  ) {
+    this.setValidationForProgram();
+    this.tabValidationForProgram={
+      programDetails: 'VALID',
+      programResources: 'VALID',
+      resourceLevelTargeting: 'VALID'
+    }
+  }
 
   setRolloutData(data: any) {
     this.rolloutDataSubject.next(data);
@@ -161,6 +173,10 @@ export class ProgramWithRolloutService {
     this.saveProgram.next(newAction);
   }
 
+  checkProgramSendForReviewValidation(newAction: boolean) {
+    this.programsendForReviewValidation.next(newAction);
+  }
+
   upDateProgramTitle(title?: string) {
     const currentProjectMetaData = this.rolloutDataSubject.getValue();
     const updatedData = {
@@ -263,5 +279,29 @@ export class ProgramWithRolloutService {
       url: `${this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM}/${programId}`,
     };
     return this.httpService.delete(config.url);
+  }
+
+  triggerProgramSendForReview(){
+   
+    console.log( this.programData.resources)
+    console.log(this.tabValidationForProgram.programResources, this.tabValidationForProgram.programDetails)
+    if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID'){
+      console.log("triggering send for review")
+    }else{
+      this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
+    }
+    this.checkProgramSendForReviewValidation(false);
+   
+  }
+
+
+  setValidationForProgram(){
+    this.formMeta = {
+      formValidation:{
+        programDetails: 'INVALID',
+        programResources: 'INVALID',
+      resourceLevelTargeting: 'INVALID'
+      }
+    }
   }
 }
