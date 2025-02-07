@@ -6,5 +6,6 @@
     "PROJECTS":"project",
     "REVIEWS":"reviews",
     "OBSERVATIONS":"observations",
-    "RESOURCES":"resource"
+    "RESOURCES":"resource",
+    "PROGRAMS":"program"
 }
