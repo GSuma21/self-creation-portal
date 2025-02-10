@@ -7,7 +7,8 @@ import {
   HttpProviderService,
   ROLL_OUT_DETAILS,
   ToastService,
-  ReviewModelComponent
+  ReviewModelComponent,
+  SUBMITTED_FOR_REVIEW
 } from 'lib-shared-modules';
 import {
   BehaviorSubject,
@@ -288,15 +289,13 @@ export class ProgramWithRolloutService {
 
   getReviewerData() {
     const config = {
-      url: this.Configuration.urlConFig.PROGRAM_URLS.GET_REVIEWER_LIST,
+      url: this.Configuration.urlConFig.PROJECT_URLS.GET_REVIEWER_LIST,
     };
     return this.httpService.get(config.url);
   }
 
   triggerProgramSendForReview(){
-    if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID'){
-      console.log("triggering send for review")
-      console.log( this.programConfig?.show_reviewer_list)
+    if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
               this.programConfig?.show_reviewer_list
             ) {
@@ -314,40 +313,38 @@ export class ProgramWithRolloutService {
                 });
                 dialogRef.afterClosed().subscribe((result: any) => {
                   if (result.sendForReview == 'SEND_FOR_REVIEW') {
-                    console.log("send for review")
-                    // this.createOrUpdateProject(
-                    //   this.projectData,
-                    //   this.projectData.id,
-                    //   true
-                    // ).subscribe((res) => {
-                    //   const reviewer_ids =
-                    //     result.selectedValues.length === list.result.data.length
-                    //       ? result.reviewerNote
-                    //         ? { notes: result.reviewerNote }
-                    //         : {}
-                    //       : {
-                    //           reviewer_ids: result.selectedValues.map(
-                    //             (item: any) => item.id
-                    //           ),
-                    //           ...(result.reviewerNote && {
-                    //             notes: result.reviewerNote,
-                    //           }),
-                    //         };
-                    //   this.sendForReview(reviewer_ids, this.projectData.id).subscribe(
-                    //     (res: any) => {
-                    //       let data = {
-                    //         message: res.message,
-                    //         class: 'success',
-                    //       };
-                    //       this.toastService.openSnackBar(data);
-                    //       this.projectData = {};
-                    //       this.router.navigate([SUBMITTED_FOR_REVIEW]);
-                    //     },((err)=> {
-                    //       this.setTaskEvidenceMetaData();
-                    //       this.validateAndHighlightErrors(err)
-                    //     })
-                    //   );
-                    // });
+                    this.createOrUpdateProgram(
+                      this.programData,
+                      this.programData.id,
+                      true
+                    ).subscribe((res) => {
+                      const reviewer_ids =
+                        result.selectedValues.length === list.result.data.length
+                          ? result.reviewerNote
+                            ? { notes: result.reviewerNote }
+                            : {}
+                          : {
+                              reviewer_ids: result.selectedValues.map(
+                                (item: any) => item.id
+                              ),
+                              ...(result.reviewerNote && {
+                                notes: result.reviewerNote,
+                              }),
+                            };
+                      this.sendForReview(reviewer_ids, this.programData.id).subscribe(
+                        (res: any) => {
+                          let data = {
+                            message: res.message,
+                            class: 'success',
+                          };
+                          this.toastService.openSnackBar(data);
+                          this.programData = {};
+                          this.router.navigate([SUBMITTED_FOR_REVIEW]);
+                        },((err)=> {
+                          this.validateAndHighlightErrors(err)
+                        })
+                      );
+                    });
                   }
                   return true;
                 });
@@ -360,6 +357,15 @@ export class ProgramWithRolloutService {
    
   }
 
+
+  sendForReview(reviewers: any, programId: any) {
+    const config = {
+      url: `${this.Configuration.urlConFig.PROGRAM_URLS.SEND_FOR_REVIEW}/${programId}`,
+      payload: reviewers,
+    };
+
+    return this.httpService.post(config.url, config.payload);
+  }
 
   setValidationForProgram(){
     this.formMeta = {

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
-import { DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, ToastService } from 'lib-shared-modules';
+import { DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, ToastService, UtilService } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
@@ -27,7 +27,7 @@ export class ProgramDetailsComponent {
   formDataForTitle:any
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
-      private route: ActivatedRoute, private toastService: ToastService,) {
+      private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
       this.startAutoSaving()
       this.subscription.add(
         this.route.queryParams.subscribe((params: any) => {
@@ -338,6 +338,9 @@ export class ProgramDetailsComponent {
       }
 
    ngOnDestroy() {
+    if (this.programId && this.utilService.saveResources) {
+        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe() 
+    }
       if (this.intervalId) {
         clearInterval(this.intervalId);
       }

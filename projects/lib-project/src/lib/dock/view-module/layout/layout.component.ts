@@ -208,6 +208,10 @@ export class LayoutComponent {
         )
         break;
       }
+      case "LOGOUT":{
+        this.utilService.saveResources = false;
+        break;
+      }
       default:
         break;
     }

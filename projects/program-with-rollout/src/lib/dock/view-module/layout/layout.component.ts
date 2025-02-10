@@ -56,13 +56,11 @@ export class LayoutComponent {
     this.programWithRolloutService.setConfig().subscribe((res:any) => {
       this.programWithRolloutService.instanceConfig = res?.result.instance;
       this.programWithRolloutService.programConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
-      console.log(this.programWithRolloutService.programConfig)
     })
     )
   }
 
   onButtonClick(buttonTitle: string) {
-    console.log(buttonTitle)
     switch (buttonTitle) {
       case 'PREVIEW': {
 
@@ -151,8 +149,11 @@ export class LayoutComponent {
       }
       case "SEND_FOR_REVIEW":{
         this.programWithRolloutService.checkProgramSendForReviewValidation(true);
-        console.log(this.programWithRolloutService.formMeta.formValidation)
         this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
+        break;
+      }
+      case "LOGOUT":{
+        this.utilService.saveResources = false;
         break;
       }
       default:
@@ -161,7 +162,6 @@ export class LayoutComponent {
   }
 
   ngOnDestroy() {
-    this.programWithRolloutService.programData = {}
     this.programWithRolloutService.resetProgramMetaData();
     this.subscription.unsubscribe();
     this.programWithRolloutService.tabValidationForProgram = {
@@ -170,5 +170,6 @@ export class LayoutComponent {
       resourceLevelTargeting:"VALID",
     }
     this.programWithRolloutService.setValidationForProgram()
+    this.programWithRolloutService.programData = {}
   }
 }

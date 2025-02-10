@@ -436,15 +436,17 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    if(this.mode === modes.META_EDIT){
-      this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
-        resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
-      );
-      this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
-    }
-    if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
-      if(this.libProjectService.projectData.id) {
-        this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
+    if(this.utilService.saveResources){
+      if(this.mode === modes.META_EDIT){
+        this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+          resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+        );
+        this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
+      }
+      if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+        if(this.libProjectService.projectData.id) {
+          this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
+        }
       }
     }
     // if(this.mode.length==0 && this.route.snapshot.queryParamMap.get('parent') == 'create') {
