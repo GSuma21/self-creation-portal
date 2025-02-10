@@ -417,7 +417,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.taskFileTypes = []
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id){
+    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
       this.checkValidation()
       this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
     }

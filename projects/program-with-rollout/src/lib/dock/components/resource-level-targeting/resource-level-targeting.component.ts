@@ -96,6 +96,18 @@ export class ResourceLevelTargetingComponent {
     if(this.programId && !this.resourceIds?.length){
       this.readProgram();
     }
+
+    this.subscription.add( // Check validation before sending for review.
+      this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+        (reviewValidation: boolean) => {
+          if(reviewValidation) {
+            this.resourceForm.markAllAsTouched()
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+            this.programWithRolloutService.triggerProgramSendForReview();
+          }
+        }
+      )
+    );
   }
 
   initForm(): void {

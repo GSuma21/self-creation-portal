@@ -9,6 +9,8 @@ import { ToastService } from './services/toast/toast.service';
 import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT, PROGRAM_RESOURCES, modes } from './constants/urlConstants';
 import { Subject } from 'rxjs';
 import { IndexDbService } from './services/index-db/index-db.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPopupComponent } from './components/dialogs/dialog-popup/dialog-popup.component';
 
 
 
@@ -23,7 +25,7 @@ export class LibSharedModulesService {
   private saveCommentSubject = new Subject<void>();
   private saveCommentCompletedSubject = new Subject<void>();
 
-  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translate: TranslateService,private toastService:ToastService, private route:ActivatedRoute,private indexDb:IndexDbService) {
+  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translate: TranslateService,private toastService:ToastService, private route:ActivatedRoute,private indexDb:IndexDbService,   private dialog: MatDialog,) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.previousUrl = event.url;
@@ -83,25 +85,39 @@ export class LibSharedModulesService {
 
   logout(): void {
 
-    const body = {
-      refresh_token: localStorage.getItem('refToken')
-    };
-
-    const config = {
-      url:  LOGOUT_URLS.LOGOUT_API,
-      payload: body
-    };
-
-    this.httpService.post(config.url, config.payload).subscribe(
-      response => {
-        console.log('Logout successful', response);
-        this.indexDb.clearObjectStore();
-        this.navigateToLogin();
+    const dialogRef = this.dialog.open(DialogPopupComponent, {
+      width: '39.375rem',
+      disableClose: true,
+      autoFocus : false,
+      data: {
+        header: 'SAVE_CHANGES',
+        content: 'ADD_TITLE_TO_CONTINUE_SAVING',
+        cancelButton: "CANCEL",
+        exitButton: "DELETE"
       },
-      error => {
-        console.error('Logout failed', error);
-      }
-    );
+    });
+ 
+     dialogRef.afterClosed().subscribe((result) => {
+        if(result.data === 'DELETE'){
+          const body = {
+            refresh_token: localStorage.getItem('refToken')
+          };
+          const config = {
+            url:  LOGOUT_URLS.LOGOUT_API,
+            payload: body
+          };
+      
+          this.httpService.post(config.url, config.payload).subscribe(
+            response => {
+              this.indexDb.clearObjectStore();
+              this.navigateToLogin();
+            },
+            error => {
+              console.error('Logout failed', error);
+            }
+          );
+        }
+     });
   }
 
 

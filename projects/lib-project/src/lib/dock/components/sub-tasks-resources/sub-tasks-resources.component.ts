@@ -383,7 +383,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   }
 
   ngOnDestroy(){
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id){
+    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
      this.saveSubtask();
       if (this.autoSaveSubscription) {
         this.autoSaveSubscription.unsubscribe();
