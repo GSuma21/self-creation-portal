@@ -70,6 +70,9 @@ ngOnInit(){
   if(!this.resourceIds?.length  && !this.programId){
     this.createProgram();
   }
+  if(!this.resourceIds?.length  && this.programId){
+    this.readProgram()
+  }
 
   this.subscription.add( // Check validation before sending for review.
     this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(

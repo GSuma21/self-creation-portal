@@ -18,6 +18,7 @@ import {
   CommentsBoxComponent,
   DialogPopupComponent,
   FormService,
+  PROGRAM_RESOURCES,
   ToastService,
   UtilService,
   modes,
@@ -375,10 +376,11 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
               this.toastService.openSnackBar({
-                message: 'SAVED_SUCCESSFULLY',
+                message: 'CHANGES_SAVED_SUCCESSFULLY',
                 class: 'success',
               });
               this.libProjectService.saveProgramResourceFunc(false)
+               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
             })
             }
           }
