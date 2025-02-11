@@ -83,14 +83,17 @@
   @else{
     <p>({{selectedValuesForPrograms.length}}) {{"CONTENT_SELECTED" | translate}}</p>
   }
-  <div class="flex  justify-between text-center items-center gap-2">
-    @if(redirectData.subTitle){
-      <p>{{redirectData.subTitle | translate}}</p>
-    }
-    <button class="px-4 py-2 rounded bg-primary text-white"
-      [disabled]="selectFor != 'roll-out' && selectedValuesForPrograms.length === 0" (click)="onSelect()">
-      {{ redirectData.selectDesourceTitle | translate }}
-    </button>
-  </div>
+  @if(!(selectFor != 'roll-out' && selectedValuesForPrograms.length === 0)){
+    <div class="flex  justify-between text-center items-center gap-2">
+      @if(redirectData.subTitle){
+        <p>{{redirectData.subTitle | translate}}</p>
+      }
+      <button class="px-4 py-2 rounded bg-primary text-white"
+        [disabled]="selectFor != 'roll-out' && selectedValuesForPrograms.length === 0" (click)="onSelect()">
+        {{ redirectData.selectDesourceTitle | translate }}
+      </button>
+    </div>
+  }
+ 
 </div>
 }
