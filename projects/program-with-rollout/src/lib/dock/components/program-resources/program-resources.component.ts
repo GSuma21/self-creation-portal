@@ -124,9 +124,29 @@ createProgram() {
 }
 
 saveForm(){
-  if(this.programId){
+  if (!this.programId) {
     this.subscription.add(
-      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
+      this.programWithRolloutService
+      .createOrUpdateProgram()
+      .subscribe((res: any) => {
+        (this.programId = res.result.id),
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              programId: this.programId,
+              mode: modes.EDIT,
+            },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+        this.programWithRolloutService.programData.id = res.result.id;
+      })
+    )
+  } else {
+    this.subscription.add(
+      this.programWithRolloutService
+      .updateProgramDraft(this.programId)
+      .subscribe()
     )
   }
 }
