@@ -216,5 +216,6 @@
     "LOGOUT":"Logout",
     "LOGOUT_CONFIRMATION_TEXT":"Are you sure you want to logout?",
     "LOGOUT_SUCCESSFULL_MESSAGE":"You have been successfully logged out.",
-    "CHANGES_SAVED_SUCCESSFULLY":"Changes saved successfully"
+    "CHANGES_SAVED_SUCCESSFULLY":"Changes saved successfully",
+    "YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT":"Your program has been saved as draft"
 }

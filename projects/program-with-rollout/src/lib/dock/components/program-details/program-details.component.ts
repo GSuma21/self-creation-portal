@@ -331,9 +331,39 @@ export class ProgramDetailsComponent {
             )
           }
         } else{
-          return  this.subscription.add(
-            this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
-         )
+          const dialogRef = this.dialog.open(DialogPopupComponent, {
+            width: '39.375rem',
+            disableClose: true,
+            autoFocus : false,
+            data: {
+              header: 'SAVE_CHANGES',
+              content: 'ADD_TITLE_TO_CONTINUE_SAVING',
+              form:[this.formDataForTitle],
+              exitButton: 'CONTINUE',
+            },
+          });
+          return dialogRef
+            .afterClosed()
+            .toPromise()
+            .then((result) => {
+               if (result.data === 'CONTINUE') {
+                if(result.title){
+                  this.programWithRolloutService.upDateProgramTitle(result.title);
+                  this.programWithRolloutService.setProgramData({title:result.title});
+                  if (this.programId) {
+                    this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+                  }
+                  else {
+                    return this.createProgram(this.programWithRolloutService.programData,true)
+                  }
+                  this.getFormWithEntitiesAndMap()
+                  this.saveForm()
+                }
+                return true;
+              } else {
+                return false;
+              }
+            });
         }
       }
 

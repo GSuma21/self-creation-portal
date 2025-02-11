@@ -44,19 +44,29 @@ export class LibSharedModulesService {
           this.router.navigate([DRAFTS]);
         }else{
           this.router.navigate(['../'], { relativeTo: this.route });
-        }        
-        if (solutionId) {
+        } 
+        if (this.route.snapshot.queryParamMap.get('projectId')) {
           this.toastService.openSnackBar({
             message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
             class: 'success',
           });
-        }
+        }else if(this.route.snapshot.queryParamMap.get('programId')){
+          this.toastService.openSnackBar({
+            message: 'YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT',
+            class: 'success',
+          });
+        }       
         break;
       case 'draft':
         this.router.navigate([DRAFTS]);
-        if (solutionId) {
+        if (this.route.snapshot.queryParamMap.get('projectId')) {
           this.toastService.openSnackBar({
             message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
+            class: 'success',
+          });
+        }else if(this.route.snapshot.queryParamMap.get('programId')){
+          this.toastService.openSnackBar({
+            message: 'YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT',
             class: 'success',
           });
         }
