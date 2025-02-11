@@ -74,6 +74,10 @@ export class LibSharedModulesService {
         this.router.navigate([ROLL_OUT]);
         break;
       case 'program-resources':
+        this.toastService.openSnackBar({
+          message: 'CHANGES_SAVED_SUCCESSFULLY',
+          class: 'success',
+        });
         this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
         break;
       default:
