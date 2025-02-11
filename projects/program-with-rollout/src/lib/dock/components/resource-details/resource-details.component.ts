@@ -463,7 +463,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.programWithRolloutService.rolloutId){
+    if(this.programWithRolloutService.rolloutId && this.utilService.saveResources){
       this.programWithRolloutService.rollOutDetails.title = this.programWithRolloutService.rollOutDetails.title ? this.programWithRolloutService.rollOutDetails.title : this.programWithRolloutService.resourceDetails.title;
       this.programWithRolloutService.saveRollOut().subscribe((res)=> {
         let data = {

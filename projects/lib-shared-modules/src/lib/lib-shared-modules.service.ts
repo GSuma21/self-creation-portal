@@ -84,40 +84,27 @@ export class LibSharedModulesService {
 
 
   logout(): void {
+    const body = {
+      refresh_token: localStorage.getItem('refToken')
+    };
+    const config = {
+      url:  LOGOUT_URLS.LOGOUT_API,
+      payload: body
+    };
 
-    const dialogRef = this.dialog.open(DialogPopupComponent, {
-      width: '39.375rem',
-      disableClose: true,
-      autoFocus : false,
-      data: {
-        header: 'SAVE_CHANGES',
-        content: 'ADD_TITLE_TO_CONTINUE_SAVING',
-        cancelButton: "CANCEL",
-        exitButton: "DELETE"
+    this.httpService.post(config.url, config.payload).subscribe(
+      response => {
+        this.indexDb.clearObjectStore();
+        this.toastService.openSnackBar({
+          message: 'LOGOUT_SUCCESSFULL_MESSAGE',
+          class: 'success',
+        });
+        this.navigateToLogin();
       },
-    });
- 
-     dialogRef.afterClosed().subscribe((result) => {
-        if(result.data === 'DELETE'){
-          const body = {
-            refresh_token: localStorage.getItem('refToken')
-          };
-          const config = {
-            url:  LOGOUT_URLS.LOGOUT_API,
-            payload: body
-          };
-      
-          this.httpService.post(config.url, config.payload).subscribe(
-            response => {
-              this.indexDb.clearObjectStore();
-              this.navigateToLogin();
-            },
-            error => {
-              console.error('Logout failed', error);
-            }
-          );
-        }
-     });
+      error => {
+        console.error('Logout failed', error);
+      }
+    );
   }
 
 

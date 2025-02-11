@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus, modes} from 'lib-shared-modules';
+import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus, modes, PROGRAM_RESOURCES} from 'lib-shared-modules';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -281,10 +281,11 @@ export class TasksComponent implements OnInit, OnDestroy {
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
               this.toastService.openSnackBar({
-                message: 'SAVED_SUCCESSFULLY',
+                message: 'CHANGES_SAVED_SUCCESSFULLY',
                 class: 'success',
               });
               this.libProjectService.saveProgramResourceFunc(false)
+               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
             })
             }
           }

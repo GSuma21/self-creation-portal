@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,9 +6,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { ConfigService, FilterComponent, FormService, HeaderComponent, HttpProviderService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FilterComponent, FormService, HeaderComponent, HttpProviderService, LibSharedModulesService, NoResultFoundComponent, PreviewComponent, SearchComponent, SIDE_NAV_DATA, UtilService } from 'lib-shared-modules';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-choose-resource',
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
 })
 export class ChooseResourceComponent {
   private subscription: Subscription = new Subscription();
+  @ViewChildren('listContainer') listContainers!: QueryList<ElementRef>;
   redirectData:any={}
   backButton : boolean = true;
   headerData = {
@@ -77,8 +79,10 @@ export class ChooseResourceComponent {
   rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
   selectFor:any = this.route.snapshot.queryParamMap.get('selectFor')
   selectedValuesForPrograms: number[] = [];
+  sortBy:any = ''
+  sortOrder:any = ''
 
-constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService,) {}
+constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
   ngOnInit(){
     this.redirectData={
       selectDesourceTitle: (this.selectFor =='roll-out') ? "SELECT" : "ADD_TO_PROGRAM",
@@ -109,7 +113,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
       url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
-      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by,sort_order:sort_order })
+      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by ? sort_by : this.sortBy,sort_order:sort_order ? sort_order : this.sortOrder })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
   }
@@ -143,7 +147,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   onScroll(event: Event): void {
     const target = event.target as HTMLElement;
-
     // Check if scrolled near the bottom
     if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
       this.loadMoreData(); // Call function to fetch more data
@@ -165,6 +168,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
    * @param event - The search event which contains the searchtext
    */
   receiveSearchResults(event: string) {
+    console.log(event)
     this.searchText = event.trim().toLowerCase();
     this.page=1
     this.subscription.add(
@@ -174,6 +178,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
         if(this.contentList.length !== 0){
           this.onSelectionChange(resourceList.result.data[0])
         }
+        this.scrollToTop()
        })
     )
   }
@@ -189,6 +194,9 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onFilterChange(event:any){}
 
   onSortOptionsChanged(event:any){
+    this.sortBy = event.sort_by
+    this.sortOrder = event.sort_order
+    this.page = 1
     this.subscription.add(
       this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
         this.contentList = resourceList.result.data
@@ -196,8 +204,13 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
         if(this.contentList.length !== 0){
           this.onSelectionChange(resourceList.result.data[0])
         }
+        this.scrollToTop()
       })
     )
+  }
+
+  isLastItem(item: any): boolean {
+    return this.contentList.length > 0 && this.contentList[this.contentList.length - 1].id === item.id;
   }
 
   filterButtonClickEvent(event:any){}
@@ -212,6 +225,43 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       this.selectedValuesForPrograms.push(item.id);
     } else {
       this.selectedValuesForPrograms.splice(index, 1);
+    }
+  }
+
+  scrollToTop() {
+    setTimeout(() => {
+      if (this.listContainers && this.listContainers.first) {
+        this.listContainers.first.nativeElement.scrollTop = 0;
+      }
+    }, 100); // Adding a small delay to ensure elements are rendered
+  }
+
+  onButtonClick(buttonTitle: string) {
+    switch (buttonTitle) {
+        case "LOGOUT":{
+            console.log("logout")
+                   this.utilService.saveResources = false;
+                   const dialogRef = this.dialog.open(DialogPopupComponent, {
+                     width: '39.375rem',
+                     disableClose: true,
+                     autoFocus : false,
+                     data: {
+                       header: 'SAVE_CHANGES',
+                       content: 'Are you sure you want to logout?',
+                       cancelButton: "CANCEL",
+                       exitButton: "LOGOUT"
+                     }
+                   });
+                
+                    dialogRef.afterClosed().subscribe((result) => {
+                      console.log(this.router.url.includes('roll-out'))
+                       if(result.data === 'LOGOUT'){
+                          this.sharedService.logout(); 
+                       }
+                    });
+                   
+                   break;
+                 }
     }
   }
 
