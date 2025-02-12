@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus, modes, ToastService} from 'lib-shared-modules';
+import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus, modes, ToastService, PROGRAM_RESOURCES} from 'lib-shared-modules';
 import { MatIconModule, getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { MatCardModule }  from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -176,10 +176,11 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
               this.toastService.openSnackBar({
-                message: 'SAVED_SUCCESSFULLY',
+                message: 'CHANGES_SAVED_SUCCESSFULLY',
                 class: 'success',
               });
               this.libProjectService.saveProgramResourceFunc(false)
+               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
             })
             }
           }
@@ -383,7 +384,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   }
 
   ngOnDestroy(){
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id){
+    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
      this.saveSubtask();
       if (this.autoSaveSubscription) {
         this.autoSaveSubscription.unsubscribe();

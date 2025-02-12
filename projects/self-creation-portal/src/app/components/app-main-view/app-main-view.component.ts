@@ -6,9 +6,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { FormService, HeaderComponent, SIDE_NAV_DATA, SideNavbarComponent } from 'lib-shared-modules';
+import { DialogPopupComponent, FormService, HeaderComponent, LibSharedModulesService, SIDE_NAV_DATA, SideNavbarComponent } from 'lib-shared-modules';
 import { CommonModule } from '@angular/common';
 import { environment } from 'environments';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class AppMainViewComponent {
 
   sidenavData: any = [];
   clearQueryParamsOnNavigate: boolean = true;
-  constructor(private formService:FormService, private router: Router, private route: ActivatedRoute) {
+  constructor(private formService:FormService, private router: Router, private route: ActivatedRoute, private dialog : MatDialog, private sharedService:LibSharedModulesService) {
   }
 
   ngOnInit(){
@@ -41,6 +42,27 @@ export class AppMainViewComponent {
   }
 
   onButtonClick(buttonTitle: string) {
+    switch(buttonTitle){
+      case 'LOGOUT': {
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          disableClose: true,
+          autoFocus : false,
+          data: {
+            header: 'LOGOUT',
+            content: 'LOGOUT_CONFIRMATION_TEXT',
+            cancelButton: "CANCEL",
+            exitButton: "LOGOUT"
+          },
+        });
+     
+         dialogRef.afterClosed().subscribe((result) => {
+            if(result.data === 'LOGOUT'){
+              this.sharedService.logout();
+            }
+         });
+      }  
+    }  
   }
 
   backToParent(event:boolean) {

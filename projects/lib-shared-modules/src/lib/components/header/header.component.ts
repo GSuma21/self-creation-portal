@@ -66,7 +66,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.libsharedservice.logout();
+    this.buttonClick.emit('LOGOUT')
     this.selectedLanguage = 'en';
     this.translateService.use(this.selectedLanguage);
     localStorage.setItem('language', this.selectedLanguage);

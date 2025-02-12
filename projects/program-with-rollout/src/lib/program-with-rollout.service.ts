@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
   ConfigService,
@@ -6,6 +7,8 @@ import {
   HttpProviderService,
   ROLL_OUT_DETAILS,
   ToastService,
+  ReviewModelComponent,
+  SUBMITTED_FOR_REVIEW
 } from 'lib-shared-modules';
 import {
   BehaviorSubject,
@@ -39,15 +42,28 @@ export class ProgramWithRolloutService {
   };
   buttonData:any;
   programData: any = {};
+  tabValidationForProgram:any;
+  formMeta:any
+  programConfig:any
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
+  private programsendForReviewValidation = new BehaviorSubject<boolean>(false);
+  isProgramSendForReviewValidation = this.programsendForReviewValidation.asObservable();
   constructor(
     private httpService: HttpProviderService,
     private Configuration: ConfigService,
     private formService: FormService,
     private toastService: ToastService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private dialog: MatDialog
+  ) {
+    this.setValidationForProgram();
+    this.tabValidationForProgram={
+      programDetails: 'VALID',
+      programResources: 'VALID',
+      resourceLevelTargeting: 'VALID'
+    }
+  }
 
   setRolloutData(data: any) {
     this.rolloutDataSubject.next(data);
@@ -161,6 +177,10 @@ export class ProgramWithRolloutService {
     this.saveProgram.next(newAction);
   }
 
+  checkProgramSendForReviewValidation(newAction: boolean) {
+    this.programsendForReviewValidation.next(newAction);
+  }
+
   upDateProgramTitle(title?: string) {
     const currentProjectMetaData = this.rolloutDataSubject.getValue();
     const updatedData = {
@@ -191,6 +211,7 @@ export class ProgramWithRolloutService {
       ? this.programData.title
       : 'Untitled project';
     this.setProgramData(programData);
+    this.saveProgramFunc(false);
     this.upDateProgramTitle();
     const config = {
       url: programId
@@ -263,5 +284,96 @@ export class ProgramWithRolloutService {
       url: `${this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM}/${programId}`,
     };
     return this.httpService.delete(config.url);
+  }
+
+
+  getReviewerData() {
+    const config = {
+      url: this.Configuration.urlConFig.PROJECT_URLS.GET_REVIEWER_LIST,
+    };
+    return this.httpService.get(config.url);
+  }
+
+  triggerProgramSendForReview(){
+    if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
+       if (
+              this.programConfig?.show_reviewer_list
+            ) {
+              this.getReviewerData().subscribe((list: any) => {
+                const dialogRef = this.dialog.open(ReviewModelComponent, {
+                  disableClose: true,
+                  data: {
+                    header: 'SEND_FOR_REVIEW',
+                    reviewdata: list.result.data,
+                    sendForReview: 'SEND_FOR_REVIEW',
+                    note_length: this.instanceConfig.note_length
+                      ? this.instanceConfig.note_length
+                      : 200,
+                  },
+                });
+                dialogRef.afterClosed().subscribe((result: any) => {
+                  if (result.sendForReview == 'SEND_FOR_REVIEW') {
+                    this.createOrUpdateProgram(
+                      this.programData,
+                      this.programData.id,
+                      true
+                    ).subscribe((res) => {
+                      const reviewer_ids =
+                        result.selectedValues.length === list.result.data.length
+                          ? result.reviewerNote
+                            ? { notes: result.reviewerNote }
+                            : {}
+                          : {
+                              reviewer_ids: result.selectedValues.map(
+                                (item: any) => item.id
+                              ),
+                              ...(result.reviewerNote && {
+                                notes: result.reviewerNote,
+                              }),
+                            };
+                      this.sendForReview(reviewer_ids, this.programData.id).subscribe(
+                        (res: any) => {
+                          let data = {
+                            message: res.message,
+                            class: 'success',
+                          };
+                          this.toastService.openSnackBar(data);
+                          this.programData = {};
+                          this.router.navigate([SUBMITTED_FOR_REVIEW]);
+                        },((err)=> {
+                          this.validateAndHighlightErrors(err)
+                        })
+                      );
+                    });
+                  }
+                  return true;
+                });
+              });
+            } else {}
+    }else{
+      this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
+    }
+    this.checkProgramSendForReviewValidation(false);
+   
+  }
+
+
+  sendForReview(reviewers: any, programId: any) {
+    const config = {
+      url: `${this.Configuration.urlConFig.PROGRAM_URLS.SEND_FOR_REVIEW}/${programId}`,
+      payload: reviewers,
+    };
+
+    return this.httpService.post(config.url, config.payload);
+  }
+
+  setValidationForProgram(){
+    this.formMeta = {
+      formValidation:{
+        programDetails: 'INVALID',
+        programResources: 'INVALID',
+      resourceLevelTargeting: 'INVALID'
+      }
+    }
   }
 }

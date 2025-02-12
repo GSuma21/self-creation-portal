@@ -18,6 +18,7 @@ import {
   CommentsBoxComponent,
   DialogPopupComponent,
   FormService,
+  PROGRAM_RESOURCES,
   ToastService,
   UtilService,
   modes,
@@ -307,7 +308,6 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
           }
           else {
-            console.log(params.projectId)
             this.subscription.add(
               this.libProjectService
               .readProject(params.projectId)
@@ -376,10 +376,11 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
               this.toastService.openSnackBar({
-                message: 'SAVED_SUCCESSFULLY',
+                message: 'CHANGES_SAVED_SUCCESSFULLY',
                 class: 'success',
               });
               this.libProjectService.saveProgramResourceFunc(false)
+               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
             })
             }
           }
@@ -918,14 +919,14 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   ngOnDestroy(): void {
-    if(this.mode === modes.META_EDIT){
+    if(this.mode === modes.META_EDIT && this.utilService.saveResources){
       this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
         resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
       );
       this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
     }
     // this.libProjectService.formMeta.formValidation.certificates = "VALID";
-    if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT )&& this.utilService.saveResources){
       this.checkValidations();
       if(this.libProjectService.projectData.id) {
         this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))

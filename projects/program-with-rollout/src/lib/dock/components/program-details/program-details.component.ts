@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
-import { DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, ToastService } from 'lib-shared-modules';
+import { DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, ToastService, UtilService } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
@@ -27,7 +27,7 @@ export class ProgramDetailsComponent {
   formDataForTitle:any
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
-      private route: ActivatedRoute, private toastService: ToastService,) {
+      private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
       this.startAutoSaving()
       this.subscription.add(
         this.route.queryParams.subscribe((params: any) => {
@@ -48,6 +48,19 @@ export class ProgramDetailsComponent {
         }
       )
     );
+    this.subscription.add( // Check validation before sending for review.
+      this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+        (reviewValidation: boolean) => {
+          if(reviewValidation) {
+            this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+            this.formLib?.myForm.markAllAsTouched()
+            this.programWithRolloutService.triggerProgramSendForReview();
+          }
+        }
+      )
+    );
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     }
 
     getFormWithEntitiesAndMap(){
@@ -318,13 +331,46 @@ export class ProgramDetailsComponent {
             )
           }
         } else{
-          return  this.subscription.add(
-            this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
-         )
+          const dialogRef = this.dialog.open(DialogPopupComponent, {
+            width: '39.375rem',
+            disableClose: true,
+            autoFocus : false,
+            data: {
+              header: 'SAVE_CHANGES',
+              content: 'ADD_TITLE_TO_CONTINUE_SAVING',
+              form:[this.formDataForTitle],
+              exitButton: 'CONTINUE',
+            },
+          });
+          return dialogRef
+            .afterClosed()
+            .toPromise()
+            .then((result) => {
+               if (result.data === 'CONTINUE') {
+                if(result.title){
+                  this.programWithRolloutService.upDateProgramTitle(result.title);
+                  this.programWithRolloutService.setProgramData({title:result.title});
+                  if (this.programId) {
+                    this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+                  }
+                  else {
+                    return this.createProgram(this.programWithRolloutService.programData,true)
+                  }
+                  this.getFormWithEntitiesAndMap()
+                  this.saveForm()
+                }
+                return true;
+              } else {
+                return false;
+              }
+            });
         }
       }
 
    ngOnDestroy() {
+    if (this.programId && this.utilService.saveResources) {
+        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe() 
+    }
       if (this.intervalId) {
         clearInterval(this.intervalId);
       }

@@ -207,10 +207,15 @@
     "NO_ROLLED_OUT_FOUND":"No resources are rolled out at the moment.",
     "ENTITY_NOT_FOUND":"Entity not found",
     "PROGRAM_NAME":"Program name",
-    "ADDED_RESOURCES":"Added resources",
+    "ADDED_RESOURCES":"Added Resources",
     "ADD_TO_PROGRAM_SUBTEXT":"Selected item(s) will be added to the program",
     "ADD_TO_PROGRAM":"Add to program",
     "ADDED_RESOURCE_SUCCESSFULLY_MESSAGE":"Resources have been added to the program successfully",
     "DELETE_ADDED_RESOURCE_MESSAGE":"Would you like to delete the selected resource(s)?",
-    "COMING_SOON":"Coming soon"
+    "COMING_SOON":"Coming soon",
+    "LOGOUT":"Logout",
+    "LOGOUT_CONFIRMATION_TEXT":"Are you sure you want to logout?",
+    "LOGOUT_SUCCESSFULL_MESSAGE":"You have been successfully logged out.",
+    "CHANGES_SAVED_SUCCESSFULLY":"Changes saved successfully",
+    "YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT":"Your program has been saved as draft"
 }

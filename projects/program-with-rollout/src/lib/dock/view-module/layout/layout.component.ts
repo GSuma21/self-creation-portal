@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
-  constructor(private formService:FormService,  private programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,){}
+  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService, private sharedService: LibSharedModulesService){}
   ngOnInit(){
     this.getData()
     this.subscription.add(
@@ -55,6 +55,7 @@ export class LayoutComponent {
     this.subscription.add(
     this.programWithRolloutService.setConfig().subscribe((res:any) => {
       this.programWithRolloutService.instanceConfig = res?.result.instance;
+      this.programWithRolloutService.programConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
     })
     )
   }
@@ -146,14 +147,54 @@ export class LayoutComponent {
         this.programWithRolloutService.saveProgramFunc(true);
         break;
       }
+      case "SEND_FOR_REVIEW":{
+        this.programWithRolloutService.checkProgramSendForReviewValidation(true);
+        this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
+        break;
+      }
+     case "LOGOUT":{
+             this.utilService.saveResources = false;
+             const dialogRef = this.dialog.open(DialogPopupComponent, {
+               width: '39.375rem',
+               disableClose: true,
+               autoFocus : false,
+               data: {
+                 header: 'LOGOUT',
+                 content: 'LOGOUT_CONFIRMATION_TEXT',
+                 cancelButton: "CANCEL",
+                 exitButton: "LOGOUT"
+               }
+             });
+          
+              dialogRef.afterClosed().subscribe((result) => {
+                 if(result.data === 'LOGOUT'){
+                  if(this.router.url.includes('details/project-details')){
+                    this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+                      this.sharedService.logout();
+                    })
+                  }else{
+                    this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res:any)=>{
+                      this.sharedService.logout();
+                    })
+                  }
+                 }
+              }); 
+             break;
+           }
       default:
         break;
     }
   }
 
   ngOnDestroy() {
-    this.programWithRolloutService.programData = {}
     this.programWithRolloutService.resetProgramMetaData();
     this.subscription.unsubscribe();
+    this.programWithRolloutService.tabValidationForProgram = {
+      programDetails: "VALID",
+      resources:"VALID",
+      resourceLevelTargeting:"VALID",
+    }
+    this.programWithRolloutService.setValidationForProgram()
+    this.programWithRolloutService.programData = {}
   }
 }

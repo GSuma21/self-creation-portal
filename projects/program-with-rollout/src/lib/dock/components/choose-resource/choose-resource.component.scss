@@ -15,3 +15,10 @@
     border-top: 1px solid $borderGray;
     border-bottom: 1px solid $borderGray;
 }
+
+.mdc-list {
+    margin: 0;
+    padding:0 0 5.625rem 0 !important; /* Override default padding */
+    list-style-type: none;
+}
+

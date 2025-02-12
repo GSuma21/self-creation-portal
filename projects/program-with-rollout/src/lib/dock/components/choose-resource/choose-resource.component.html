@@ -1,4 +1,4 @@
-<lib-header class="z-50" [backButton]="backButton" [headerData]="headerData"></lib-header>
+<lib-header class="z-50" [backButton]="backButton" [headerData]="headerData" (buttonClick)="onButtonClick($event)"></lib-header>
 <div class="mt-32 mx-4 pt-4 flex flex-col gap-2 sticky top-32 z-50 bg-white">
   <lib-search (searchEvent)="receiveSearchResults($event)" [maxLength]="150"></lib-search>
   <div>
@@ -9,7 +9,7 @@
   </div>
 </div>
 <div class="flex h-[70vh] overscroll-none z-0">
-  <div class="sticky w-1/4 p-4 border-r border-gray-300 overflow-y-auto" (scroll)="onScroll($event)"
+  <div class="sticky w-1/4 p-4 border-r border-gray-300 overflow-y-auto"  #listContainer (scroll)="onScroll($event)"
     [ngClass]="{'flex flex-col justify-center items-center text-center': showNoResultComponent}">
     @if(!showNoResultComponent ){
     <mat-list>
@@ -81,16 +81,19 @@
     <p>(1) {{"CONTENT_SELECTED" | translate}}</p>
   }
   @else{
-    <p>{{selectedValuesForPrograms.length}} {{"CONTENT_SELECTED" | translate}}</p>
+    <p>({{selectedValuesForPrograms.length}}) {{"CONTENT_SELECTED" | translate}}</p>
   }
-  <div class="flex  justify-between text-center items-center gap-2">
-    @if(redirectData.subTitle){
-      <p>{{redirectData.subTitle | translate}}</p>
-    }
-    <button class="px-4 py-2 rounded bg-primary text-white"
-      [disabled]="selectFor != 'roll-out' && selectedValuesForPrograms.length === 0" (click)="onSelect()">
-      {{ redirectData.selectDesourceTitle | translate }}
-    </button>
-  </div>
+  @if(!(selectFor != 'roll-out' && selectedValuesForPrograms.length === 0)){
+    <div class="flex  justify-between text-center items-center gap-2">
+      @if(redirectData.subTitle){
+        <p>{{redirectData.subTitle | translate}}</p>
+      }
+      <button class="px-4 py-2 rounded bg-primary text-white"
+        [disabled]="selectFor != 'roll-out' && selectedValuesForPrograms.length === 0" (click)="onSelect()">
+        {{ redirectData.selectDesourceTitle | translate }}
+      </button>
+    </div>
+  }
+ 
 </div>
 }

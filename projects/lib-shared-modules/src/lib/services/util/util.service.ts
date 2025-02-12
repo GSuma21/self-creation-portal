@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UtilService {
   saveComment :boolean= true;
+  saveResources : boolean = true;
 
   constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient,private dialog : MatDialog) { }
 

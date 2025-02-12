@@ -208,6 +208,30 @@ export class LayoutComponent {
         )
         break;
       }
+      case "LOGOUT":{
+        this.utilService.saveResources = false;
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          disableClose: true,
+          autoFocus : false,
+          data: {
+            header: 'LOGOUT',
+            content: 'LOGOUT_CONFIRMATION_TEXT',
+            cancelButton: "CANCEL",
+            exitButton: "LOGOUT"
+          },
+        });
+     
+         dialogRef.afterClosed().subscribe((result) => {
+            if(result.data === 'LOGOUT'){
+              this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.libProjectService.projectData.id).subscribe((res)=> {
+                this.sharedService.logout();
+              })
+            }
+         });
+        
+        break;
+      }
       default:
         break;
     }
