@@ -14,7 +14,7 @@
     }
   </div>
 </div>
-<div  class="px-10 py-4 w-[100%]">
+<div  class="px-10 py-4 w-[100%]" [ngClass]="{'text-error': isResourceIsNotPresent}">
   <p>{{"ADDED_RESOURCES" | translate}} ({{resourceCount}})</p>
 </div>
 <div class="px-10 py-4 w-[100%]">
