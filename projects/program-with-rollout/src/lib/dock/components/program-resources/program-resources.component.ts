@@ -11,11 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { map, Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'lib-program-resources',
   standalone: true,
-  imports: [ MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule,ArrayContainsAllDirective, CardComponent],
+  imports: [CommonModule,MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule,ArrayContainsAllDirective, CardComponent],
   templateUrl: './program-resources.component.html',
   styleUrl: './program-resources.component.scss',
 })
@@ -27,9 +28,10 @@ export class ProgramResourcesComponent {
   parent:any;
   resourceIds:any=[]
   programId:any;
+  isResourceIsNotPresent:boolean = false;
   private subscription: Subscription = new Subscription();
 
-constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,private programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService){
+constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
   this.subscription.add(
     this.route.queryParamMap.subscribe((params) => {
@@ -40,6 +42,7 @@ constructor(private formService: FormService, private router:Router,private rout
 }
 
 ngOnInit(){
+  this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.programData.resources.length <= 0)  ? true : false;
   this.getsolutionList()
   if(this.resourceIds?.length){
     this.subscription.add(
@@ -78,13 +81,39 @@ ngOnInit(){
     this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
       (reviewValidation: boolean) => {
         if(reviewValidation) {
-          
-            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+          this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
           this.programWithRolloutService.triggerProgramSendForReview();
         }
       }
     )
   );
+
+
+  this.subscription.add(
+    this.programWithRolloutService.programApiErrors.subscribe(
+      (errors: any) => {
+        if(errors){
+           this.isResourceIsNotPresent = true
+           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+        }
+      }
+    )
+  );
+}
+
+ngAfterViewChecked() {
+  if(this.programId) {
+    if( this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programResources == "INVALID" && !this.programWithRolloutService.programData.resources.length ) {
+        this.subscription.add(
+          this.programWithRolloutService.programApiErrors.subscribe(
+            (errors: any) => {
+               this.isResourceIsNotPresent = true
+           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+            }
+          )
+        );
+    }
+  }
 }
 
 readProgram(){

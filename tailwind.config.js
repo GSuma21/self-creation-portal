@@ -21,7 +21,8 @@ module.exports = {
         "cardLightBlue":"#f3f7fa",
         "lightGreen":"#07BC81",
         "iconGray":"#80868b",
-        "chipPending":"#c99700"
+        "chipPending":"#c99700",
+        "error":"#ff3333"
       },
       width: {
         '47%': '47%',
