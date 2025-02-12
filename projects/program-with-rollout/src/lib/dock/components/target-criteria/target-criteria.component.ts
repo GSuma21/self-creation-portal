@@ -158,6 +158,7 @@ export class TargetCriteriaComponent implements OnInit {
       this.dataSource = new MatTableDataSource();
       this.getEntityAndRoles();
       this.formData = {};
+      let infoMessage = this.criteria[0].form[2].infoMessage
       delete this.criteria[0].form[2];
       this.criteria[0].form[2] = {
         isMultiple: true,
@@ -166,6 +167,7 @@ export class TargetCriteriaComponent implements OnInit {
         options: [],
         placeHolder: 'Role',
         validators: { required: true },
+        infoMessage:infoMessage
       };
       this.targetedEntity = '';
     }

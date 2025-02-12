@@ -38,3 +38,18 @@ mat-error {
     color: gray;
     font-size: 20px;
 }
+
+::ng-deep .info-tooltip .mdc-tooltip__surface {
+    font-size: 0.75rem !important;
+    background-color: #0a4f9d  !important;
+}
+
+::ng-deep .info-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #0a4f9d transparent transparent transparent;
+}
