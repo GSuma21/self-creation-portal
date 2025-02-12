@@ -8,7 +8,8 @@ import {
   ROLL_OUT_DETAILS,
   ToastService,
   ReviewModelComponent,
-  SUBMITTED_FOR_REVIEW
+  SUBMITTED_FOR_REVIEW,
+  PROGRAM_DETAILS
 } from 'lib-shared-modules';
 import {
   BehaviorSubject,
@@ -49,6 +50,10 @@ export class ProgramWithRolloutService {
   isProgramSave = this.saveProgram.asObservable();
   private programsendForReviewValidation = new BehaviorSubject<boolean>(false);
   isProgramSendForReviewValidation = this.programsendForReviewValidation.asObservable();
+  private setProgramApiErrors = new BehaviorSubject<boolean>(false);
+  programApiErrors = this.setProgramApiErrors.asObservable();
+  reviewErrors:any = [];
+
   constructor(
     private httpService: HttpProviderService,
     private Configuration: ConfigService,
@@ -341,7 +346,7 @@ export class ProgramWithRolloutService {
                           this.programData = {};
                           this.router.navigate([SUBMITTED_FOR_REVIEW]);
                         },((err)=> {
-                          this.validateAndHighlightErrors(err)
+                          this.validateAndHighlightErrorsForPrograms(err)
                         })
                       );
                     });
@@ -375,5 +380,33 @@ export class ProgramWithRolloutService {
       resourceLevelTargeting: 'INVALID'
       }
     }
+  }
+
+  setProgramErrorsFunc(newAction:any) {
+    this.setProgramApiErrors.next(newAction);
+  }
+
+  validateAndHighlightErrorsForPrograms(err: any) {
+    this.formService.getForm(PROGRAM_DETAILS).subscribe((data: any) => {
+      if (data) {
+        err.error.forEach((err: any) => {
+          data.result.data.fields.controls.some((item: any) => {
+            if(item.name == err.param){
+              this.formMeta.formValidation.programDetails = "INVALID"
+              this.tabValidationForProgram.programDetails = 'INVALID';
+              return
+            }
+            
+          });
+        });
+        this.reviewErrors = err.error
+        this.setProgramErrorsFunc(err.error);
+      }
+    });
+  }
+
+  removeItemFromAPIErrors(location:any) {
+    this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.location !== location)]
+    this.setProgramErrorsFunc(this.reviewErrors);
   }
 }

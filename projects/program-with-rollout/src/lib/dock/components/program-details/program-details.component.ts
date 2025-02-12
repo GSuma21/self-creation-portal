@@ -61,7 +61,49 @@ export class ProgramDetailsComponent {
       )
     );
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+
+
+    this.subscription.add(
+      this.programWithRolloutService.programApiErrors.subscribe(
+        (errors: any) => {
+          if(this.dynamicFormData) {
+            for (let index = 0; index < errors.length; index++) {
+              if(this.dynamicFormData.find((item:any) => item.name === errors[index].param)?.errorMessage) {
+               this.dynamicFormData.find((item:any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
+              }
+               // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+               this.formLib?.myForm.controls[errors[index].param]?.setErrors({pattern:errors[index].msg})
+             }
+          }
+        }
+      )
+    );
     }
+
+
+
+      ngAfterViewChecked() {
+        if((this.mode == modes.EDIT ) && this.programId) {
+          if(this.formLib &&  this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programDetails == "INVALID" && this.formLib.myForm.pristine) {
+              this.subscription.add(
+                this.programWithRolloutService.programApiErrors.subscribe(
+                  (errors: any) => {
+                    for (let index = 0; index < errors.length; index++) {
+                      if(this.dynamicFormData.find((item:any) => item.name === errors[index].param)?.errorMessage) {
+                        this.dynamicFormData.find((item:any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
+                       }
+                        // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+                        this.formLib?.myForm.controls[errors[index].param]?.setErrors({pattern:errors[index].msg})
+                    }
+                  }
+                )
+              );
+              this.formLib?.myForm.markAllAsTouched()
+          }
+          this.programWithRolloutService.formMeta.formValidation.programDetails = (this.formLib?.myForm.status) ? this.formLib?.myForm.status : "INVALID";
+         
+        }
+      }
 
     getFormWithEntitiesAndMap(){
         this.formService.getFormWithEntities(PROGRAM_DETAILS).then((data) => {
@@ -171,7 +213,11 @@ export class ProgramDetailsComponent {
     }
   }
 
-  getFormControlChange(event:any){}
+  getFormControlChange(item:string) {
+    if(item) {
+      this.programWithRolloutService.removeItemFromAPIErrors(item);
+    }
+  }
 
 
    /**
