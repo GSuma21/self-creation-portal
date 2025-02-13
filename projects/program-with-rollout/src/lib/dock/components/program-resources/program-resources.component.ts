@@ -196,7 +196,7 @@ saveForm(){
   } else {
     this.subscription.add(
       this.programWithRolloutService
-      .updateProgramDraft(this.programId)
+      .createOrUpdateProgram(this.programWithRolloutService.programData,this.programId)
       .subscribe()
     )
   }
