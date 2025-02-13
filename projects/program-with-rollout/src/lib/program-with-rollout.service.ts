@@ -359,7 +359,7 @@ export class ProgramWithRolloutService {
       this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
     }
     this.checkProgramSendForReviewValidation(false);
-   
+
   }
 
 
@@ -396,13 +396,23 @@ export class ProgramWithRolloutService {
               this.tabValidationForProgram.programDetails = 'INVALID';
               return
             }
-            
+
           });
         });
         this.reviewErrors = err.error
         this.setProgramErrorsFunc(err.error);
       }
     });
+  }
+
+  updateResourceTargetCriteria(programId?:string|number) {
+    if(this.programData.targeting_criteria?.length > 0) {
+      this.programData.resources.forEach((resource:any)=>{
+        if(!resource.targeting_criteria || JSON.stringify(resource.targeting_criteria) != JSON.stringify(this.programData.targeting_criteria)) {
+          resource.targeting_criteria  = this.programData.targeting_criteria
+        }
+      })
+    }
   }
 
   removeItemFromAPIErrors(location:any) {
