@@ -53,7 +53,7 @@ import { TargetCriteriaComponent } from '../target-criteria/target-criteria.comp
 })
 export class ResourceLevelTargetingComponent {
   resourceCount: any = 0;
-  resources: any = [];
+  resources: any=[];
   parent: any;
   resourceIds: any = [];
   programId: any;
@@ -127,18 +127,16 @@ export class ResourceLevelTargetingComponent {
     if (this.programId && !this.resourceIds?.length) {
       this.readProgram();
     }
-    if (!this.resourceIds?.length && !this.programId) {
+    if(!this.resourceIds?.length  && !this.programId){
       this.submit();
     }
 
-    this.subscription.add(
-      // Check validation before sending for review.
+    this.subscription.add( // Check validation before sending for review.
       this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
-          if (reviewValidation) {
-            this.resourceForm.markAllAsTouched();
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
-              this.resourceForm.valid ? 'VALID' : 'INVALID';
+          if(reviewValidation) {
+            this.resourceForm.markAllAsTouched()
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
             this.programWithRolloutService.triggerProgramSendForReview();
           }
         }
@@ -148,11 +146,10 @@ export class ResourceLevelTargetingComponent {
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if (errors) {
-            console.log(errors);
-            this.resourceForm.markAllAsTouched();
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
-              this.resourceForm.valid ? 'VALID' : 'INVALID';
+          if(errors){
+            console.log(errors)
+           this.resourceForm.markAllAsTouched()
+           this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
           }
         }
       )
@@ -160,22 +157,15 @@ export class ResourceLevelTargetingComponent {
   }
 
   ngAfterViewChecked() {
-    console.log(this.programWithRolloutService.tabValidationForProgram);
-    if (
-      this.programWithRolloutService.tabValidationForProgram
-        .resourceLevelTargeting == 'INVALID' &&
-      this.programWithRolloutService.formMeta.formValidation
-        .resourceLevelTargeting == 'INVALID'
-    ) {
-    }
+    console.log(this.programWithRolloutService.tabValidationForProgram)
+    if(this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting == "INVALID") {}
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if (errors) {
-            this.resourceForm.markAllAsTouched();
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
-              this.resourceForm.valid ? 'VALID' : 'INVALID';
-          }
+          if(errors){
+            this.resourceForm.markAllAsTouched()
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+           }
         }
       )
     );
