@@ -42,7 +42,14 @@ constructor(private formService: FormService, private router:Router,private rout
 }
 
 ngOnInit(){
-  this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.programData.resources.length <= 0)  ? true : false;
+  const navigation = history.state;
+  if (navigation.programErrors) {
+      if( Object.values(navigation.programErrors.tabValidationForProgram).some(value => "INVALID")){
+        this.programWithRolloutService.tabValidationForProgram = navigation.programErrors.tabValidationForProgram
+        this.programWithRolloutService.formMeta.formValidation.programResources = navigation.programErrors.tabValidationForProgram.formErrors
+        this.isResourceIsNotPresent = (navigation.programErrors.tabValidationForProgram == 'INVALID')  ? true : false;
+      }
+  }
   this.getsolutionList()
   if(this.resourceIds?.length){
     this.subscription.add(
@@ -86,6 +93,7 @@ ngOnInit(){
       (reviewValidation: boolean) => {
         if(reviewValidation) {
           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+          this.isResourceIsNotPresent =  this.programWithRolloutService.programData.resources.length ? false : true
           this.programWithRolloutService.triggerProgramSendForReview();
         }
       }
@@ -97,12 +105,14 @@ ngOnInit(){
     this.programWithRolloutService.programApiErrors.subscribe(
       (errors: any) => {
         if(errors){
-          this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.programData.resources.length <= 0)  ? true : false;
            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+           this.isResourceIsNotPresent = true
         }
       }
     )
   );
+
+  this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID')  ? true : false;
 }
 
 ngAfterViewChecked() {
@@ -135,6 +145,10 @@ readProgram(){
         this.resources = this.programWithRolloutService.programData.resources
         this.addActionButtons()
         this.programWithRolloutService.upDateProgramTitle()
+        if((this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' || this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID') && ( res.result.resources.length <= 0)){
+            this.isResourceIsNotPresent = true;
+            this.programWithRolloutService.tabValidationForProgram.programResources = 'INVALID'
+        }
     }))
 }
 
@@ -224,7 +238,8 @@ getsolutionList() {
 
 
   onCardClick(cardItem: any) {
-    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId}})
+    const newData = { formErrors: this.programWithRolloutService.formMeta.formValidation , tabValidationForProgram:  this.programWithRolloutService.tabValidationForProgram };
+    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId}, state : { programErrors: newData } })
   }
 
   statusButtonClick(event: { label: string, item: any }) {
