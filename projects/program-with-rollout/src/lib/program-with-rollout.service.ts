@@ -408,7 +408,7 @@ export class ProgramWithRolloutService {
   updateResourceTargetCriteria(programId?:string|number) {
     if(this.programData.targeting_criteria?.length > 0) {
       this.programData.resources.forEach((resource:any)=>{
-        if(!resource.targeting_criteria || JSON.stringify(resource.targeting_criteria) === JSON.stringify(this.programData.targeting_criteria)) {
+        if(!resource.targeting_criteria || JSON.stringify(resource.targeting_criteria) != JSON.stringify(this.programData.targeting_criteria)) {
           resource.targeting_criteria  = this.programData.targeting_criteria
         }
       })
