@@ -168,7 +168,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
    * @param event - The search event which contains the searchtext
    */
   receiveSearchResults(event: string) {
-    console.log(event)
     this.searchText = event.trim().toLowerCase();
     this.page=1
     this.subscription.add(
@@ -184,7 +183,13 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
   onSelect(){
-    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('parent'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}})
+    const navigation = history.state;
+    let programErrors:any
+    if(navigation.programErrors){
+     programErrors = navigation.programErrors
+     programErrors.tabValidationForProgram.programResources = 'VALID'
+    }
+    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('parent'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}, state:{programErrors : programErrors ?programErrors :""}})
   }
 
   navigateToCreateNew() {
@@ -239,7 +244,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
         case "LOGOUT":{
-            console.log("logout")
                    this.utilService.saveResources = false;
                    const dialogRef = this.dialog.open(DialogPopupComponent, {
                      width: '39.375rem',
@@ -254,7 +258,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
                    });
                 
                     dialogRef.afterClosed().subscribe((result) => {
-                      console.log(this.router.url.includes('roll-out'))
                        if(result.data === 'LOGOUT'){
                           this.sharedService.logout(); 
                        }

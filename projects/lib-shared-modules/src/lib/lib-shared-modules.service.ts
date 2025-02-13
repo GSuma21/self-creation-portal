@@ -34,6 +34,7 @@ export class LibSharedModulesService {
   }
 
   goBack(): void {
+    const navigation = history.state;
     const state = this.route.snapshot.queryParamMap.get('parent')
     const solutionId = this.route.snapshot.queryParamMap.get('projectId') 
                 ?? this.route.snapshot.queryParamMap.get('programId');
@@ -84,11 +85,13 @@ export class LibSharedModulesService {
         this.router.navigate([ROLL_OUT]);
         break;
       case 'program-resources':
-        this.toastService.openSnackBar({
-          message: 'CHANGES_SAVED_SUCCESSFULLY',
-          class: 'success',
-        });
-        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
+        if (this.route.snapshot.queryParamMap.get('programResourceId')) {
+          this.toastService.openSnackBar({
+            message: 'CHANGES_SAVED_SUCCESSFULLY',
+            class: 'success',
+          });
+        }
+        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         break;
       default:
         this.router.navigate(['../'], { relativeTo: this.route });
