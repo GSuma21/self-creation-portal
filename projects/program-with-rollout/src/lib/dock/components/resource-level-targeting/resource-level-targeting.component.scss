@@ -11,8 +11,9 @@
 }
 .resource-button {
     margin-top: .5rem;
+    width: 150%;
     display: flex;
-    color:$primary;
+    color:$buttonDisable;
 }
 
 .resource-items-container {
@@ -47,7 +48,7 @@ mat-error {
 ::ng-deep .info-tooltip::after {
     content: '';
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 50%;
     border-width: 5px;
     border-style: solid;
