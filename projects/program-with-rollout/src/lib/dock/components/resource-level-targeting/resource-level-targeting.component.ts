@@ -309,37 +309,6 @@ export class ResourceLevelTargetingComponent {
       this.toastService.openSnackBar(data);
       return;
     }
-    const dialogRef = this.dialog.open(TargetCriteriaComponent, {
-      width: '80%',
-      height: '80%',
-      disableClose: true,
-      autoFocus: false,
-      data: null,
-    });
-
-    dialogRef.afterClosed().subscribe((res: any) => {
-      if (
-        this.programWithRolloutService.programData.resources[resourceIndex] &&
-        res
-      ) {
-        this.programWithRolloutService.programData.resources[resourceIndex]
-          .targeting_criteria
-          ? this.programWithRolloutService.programData.resources[
-              resourceIndex
-            ].targeting_criteria.push(res)
-          : (this.programWithRolloutService.programData.resources[
-              resourceIndex
-            ].targeting_criteria = [res]);
-        this.subscription.add(
-          this.programWithRolloutService
-            .createOrUpdateProgram(
-              this.programWithRolloutService.programData,
-              this.programId
-            )
-            .subscribe((res: any) => {})
-        );
-      }
-    });
   }
 
   onCardClick(cardItem: any) {
