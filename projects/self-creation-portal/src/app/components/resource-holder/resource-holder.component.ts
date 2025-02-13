@@ -385,7 +385,10 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
           })
           break;
         case 'VIEW':
-          if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
+          if(item.type == 'program' && this.pageStatus !== 'roll-out'){
+            
+            break;
+          }else if(item.status == resourceStatus.SUBMITTED && this.activeRole == "creator"){
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
@@ -460,25 +463,40 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
           }
 
         case 'START_REVIEW':
-         this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
-           this.router.navigate([PROJECT_DETAILS_PAGE], {
-             queryParams: {
-               projectId: item.id,
-               mode: projectMode.REVIEW,
-               parent:"up-for-review"
-             }
-           });
-         })
-          break;
+          if(item.type == 'program' && this.pageStatus !== 'roll-out'){
+            
+            break;
+          }else if(item.type == 'project'){
+            this.utilService.startOrResumeReview(item.id).subscribe((data)=>{
+              this.router.navigate([PROJECT_DETAILS_PAGE], {
+                queryParams: {
+                  projectId: item.id,
+                  mode: projectMode.REVIEW,
+                  parent:"up-for-review"
+                }
+              });
+            })
+            break;
+          }else{
+            break;
+          }
+      
         case 'RESUME_REVIEW':
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              projectId: item.id,
-              mode: projectMode.REVIEW,
-              parent:"up-for-review"
-            }
-          })
-          break;
+          if(item.type == 'program' && this.pageStatus !== 'roll-out'){
+            
+            break;
+          }else if(item.type == 'project'){
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                projectId: item.id,
+                mode: projectMode.REVIEW,
+                parent:"up-for-review"
+              }
+            })
+            break;
+          }else{
+            break;
+          }
         default:
           break;
       }
