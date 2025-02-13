@@ -147,7 +147,6 @@ export class ResourceLevelTargetingComponent {
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
           if(errors){
-            console.log(errors)
            this.resourceForm.markAllAsTouched()
            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
           }
@@ -157,8 +156,9 @@ export class ResourceLevelTargetingComponent {
   }
 
   ngAfterViewChecked() {
-    console.log(this.programWithRolloutService.tabValidationForProgram)
-    if(this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting == "INVALID") {}
+    if(this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID'){
+      this.resourceForm.markAllAsTouched()
+    }
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
