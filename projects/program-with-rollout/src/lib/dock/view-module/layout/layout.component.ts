@@ -153,7 +153,6 @@ export class LayoutComponent {
         break;
       }
      case "LOGOUT":{
-             this.utilService.saveResources = false;
              const dialogRef = this.dialog.open(DialogPopupComponent, {
                width: '39.375rem',
                disableClose: true,
@@ -168,6 +167,7 @@ export class LayoutComponent {
           
               dialogRef.afterClosed().subscribe((result) => {
                  if(result.data === 'LOGOUT'){
+                  this.utilService.saveResources = false;
                   if(this.router.url.includes('details/project-details')){
                     this.programWithRolloutService.saveRollOut().subscribe((res)=> {
                       this.sharedService.logout();

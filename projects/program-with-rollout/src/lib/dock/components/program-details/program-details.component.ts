@@ -129,10 +129,7 @@ export class ProgramDetailsComponent {
                 this.programId = params.programId;
                 this.programWithRolloutService.programData.id = params.programId;
                 if (params.programId) {
-                  if (params.mode === modes.EDIT) {
-                    if (Object.keys(this.programWithRolloutService.programData).length > 1) { // project ID will be there so length considered as more than 1
-                      this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
-                    } else {
+                  if (params.mode === modes.EDIT) {             
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
@@ -142,12 +139,8 @@ export class ProgramDetailsComponent {
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
-                    }
                     // this.checkAndGetCommentConfigs()
                   }else{
-                    if (Object.keys(this.programWithRolloutService.programData).length > 1) { // project ID will be there so length considered as more than 1
-                      this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
-                    } else {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
@@ -158,7 +151,6 @@ export class ProgramDetailsComponent {
                             // comments list and configuration
                           })
                       );
-                    }
                     // this.checkAndGetCommentConfigs()
                   }
                 } else {
@@ -214,6 +206,7 @@ export class ProgramDetailsComponent {
   }
 
   getFormControlChange(item:string) {
+    console.log(item)
     if(item) {
       this.programWithRolloutService.removeItemFromAPIErrors(item);
     }
@@ -414,7 +407,7 @@ export class ProgramDetailsComponent {
       }
 
    ngOnDestroy() {
-    if (this.programId && this.utilService.saveResources) {
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources) {
         this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe() 
     }
       if (this.intervalId) {

@@ -406,7 +406,7 @@ export class ProgramWithRolloutService {
   }
 
   removeItemFromAPIErrors(location:any) {
-    this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.location !== location)]
+    this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.param !== location)]
     this.setProgramErrorsFunc(this.reviewErrors);
   }
 }

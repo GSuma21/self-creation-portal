@@ -73,7 +73,11 @@ ngOnInit(){
   if(!this.resourceIds?.length  && !this.programId){
     this.createProgram();
   }
-  if(!this.resourceIds?.length  && this.programId){
+  if(this.programId && Object.keys(this.programWithRolloutService.programData).length > 1){
+    this.resourceCount  = this.programWithRolloutService.programData.resources.length;
+    this.resources = this.programWithRolloutService.programData.resources
+    this.addActionButtons()
+  }else if(!this.resourceIds?.length  && this.programId && Object.keys(this.programWithRolloutService.programData).length < 1){
     this.readProgram()
   }
 
@@ -93,7 +97,7 @@ ngOnInit(){
     this.programWithRolloutService.programApiErrors.subscribe(
       (errors: any) => {
         if(errors){
-           this.isResourceIsNotPresent = true
+          this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.programData.resources.length <= 0)  ? true : false;
            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
         }
       }
@@ -103,12 +107,15 @@ ngOnInit(){
 
 ngAfterViewChecked() {
   if(this.programId) {
-    if( this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programResources == "INVALID" && !this.programWithRolloutService.programData.resources.length ) {
+    if( this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programResources == "INVALID" && (this.programWithRolloutService.programData.resources.length <= 0) ) {
         this.subscription.add(
           this.programWithRolloutService.programApiErrors.subscribe(
             (errors: any) => {
-               this.isResourceIsNotPresent = true
-           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+              if(errors){
+                  this.isResourceIsNotPresent = (this.programWithRolloutService.tabValidationForProgram.programResources == 'INVALID' && this.programWithRolloutService.programData.resources.length <= 0)  ? true : false;
+                  this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources.length ? 'VALID' : 'INVALID'
+              }
+            
             }
           )
         );
