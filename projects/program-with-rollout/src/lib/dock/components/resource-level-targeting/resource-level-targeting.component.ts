@@ -202,7 +202,6 @@ export class ResourceLevelTargetingComponent {
   }
 
   addResourceFields(): void {
-    debugger;
     this.resources.forEach((element: any) => {
       const resourceGroup = this.fb.group({
         start_date: [
