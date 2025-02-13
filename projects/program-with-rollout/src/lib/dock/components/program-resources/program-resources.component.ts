@@ -196,7 +196,7 @@ saveForm(){
   } else {
     this.subscription.add(
       this.programWithRolloutService
-      .createOrUpdateProgram(this.programWithRolloutService.programData,this.programId)
+      .updateProgramDraft(this.programId)
       .subscribe()
     )
   }
@@ -324,6 +324,10 @@ getsolutionList() {
           }
         })
       }
-      this.saveForm()
+      this.subscription.add(
+        this.programWithRolloutService
+        .createOrUpdateProgram(this.programWithRolloutService.programData,this.programId)
+        .subscribe()
+      )
     }
 }
