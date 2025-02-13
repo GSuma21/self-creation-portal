@@ -11,9 +11,9 @@
                 <div class="dropdown-container">
                     @for (item of tab?.form; track item;let index = $index) {
                         <section class="flex">
-                            <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline">
+                            <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                 <mat-label> {{ item.label}}</mat-label>
-                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0">
+                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0 || formData.readOnly">
                                     <mat-option *ngFor="let option of item.options" [value]="option">
                                         {{ option.name ? option.name : option?.label }}
                                     </mat-option>

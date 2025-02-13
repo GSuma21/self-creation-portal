@@ -513,6 +513,7 @@ export class TargetCriteriaComponent implements OnInit {
         },
       });
     } else if (this.formData.state && this.targetedEntity.length == 0) {
+      delete this.formData.readOnly
       this.dialogRef.close({
         ...this.formData,
         ...{ label: this.formData.state[0].name },
@@ -521,6 +522,7 @@ export class TargetCriteriaComponent implements OnInit {
         },
       });
     } else {
+      delete this.formData.readOnly
       this.dialogRef.close(this.formData);
     }
   }

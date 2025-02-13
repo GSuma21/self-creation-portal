@@ -1,14 +1,31 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CardComponent, FormService, modes, SOLUTION_LIST } from 'lib-shared-modules';
+import {
+  CardComponent,
+  FormService,
+  modes,
+  SOLUTION_LIST,
+  ToastService,
+} from 'lib-shared-modules';
 
 import { min, Subscription } from 'rxjs';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import {
+  MatFormField,
+  MatFormFieldModule,
+  MatLabel,
+} from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -18,17 +35,29 @@ import { TargetCriteriaComponent } from '../target-criteria/target-criteria.comp
 @Component({
   selector: 'lib-resource-level-targeting',
   standalone: true,
-  imports: [CommonModule,MatCardModule, FormsModule,ReactiveFormsModule,CardComponent, MatIconModule, MatLabel,MatFormFieldModule,MatInputModule, MatDatepickerModule,MatNativeDateModule ],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CardComponent,
+    MatIconModule,
+    MatLabel,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
   templateUrl: './resource-level-targeting.component.html',
   styleUrl: './resource-level-targeting.component.scss',
 })
 export class ResourceLevelTargetingComponent {
   resourceCount: any = 0;
-  resources: any=[];
+  resources: any = [];
   parent: any;
   resourceIds: any = [];
   programId: any;
-  resourceForm:any;
+  resourceForm: any;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -37,7 +66,8 @@ export class ResourceLevelTargetingComponent {
     private route: ActivatedRoute,
     private programWithRolloutService: ProgramWithRolloutService,
     private fb: FormBuilder,
-    private dialog:MatDialog
+    private toastService: ToastService,
+    private dialog: MatDialog
   ) {
     this.parent = this.route.snapshot.queryParamMap.get('parent');
     this.route.queryParamMap.subscribe((params) => {
@@ -47,10 +77,10 @@ export class ResourceLevelTargetingComponent {
   }
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
     if (this.resourceIds.length) {
-        this.subscription.add(
-          this.programWithRolloutService
+      this.subscription.add(
+        this.programWithRolloutService
           .addResourceToProgram(
             { resource_ids: this.resourceIds },
             this.programId
@@ -79,10 +109,11 @@ export class ResourceLevelTargetingComponent {
                 })
             );
           })
-        )
-        this.resourceCount = this.programWithRolloutService.programData.resources.length;
-        this.resources = this.programWithRolloutService.programData.resources;
-        this.addResourceFields();
+      );
+      this.resourceCount =
+        this.programWithRolloutService.programData.resources.length;
+      this.resources = this.programWithRolloutService.programData.resources;
+      this.addResourceFields();
     }
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
@@ -93,19 +124,21 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
-    if(this.programId && !this.resourceIds?.length){
+    if (this.programId && !this.resourceIds?.length) {
       this.readProgram();
     }
-    if(!this.resourceIds?.length  && !this.programId){
+    if (!this.resourceIds?.length && !this.programId) {
       this.submit();
     }
 
-    this.subscription.add( // Check validation before sending for review.
+    this.subscription.add(
+      // Check validation before sending for review.
       this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
-          if(reviewValidation) {
-            this.resourceForm.markAllAsTouched()
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+          if (reviewValidation) {
+            this.resourceForm.markAllAsTouched();
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
+              this.resourceForm.valid ? 'VALID' : 'INVALID';
             this.programWithRolloutService.triggerProgramSendForReview();
           }
         }
@@ -115,26 +148,34 @@ export class ResourceLevelTargetingComponent {
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if(errors){
-            console.log(errors)
-           this.resourceForm.markAllAsTouched()
-           this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
-          } 
+          if (errors) {
+            console.log(errors);
+            this.resourceForm.markAllAsTouched();
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
+              this.resourceForm.valid ? 'VALID' : 'INVALID';
+          }
         }
       )
     );
   }
 
   ngAfterViewChecked() {
-    console.log(this.programWithRolloutService.tabValidationForProgram)
-    if(this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting == "INVALID") {}
+    console.log(this.programWithRolloutService.tabValidationForProgram);
+    if (
+      this.programWithRolloutService.tabValidationForProgram
+        .resourceLevelTargeting == 'INVALID' &&
+      this.programWithRolloutService.formMeta.formValidation
+        .resourceLevelTargeting == 'INVALID'
+    ) {
+    }
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if(errors){
-            this.resourceForm.markAllAsTouched()
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
-           } 
+          if (errors) {
+            this.resourceForm.markAllAsTouched();
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =
+              this.resourceForm.valid ? 'VALID' : 'INVALID';
+          }
         }
       )
     );
@@ -142,7 +183,7 @@ export class ResourceLevelTargetingComponent {
 
   initForm(): void {
     this.resourceForm = this.fb.group({
-      resources: this.fb.array([])
+      resources: this.fb.array([]),
     });
   }
 
@@ -150,75 +191,124 @@ export class ResourceLevelTargetingComponent {
     return this.resourceForm.get('resources') as FormArray;
   }
 
-  readProgram(){
+  readProgram() {
     this.resourceIds = [];
     this.subscription.add(
       this.programWithRolloutService
         .readProgram(this.programId)
         .subscribe((res: any) => {
-          this.programWithRolloutService.setProgramData(res.result)
-          this.resourceCount  = this.programWithRolloutService.programData.resources.length;
-          const resourceIds = this.programWithRolloutService.programData.resources.map((resource:any) => resource.id);
+          this.programWithRolloutService.setProgramData(res.result);
+          this.resourceCount =
+            this.programWithRolloutService.programData.resources.length;
+          const resourceIds =
+            this.programWithRolloutService.programData.resources.map(
+              (resource: any) => resource.id
+            );
           this.resources = this.programWithRolloutService.programData.resources;
-          this.programWithRolloutService.upDateProgramTitle()
+          this.programWithRolloutService.upDateProgramTitle();
           this.addResourceFields();
-      }))
+        })
+    );
   }
 
   addResourceFields(): void {
-    this.resources.forEach((element:any) => {
+    debugger;
+    this.resources.forEach((element: any) => {
       const resourceGroup = this.fb.group({
-        start_date: [element.start_date ? element.start_date : '',[Validators.required,Validators.max(element.end_date ? element.end_date : '')]],
-        end_date: [element.end_date ? element.end_date : '', [Validators.required,Validators.min(element.start_date ? element.start_date : '')]]
+        start_date: [
+          element.start_date
+            ? element.start_date
+            : this.programWithRolloutService.programData?.start_date
+            ? this.programWithRolloutService.programData?.start_date
+            : '',
+          [
+            Validators.required,
+            Validators.min(this.programWithRolloutService.programData?.start_date),
+            Validators.max(
+              element.end_date
+                ? element.end_date
+                : this.programWithRolloutService.programData?.end_date
+                ? this.programWithRolloutService.programData?.end_date
+                : '')
+          ],
+        ],
+        end_date: [
+          element.end_date
+            ? element.end_date
+            : (this.programWithRolloutService.programData?.end_date
+            ? this.programWithRolloutService.programData?.end_date
+            : ''),
+          [
+            Validators.required,
+            Validators.min(
+              element.start_date
+                ? element.start_date
+                : (this.programWithRolloutService.programData?.start_date
+                ? this.programWithRolloutService.programData?.start_date:'')
+            ),
+            Validators.max(this.programWithRolloutService.programData?.end_date),
+          ],
+        ],
       });
 
       this.resourceFields.push(resourceGroup);
     });
   }
 
-  getMaxDate(index:number) {
-    if(this.resources[index].end_date) {
-      return this.resources[index].end_date;
-    }
+  getMaxDate(index: number) {
+    return this.resources[index].end_date ? this.resources[index].end_date : this.programWithRolloutService.programData?.end_date;
   }
 
-  getMinDate(index:number) {
-    if(this.resources[index].start_date) {
-      return this.resources[index].start_date;
-    }
+  getMinDate(index: number) {
+    return this.resources[index].start_date ? this.resources[index].start_date : this.programWithRolloutService.programData?.start_date;
+  }
+
+  getProgramDate(type:string) {
+    return this.programWithRolloutService.programData[type];
   }
 
   submit() {
     if (!this.programId) {
       this.subscription.add(
         this.programWithRolloutService
-        .createOrUpdateProgram()
-        .subscribe((res: any) => {
-          (this.programId = res.result.id),
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: {
-                programId: this.programId,
-                mode: modes.EDIT,
-              },
-              queryParamsHandling: 'merge',
-              replaceUrl: true,
-            });
-          this.programWithRolloutService.programData.id = res.result.id;
-        })
-      )
+          .createOrUpdateProgram()
+          .subscribe((res: any) => {
+            (this.programId = res.result.id),
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: {
+                  programId: this.programId,
+                  mode: modes.EDIT,
+                },
+                queryParamsHandling: 'merge',
+                replaceUrl: true,
+              });
+            this.programWithRolloutService.programData.id = res.result.id;
+          })
+      );
     } else {
       this.subscription.add(
         this.programWithRolloutService
-        .updateProgramDraft(this.programId)
-        .subscribe()
-      )
+          .updateProgramDraft(this.programId)
+          .subscribe()
+      );
     }
 
     // this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
   }
 
-  openTargetCriteria(resourceIndex:number|string,elementIndex?:number|string) {
+  openTargetCriteria(
+    resourceIndex: number | string,
+    elementIndex?: number | string
+  ) {
+    if(this.programWithRolloutService.programData.targeting_criteria.length == 0) {
+      let data = {
+        message: 'PLEASE_ADD_PROGRAM_TARGET_CRITERIA',
+        class: 'error',
+      };
+      this.toastService.openSnackBar(data);
+      return;
+    }
     const dialogRef = this.dialog.open(TargetCriteriaComponent, {
       width: '80%',
       height: '80%',
@@ -228,11 +318,28 @@ export class ResourceLevelTargetingComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: any) => {
-        if(this.programWithRolloutService.programData.resources[resourceIndex] && res) {
-          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria ? this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.push(res): this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria = [res];
-          this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
-        }
-      });
+      if (
+        this.programWithRolloutService.programData.resources[resourceIndex] &&
+        res
+      ) {
+        this.programWithRolloutService.programData.resources[resourceIndex]
+          .targeting_criteria
+          ? this.programWithRolloutService.programData.resources[
+              resourceIndex
+            ].targeting_criteria.push(res)
+          : (this.programWithRolloutService.programData.resources[
+              resourceIndex
+            ].targeting_criteria = [res]);
+        this.subscription.add(
+          this.programWithRolloutService
+            .createOrUpdateProgram(
+              this.programWithRolloutService.programData,
+              this.programId
+            )
+            .subscribe((res: any) => {})
+        );
+      }
+    });
   }
 
   onCardClick(cardItem: any) {
@@ -245,32 +352,62 @@ export class ResourceLevelTargetingComponent {
     });
   }
 
-  updateResource(resourceIndex:number|string,targetIndex:string|number,targeItem?:any) {
-    if(!targeItem) {
-      this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.splice(targetIndex,1)
-      this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
-    }
-    else {
+  updateResource(
+    resourceIndex: number | string,
+    targetIndex: string | number,
+    targeItem?: any
+  ) {
+    if (!targeItem) {
+      this.programWithRolloutService.programData.resources[
+        resourceIndex
+      ].targeting_criteria.splice(targetIndex, 1);
+      this.subscription.add(
+        this.programWithRolloutService
+          .createOrUpdateProgram(
+            this.programWithRolloutService.programData,
+            this.programId
+          )
+          .subscribe((res: any) => {})
+      );
+    } else {
       const dialogRef = this.dialog.open(TargetCriteriaComponent, {
         width: '80%',
         height: '80%',
         disableClose: true,
         autoFocus: false,
-        data: targeItem,
+        data: {...targeItem,...{readOnly:true}},
       });
 
       dialogRef.afterClosed().subscribe((res: any) => {
-        if(res) {
-          this.programWithRolloutService.programData.resources[resourceIndex].targeting_criteria.splice(targetIndex,1,res);
-          this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+        if (res) {
+          this.programWithRolloutService.programData.resources[
+            resourceIndex
+          ].targeting_criteria.splice(targetIndex, 1, res);
+          this.subscription.add(
+            this.programWithRolloutService
+              .createOrUpdateProgram(
+                this.programWithRolloutService.programData,
+                this.programId
+              )
+              .subscribe((res: any) => {})
+          );
         }
       });
     }
   }
 
-  setValueToProgram(event:any,index:any,key:string) {
-    this.programWithRolloutService.programData.resources[index][key] = new Date(event.targetElement.value);
-    this.subscription.add(this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
+  setValueToProgram(event: any, index: any, key: string) {
+    this.programWithRolloutService.programData.resources[index][key] = new Date(
+      event.targetElement.value
+    );
+    this.subscription.add(
+      this.programWithRolloutService
+        .createOrUpdateProgram(
+          this.programWithRolloutService.programData,
+          this.programId
+        )
+        .subscribe((res: any) => {})
+    );
   }
 
   statusButtonClick(event: { label: string; item: any }) {}
