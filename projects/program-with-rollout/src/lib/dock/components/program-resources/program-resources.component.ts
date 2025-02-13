@@ -324,6 +324,10 @@ getsolutionList() {
           }
         })
       }
-      this.saveForm()
+      this.subscription.add(
+        this.programWithRolloutService
+        .createOrUpdateProgram(this.programWithRolloutService.programData,this.programId)
+        .subscribe()
+      )
     }
 }
