@@ -140,7 +140,8 @@ readProgram(){
       .readProgram(this.programId)
       .subscribe((res: any) => {
         this.programWithRolloutService.setProgramData(res.result)
-        this.updateResourceTargetCriteria()
+        this.programWithRolloutService.updateResourceTargetCriteria(this.programId)
+        this.saveForm();
         this.resourceCount  = this.programWithRolloutService.programData.resources.length;
         this.resources = this.programWithRolloutService.programData.resources
         this.addActionButtons()
@@ -314,16 +315,5 @@ getsolutionList() {
           return false;
         })
       );
-    }
-
-    updateResourceTargetCriteria() {
-      if(this.programWithRolloutService.programData.targeting_criteria?.length > 0) {
-        this.programWithRolloutService.programData.resources.forEach((resource:any)=>{
-          if(!resource.targeting_criteria || resource.targeting_criteria.length != this.programWithRolloutService.programData.targeting_criteria.length) {
-            resource.targeting_criteria  = this.programWithRolloutService.programData.targeting_criteria
-          }
-        })
-      }
-      this.saveForm()
     }
 }
