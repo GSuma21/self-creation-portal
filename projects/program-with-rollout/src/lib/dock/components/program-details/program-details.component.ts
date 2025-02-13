@@ -36,7 +36,7 @@ export class ProgramDetailsComponent {
       )
       this.programId =  this.route.snapshot.queryParamMap.get('programId');
      }
-  
+
    ngOnInit() {
     this.getFormWithEntitiesAndMap()
     this.subscription.add(
@@ -101,7 +101,7 @@ export class ProgramDetailsComponent {
               this.formLib?.myForm.markAllAsTouched()
           }
           this.programWithRolloutService.formMeta.formValidation.programDetails = (this.formLib?.myForm.status) ? this.formLib?.myForm.status : "INVALID";
-         
+
         }
       }
 
@@ -129,7 +129,7 @@ export class ProgramDetailsComponent {
                 this.programId = params.programId;
                 this.programWithRolloutService.programData.id = params.programId;
                 if (params.programId) {
-                  if (params.mode === modes.EDIT) {             
+                  if (params.mode === modes.EDIT) {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
@@ -230,7 +230,7 @@ export class ProgramDetailsComponent {
             autoFocus: false,
             data: null,
           });
-  
+
           dialogRef.afterClosed().subscribe((res: any) => {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria" && res) {
@@ -247,7 +247,7 @@ export class ProgramDetailsComponent {
           break;
       }
     }
-  
+
     /**
    * Handles action events triggered by controls.
    * Performs operations based on the "action" property of the control, such as "VIEW", "EDIT", or "DELETE".
@@ -266,7 +266,7 @@ export class ProgramDetailsComponent {
             autoFocus: false,
             data: control.item,
           });
-  
+
           dialogEditRef.afterClosed().subscribe((res: any) => {
             if(res) {
               this.dynamicFormData.forEach((element:any) => {
@@ -309,11 +309,14 @@ export class ProgramDetailsComponent {
         default:
           break;
       }
-  
+
     }
 
     updateTargetCriteria(){
       this.programWithRolloutService.programData.targeting_criteria =  this.dynamicFormData.find((element: any) => element.name === "targeting_criteria")?.value;
+      this.programWithRolloutService.updateResourceTargetCriteria();
+      this.subscription.add(
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
     }
 
      startAutoSaving() {
@@ -362,7 +365,7 @@ export class ProgramDetailsComponent {
           if (this.programId) {
             return this.subscription.add(
               this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
-            )  
+            )
           }
           else {
             return  this.subscription.add(
@@ -408,7 +411,7 @@ export class ProgramDetailsComponent {
 
    ngOnDestroy() {
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources) {
-        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe() 
+        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }
       if (this.intervalId) {
         clearInterval(this.intervalId);
