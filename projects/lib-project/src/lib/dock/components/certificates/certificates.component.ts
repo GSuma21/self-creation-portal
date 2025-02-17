@@ -372,7 +372,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
              this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
-              resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+              resource.id === this.libProjectService.projectData.id ? this.libProjectService.projectData : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
               this.toastService.openSnackBar({
