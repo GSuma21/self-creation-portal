@@ -25,6 +25,9 @@ export class ProgramDetailsComponent {
   programId:any;
   mode:any;
   formDataForTitle:any
+  commentPayload: any;
+  commentsList: any = [];
+  projectInReview: boolean = false;
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
       private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
@@ -408,6 +411,21 @@ export class ProgramDetailsComponent {
             });
         }
       }
+  getCommentConfigs() {
+    // this.subscription.add(
+    //   this.route.data.subscribe((data: any) => {
+    //     this.utilService.getCommentList(this.projectId).subscribe((commentListRes: any) => {
+    //       const comments = commentListRes.result?.comments || [];
+    //       const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
+
+    //       this.commentsList = this.commentsList.concat(filteredComments);
+    //       this.commentPayload = data;
+    //       this.projectInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+    //       this.libProjectService.checkValidationForRequestChanges(comments);
+    //     });
+    //   })
+    // );
+  }
 
    ngOnDestroy() {
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources) {

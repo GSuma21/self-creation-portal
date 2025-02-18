@@ -1,4 +1,5 @@
 export const PROJECT_DETAILS_PAGE = 'solution/project/project-details'
+export const PROGRAM_DETAILS_PAGE = 'roll-out/details/program-details'
 export const SUBMITTED_FOR_REVIEW = 'home/submit-for-review'
 export const DRAFTS = 'home/drafts'
 export const UP_FOR_REVIEW = 'home/up-for-review'
