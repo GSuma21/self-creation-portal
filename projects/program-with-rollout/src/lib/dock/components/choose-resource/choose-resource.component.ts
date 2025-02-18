@@ -14,190 +14,146 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-choose-resource',
   standalone: true,
-  imports: [
-    CommonModule,
-    HeaderComponent,
-    MatListModule,
-    MatRadioModule,
-    MatButtonModule,
-    PreviewComponent,
-    TranslateModule,
-    SearchComponent,
-    FilterComponent,
-    MatIconModule,
-    NoResultFoundComponent,
-    MatCheckboxModule,
-  ],
+  imports: [CommonModule, HeaderComponent, MatListModule, MatRadioModule, MatButtonModule, PreviewComponent, TranslateModule,SearchComponent, FilterComponent, MatIconModule, NoResultFoundComponent, MatCheckboxModule],
   templateUrl: './choose-resource.component.html',
-  styleUrl: './choose-resource.component.scss',
+  styleUrl: './choose-resource.component.scss'
 })
 export class ChooseResourceComponent {
   private subscription: Subscription = new Subscription();
   @ViewChildren('listContainer') listContainers!: QueryList<ElementRef>;
-  redirectData: any = {};
-  backButton: boolean = true;
+  redirectData:any={}
+  backButton : boolean = true;
   headerData = {
-    title: 'RESOURCE_LIBRARY',
-  };
-  contentList: any;
+    title : "RESOURCE_LIBRARY"
+  }
+  contentList:any;
   config = {
     maxFileSize: 50,
-    baseUrl: '',
-    accessToken: '',
+    baseUrl: "",
+    accessToken: "",
     profileInfo: {},
-    isPreview: true,
-  };
-  page: any = 1;
-  limit: number = 20;
-  selectedResource: any;
+    isPreview: true
+  }
+  page:any = 1;
+  limit:number=20;
+  selectedResource:any;
   selectedValue: string | null = null;
-  searchText: string = '';
-  data: any = {
-    resourceData: [],
-    cssClass: 'h-[80%]',
-  };
-  showPreview: boolean = false;
+  searchText:string = '';
+  data:any ={
+    "resourceData":[],
+    "cssClass":"h-[80%]"
+  }
+  showPreview:boolean = false
   filters = {
-    activeFilterButton: '',
-    changeReqCount: 1,
-    inprogressCount: 1,
-    filterData: [
-      {
-        label: 'SORT_BY',
-        value: 'sort_by',
-        option: [
+    "activeFilterButton":"",
+    "changeReqCount":1,
+    "inprogressCount":1,
+    "filterData": [{
+      "label": "SORT_BY",
+      "value": "sort_by",
+      "option": [
           {
-            label: 'A_TO_Z',
-            value: 'A_TO_Z',
+              "label": "A_TO_Z",
+              "value": "A_TO_Z"
           },
           {
-            label: 'Z_TO_A',
-            value: 'Z_TO_A',
+              "label": "Z_TO_A",
+              "value": "Z_TO_A"
           },
           {
-            label: 'LATEST_FIRST',
-            value: 'LATEST_FIRST',
+              "label": "LATEST_FIRST",
+              "value": "LATEST_FIRST"
           },
           {
-            label: 'OLDEST_FIRST',
-            value: 'OLDEST_FIRST',
-          },
-        ],
-        isMultiple: false,
-      },
-    ],
-  };
-  noSearchResultMessage: any;
-  noPublishedResourceMessage: any;
-  showNoResultComponent: boolean = false;
-  showNoPulishedMessage: boolean = false;
-  rolloutId: any = this.route.snapshot.queryParamMap.get('rolloutId');
-  selectFor: any = this.route.snapshot.queryParamMap.get('selectFor');
+              "label": "OLDEST_FIRST",
+              "value": "OLDEST_FIRST"
+          }
+      ],
+      "isMultiple": false
+  }]
+  }
+  noSearchResultMessage:any;
+  noPublishedResourceMessage:any;
+  showNoResultComponent:boolean = false;
+  showNoPulishedMessage:boolean = false;
+  rolloutId:any = this.route.snapshot.queryParamMap.get('rolloutId')
+  selectFor:any = this.route.snapshot.queryParamMap.get('selectFor')
   selectedValuesForPrograms: number[] = [];
-  sortBy: any = '';
-  sortOrder: any = '';
+  sortBy:any = ''
+  sortOrder:any = ''
 
-  constructor(
-    private httpService: HttpProviderService,
-    private Configuration: ConfigService,
-    private utilService: UtilService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private formService: FormService,
-    private dialog: MatDialog,
-    private sharedService: LibSharedModulesService
-  ) {}
-  ngOnInit() {
-    this.redirectData = {
-      selectDesourceTitle:
-        this.selectFor == 'roll-out' ? 'SELECT' : 'ADD_TO_PROGRAM',
-      subTitle: this.selectFor == 'roll-out' ? '' : 'ADD_TO_PROGRAM_SUBTEXT',
-      redirectUrl:
-        this.selectFor == 'roll-out'
-          ? 'roll-out/details/project-details'
-          : 'roll-out/details/program-resources',
-    };
-    this.subscription.add(
-      this.formService.getForm(SIDE_NAV_DATA).subscribe((form) => {
-        const selectedSideNavData = form?.result?.data.fields.controls.find(
-          (item: any) => item.url === 'roll-out'
-        );
-        this.noSearchResultMessage =
-          selectedSideNavData?.noSearchResultMessage || '';
-        this.noPublishedResourceMessage =
-          selectedSideNavData?.noPublishedResourceMessage || '';
-      })
-    );
-    this.subscription.add(
-      this.getResourceList().subscribe((resourceList: any) => {
-        this.contentList = resourceList.result.data;
-        this.showNoResultComponent =
-          this.contentList.length === 0 ? true : false;
-        if (this.contentList.length !== 0) {
-          this.onSelectionChange(resourceList.result.data[0]);
-        } else {
-          this.showNoPulishedMessage = true;
-        }
-      })
-    );
+constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
+  ngOnInit(){
+    this.redirectData={
+      selectDesourceTitle: (this.selectFor =='roll-out') ? "SELECT" : "ADD_TO_PROGRAM",
+      subTitle:(this.selectFor =='roll-out') ? "" : "ADD_TO_PROGRAM_SUBTEXT",
+      redirectUrl: (this.selectFor =='roll-out') ? 'roll-out/details/project-details' : 'roll-out/details/program-resources'
+   }
+   this.subscription.add(
+    this.formService.getForm(SIDE_NAV_DATA).subscribe(form => {
+      const selectedSideNavData = form?.result?.data.fields.controls.find((item: any) => item.url === "roll-out");
+      this.noSearchResultMessage = selectedSideNavData?.noSearchResultMessage || '' ;
+      this.noPublishedResourceMessage =  selectedSideNavData?.noPublishedResourceMessage || ""
+    })
+   )
+   this.subscription.add(
+    this.getResourceList().subscribe((resourceList:any) => {
+      this.contentList = resourceList.result.data
+      this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+      if(this.contentList.length !== 0){
+        this.onSelectionChange(resourceList.result.data[0])
+      }else{
+        this.showNoPulishedMessage = true
+      }
+     })
+   )
   }
 
-  getResourceList(sort_by: any = '', sort_order: any = '') {
+
+  getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
-      url:
-        this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE +
-        this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS
-          .BROWSE_EXISTING_LIST,
-      params: new URLSearchParams({
-        page: this.page.toString(),
-        limit: this.limit.toString(),
-        search: this.searchText,
-        sort_by: sort_by ? sort_by : this.sortBy,
-        sort_order: sort_order ? sort_order : this.sortOrder,
-      }),
-    };
+      url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
+      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by ? sort_by : this.sortBy,sort_order:sort_order ? sort_order : this.sortOrder })
+    }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
   }
 
-  onSelectionChange(item: any) {
+  onSelectionChange(item:any) {
     this.showPreview = false;
     this.subscription.add(
-      this.getDetailsOfResource(item)?.subscribe((details: any) => {
-        this.utilService
-          .removeEmptyKey(details.result)
-          .subscribe((res: any) => {
-            this.data.resourceData = res;
-            this.showPreview = true;
-          });
+      this.getDetailsOfResource(item)?.subscribe((details:any) => {
+        this.utilService.removeEmptyKey(details.result).subscribe((res:any) =>{
+          this.data.resourceData = res
+          this.showPreview = true
+        })
       })
-    );
-    this.selectedResource = item;
+    )
+    this.selectedResource = item
     this.selectedValue = item.id;
   }
 
-  getDetailsOfResource(item: any) {
+  getDetailsOfResource(item:any){
     switch (item.type) {
-      case 'project':
-        return this.httpService.get(
-          this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + item.id
-        );
+      case "project":
+          return this.httpService.get(
+            this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + item.id
+          );
 
       default:
         return;
     }
   }
 
-
   onScroll(event: Event): void {
     clearTimeout((this as any).scrollTimeout); // clears any previously set timeout.
     (this as any).scrollTimeout = setTimeout(() => {
       const target = event.target as HTMLElement;
       if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
-        this.loadMoreData(); // Call function to fetch more data
+        this.loadMoreData(); // Fetch more data
       }
-    }, 200); // Adds a debounce delay of 200 milliseconds to limit frequent API calls.
+    }, 200);  // Adds a debounce delay of 200 milliseconds to limit frequent API calls.
   }
-
+  
   loadMoreData(): void {
     this.page++; // Increment page number
     this.subscription.add(
@@ -205,7 +161,7 @@ export class ChooseResourceComponent {
         // Append new data to the existing list
         this.contentList = [...this.contentList, ...resourceList.result.data];
       })
-    );
+    )
   }
 
   /**
@@ -214,75 +170,59 @@ export class ChooseResourceComponent {
    */
   receiveSearchResults(event: string) {
     this.searchText = event.trim().toLowerCase();
-    this.page = 1;
+    this.page=1
     this.subscription.add(
-      this.getResourceList().subscribe((resourceList: any) => {
-        this.contentList = resourceList.result.data;
-        this.showNoResultComponent =
-          this.contentList.length === 0 ? true : false;
-        if (this.contentList.length !== 0) {
-          this.onSelectionChange(resourceList.result.data[0]);
+      this.getResourceList().subscribe((resourceList:any) => {
+        this.contentList = resourceList.result.data
+        this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+        if(this.contentList.length !== 0){
+          this.onSelectionChange(resourceList.result.data[0])
         }
-        this.scrollToTop();
-      })
-    );
+        this.scrollToTop()
+       })
+    )
   }
 
-  onSelect() {
+  onSelect(){
     const navigation = history.state;
-    let programErrors: any;
-    if (navigation.programErrors) {
-      programErrors = navigation.programErrors;
-      programErrors.tabValidationForProgram.programResources = 'VALID';
+    let programErrors:any
+    if(navigation.programErrors){
+     programErrors = navigation.programErrors
+     programErrors.tabValidationForProgram.programResources = 'VALID'
     }
-    this.router.navigate([this.redirectData.redirectUrl], {
-      queryParams: {
-        parent: this.route.snapshot.queryParamMap.get('parent'),
-        resourceId: this.selectedResource.id,
-        rolloutId: this.rolloutId,
-        programId: this.route.snapshot.queryParamMap.get('programId'),
-        resourceIds: this.selectedValuesForPrograms,
-      },
-      state: { programErrors: programErrors ? programErrors : '' },
-    });
+    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('parent'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}, state:{programErrors : programErrors ?programErrors :""}})
   }
 
   navigateToCreateNew() {
-    this.router.navigate(['home/create-new'], {});
+    this.router.navigate(['home/create-new'], {})
   }
 
-  onFilterChange(event: any) {}
+  onFilterChange(event:any){}
 
-  onSortOptionsChanged(event: any) {
-    this.sortBy = event.sort_by;
-    this.sortOrder = event.sort_order;
-    this.page = 1;
+  onSortOptionsChanged(event:any){
+    this.sortBy = event.sort_by
+    this.sortOrder = event.sort_order
+    this.page = 1
     this.subscription.add(
-      this.getResourceList(event.sort_by, event.sort_order).subscribe(
-        (resourceList: any) => {
-          this.contentList = resourceList.result.data;
-          this.showNoResultComponent =
-            this.contentList.length === 0 ? true : false;
-          if (this.contentList.length !== 0) {
-            this.onSelectionChange(resourceList.result.data[0]);
-          }
-          this.scrollToTop();
+      this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
+        this.contentList = resourceList.result.data
+        this.showNoResultComponent = this.contentList.length === 0 ? true : false;
+        if(this.contentList.length !== 0){
+          this.onSelectionChange(resourceList.result.data[0])
         }
-      )
-    );
+        this.scrollToTop()
+      })
+    )
   }
 
   isLastItem(item: any): boolean {
-    return (
-      this.contentList.length > 0 &&
-      this.contentList[this.contentList.length - 1].id === item.id
-    );
+    return this.contentList.length > 0 && this.contentList[this.contentList.length - 1].id === item.id;
   }
 
-  filterButtonClickEvent(event: any) {}
+  filterButtonClickEvent(event:any){}
 
   onSelectionChangeForPrograms(item: any) {
-    this.onSelectionChange(item);
+    this.onSelectionChange(item)
     if (!item || !item.id) {
       return;
     }
@@ -304,28 +244,28 @@ export class ChooseResourceComponent {
 
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
-      case 'LOGOUT': {
-        this.utilService.saveResources = false;
-        const dialogRef = this.dialog.open(DialogPopupComponent, {
-          width: '39.375rem',
-          disableClose: true,
-          autoFocus: false,
-          data: {
-            header: 'SAVE_CHANGES',
-            content: 'Are you sure you want to logout?',
-            cancelButton: 'CANCEL',
-            exitButton: 'LOGOUT',
-          },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-          if (result.data === 'LOGOUT') {
-            this.sharedService.logout();
-          }
-        });
-
-        break;
-      }
+        case "LOGOUT":{
+                   this.utilService.saveResources = false;
+                   const dialogRef = this.dialog.open(DialogPopupComponent, {
+                     width: '39.375rem',
+                     disableClose: true,
+                     autoFocus : false,
+                     data: {
+                       header: 'SAVE_CHANGES',
+                       content: 'Are you sure you want to logout?',
+                       cancelButton: "CANCEL",
+                       exitButton: "LOGOUT"
+                     }
+                   });
+                
+                    dialogRef.afterClosed().subscribe((result) => {
+                       if(result.data === 'LOGOUT'){
+                          this.sharedService.logout(); 
+                       }
+                    });
+                   
+                   break;
+                 }
     }
   }
 
