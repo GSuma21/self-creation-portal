@@ -102,6 +102,7 @@ export class ResourceLevelTargetingComponent {
                 .readProgram(this.programId)
                 .subscribe((res: any) => {
                   this.programWithRolloutService.setProgramData(res.result);
+                  this.programWithRolloutService.upDateProgramTitle(res.result.title);
                   this.resourceCount =
                     this.programWithRolloutService.programData.resources.length;
                   this.resources =
@@ -195,7 +196,6 @@ export class ResourceLevelTargetingComponent {
               (resource: any) => resource.id
             );
           this.resources = this.programWithRolloutService.programData.resources;
-          this.programWithRolloutService.upDateProgramTitle();
           this.addResourceFields();
         })
     );

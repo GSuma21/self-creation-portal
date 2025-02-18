@@ -81,6 +81,7 @@ export class ChooseResourceComponent {
   selectedValuesForPrograms: number[] = [];
   sortBy:any = ''
   sortOrder:any = ''
+  loadingData:any
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
   ngOnInit(){
@@ -148,7 +149,8 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onScroll(event: Event): void {
     const target = event.target as HTMLElement;
     // Check if scrolled near the bottom
-    if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
+    if (!this.loadingData && target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
+      this.loadingData = true; 
       this.loadMoreData(); // Call function to fetch more data
     }
   }
@@ -159,6 +161,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       this.getResourceList().subscribe((resourceList: any) => {
         // Append new data to the existing list
         this.contentList = [...this.contentList, ...resourceList.result.data];
+        this.loadingData = false; 
       })
     )
   }
