@@ -363,6 +363,7 @@ export class ProgramDetailsComponent {
     }
 
      saveForm() {
+        this.programWithRolloutService.saveProgramFunc(false);
         if (this.programWithRolloutService.programData.title) {
           // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
           if (this.programId) {

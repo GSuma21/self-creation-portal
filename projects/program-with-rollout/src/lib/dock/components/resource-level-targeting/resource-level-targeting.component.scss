@@ -40,6 +40,15 @@ mat-error {
     font-size: 20px;
 }
 
+.info-icon{
+    color: #80868B; 
+    cursor: pointer;
+    top: 0rem;
+    right: -1.5rem;
+    font-size: 1.25rem;
+    padding-left: 0.25rem;
+}
+
 ::ng-deep .info-tooltip .mdc-tooltip__surface {
     font-size: 0.75rem !important;
     background-color: #0a4f9d  !important;
