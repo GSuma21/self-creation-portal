@@ -31,6 +31,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'lib-resource-level-targeting',
@@ -47,6 +49,7 @@ import { TargetCriteriaComponent } from '../target-criteria/target-criteria.comp
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTooltipModule
   ],
   templateUrl: './resource-level-targeting.component.html',
   styleUrl: './resource-level-targeting.component.scss',
@@ -375,4 +378,15 @@ export class ResourceLevelTargetingComponent {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  showTooltip(tooltip: MatTooltip) {
+    tooltip.disabled = false;
+    tooltip.show();
+  }
+  
+  hideTooltip(tooltip: MatTooltip) {
+    tooltip.hide();
+    tooltip.disabled = true;
+  }
+  
 }
