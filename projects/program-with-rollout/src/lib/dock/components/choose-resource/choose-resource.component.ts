@@ -144,15 +144,16 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
     }
   }
 
-
   onScroll(event: Event): void {
-    const target = event.target as HTMLElement;
-    // Check if scrolled near the bottom
-    if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
-      this.loadMoreData(); // Call function to fetch more data
-    }
+    clearTimeout((this as any).scrollTimeout); // clears any previously set timeout.
+    (this as any).scrollTimeout = setTimeout(() => {
+      const target = event.target as HTMLElement;
+      if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
+        this.loadMoreData(); // Fetch more data
+      }
+    }, 200);  // Adds a debounce delay of 200 milliseconds to limit frequent API calls.
   }
-
+  
   loadMoreData(): void {
     this.page++; // Increment page number
     this.subscription.add(

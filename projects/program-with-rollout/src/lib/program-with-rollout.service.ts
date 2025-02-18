@@ -214,7 +214,7 @@ export class ProgramWithRolloutService {
       ? programData.title
       : this.programData?.title && this.programData.title.length > 0
       ? this.programData.title
-      : 'Untitled project';
+      : 'Untitled program';
     this.setProgramData(programData);
     this.saveProgramFunc(false);
     this.upDateProgramTitle();
