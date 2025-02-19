@@ -9,7 +9,7 @@
         [allowOpenLinks]="allowOpenLinks" (onClickTriggerParent)="onClickTriggeredParent($event)" (onActionTriggerParent)="onActionTriggeredParent($event)"></dynamic-form>
 </div>
 }
-<!-- @if(commentPayload || projectInReview) {
-<lib-comments-box [commentPayload]="commentPayload" [resourceId]="projectId" [messages]="commentsList" [mode]="mode"
+@if(commentPayload || ResourceInReview) {
+<lib-comments-box [commentPayload]="commentPayload" [resourceId]="programId" [messages]="commentsList" [mode]="mode"
     (comment)="saveComment($event)"></lib-comments-box>
-} -->
+}

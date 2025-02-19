@@ -29,15 +29,36 @@ const routes: Routes = [
       },
       {
         path:'program-details',
-        component:ProgramDetailsComponent
+        component:ProgramDetailsComponent,
+        data:{
+          "text": "",
+          "page":"1",
+          "context":"page",
+          "status": "DRAFT",
+          "parent_id":0
+        }
       },
       {
         path:'program-resources',
-        component:ProgramResourcesComponent
+        component:ProgramResourcesComponent,
+        data:{
+          "text": "",
+          "page":"2",
+          "context":"page",
+          "status": "DRAFT",
+          "parent_id":0
+        }
       },
       {
         path:'resource-level-targeting',
-        component:ResourceLevelTargetingComponent
+        component:ResourceLevelTargetingComponent,
+        data:{
+          "text": "",
+          "page":"3",
+          "context":"page",
+          "status": "DRAFT",
+          "parent_id":0
+        }
       }
     ]
   }
