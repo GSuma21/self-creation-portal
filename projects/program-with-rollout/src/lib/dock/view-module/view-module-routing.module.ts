@@ -43,7 +43,7 @@ const routes: Routes = [
         component:ProgramResourcesComponent,
         data:{
           "text": "",
-          "page":"1",
+          "page":"2",
           "context":"page",
           "status": "DRAFT",
           "parent_id":0
@@ -54,7 +54,7 @@ const routes: Routes = [
         component:ResourceLevelTargetingComponent,
         data:{
           "text": "",
-          "page":"1",
+          "page":"3",
           "context":"page",
           "status": "DRAFT",
           "parent_id":0

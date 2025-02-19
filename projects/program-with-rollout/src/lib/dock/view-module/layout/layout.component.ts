@@ -164,7 +164,7 @@ export class LayoutComponent {
                  exitButton: "LOGOUT"
                }
              });
-          
+
               dialogRef.afterClosed().subscribe((result) => {
                  if(result.data === 'LOGOUT'){
                   this.utilService.saveResources = false;
@@ -178,9 +178,34 @@ export class LayoutComponent {
                     })
                   }
                  }
-              }); 
+              });
              break;
            }
+           case "ACCEPT":{
+            const dialogRef = this.dialog.open(DialogPopupComponent, {
+              width: '39.375rem',
+              autoFocus: false,
+              disableClose: true,
+              data: {
+                header: "ACCEPT_RESOURCE",
+                content: "ACCEPT_RESOURCE_CONTENT",
+                cancelButton: "CANCEL",
+                exitButton: "ACCEPT"
+              }
+            });
+            dialogRef.afterClosed().toPromise().then(result => {
+              if (result.data === "CANCEL") {
+                return true;
+              } else if (result.data === "ACCEPT") {
+                this.utilService.saveComment = false
+                this.programWithRolloutService.approveProject()
+                return true;
+              } else {
+                return false;
+              }
+            });
+            break;
+          }
       default:
         break;
     }

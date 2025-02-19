@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayContainsAllDirective, CardComponent, DialogPopupComponent, FormService, modes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, ToastService } from 'lib-shared-modules';
+import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, modes, PROJECT_DETAILS_PAGE, projectMode, RESOURCE_LIST, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'lib-program-resources',
   standalone: true,
-  imports: [CommonModule,MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule,ArrayContainsAllDirective, CardComponent],
+  imports: [CommonModule,MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatListModule, MatCardModule,TranslateModule,ArrayContainsAllDirective, CardComponent,CommentsBoxComponent],
   templateUrl: './program-resources.component.html',
   styleUrl: './program-resources.component.scss',
 })
@@ -29,14 +29,24 @@ export class ProgramResourcesComponent {
   resourceIds:any=[]
   programId:any;
   isResourceIsNotPresent:boolean = false;
+  commentPayload: any;
+  commentsList: any = [];
+  ResourceInReview: boolean = false;
+  mode:any;
+  viewOnly:boolean = false;
   private subscription: Subscription = new Subscription();
 
-constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService){
+constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService, private utilService: UtilService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
   this.subscription.add(
     this.route.queryParamMap.subscribe((params) => {
       this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
       this.programId =  this.route.snapshot.queryParamMap.get('programId');
+    })
+  )
+  this.subscription.add(
+    this.route.queryParams.subscribe((params: any) => {
+      this.mode = params.mode ? params.mode : ""
     })
   )
 }
@@ -68,6 +78,10 @@ ngOnInit(){
       })
     )
   }
+  if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+    this.viewOnly = true
+    // this.getProjectDetailsForViewOnly();
+  }
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
       (isProjectSave: boolean) => {
@@ -84,8 +98,14 @@ ngOnInit(){
     this.resourceCount  = this.programWithRolloutService.programData.resources.length;
     this.resources = this.programWithRolloutService.programData.resources
     this.addActionButtons()
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+      this.getCommentConfigs()
+    }
   }else if(!this.resourceIds?.length  && this.programId && Object.keys(this.programWithRolloutService.programData)?.length < 1){
     this.readProgram()
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+      this.getCommentConfigs()
+    }
   }
 
   this.subscription.add( // Check validation before sending for review.
@@ -205,22 +225,35 @@ saveForm(){
 }
 
 addActionButtons(){
-  let buttonData = [
-    {
-      "action": "EDIT",
-      "label": "EDIT",
-      "background_color": "#0a4f9d"
-  }, {
-    "action": "DELETE",
-    "label": "DELETE",
-    "background_color": "#EC555D"
-}
-  ]
+  let buttonData = []
+  if(!this.viewOnly) {
+    buttonData = [
+      {
+        action: 'EDIT',
+        label: 'EDIT',
+        background_color: '#0a4f9d',
+      },
+      {
+        action: 'DELETE',
+        label: 'DELETE',
+        background_color: '#EC555D',
+      },
+    ];
+  }
+  else {
+    buttonData = [
+      {
+        action: 'START_REVIEW',
+        label: 'REVIEW',
+        background_color: '#0a4f9d',
+      }
+    ];
+  }
 
-this.resources = this.resources.map((resource:any) => ({
-  ...resource,
-  actionButton: buttonData // Use spread operator to add 'EDIT' and 'DELETE' to each object
-}));
+  this.resources = this.resources.map((resource: any) => ({
+    ...resource,
+    actionButton: buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
+  }));
 }
 
 getsolutionList() {
@@ -277,6 +310,20 @@ getsolutionList() {
                 }
               })
               break;
+            case 'REVIEW':
+              if (item.type === 'project') {
+                this.router.navigate([PROJECT_DETAILS_PAGE], {
+                  queryParams: {
+                    parent: 'program-resources',
+                    programId: this.programId,
+                    programResourceId: item.id,
+                    mode: modes.REVIEW,
+                  },
+                });
+                break;
+              } else {
+                break;
+              }
             default:
               break;
           }
@@ -291,9 +338,29 @@ getsolutionList() {
     return isoDateRegex.test(value);
   }
 
+  saveComment(quillInput:any){ //  This method is checking validation when a comment is updated or deleted.
+    this.programWithRolloutService.checkValidationForRequestChanges(quillInput)
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.resources=[]
+  }
+
+  getCommentConfigs() {
+    this.subscription.add(
+      this.route.data.subscribe((data: any) => {
+        this.utilService.getCommentList(this.programId).subscribe((commentListRes: any) => {
+          const comments = commentListRes.result?.comments || [];
+          const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
+
+          this.commentsList = this.commentsList.concat(filteredComments);
+          this.commentPayload = data;
+          this.ResourceInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          // this.libProjectService.checkValidationForRequestChanges(comments);
+        });
+      })
+    );
   }
 
   confirmAndDeleteProject(message:string="CONFIRM_DELETE_MESSAGE" ): Observable<boolean> {

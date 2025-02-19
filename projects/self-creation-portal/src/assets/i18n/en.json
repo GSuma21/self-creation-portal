@@ -103,6 +103,7 @@
     "INPROGRESS" : "In progress",
     "START_REVIEW" : "Start review",
     "RESUME_REVIEW" : "Resume review",
+    "REVIEW":"Review",
     "NO_REVIEWERS_FOUND":"No reviewers found. Contact your organization admin.",
     "NO_UP_FOR_REVIEW":"No resource/program to review at the moment",
     "COMMENTS": "Comments",
@@ -218,5 +219,6 @@
     "LOGOUT_SUCCESSFULL_MESSAGE":"You have been successfully logged out.",
     "CHANGES_SAVED_SUCCESSFULLY":"Changes saved successfully",
     "YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT":"Your program has been saved as draft",
-    "PLEASE_ADD_PROGRAM_TARGET_CRITERIA":"Please add program target criteria"
+    "PLEASE_ADD_PROGRAM_TARGET_CRITERIA":"Please add program target criteria",
+    "YOU_HAVE_SUCCESSFULLY_PUBLISHED_THE_PROGRAM":"You have successfully published the program"
 }
