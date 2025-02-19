@@ -10,7 +10,7 @@ import {
   resourceStatus,
   LibSharedModulesService,
   FormService,
-  modes,
+  solutionModes,
   PROJECT_DETAILS
 } from 'lib-shared-modules';
 import { BehaviorSubject, map, Observable, switchMap, tap, EMPTY, of  } from 'rxjs';
@@ -430,13 +430,13 @@ export class LibProjectService {
         : 30000
     ).pipe(
       switchMap(() => {
-        if(mode === modes.META_EDIT && this.programData){
+        if(mode === solutionModes.META_EDIT && this.programData){
           this.programData.resources = this.programData.resources.map((resource:any) => 
             resource.id === this.projectData.id ? { ...this.projectData } : resource
           );
           return  this.updateProgramData(this.programData)
         }
-        else if(this.isFormDirty && mode !== modes.META_EDIT) {
+        else if(this.isFormDirty && mode !== solutionModes.META_EDIT) {
           return this.createOrUpdateProject(
             this.projectData,
             this.projectData.id
@@ -470,7 +470,7 @@ export class LibProjectService {
         this.router.navigate([PROJECT_DETAILS_PAGE], {
           queryParams: {
             projectId: this.projectData.id,
-            mode: modes.REVIEW,
+            mode: solutionModes.REVIEW,
             parent:"up-for-review"
           },
         });
@@ -482,7 +482,7 @@ export class LibProjectService {
       this.router.navigate([PROJECT_DETAILS_PAGE], {
         queryParams: {
           projectId: this.projectData.id,
-          mode: modes.REQUEST_FOR_EDIT,
+          mode: solutionModes.REQUEST_FOR_EDIT,
           parent:"review"
         }
       });
@@ -490,7 +490,7 @@ export class LibProjectService {
       this.router.navigate([PROJECT_DETAILS_PAGE], {
         queryParams: {
           projectId: this.projectData.id,
-          mode: modes.EDIT
+          mode: solutionModes.EDIT
         },
       });
     }

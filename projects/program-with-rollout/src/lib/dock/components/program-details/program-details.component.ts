@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
-import { CommentsBoxComponent, DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
+import { CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROGRAM_DETAILS, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
@@ -51,7 +51,7 @@ export class ProgramDetailsComponent {
         }
       )
     );
-    if (this.mode === modes.VIEWONLY || this.mode === modes.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT) {
+    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
     }
@@ -90,7 +90,7 @@ export class ProgramDetailsComponent {
 
 
   ngAfterViewChecked() {
-    if ((this.mode == modes.EDIT) && this.programId) {
+    if ((this.mode == solutionModes.EDIT) && this.programId) {
       if (this.formLib && this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programDetails == "INVALID" && this.formLib.myForm.pristine) {
         this.subscription.add(
           this.programWithRolloutService.programApiErrors.subscribe(
@@ -135,7 +135,7 @@ export class ProgramDetailsComponent {
                 this.programId = params.programId;
                 this.programWithRolloutService.programData.id = params.programId;
                 if (params.programId) {
-                  if (params.mode === modes.EDIT) {
+                  if (params.mode === solutionModes.EDIT) {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
@@ -145,7 +145,7 @@ export class ProgramDetailsComponent {
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
+                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
                   }else{
@@ -159,7 +159,7 @@ export class ProgramDetailsComponent {
                             // comments list and configuration
                           })
                       );
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
+                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
                   }
@@ -334,7 +334,7 @@ export class ProgramDetailsComponent {
           if(!this.programId) {
             this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
-            if(this.mode === modes.EDIT) {
+            if(this.mode === solutionModes.EDIT) {
               this.subscription.add(
                 this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
             }
@@ -353,7 +353,7 @@ export class ProgramDetailsComponent {
                 relativeTo: this.route,
                 queryParams: {
                   programId: this.programId,
-                  mode: modes.EDIT,
+                  mode: solutionModes.EDIT,
                 },
                 queryParamsHandling: 'merge',
                 replaceUrl: true,
@@ -429,7 +429,7 @@ export class ProgramDetailsComponent {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
+          this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
           // this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })
@@ -442,7 +442,7 @@ export class ProgramDetailsComponent {
 
    ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) {
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
         this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }
       if (this.intervalId) {

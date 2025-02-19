@@ -6,7 +6,7 @@ import { LOGOUT_URLS } from './configs/url.config.json';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from './services/toast/toast.service';
-import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT, PROGRAM_RESOURCES, modes } from './constants/urlConstants';
+import { SUBMITTED_FOR_REVIEW, UP_FOR_REVIEW, DRAFTS, BROWSE_EXISTING, ROLL_OUT, PROGRAM_RESOURCES, solutionModes } from './constants/urlConstants';
 import { Subject } from 'rxjs';
 import { IndexDbService } from './services/index-db/index-db.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -91,7 +91,7 @@ export class LibSharedModulesService {
             class: 'success',
           });
         }
-        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         break;
       default:
         this.router.navigate(['../'], { relativeTo: this.route });

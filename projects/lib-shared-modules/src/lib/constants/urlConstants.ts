@@ -36,7 +36,7 @@ export const ROUTE_PATHS = {
       PROJECT_DETAILS: PROJECT_DETAILS_PAGE,
     }
 };
-export const modes = {
+export const solutionModes = {
   VIEWONLY: 'viewOnly',
   EDIT: 'edit',
   REQUEST_FOR_EDIT:'reqEdit',

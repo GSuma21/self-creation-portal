@@ -5,7 +5,7 @@ import {
   CardComponent,
   CommentsBoxComponent,
   FormService,
-  modes,
+  solutionModes,
   resourceStatus,
   SOLUTION_LIST,
   ToastService,
@@ -138,7 +138,7 @@ export class ResourceLevelTargetingComponent {
         this.programWithRolloutService.programData.resources.length;
       this.resources = this.programWithRolloutService.programData.resources;
       this.addResourceFields();
-      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
         this.getCommentConfigs()
       }
     }
@@ -151,13 +151,13 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
-    if (this.mode === modes.VIEWONLY || this.mode === modes.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT) {
+    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
     }
     if (this.programId && !this.resourceIds?.length) {
       this.readProgram();
-      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
         this.getCommentConfigs()
       }
     }
@@ -302,7 +302,7 @@ export class ResourceLevelTargetingComponent {
                 relativeTo: this.route,
                 queryParams: {
                   programId: this.programId,
-                  mode: modes.EDIT,
+                  mode: solutionModes.EDIT,
                 },
                 queryParamsHandling: 'merge',
                 replaceUrl: true,
@@ -420,7 +420,7 @@ export class ResourceLevelTargetingComponent {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
+          this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
           // this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })

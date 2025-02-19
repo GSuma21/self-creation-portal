@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
-import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, SOLUTION_LIST, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , PreviewComponent, PROJECT_DETAILS, modes} from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, SOLUTION_LIST, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , PreviewComponent, PROJECT_DETAILS, solutionModes} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -99,7 +99,7 @@ export class LayoutComponent {
       }
       case "SAVE_CHANGES":
       case "SAVE_AS_DRAFT": {
-        if (this.mode === modes.META_EDIT) {
+        if (this.mode === solutionModes.META_EDIT) {
           this.libProjectService.saveProgramResourceFunc(true)
           break;
         } else {
@@ -200,7 +200,7 @@ export class LayoutComponent {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: res.result.id,
-                mode: modes.EDIT,
+                mode: solutionModes.EDIT,
                 parent: "draft"
               },
             });
