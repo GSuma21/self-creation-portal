@@ -165,6 +165,7 @@ readProgram(){
         this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
         this.resourceCount  = this.programWithRolloutService.programData.resources.length;
         this.resources = this.programWithRolloutService.programData.resources
+        this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources.length ? 'VALID' : 'INVALID'
         this.addActionButtons()
         this.programWithRolloutService.upDateProgramTitle()
         if((this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' || this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID') && ( res.result.resources?.length <= 0)){

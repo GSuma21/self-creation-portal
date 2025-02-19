@@ -1867,11 +1867,6 @@
                                 "cssClass": "primary-button-enable"
                             },
                             {
-                                "title": "REJECT",
-                                "disable": false,
-                                "cssClass": "enable-reject-button"
-                            },
-                            {
                                 "title": "ACCEPT",
                                 "disable": false,
                                 "cssClass": "enable-success-button"
