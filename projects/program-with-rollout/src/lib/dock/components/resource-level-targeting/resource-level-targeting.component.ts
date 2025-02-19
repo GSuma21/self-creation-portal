@@ -157,6 +157,8 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }
 
   ngAfterViewChecked() {

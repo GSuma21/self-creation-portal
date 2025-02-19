@@ -41,8 +41,8 @@ export class ProgramDetailsComponent {
     this.getFormWithEntitiesAndMap()
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
-        (isProjectSave: boolean) => {
-          if (isProjectSave) {
+        (isProgramSave: boolean) => {
+          if (isProgramSave) {
             this.saveForm();
           }
         }
@@ -135,7 +135,7 @@ export class ProgramDetailsComponent {
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
                             this.programWithRolloutService.setProgramData(res.result);
-                            this.readProjectDeatilsAndMap(data.controls,res.result);
+                            this.readProgramDeatilsAndMap(data.controls,res.result);
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
@@ -147,14 +147,14 @@ export class ProgramDetailsComponent {
                           .subscribe((res: any) => {
                             this.programWithRolloutService.setProgramData(res.result);
                           //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
-                            this.readProjectDeatilsAndMap(data.controls,res.result);
+                            this.readProgramDeatilsAndMap(data.controls,res.result);
                             // comments list and configuration
                           })
                       );
                     // this.checkAndGetCommentConfigs()
                   }
                 } else {
-                  this.readProjectDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
+                  this.readProgramDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
                 }
               })
             );
@@ -164,7 +164,7 @@ export class ProgramDetailsComponent {
         //   this.allowOpenLinks =  data?.tasksData.allowOpenLinks;
         // })
       }
-      readProjectDeatilsAndMap(formControls:any,res: any) {
+      readProgramDeatilsAndMap(formControls:any,res: any) {
         formControls.forEach((element: any) => {
           if (Array.isArray(res[element.name])) {
             element.value = res[element.name].map((arrayItem: any) => {
@@ -203,6 +203,7 @@ export class ProgramDetailsComponent {
     if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
   }
 
   getFormControlChange(item:string) {
@@ -333,7 +334,7 @@ export class ProgramDetailsComponent {
       }
 
 
-      createProgram(payload?:any,showToast?:boolean) { // title should be send from calling methods only, due to title can be filled before project creation
+      createProgram(payload?:any,showToast?:boolean) { // title should be send from calling methods only, due to title can be filled before program creation
         this.subscription.add(
           this.programWithRolloutService
           .createOrUpdateProgram(payload)
@@ -411,6 +412,7 @@ export class ProgramDetailsComponent {
       }
 
    ngOnDestroy() {
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources) {
         this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }

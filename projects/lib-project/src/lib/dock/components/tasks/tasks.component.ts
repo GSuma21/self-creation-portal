@@ -358,7 +358,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       } else if (result.data === "YES") {
         this.libProjectService.validateAndHighlightErrors({error: [...this.libProjectService.reviewErrors.filter((obj:any) => !obj.location.includes(`tasks[${index}]`))]});
         this.tasks.removeAt(index);
-        this.checkValidation()
+        this.checkValidation(index)
         return true;
       } else {
         return false;
@@ -367,7 +367,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   checkValidation(index?:any) {
-    if(index) {
+    if(index !== undefined && index !== null) {
       this.libProjectService.removeItemFromAPIErrors('tasks['+index+']')
     }
     this.saveTasks()
