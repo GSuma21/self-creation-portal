@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ConfigService,
   FormService,
@@ -9,7 +9,10 @@ import {
   ToastService,
   ReviewModelComponent,
   SUBMITTED_FOR_REVIEW,
-  PROGRAM_DETAILS
+  PROGRAM_DETAILS,
+  UtilService,
+  resourceStatus,
+  ROUTE_PATHS
 } from 'lib-shared-modules';
 import {
   BehaviorSubject,
@@ -27,6 +30,8 @@ import {
 export class ProgramWithRolloutService {
   rolloutDataSubject = new BehaviorSubject<any>(null);
   currentRolloutData = this.rolloutDataSubject.asObservable();
+  dataSubject = new BehaviorSubject<any>(null);
+  currentProjectMetaData = this.dataSubject.asObservable();
   private getValidationForRollout = new BehaviorSubject<boolean>(false); // check and get the validation for rolled out resource
   isRolledOutValid = this.getValidationForRollout.asObservable();
   getResourceStatus = new BehaviorSubject<any>(null);
@@ -44,7 +49,8 @@ export class ProgramWithRolloutService {
   buttonData:any;
   programData: any = {};
   tabValidationForProgram:any;
-  formMeta:any
+  formMeta:any;
+  mode: any = 'edit';
   programConfig:any
   private saveProgram = new BehaviorSubject<boolean>(false);
   isProgramSave = this.saveProgram.asObservable();
@@ -60,7 +66,9 @@ export class ProgramWithRolloutService {
     private formService: FormService,
     private toastService: ToastService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private utilService: UtilService,
+    private route: ActivatedRoute
   ) {
     this.setValidationForProgram();
     this.tabValidationForProgram={
@@ -68,6 +76,9 @@ export class ProgramWithRolloutService {
       programResources: 'VALID',
       resourceLevelTargeting: 'VALID'
     }
+    this.route.queryParams.subscribe((params: any) => {
+      this.mode = params.mode ? params.mode : 'edit';
+    });
   }
 
   setRolloutData(data: any) {
@@ -108,6 +119,34 @@ export class ProgramWithRolloutService {
       }
     );
   }
+
+  getcommentsListAsOpen(): Observable<any> {
+    return this.getComments().pipe(
+      map((comments: any[]) => {
+        comments.forEach((comment: any) => {
+          if (comment.status === resourceStatus.DRAFT) {
+            comment.status = 'OPEN';
+          }
+        });
+        return comments;
+      })
+    );
+  }
+
+  approveProject() {
+    this.getcommentsListAsOpen().subscribe((res) => {
+      this.utilService
+        .approveResource(this.programData.id, { comment: res })
+        .subscribe((res: any) => {
+          this.openSnackBarAndRedirect(
+            res.message,
+            'success',
+            ROUTE_PATHS.SIDENAV.UP_FOR_REVIEW
+          );
+        });
+    });
+  }
+
   readProject(projectId: number | string) {
     return this.httpService.get(
       this.Configuration.urlConFig.PROJECT_URLS.READ_PROJECT + projectId
@@ -418,5 +457,48 @@ export class ProgramWithRolloutService {
   removeItemFromAPIErrors(location:any) {
     this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.param !== location)]
     this.setProgramErrorsFunc(this.reviewErrors);
+  }
+
+  checkValidationForRequestChanges(input:any = "") { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
+    if(input === null){
+      this.getComments().subscribe((data:any)=>{
+        if(data.some((comment: any) => comment.status === resourceStatus.DRAFT)){
+          this.changeCommentStatus(false)
+        }else{
+          this.changeCommentStatus(true)
+        }
+        })
+    }else{
+      if(Array.isArray(input) && input.some((comment: any) => comment.status === resourceStatus.DRAFT)){
+        this.changeCommentStatus(false)
+      }else if(!Array.isArray(input) && input.length > 0){
+        this.changeCommentStatus(false)
+      }else{
+        this.changeCommentStatus(true)
+      }
+    }
+  }
+
+  getComments(): Observable<any[]> {
+    return this.utilService
+      .getCommentList(this.programData.id)
+      .pipe(map((response: any) => response.result.comments || []));
+  }
+
+  changeCommentStatus(status:any){
+    const currentProjectMetaData = this.dataSubject.getValue();
+    if (
+      Array.isArray(
+        currentProjectMetaData?.sidenavData.headerData?.buttons?.[this.mode]
+      )
+    ) {
+      currentProjectMetaData?.sidenavData.headerData?.buttons?.[
+        this.mode
+      ].forEach((element: any) => {
+        if (element.title === 'REQUEST_CHANGES') {
+          element.disable = status;
+        }
+      });
+    }
   }
 }

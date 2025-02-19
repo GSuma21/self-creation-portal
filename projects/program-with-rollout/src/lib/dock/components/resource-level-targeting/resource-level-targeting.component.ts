@@ -3,10 +3,14 @@ import { MatCardModule } from '@angular/material/card';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   CardComponent,
+  CommentsBoxComponent,
   FormService,
   modes,
+  projectMode,
+  resourceStatus,
   SOLUTION_LIST,
   ToastService,
+  UtilService,
 } from 'lib-shared-modules';
 
 import { min, Subscription } from 'rxjs';
@@ -49,7 +53,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTooltipModule
+    MatTooltipModule,
+    CommentsBoxComponent
   ],
   templateUrl: './resource-level-targeting.component.html',
   styleUrl: './resource-level-targeting.component.scss',
@@ -62,6 +67,11 @@ export class ResourceLevelTargetingComponent {
   programId: any;
   resourceForm: any;
   private subscription: Subscription = new Subscription();
+  mode:string = '';
+  viewOnly:boolean = false;
+  commentPayload: any;
+  commentsList: any = [];
+  ResourceInReview: boolean = false;
 
   constructor(
     private formService: FormService,
@@ -70,16 +80,27 @@ export class ResourceLevelTargetingComponent {
     private programWithRolloutService: ProgramWithRolloutService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private utilService: UtilService
   ) {
     this.parent = this.route.snapshot.queryParamMap.get('parent');
     this.route.queryParamMap.subscribe((params) => {
       this.resourceIds = params.getAll('resourceIds').map((id) => Number(id));
       this.programId = this.route.snapshot.queryParamMap.get('programId');
     });
+    this.subscription.add(
+      this.route.queryParams.subscribe((params: any) => {
+        this.mode = params.mode ? params.mode : ""
+      })
+    )
   }
 
   ngOnInit() {
+    this.subscription.add(
+      this.route.queryParams.subscribe((params: any) => {
+        this.mode = params.mode ? params.mode : ""
+      })
+    )
     this.initForm();
     if (this.resourceIds.length) {
       this.subscription.add(
@@ -118,6 +139,9 @@ export class ResourceLevelTargetingComponent {
         this.programWithRolloutService.programData.resources.length;
       this.resources = this.programWithRolloutService.programData.resources;
       this.addResourceFields();
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+        this.getCommentConfigs()
+      }
     }
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
@@ -128,8 +152,15 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
+    if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+      this.viewOnly = true
+      // this.getProjectDetailsForViewOnly();
+    }
     if (this.programId && !this.resourceIds?.length) {
       this.readProgram();
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+        this.getCommentConfigs()
+      }
     }
     if(!this.resourceIds?.length  && !this.programId){
       this.submit();
@@ -377,6 +408,26 @@ export class ResourceLevelTargetingComponent {
 
   infoIconClickEvent(data: any) {}
 
+  saveComment(quillInput:any){ //  This method is checking validation when a comment is updated or deleted.
+    this.programWithRolloutService.checkValidationForRequestChanges(quillInput)
+  }
+
+  getCommentConfigs() {
+    this.subscription.add(
+      this.route.data.subscribe((data: any) => {
+        this.utilService.getCommentList(this.programId).subscribe((commentListRes: any) => {
+          const comments = commentListRes.result?.comments || [];
+          const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
+
+          this.commentsList = this.commentsList.concat(filteredComments);
+          this.commentPayload = data;
+          this.ResourceInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          // this.libProjectService.checkValidationForRequestChanges(comments);
+        });
+      })
+    );
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -385,10 +436,10 @@ export class ResourceLevelTargetingComponent {
     tooltip.disabled = false;
     tooltip.show();
   }
-  
+
   hideTooltip(tooltip: MatTooltip) {
     tooltip.hide();
     tooltip.disabled = true;
   }
-  
+
 }
