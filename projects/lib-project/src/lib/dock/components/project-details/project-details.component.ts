@@ -65,12 +65,12 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       )
     );
 
-    // save resource of program 
+    // save resource of program
     this.subscription.add(
       this.libProjectService.isProgramResourceSave.subscribe(
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
-             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
               resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
@@ -267,6 +267,9 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
                this.libProjectService.setProjectData(matchedResource);
                this.libProjectService.formMeta = matchedResource.formMeta ? matchedResource.formMeta : this.libProjectService.formMeta;
                this.libProjectService.upDateProjectTitle()
+               if(programId) {
+                this.checkAndGetCommentConfigs();
+               }
             }))
         })
       }
@@ -323,7 +326,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   startAutoSaving() {
       this.intervalId = setInterval(() => {
         if(this.mode === modes.META_EDIT && !this.projectId){
-          this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+          this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
             resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
           );
           this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
@@ -338,7 +341,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           }
         }
       }, 30000);
-  
+
   }
   createProject(payload?:any,showToast?:boolean) { // title should be send from calling methods only, due to title can be filled before project creation
       this.libProjectService
@@ -439,7 +442,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     }
     if(this.utilService.saveResources){
       if(this.mode === modes.META_EDIT){
-        this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+        this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
           resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
         );
         this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})

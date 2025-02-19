@@ -166,12 +166,12 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
       )
     );
 
-    // save resource of program 
+    // save resource of program
     this.subscription.add(
       this.libProjectService.isProgramResourceSave.subscribe(
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
-             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
               resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
@@ -422,16 +422,16 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
 
 
   savingSubtask(taskIndex:any,j:any){
-    this.saveSubtask();
     this.libProjectService.removeItemFromAPIErrors('tasks['+taskIndex+"]."+"children["+j+']')
+    this.saveSubtask();
     if(this.libProjectService.reviewErrors.length > 0 && this.libProjectService.reviewErrors.find((element:any) => element.location.includes('tasks') && element.location.includes('children'))) {
       this.libProjectService.tabValidation.subTasks = "INVALID"
     }
     else {
       this.libProjectService.tabValidation.subTasks = "VALID"
     }
-    // this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
-    // this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
+    this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
+    this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
   }
 
   addMinSubmissionsRequired(event:any,taskIndex:any){
