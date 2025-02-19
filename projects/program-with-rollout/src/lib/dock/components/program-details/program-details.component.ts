@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
-import { CommentsBoxComponent, DialogPopupComponent, FormService, modes, PROGRAM_DETAILS, projectMode, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
+import { CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROGRAM_DETAILS, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
@@ -51,7 +51,7 @@ export class ProgramDetailsComponent {
         }
       )
     );
-    if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
     }
@@ -89,28 +89,27 @@ export class ProgramDetailsComponent {
 
 
 
-      ngAfterViewChecked() {
-        if((this.mode == modes.EDIT ) && this.programId) {
-          if(this.formLib &&  this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programDetails == "INVALID" && this.formLib.myForm.pristine) {
-              this.subscription.add(
-                this.programWithRolloutService.programApiErrors.subscribe(
-                  (errors: any) => {
-                    for (let index = 0; index < errors.length; index++) {
-                      if(this.dynamicFormData.find((item:any) => item.name === errors[index].param)?.errorMessage) {
-                        this.dynamicFormData.find((item:any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
-                       }
-                        // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
-                        this.formLib?.myForm.controls[errors[index].param]?.setErrors({pattern:errors[index].msg})
-                    }
-                  }
-                )
-              );
-              this.formLib?.myForm.markAllAsTouched()
-          }
-          this.programWithRolloutService.formMeta.formValidation.programDetails = (this.formLib?.myForm.status) ? this.formLib?.myForm.status : "INVALID";
-
-        }
+  ngAfterViewChecked() {
+    if ((this.mode == solutionModes.EDIT) && this.programId) {
+      if (this.formLib && this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programDetails == "INVALID" && this.formLib.myForm.pristine) {
+        this.subscription.add(
+          this.programWithRolloutService.programApiErrors.subscribe(
+            (errors: any) => {
+              for (let index = 0; index < errors.length; index++) {
+                if (this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
+                  this.dynamicFormData.find((item: any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
+                }
+                // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+                this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+              }
+            }
+          )
+        );
+        this.formLib?.myForm.markAllAsTouched()
       }
+      this.programWithRolloutService.formMeta.formValidation.programDetails = (this.formLib?.myForm.status) ? this.formLib?.myForm.status : "INVALID";
+    }
+  }
 
     getFormWithEntitiesAndMap(){
         this.formService.getFormWithEntities(PROGRAM_DETAILS).then((data) => {
@@ -136,7 +135,7 @@ export class ProgramDetailsComponent {
                 this.programId = params.programId;
                 this.programWithRolloutService.programData.id = params.programId;
                 if (params.programId) {
-                  if (params.mode === modes.EDIT) {
+                  if (params.mode === solutionModes.EDIT) {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
@@ -146,7 +145,7 @@ export class ProgramDetailsComponent {
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
                   }else{
@@ -160,7 +159,7 @@ export class ProgramDetailsComponent {
                             // comments list and configuration
                           })
                       );
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
                   }
@@ -218,7 +217,6 @@ export class ProgramDetailsComponent {
   }
 
   getFormControlChange(item:string) {
-    console.log(item)
     if(item) {
       this.programWithRolloutService.removeItemFromAPIErrors(item);
     }
@@ -336,7 +334,7 @@ export class ProgramDetailsComponent {
           if(!this.programId) {
             this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
-            if(this.mode === modes.EDIT) {
+            if(this.mode === solutionModes.EDIT) {
               this.subscription.add(
                 this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
             }
@@ -355,7 +353,7 @@ export class ProgramDetailsComponent {
                 relativeTo: this.route,
                 queryParams: {
                   programId: this.programId,
-                  mode: modes.EDIT,
+                  mode: solutionModes.EDIT,
                 },
                 queryParamsHandling: 'merge',
                 replaceUrl: true,
@@ -371,56 +369,57 @@ export class ProgramDetailsComponent {
         )
     }
 
-     saveForm() {
-        this.programWithRolloutService.saveProgramFunc(false);
-        if (this.programWithRolloutService.programData.title) {
-          // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
-          if (this.programId) {
-            return this.subscription.add(
-              this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
-            )
-          }
-          else {
-            return  this.subscription.add(
-               this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'},true)
-            )
-          }
-        } else{
-          const dialogRef = this.dialog.open(DialogPopupComponent, {
-            width: '39.375rem',
-            disableClose: true,
-            autoFocus : false,
-            data: {
-              header: 'SAVE_CHANGES',
-              content: 'ADD_TITLE_TO_CONTINUE_SAVING',
-              form:[this.formDataForTitle],
-              exitButton: 'CONTINUE',
-            },
-          });
-          return dialogRef
-            .afterClosed()
-            .toPromise()
-            .then((result) => {
-               if (result.data === 'CONTINUE') {
-                if(result.title){
-                  this.programWithRolloutService.upDateProgramTitle(result.title);
-                  this.programWithRolloutService.setProgramData({title:result.title});
-                  if (this.programId) {
-                    this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
-                  }
-                  else {
-                    return this.createProgram(this.programWithRolloutService.programData,true)
-                  }
-                  this.getFormWithEntitiesAndMap()
-                  this.saveForm()
-                }
-                return true;
-              } else {
-                return false;
-              }
-            });
-        }
+  saveForm() {
+    this.programWithRolloutService.saveProgramFunc(false);
+    if (this.programWithRolloutService.programData.title) {
+      // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
+      if (this.programId) {
+        return this.subscription.add(
+          this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
+        )
       }
+      else {
+        return this.subscription.add(
+          this.createProgram({ title: this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program' }, true)
+        )
+      }
+    } else {
+      const dialogRef = this.dialog.open(DialogPopupComponent, {
+        width: '39.375rem',
+        disableClose: true,
+        autoFocus: false,
+        data: {
+          header: 'SAVE_CHANGES',
+          content: 'ADD_TITLE_TO_CONTINUE_SAVING',
+          form: [this.formDataForTitle],
+          exitButton: 'CONTINUE',
+        },
+      });
+      return dialogRef
+        .afterClosed()
+        .toPromise()
+        .then((result) => {
+          if (result.data === 'CONTINUE') {
+            if (result.title) {
+              this.programWithRolloutService.upDateProgramTitle(result.title);
+              this.programWithRolloutService.setProgramData({ title: result.title });
+              if (this.programId) {
+                this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
+              }
+              else {
+                return this.createProgram(this.programWithRolloutService.programData, true)
+              }
+              this.getFormWithEntitiesAndMap()
+              this.saveForm()
+            }
+            return true;
+          } else {
+            return false;
+          }
+        });
+    }
+  }
+
   getCommentConfigs() {
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
@@ -430,7 +429,7 @@ export class ProgramDetailsComponent {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
           // this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })
@@ -443,7 +442,7 @@ export class ProgramDetailsComponent {
 
    ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
         this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }
       if (this.intervalId) {

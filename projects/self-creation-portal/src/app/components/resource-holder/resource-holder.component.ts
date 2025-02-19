@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus ,projectMode, ArrayContainsAllDirective, modes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus , ArrayContainsAllDirective, solutionModes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE} from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -322,7 +322,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       switch (label) {
         case 'EDIT':
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
-            this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: modes.EDIT}})
+            this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
             break;
           }
           if(this.pageStatus === 'roll-out'){
@@ -333,7 +333,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.REQUEST_FOR_EDIT,
+                mode: solutionModes.REQUEST_FOR_EDIT,
                 parent:"review"
               }
             });
@@ -342,7 +342,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.EDIT,
+                mode: solutionModes.EDIT,
                 parent:"draft"
               }
             });
@@ -353,7 +353,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.REQUEST_FOR_EDIT,
+               mode: solutionModes.REQUEST_FOR_EDIT,
                parent:"review"
              }
            });
@@ -362,7 +362,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.EDIT,
+               mode: solutionModes.EDIT,
                parent:"draft"
              }
            });
@@ -392,7 +392,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.VIEWONLY,
+                mode: solutionModes.VIEWONLY,
                 parent:"review"
               }
             });
@@ -401,7 +401,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.REVIEWER_VIEW,
+                mode: solutionModes.REVIEWER_VIEW,
                 parent:"up-for-review"
               }
             });
@@ -410,7 +410,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.REVIEWER_VIEW,
+               mode: solutionModes.REVIEWER_VIEW,
                parent:"up-for-review"
              }
            });
@@ -419,7 +419,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.CREATOR_VIEW,
+               mode: solutionModes.CREATOR_VIEW,
                parent:"review"
              }
            });
@@ -429,7 +429,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.VIEWONLY,
+               mode: solutionModes.VIEWONLY,
                parent:"review"
              }
            });
@@ -438,7 +438,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.VIEWONLY,
+                mode: solutionModes.VIEWONLY,
                 parent:"review"
               }
             });
@@ -447,7 +447,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.VIEWONLY,
+               mode: solutionModes.VIEWONLY,
              }
            });
            break;
@@ -455,7 +455,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
-               mode: projectMode.COPY_EDIT,
+               mode: solutionModes.COPY_EDIT,
                parent:"browse-existing"
              }
            });
@@ -468,7 +468,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
               this.router.navigate([PROGRAM_DETAILS_PAGE], {
                 queryParams: {
                   programId: item.id,
-                  mode: projectMode.REVIEW,
+                  mode: solutionModes.REVIEW,
                   parent:"up-for-review"
                 }
               });
@@ -479,7 +479,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
               this.router.navigate([PROJECT_DETAILS_PAGE], {
                 queryParams: {
                   projectId: item.id,
-                  mode: projectMode.REVIEW,
+                  mode: solutionModes.REVIEW,
                   parent:"up-for-review"
                 }
               });
@@ -494,7 +494,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROGRAM_DETAILS_PAGE], {
               queryParams: {
                 programId: item.id,
-                mode: projectMode.REVIEW,
+                mode: solutionModes.REVIEW,
                 parent:"up-for-review"
               }
             })
@@ -503,7 +503,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: item.id,
-                mode: projectMode.REVIEW,
+                mode: solutionModes.REVIEW,
                 parent:"up-for-review"
               }
             })

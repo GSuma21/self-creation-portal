@@ -244,28 +244,27 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
-        case "LOGOUT":{
-                   this.utilService.saveResources = false;
-                   const dialogRef = this.dialog.open(DialogPopupComponent, {
-                     width: '39.375rem',
-                     disableClose: true,
-                     autoFocus : false,
-                     data: {
-                       header: 'SAVE_CHANGES',
-                       content: 'Are you sure you want to logout?',
-                       cancelButton: "CANCEL",
-                       exitButton: "LOGOUT"
-                     }
-                   });
-                
-                    dialogRef.afterClosed().subscribe((result) => {
-                       if(result.data === 'LOGOUT'){
-                          this.sharedService.logout(); 
-                       }
-                    });
-                   
-                   break;
-                 }
+      case 'LOGOUT': {
+        this.utilService.saveResources = false;
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          disableClose: true,
+          autoFocus: false,
+          data: {
+            header: 'SAVE_CHANGES',
+            content: 'Are you sure you want to logout?',
+            cancelButton: 'CANCEL',
+            exitButton: 'LOGOUT',
+          },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result.data === 'LOGOUT') {
+            this.sharedService.logout();
+          }
+        });
+        break;
+      }
     }
   }
 

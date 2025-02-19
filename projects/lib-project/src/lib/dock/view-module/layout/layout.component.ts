@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LibProjectService } from '../../../lib-project.service';
-import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, SOLUTION_LIST, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , projectMode, PreviewComponent, PROJECT_DETAILS, modes} from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, PROJECT_DETAILS_PAGE, SOLUTION_LIST, TASK_DETAILS, ToastService, UtilService,rejectform, LibSharedModulesService , PreviewComponent, PROJECT_DETAILS, solutionModes} from 'lib-shared-modules';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -90,7 +90,7 @@ export class LayoutComponent {
               disableClose: false,
               data: {
                 projectData: cleanedData,
-                cssClass:'max-h-[31.25rem] min-h-[31.25rem]',
+                cssClass: 'max-h-[31.25rem] min-h-[31.25rem]',
               },
             });
           }
@@ -98,11 +98,11 @@ export class LayoutComponent {
         break;
       }
       case "SAVE_CHANGES":
-      case "SAVE_AS_DRAFT":{
-        if(this.mode === modes.META_EDIT){
+      case "SAVE_AS_DRAFT": {
+        if (this.mode === solutionModes.META_EDIT) {
           this.libProjectService.saveProgramResourceFunc(true)
           break;
-        }else{
+        } else {
           this.subscription.add(
             this.sharedService.triggerSaveComment()  // Triggers the save comment action from the comment module
           )
@@ -110,21 +110,21 @@ export class LayoutComponent {
           break;
         }
       }
-      case "SEND_FOR_REVIEW":{
+      case "SEND_FOR_REVIEW": {
         this.utilService.saveComment = false
         this.libProjectService.checkSendForReviewValidation(true);
         this.libProjectService.tabValidation = this.libProjectService.formMeta.formValidation;
         break;
       }
-      case "START_REVIEW":{
+      case "START_REVIEW": {
         this.libProjectService.startOrResumeReview()
         break;
       }
-      case "EDIT":{
+      case "EDIT": {
         this.libProjectService.editProject()
         break;
       }
-      case "ACCEPT":{
+      case "ACCEPT": {
         const dialogRef = this.dialog.open(DialogPopupComponent, {
           width: '39.375rem',
           autoFocus: false,
@@ -149,7 +149,7 @@ export class LayoutComponent {
         });
         break;
       }
-      case "REJECT":{
+      case "REJECT": {
         const dialogRef = this.dialog.open(DialogPopupComponent, {
           width: '39.375rem',
           autoFocus: false,
@@ -158,8 +158,8 @@ export class LayoutComponent {
             header: "REJECT_RESOURCES",
             content: "REJECT_RESOURCES_CONTENT",
             cancelButton: "CANCEL",
-            reportContent:true,
-            form:[rejectform],
+            reportContent: true,
+            form: [rejectform],
             exitButton: "REJECT"
           }
         });
@@ -177,7 +177,7 @@ export class LayoutComponent {
         });
         break;
       }
-      case "REQUEST_CHANGES":{
+      case "REQUEST_CHANGES": {
         this.utilService.saveComment = false
         this.subscription.add(
           this.sharedService.triggerSaveComment() //// Triggers the save comment action from the comment module
@@ -194,26 +194,26 @@ export class LayoutComponent {
         )
         break;
       }
-      case "COPY_AND_EDIT":{
+      case "COPY_AND_EDIT": {
         this.subscription.add(
-          this.libProjectService.copyAndCreateProject().subscribe((res:any)=>{
+          this.libProjectService.copyAndCreateProject().subscribe((res: any) => {
             this.router.navigate([PROJECT_DETAILS_PAGE], {
               queryParams: {
                 projectId: res.result.id,
-                mode: projectMode.EDIT,
-                parent:"draft"
+                mode: solutionModes.EDIT,
+                parent: "draft"
               },
             });
           })
         )
         break;
       }
-      case "LOGOUT":{
+      case "LOGOUT": {
         this.utilService.saveResources = false;
         const dialogRef = this.dialog.open(DialogPopupComponent, {
           width: '39.375rem',
           disableClose: true,
-          autoFocus : false,
+          autoFocus: false,
           data: {
             header: 'LOGOUT',
             content: 'LOGOUT_CONFIRMATION_TEXT',
@@ -221,15 +221,13 @@ export class LayoutComponent {
             exitButton: "LOGOUT"
           },
         });
-     
-         dialogRef.afterClosed().subscribe((result) => {
-            if(result.data === 'LOGOUT'){
-              this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.libProjectService.projectData.id).subscribe((res)=> {
-                this.sharedService.logout();
-              })
-            }
-         });
-        
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result.data === 'LOGOUT') {
+            this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.libProjectService.projectData.id).subscribe((res) => {
+              this.sharedService.logout();
+            })
+          }
+        });
         break;
       }
       default:

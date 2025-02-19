@@ -21,8 +21,8 @@ import {
   PROGRAM_RESOURCES,
   ToastService,
   UtilService,
-  modes,
-  projectMode,resourceStatus
+  solutionModes,
+  resourceStatus
 } from 'lib-shared-modules';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LibProjectService } from '../../../lib-project.service';
@@ -140,7 +140,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   ngOnInit() {
     this.initForm();
     this.getCertificateList();
-    if(this.mode === projectMode.EDIT || this.mode === "" || this.mode === projectMode.REQUEST_FOR_EDIT){
+    if(this.mode === solutionModes.EDIT || this.mode === "" || this.mode === solutionModes.REQUEST_FOR_EDIT){
       this.subscription.add(
         this.libProjectService.isProjectSave.subscribe(
           (isProjectSave: boolean) => {
@@ -168,17 +168,17 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.mode = params.mode;
         this.projectId = params.projectId;
         if (
-          params.mode === projectMode.VIEWONLY ||
-          params.mode === projectMode.REVIEW ||
-          params.mode === projectMode.REVIEWER_VIEW ||
-          this.mode === projectMode.CREATOR_VIEW ||
-          this.mode === projectMode.COPY_EDIT
+          params.mode === solutionModes.VIEWONLY ||
+          params.mode === solutionModes.REVIEW ||
+          params.mode === solutionModes.REVIEWER_VIEW ||
+          this.mode === solutionModes.CREATOR_VIEW ||
+          this.mode === solutionModes.COPY_EDIT
         ) {
           this.viewOnly = true;
           this.getCertificateForm();
         }
         if (Object.keys(this.libProjectService.projectData).length > 1 && this.mode) {
-          if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT ||  params.mode === modes.META_EDIT ) {
+          if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT ||  params.mode === solutionModes.META_EDIT ) {
             this.startAutoSaving();
             this.setTaskEvidenceMetaData();
             if(this.libProjectService.projectData.tasks) {
@@ -209,7 +209,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.controls['issuerName']?.markAsTouched()
             }
           }
-          if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
             this.getCertificateForm()
             if(this.libProjectService.projectData.certificate) {
               this.selectedYes = "1"
@@ -225,7 +225,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
             }
           }
-          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
             this.getCommentConfigs();
           }
         } else {
@@ -254,7 +254,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
@@ -262,7 +262,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 }
                 this.setCertificateSelection();
                 this.getCertificateForm();
-                if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || params.mode === modes.META_EDIT) {
+                if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || params.mode === solutionModes.META_EDIT) {
                   this.startAutoSaving();
                   this.checkValidations()
                   if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
@@ -289,7 +289,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                   relativeTo: this.route,
                   queryParams: {
                     projectId: this.projectId,
-                    mode: projectMode.EDIT,
+                    mode: solutionModes.EDIT,
                   },
                   queryParamsHandling: 'merge',
                   replaceUrl: true,
@@ -297,10 +297,10 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 this.libProjectService.projectData.id = res.result.id;
                 this.libProjectService.projectData.formMeta = this.libProjectService.formMeta
                 this.getCertificateForm();
-                if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+                if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                   this.startAutoSaving();
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 this.certificateAddIntoHtml();
@@ -332,7 +332,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !== projectMode.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
@@ -340,7 +340,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 }
                 this.setCertificateSelection();
                 this.getCertificateForm();
-                if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+                if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                   this.startAutoSaving();
                   this.checkValidations()
                   if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
@@ -380,7 +380,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 class: 'success',
               });
               this.libProjectService.saveProgramResourceFunc(false)
-               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: modes.EDIT }});
+               this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }});
             })
             }
           }
@@ -689,7 +689,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.projectInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.projectInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
           if(this.projectInReview && this.libProjectService.projectData.certificate) {
             this.libProjectService.formMeta.isCertificateSelected = this.libProjectService.projectData.certificate ? "2" : "1";
             this.libProjectService.formMeta.isProjectEvidenceSelected = this.libProjectService.projectData.certificate.criteria.expression.includes("C2") ? 1 : 0;
@@ -919,14 +919,14 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   }
 
   ngOnDestroy(): void {
-    if(this.mode === modes.META_EDIT && this.utilService.saveResources){
+    if(this.mode === solutionModes.META_EDIT && this.utilService.saveResources){
       this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
         resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
       );
       this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
     }
     // this.libProjectService.formMeta.formValidation.certificates = "VALID";
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT )&& this.utilService.saveResources){
+    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT )&& this.utilService.saveResources){
       this.checkValidations();
       if(this.libProjectService.projectData.id) {
         this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
