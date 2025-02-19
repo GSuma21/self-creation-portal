@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, modes, PROJECT_DETAILS_PAGE, projectMode, RESOURCE_LIST, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
+import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -66,7 +66,7 @@ ngOnInit(){
       this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { parent: 'draft', programId: this.programId, mode: modes.EDIT }
+          queryParams: { parent: 'draft', programId: this.programId, mode: solutionModes.EDIT }
         });
         let data = {
           message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
@@ -78,7 +78,7 @@ ngOnInit(){
       })
     )
   }
-  if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+  if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
     this.viewOnly = true
     // this.getProjectDetailsForViewOnly();
   }
@@ -98,12 +98,12 @@ ngOnInit(){
     this.resourceCount  = this.programWithRolloutService.programData.resources.length;
     this.resources = this.programWithRolloutService.programData.resources
     this.addActionButtons()
-    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }else if(!this.resourceIds?.length  && this.programId && Object.keys(this.programWithRolloutService.programData)?.length < 1){
     this.readProgram()
-    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }
@@ -186,7 +186,7 @@ createProgram() {
             relativeTo: this.route,
             queryParams: {
               programId: this.programId,
-              mode: modes.EDIT,
+              mode: solutionModes.EDIT,
             },
             queryParamsHandling: 'merge',
             replaceUrl: true,
@@ -208,7 +208,7 @@ saveForm(){
             relativeTo: this.route,
             queryParams: {
               programId: this.programId,
-              mode: modes.EDIT,
+              mode: solutionModes.EDIT,
             },
             queryParamsHandling: 'merge',
             replaceUrl: true,
@@ -282,56 +282,56 @@ getsolutionList() {
     const { label, item } = event;
 
     switch (label) {
-            case 'EDIT':
-              if(item.type === 'project'){
-                this.router.navigate([PROJECT_DETAILS_PAGE], {
-                              queryParams: {
-                                parent:'program-resources',
-                                programId:this.programId,
-                                programResourceId: item.id,
-                                mode: modes.META_EDIT,
-                              }
-                            });
-                break;
-              }else{
-                break;
-              }
-            case 'DELETE':
-              this.confirmAndDeleteProject("DELETE_ADDED_RESOURCE_MESSAGE").subscribe((isdelete:any) => {
-                if(isdelete){
-                  this.subscription.add(
-                    this.programWithRolloutService.removeResourcesFromPrograms(item.id).subscribe((res:any)=>{
-                      this.toastService.openSnackBar({
-                        "message": 'RESOURCE_DELETED_SUCCESSFULLY',
-                        "class": "success"
-                      })
-                      this.readProgram()
-                     })
-                  )
-                }
+      case 'EDIT':
+        if (item.type === 'project') {
+          this.router.navigate([PROJECT_DETAILS_PAGE], {
+            queryParams: {
+              parent: 'program-resources',
+              programId: this.programId,
+              programResourceId: item.id,
+              mode: solutionModes.META_EDIT,
+            }
+          });
+          break;
+        } else {
+          break;
+        }
+      case 'DELETE':
+        this.confirmAndDeleteProject("DELETE_ADDED_RESOURCE_MESSAGE").subscribe((isdelete: any) => {
+          if (isdelete) {
+            this.subscription.add(
+              this.programWithRolloutService.removeResourcesFromPrograms(item.id).subscribe((res: any) => {
+                this.toastService.openSnackBar({
+                  "message": 'RESOURCE_DELETED_SUCCESSFULLY',
+                  "class": "success"
+                })
+                this.readProgram()
               })
-              break;
-            case 'REVIEW':
-              if (item.type === 'project') {
-                this.router.navigate([PROJECT_DETAILS_PAGE], {
-                  queryParams: {
-                    parent: 'program-resources',
-                    programId: this.programId,
-                    programResourceId: item.id,
-                    mode: modes.REVIEW,
-                  },
-                });
-                break;
-              } else {
-                break;
-              }
-            default:
-              break;
+            )
           }
+        })
+        break;
+      case 'REVIEW':
+        if (item.type === 'project') {
+          this.router.navigate([PROJECT_DETAILS_PAGE], {
+            queryParams: {
+              parent: 'program-resources',
+              programId: this.programId,
+              programResourceId: item.id,
+              mode: solutionModes.REVIEW,
+            },
+          });
+          break;
+        } else {
+          break;
+        }
+      default:
+        break;
+    }
   }
 
-   //Check for ISO date format
-   isISODate(value: string): boolean {
+  //Check for ISO date format
+  isISODate(value: string): boolean {
     if (typeof value !== 'string') {
       return false;
     }
@@ -357,7 +357,7 @@ getsolutionList() {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
           // this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })

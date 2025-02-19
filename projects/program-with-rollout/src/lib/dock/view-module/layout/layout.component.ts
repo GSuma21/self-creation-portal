@@ -100,13 +100,13 @@ export class LayoutComponent {
       }
       case 'ROLL_OUT_CHANGES':
       case 'ROLL_OUT': {
-        this.utilService.confirmAndActionResources( "ROLL_OUT_RESOURCE","CONFIRM_MESSAGE_ROLLOUT","CANCEL","ROLL_OUT").subscribe((result) => {
-          if(result){
+        this.utilService.confirmAndActionResources("ROLL_OUT_RESOURCE", "CONFIRM_MESSAGE_ROLLOUT", "CANCEL", "ROLL_OUT").subscribe((result) => {
+          if (result) {
             this.programWithRolloutService.checkIsRolledOutValid(true);
             this.subscription.add(
-              this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
-                if(res){
-                  if(!this.programWithRolloutService.rolloutId){
+              this.programWithRolloutService.saveRollOut().subscribe((res: any) => {
+                if (res) {
+                  if (!this.programWithRolloutService.rolloutId) {
                     this.programWithRolloutService.rolloutId = res.result.id;
                     this.router.navigate([], {
                       relativeTo: this.route,
@@ -114,23 +114,23 @@ export class LayoutComponent {
                         rolloutId: res.result.id ? res.result.id : res.result
                       },
                       queryParamsHandling: 'merge',
-                      replaceUrl:true
+                      replaceUrl: true
                     });
                   }
-                  if( this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID'){
-                     this.programWithRolloutService.publishRollout().subscribe((res:any)=>{
-                    if(res.responseCode === "OK"){
-                      this.router.navigate([ROLL_OUT]);
-                      this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED',  class: 'success',});
-                      this.programWithRolloutService.rolloutId = ""
-                    }else{
-                      this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
-                    }
-                  },
-                  (err) => {
-                    this.programWithRolloutService.validateAndHighlightErrors(err)
-                  })
-                  }else{
+                  if (this.programWithRolloutService.rolloutId && this.programWithRolloutService.tabValidation.rolloutDetails === 'VALID') {
+                    this.programWithRolloutService.publishRollout().subscribe((res: any) => {
+                      if (res.responseCode === "OK") {
+                        this.router.navigate([ROLL_OUT]);
+                        this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED', class: 'success', });
+                        this.programWithRolloutService.rolloutId = ""
+                      } else {
+                        this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+                      }
+                    },
+                      (err) => {
+                        this.programWithRolloutService.validateAndHighlightErrors(err)
+                      })
+                  } else {
                     this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
                   }
                 }
@@ -140,72 +140,72 @@ export class LayoutComponent {
         })
         break;
       }
-      case "SAVE_AS_DRAFT":{
+      case "SAVE_AS_DRAFT": {
         // this.subscription.add(
         //   this.sharedService.triggerSaveComment()  // Triggers the save comment action from the comment module
         // )
         this.programWithRolloutService.saveProgramFunc(true);
         break;
       }
-      case "SEND_FOR_REVIEW":{
+      case "SEND_FOR_REVIEW": {
         this.programWithRolloutService.checkProgramSendForReviewValidation(true);
         this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
         break;
       }
-     case "LOGOUT":{
-             const dialogRef = this.dialog.open(DialogPopupComponent, {
-               width: '39.375rem',
-               disableClose: true,
-               autoFocus : false,
-               data: {
-                 header: 'LOGOUT',
-                 content: 'LOGOUT_CONFIRMATION_TEXT',
-                 cancelButton: "CANCEL",
-                 exitButton: "LOGOUT"
-               }
-             });
-
-              dialogRef.afterClosed().subscribe((result) => {
-                 if(result.data === 'LOGOUT'){
-                  this.utilService.saveResources = false;
-                  if(this.router.url.includes('details/project-details')){
-                    this.programWithRolloutService.saveRollOut().subscribe((res)=> {
-                      this.sharedService.logout();
-                    })
-                  }else{
-                    this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res:any)=>{
-                      this.sharedService.logout();
-                    })
-                  }
-                 }
-              });
-             break;
-           }
-           case "ACCEPT":{
-            const dialogRef = this.dialog.open(DialogPopupComponent, {
-              width: '39.375rem',
-              autoFocus: false,
-              disableClose: true,
-              data: {
-                header: "ACCEPT_RESOURCE",
-                content: "ACCEPT_RESOURCE_CONTENT",
-                cancelButton: "CANCEL",
-                exitButton: "ACCEPT"
-              }
-            });
-            dialogRef.afterClosed().toPromise().then(result => {
-              if (result.data === "CANCEL") {
-                return true;
-              } else if (result.data === "ACCEPT") {
-                this.utilService.saveComment = false
-                this.programWithRolloutService.approveProject()
-                return true;
-              } else {
-                return false;
-              }
-            });
-            break;
+      case "LOGOUT": {
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          disableClose: true,
+          autoFocus: false,
+          data: {
+            header: 'LOGOUT',
+            content: 'LOGOUT_CONFIRMATION_TEXT',
+            cancelButton: "CANCEL",
+            exitButton: "LOGOUT"
           }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result.data === 'LOGOUT') {
+            this.utilService.saveResources = false;
+            if (this.router.url.includes('details/project-details')) {
+              this.programWithRolloutService.saveRollOut().subscribe((res) => {
+                this.sharedService.logout();
+              })
+            } else {
+              this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
+                this.sharedService.logout();
+              })
+            }
+          }
+        });
+        break;
+      }
+      case "ACCEPT": {
+        const dialogRef = this.dialog.open(DialogPopupComponent, {
+          width: '39.375rem',
+          autoFocus: false,
+          disableClose: true,
+          data: {
+            header: "ACCEPT_RESOURCE",
+            content: "ACCEPT_RESOURCE_CONTENT",
+            cancelButton: "CANCEL",
+            exitButton: "ACCEPT"
+          }
+        });
+        dialogRef.afterClosed().toPromise().then(result => {
+          if (result.data === "CANCEL") {
+            return true;
+          } else if (result.data === "ACCEPT") {
+            this.utilService.saveComment = false
+            this.programWithRolloutService.approveProject()
+            return true;
+          } else {
+            return false;
+          }
+        });
+        break;
+      }
       default:
         break;
     }
