@@ -25,15 +25,6 @@ export const reviewStatus = {
     CHANGES_UPDATED:'CHANGES_UPDATED'
 
 };
-export const projectMode = {
-  VIEWONLY: 'viewOnly',
-  EDIT: 'edit',
-  REQUEST_FOR_EDIT:'reqEdit',
-  CREATOR_VIEW:'creatorView',
-  REVIEWER_VIEW:'reviewerView',
-  REVIEW:'review',
-  COPY_EDIT:"copyEdit"
-};
 export const ROUTE_PATHS = {
     SIDENAV: {
       BROWSE_EXISTING: 'browse-existing',
@@ -53,5 +44,5 @@ export const modes = {
   REVIEWER_VIEW:'reviewerView',
   REVIEW:'review',
   COPY_EDIT:"copyEdit",
-  META_EDIT:'metaEdit'
+  META_EDIT:'metaEdit',
 };

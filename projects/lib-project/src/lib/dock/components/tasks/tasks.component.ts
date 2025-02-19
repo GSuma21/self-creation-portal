@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent, projectMode ,resourceStatus, modes, PROGRAM_RESOURCES} from 'lib-shared-modules';
+import { DialogPopupComponent, HeaderComponent, SideNavbarComponent, ToastService, UtilService, CommentsBoxComponent ,resourceStatus, modes, PROGRAM_RESOURCES} from 'lib-shared-modules';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -153,10 +153,10 @@ export class TasksComponent implements OnInit, OnDestroy {
               else{
                 this.addTask();
               }
-              if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT){
+              if(params.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT){
                 this.startAutoSaving();
               }
-              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
+              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT)&& (this.mode !==  modes.VIEWONLY)) {
                 this.getCommentConfigs()
               }
 
@@ -187,14 +187,14 @@ export class TasksComponent implements OnInit, OnDestroy {
                     });
                     this.tasks.push(task);
                   })
-                  if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
+                  if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT)&& (this.mode !==  modes.VIEWONLY)) {
                     this.getCommentConfigs()
                   }
                 }
                 else {
                   this.addTask();
                 }
-                if(params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
+                if(params.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
                   this.startAutoSaving();
                 }
               })
@@ -210,7 +210,7 @@ export class TasksComponent implements OnInit, OnDestroy {
                 relativeTo: this.route,
                 queryParams: {
                   projectId: this.projectId,
-                  mode: projectMode.EDIT,
+                  mode: modes.EDIT,
                 },
                 queryParamsHandling: 'merge',
                 replaceUrl: true,
@@ -219,7 +219,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           })
         }
 
-        if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT || this.mode === modes.META_EDIT) {
+        if (this.mode === modes.VIEWONLY || this.mode === modes.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT || this.mode === modes.META_EDIT) {
           this.viewOnly = true
           // this.tasksForm.disable()
         }
@@ -236,7 +236,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.libProjectService.isSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
           if(reviewValidation) {
-            if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId) {
+            if((this.mode == modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.projectId) {
               this.tasksForm.markAllAsTouched();
               this.checkValidation()
               this.libProjectService.triggerSendForReview();
@@ -298,7 +298,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId) {
+    if((this.mode == modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.projectId) {
       if(this.tasksForm.pristine && this.libProjectService.tabValidation.tasks == "INVALID" && this.libProjectService.formMeta.formValidation.tasks == "INVALID") {
         this.libProjectService.projectApiErrors.subscribe(
           (errors: any) => {
@@ -418,7 +418,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.taskFileTypes = []
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
+    if((this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
       this.checkValidation()
       this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
     }
@@ -506,7 +506,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.projectInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.projectInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
           this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })

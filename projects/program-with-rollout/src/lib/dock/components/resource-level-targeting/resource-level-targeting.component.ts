@@ -6,7 +6,6 @@ import {
   CommentsBoxComponent,
   FormService,
   modes,
-  projectMode,
   resourceStatus,
   SOLUTION_LIST,
   ToastService,
@@ -139,7 +138,7 @@ export class ResourceLevelTargetingComponent {
         this.programWithRolloutService.programData.resources.length;
       this.resources = this.programWithRolloutService.programData.resources;
       this.addResourceFields();
-      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
         this.getCommentConfigs()
       }
     }
@@ -152,13 +151,13 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
-    if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+    if (this.mode === modes.VIEWONLY || this.mode === modes.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
     }
     if (this.programId && !this.resourceIds?.length) {
       this.readProgram();
-      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
         this.getCommentConfigs()
       }
     }
@@ -421,7 +420,7 @@ export class ResourceLevelTargetingComponent {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.ResourceInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
           // this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })

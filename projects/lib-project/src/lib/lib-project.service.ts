@@ -7,7 +7,7 @@ import {
   ToastService,
   UtilService,
   ROUTE_PATHS,
-  resourceStatus, reviewStatus , projectMode,
+  resourceStatus,
   LibSharedModulesService,
   FormService,
   modes,
@@ -470,7 +470,7 @@ export class LibProjectService {
         this.router.navigate([PROJECT_DETAILS_PAGE], {
           queryParams: {
             projectId: this.projectData.id,
-            mode: projectMode.REVIEW,
+            mode: modes.REVIEW,
             parent:"up-for-review"
           },
         });
@@ -482,7 +482,7 @@ export class LibProjectService {
       this.router.navigate([PROJECT_DETAILS_PAGE], {
         queryParams: {
           projectId: this.projectData.id,
-          mode: projectMode.REQUEST_FOR_EDIT,
+          mode: modes.REQUEST_FOR_EDIT,
           parent:"review"
         }
       });
@@ -490,7 +490,7 @@ export class LibProjectService {
       this.router.navigate([PROJECT_DETAILS_PAGE], {
         queryParams: {
           projectId: this.projectData.id,
-          mode: projectMode.EDIT
+          mode: modes.EDIT
         },
       });
     }

@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,projectMode,resourceStatus, modes, ToastService, PROGRAM_RESOURCES} from 'lib-shared-modules';
+import { HeaderComponent, SideNavbarComponent, DialogModelComponent, DialogPopupComponent, UtilService ,resourceStatus, modes, ToastService, PROGRAM_RESOURCES} from 'lib-shared-modules';
 import { MatIconModule, getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { MatCardModule }  from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -94,10 +94,10 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             this.projectData = this.libProjectService.projectData;
             this.createSubTaskForm()
             this.addSubtaskData()
-            if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT || params.mode === modes.META_EDIT) {
+            if (params.mode === modes.EDIT || params.mode === modes.REQUEST_FOR_EDIT || params.mode === modes.META_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT)&& (this.mode !==  modes.VIEWONLY)) {
               this.getCommentConfigs()
             }
           }
@@ -108,16 +108,16 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
              this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
               this.createSubTaskForm()
               this.addSubtaskData()
-              if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
+              if (params.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.META_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT)&& (this.mode !==  projectMode.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT)&& (this.mode !==  modes.VIEWONLY)) {
               this.getCommentConfigs()
             }
             })
           }
 
-          if (params.mode === projectMode.EDIT || params.mode === projectMode.REQUEST_FOR_EDIT) {
+          if (params.mode === modes.EDIT || params.mode === modes.REQUEST_FOR_EDIT) {
             this.subscription.add(
             this.libProjectService.isProjectSave.subscribe((isProjectSave:boolean) => {
               if(isProjectSave && this.router.url.includes('sub-tasks')) {
@@ -137,7 +137,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           );
           // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
-          if (params.mode === projectMode.VIEWONLY || params.mode === projectMode.REVIEW || params.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT || params.mode === modes.META_EDIT) {
+          if (params.mode === modes.VIEWONLY || params.mode === modes.REVIEW || params.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT || params.mode === modes.META_EDIT) {
             this.viewOnly = true;
           }
         }else{
@@ -189,7 +189,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   }
 
   ngAfterViewChecked() {
-    if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId && this.subtask.pristine && this.libProjectService.tabValidation.subTasks == "INVALID" && this.libProjectService.formMeta.formValidation.subTasks == "INVALID") {
+    if((this.mode == modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.projectId && this.subtask.pristine && this.libProjectService.tabValidation.subTasks == "INVALID" && this.libProjectService.formMeta.formValidation.subTasks == "INVALID") {
       this.subscription.add(
         this.libProjectService.projectApiErrors.subscribe(
           (errors: any) => {
@@ -238,7 +238,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
         };
     };
     if (this.libProjectService.projectData?.tasks?.length > 0) {
-      if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+      if(this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT){
         if (this.libProjectService?.projectData.tasks){
           this.libProjectService?.projectData.tasks.forEach((task: any) => {
               this.taskData.push(createTaskObject(task));
@@ -384,7 +384,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   }
 
   ngOnDestroy(){
-    if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
+    if((this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.libProjectService.projectData.id && this.utilService.saveResources){
      this.saveSubtask();
       if (this.autoSaveSubscription) {
         this.autoSaveSubscription.unsubscribe();
@@ -413,7 +413,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.projectInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.projectInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
           this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })

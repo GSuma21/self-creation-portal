@@ -5,7 +5,7 @@ import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentsBoxComponent, DialogPopupComponent, FormService, PROGRAM_RESOURCES, PROJECT_DETAILS, ToastService, UtilService, modes, projectMode,resourceStatus } from 'lib-shared-modules';
+import { CommentsBoxComponent, DialogPopupComponent, FormService, PROGRAM_RESOURCES, PROJECT_DETAILS, ToastService, UtilService, modes,resourceStatus } from 'lib-shared-modules';
 @Component({
   selector: 'lib-project-details',
   standalone: true,
@@ -48,10 +48,10 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if(this.mode === modes.META_EDIT){
        this.programResourceDetailsAndMap();
     }
-    if(this.mode === projectMode.EDIT || this.mode === "" || this.mode === projectMode.REQUEST_FOR_EDIT){
+    if(this.mode === modes.EDIT || this.mode === "" || this.mode === modes.REQUEST_FOR_EDIT){
       this.getFormWithEntitiesAndMap();
     }
-    if (this.mode === projectMode.VIEWONLY || this.mode === projectMode.REVIEW || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW || this.mode === projectMode.COPY_EDIT) {
+    if (this.mode === modes.VIEWONLY || this.mode === modes.REVIEW || this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW || this.mode === modes.COPY_EDIT) {
       this.viewOnly = true
       this.getProjectDetailsForViewOnly();
     }
@@ -113,7 +113,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   ngAfterViewChecked() {
-    if((this.mode == projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.projectId) {
+    if((this.mode == modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.projectId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
@@ -173,7 +173,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   checkAndGetCommentConfigs(){
-    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === projectMode.REQUEST_FOR_EDIT || this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.REVIEW) && (this.mode !== projectMode.VIEWONLY)) {
+    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === modes.REQUEST_FOR_EDIT || this.mode === modes.REVIEWER_VIEW || this.mode === modes.REVIEW) && (this.mode !== modes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }
@@ -188,7 +188,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.projectInReview = this.mode === projectMode.REVIEW || this.mode === projectMode.REQUEST_FOR_EDIT ||  this.mode === projectMode.REVIEWER_VIEW || this.mode === projectMode.CREATOR_VIEW ;
+          this.projectInReview = this.mode === modes.REVIEW || this.mode === modes.REQUEST_FOR_EDIT ||  this.mode === modes.REVIEWER_VIEW || this.mode === modes.CREATOR_VIEW ;
           this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })
@@ -205,7 +205,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             this.projectId = params.projectId;
             this.libProjectService.projectData.id = params.projectId;
             if (params.projectId) {
-              if (params.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) {
+              if (params.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) {
                 if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
                   this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
                 } else {
@@ -331,7 +331,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         else if(!this.projectId && this.mode !== modes.META_EDIT) {
           this.createProject({title:'Untitled project'})
         } else {
-          if((this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT) && this.isFormDirty) {
+          if((this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT) && this.isFormDirty) {
             this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
               this.isFormDirty = false;
             }))
@@ -349,7 +349,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             relativeTo: this.route,
             queryParams: {
               projectId: this.projectId,
-              mode: projectMode.EDIT,
+              mode: modes.EDIT,
             },
             queryParamsHandling: 'merge',
             replaceUrl: true,
@@ -444,7 +444,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         );
         this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
       }
-      if(this.mode === projectMode.EDIT || this.mode === projectMode.REQUEST_FOR_EDIT){
+      if(this.mode === modes.EDIT || this.mode === modes.REQUEST_FOR_EDIT){
         if(this.libProjectService.projectData.id) {
           this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
         }
