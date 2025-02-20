@@ -448,8 +448,8 @@ export class ProgramDetailsComponent {
 
    ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
-        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }
       if (this.intervalId) {
         clearInterval(this.intervalId);

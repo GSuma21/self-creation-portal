@@ -246,7 +246,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'LOGOUT': {
-        this.utilService.saveResources = false;
         const dialogRef = this.dialog.open(DialogPopupComponent, {
           width: '39.375rem',
           disableClose: true,
@@ -261,6 +260,8 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
 
         dialogRef.afterClosed().subscribe((result) => {
           if (result.data === 'LOGOUT') {
+            this.utilService.saveComment = false
+            this.utilService.saveResources = false;
             this.sharedService.logout();
           }
         });

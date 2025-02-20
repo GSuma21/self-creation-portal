@@ -167,15 +167,20 @@ export class LayoutComponent {
 
         dialogRef.afterClosed().subscribe((result) => {
           if (result.data === 'LOGOUT') {
+            this.utilService.saveComment = false;
             this.utilService.saveResources = false;
             if (this.router.url.includes('details/project-details')) {
               this.programWithRolloutService.saveRollOut().subscribe((res) => {
                 this.sharedService.logout();
               })
             } else {
-              this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
+              if(this.mode === solutionModes.EDIT ||this.mode === solutionModes.REQUEST_FOR_EDIT ){
+                this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
+                  this.sharedService.logout();
+                })
+              }else{
                 this.sharedService.logout();
-              })
+              }
             }
           }
         });
@@ -237,6 +242,17 @@ export class LayoutComponent {
         )
         break;
       }
+      case 'START_REVIEW':
+        this.utilService.startOrResumeReview(this.programWithRolloutService.programData.id).subscribe((data) => {
+          this.router.navigate([PROGRAM_DETAILS_PAGE], {
+            queryParams: {
+              programId: this.programWithRolloutService.programData.id,
+              mode: solutionModes.REVIEW,
+              parent: "up-for-review"
+            }
+          });
+        })
+        break;
       default:
         break;
     }

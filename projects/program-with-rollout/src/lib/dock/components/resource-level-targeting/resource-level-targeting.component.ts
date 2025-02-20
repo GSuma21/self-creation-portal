@@ -120,18 +120,25 @@ export class ResourceLevelTargetingComponent {
             // Optionally, clear resourceIds in your component
             this.resourceIds = [];
 
-            this.subscription.add(
-              this.programWithRolloutService
-                .readProgram(this.programId)
-                .subscribe((res: any) => {
-                  this.programWithRolloutService.setProgramData(res.result);
-                  this.programWithRolloutService.upDateProgramTitle(res.result.title);
-                  this.resourceCount =
-                    this.programWithRolloutService.programData.resources.length;
-                  this.resources =
-                    this.programWithRolloutService.programData.resources;
-                })
-            );
+            if (Object.keys(this.programWithRolloutService.programData).length > 1) {
+              this.resourceCount =
+                this.programWithRolloutService.programData.resources.length;
+              this.resources =
+                this.programWithRolloutService.programData.resources;
+            } else {
+              this.subscription.add(
+                this.programWithRolloutService
+                  .readProgram(this.programId)
+                  .subscribe((res: any) => {
+                    this.programWithRolloutService.setProgramData(res.result);
+                    this.programWithRolloutService.upDateProgramTitle(res.result.title);
+                    this.resourceCount =
+                      this.programWithRolloutService.programData.resources.length;
+                    this.resources =
+                      this.programWithRolloutService.programData.resources;
+                  })
+              );
+            }
           })
       );
       this.resourceCount =
@@ -188,23 +195,22 @@ export class ResourceLevelTargetingComponent {
       )
     );
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
-    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }
 
   ngAfterViewChecked() {
-    if(this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID'){
+    if (this.resourceForm && this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting == "INVALID") {
+      this.subscription.add(
+        this.programWithRolloutService.programApiErrors.subscribe(
+          (errors: any) => {
+            if (errors) {
+              this.resourceForm.markAllAsTouched()
+              this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
+            }
+          }
+        )
+      );
       this.resourceForm.markAllAsTouched()
     }
-    this.subscription.add(
-      this.programWithRolloutService.programApiErrors.subscribe(
-        (errors: any) => {
-          if(errors){
-            this.resourceForm.markAllAsTouched()
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
-           }
-        }
-      )
-    );
   }
 
   initForm(): void {
@@ -219,21 +225,33 @@ export class ResourceLevelTargetingComponent {
 
   readProgram() {
     this.resourceIds = [];
-    this.subscription.add(
-      this.programWithRolloutService
-        .readProgram(this.programId)
-        .subscribe((res: any) => {
-          this.programWithRolloutService.setProgramData(res.result);
-          this.resourceCount =
-            this.programWithRolloutService.programData.resources.length;
-          const resourceIds =
-            this.programWithRolloutService.programData.resources.map(
-              (resource: any) => resource.id
-            );
-          this.resources = this.programWithRolloutService.programData.resources;
-          this.addResourceFields();
-        })
-    );
+    if(Object.keys(this.programWithRolloutService.programData).length > 1){
+      this.resourceCount =
+      this.programWithRolloutService.programData.resources.length;
+    const resourceIds =
+      this.programWithRolloutService.programData.resources.map(
+        (resource: any) => resource.id
+      );
+    this.resources = this.programWithRolloutService.programData.resources;
+    this.addResourceFields();
+    }else{
+      this.subscription.add(
+        this.programWithRolloutService
+          .readProgram(this.programId)
+          .subscribe((res: any) => {
+            this.programWithRolloutService.setProgramData(res.result);
+            this.resourceCount =
+              this.programWithRolloutService.programData.resources.length;
+            const resourceIds =
+              this.programWithRolloutService.programData.resources.map(
+                (resource: any) => resource.id
+              );
+            this.resources = this.programWithRolloutService.programData.resources;
+            this.addResourceFields();
+          })
+      );
+    }
+   
   }
 
   addResourceFields(): void {
