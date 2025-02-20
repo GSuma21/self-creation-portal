@@ -49,6 +49,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   projectInReview:boolean = false;
   observationFormDetails:any;
   allowOpenLinks:boolean = false;
+  ProgramResourceId:string|number = ''
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
 
@@ -69,6 +70,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
     this.subscription.add(
       this.route.queryParams.subscribe((params:any) => {
         this.mode = params.mode;
+        this.ProgramResourceId = params.programResourceId;
         this.projectId = params.projectId;
        if(params.mode){
           if(params.programId){
@@ -88,6 +90,9 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
                 this.createSubTaskForm()
                 this.addSubtaskData()
               })
+            }
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+              this.getCommentConfigs()
             }
           }
           else if(Object.keys(this.libProjectService.projectData)?.length && this.projectId) {
@@ -166,12 +171,12 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
       )
     );
 
-    // save resource of program 
+    // save resource of program
     this.subscription.add(
       this.libProjectService.isProgramResourceSave.subscribe(
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
-             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
               resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
@@ -422,16 +427,16 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
 
 
   savingSubtask(taskIndex:any,j:any){
-    this.saveSubtask();
     this.libProjectService.removeItemFromAPIErrors('tasks['+taskIndex+"]."+"children["+j+']')
+    this.saveSubtask();
     if(this.libProjectService.reviewErrors.length > 0 && this.libProjectService.reviewErrors.find((element:any) => element.location.includes('tasks') && element.location.includes('children'))) {
       this.libProjectService.tabValidation.subTasks = "INVALID"
     }
     else {
       this.libProjectService.tabValidation.subTasks = "VALID"
     }
-    // this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
-    // this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
+    this.taskData[taskIndex].children[j] = this.taskData[taskIndex]?.subTasks.value.subtasks[j]
+    this.taskData[taskIndex].buttons = this.getButtonStates(this.taskData[taskIndex])
   }
 
   addMinSubmissionsRequired(event:any,taskIndex:any){

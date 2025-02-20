@@ -39,6 +39,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   commentPayload:any;
   commentsList:any = [];
   projectInReview:boolean = false;
+  ProgramResourceId:string|number = ''
   private autoSaveSubscription: Subscription = new Subscription();
   maxTaskLength = this.libProjectService.projectConfig?.max_task_count ? this.libProjectService.projectConfig?.max_task_count : 10;
   private subscription: Subscription = new Subscription();
@@ -60,6 +61,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.projectId = params.projectId;
         this.libProjectService.projectData.id = params.projectId;
         this.mode = params.mode;
+        this.ProgramResourceId = params.programResourceId;
         if(params.programId){
           if (params.mode) {
             if (Object.keys(this.libProjectService.projectData).length > 1) {
@@ -122,6 +124,9 @@ export class TasksComponent implements OnInit, OnDestroy {
                 }
               })
             }
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+              this.getCommentConfigs(params.programResourceId)
+            }
           }
         }
         else if (params.projectId) {
@@ -156,7 +161,7 @@ export class TasksComponent implements OnInit, OnDestroy {
               if(params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT){
                 this.startAutoSaving();
               }
-              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+              if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW ||  this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
                 this.getCommentConfigs()
               }
 
@@ -187,7 +192,7 @@ export class TasksComponent implements OnInit, OnDestroy {
                     });
                     this.tasks.push(task);
                   })
-                  if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+                  if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
                     this.getCommentConfigs()
                   }
                 }
@@ -271,12 +276,12 @@ export class TasksComponent implements OnInit, OnDestroy {
       )
     );
 
-    // save resource of program 
+    // save resource of program
     this.subscription.add(
       this.libProjectService.isProgramResourceSave.subscribe(
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
-             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
               resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
@@ -497,10 +502,10 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.libProjectService.checkValidationForRequestChanges(quillInput)
   }
 
-  getCommentConfigs() {
+  getCommentConfigs(resourceId?:string|number) {
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
-        this.utilService.getCommentList(this.projectId).subscribe((commentListRes: any) => {
+        this.utilService.getCommentList(resourceId ? resourceId :this.projectId).subscribe((commentListRes: any) => {
           const comments = commentListRes.result?.comments || [];
           const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
 

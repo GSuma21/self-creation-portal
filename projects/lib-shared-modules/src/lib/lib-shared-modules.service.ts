@@ -36,7 +36,7 @@ export class LibSharedModulesService {
   goBack(): void {
     const navigation = history.state;
     const state = this.route.snapshot.queryParamMap.get('parent')
-    const solutionId = this.route.snapshot.queryParamMap.get('projectId') 
+    const solutionId = this.route.snapshot.queryParamMap.get('projectId')
                 ?? this.route.snapshot.queryParamMap.get('programId');
 
     switch (state) {
@@ -45,7 +45,7 @@ export class LibSharedModulesService {
           this.router.navigate([DRAFTS]);
         }else{
           this.router.navigate(['../'], { relativeTo: this.route });
-        } 
+        }
         if (this.route.snapshot.queryParamMap.get('projectId')) {
           this.toastService.openSnackBar({
             message: 'YOUR_RESOURCE_HAS_BEEN_SAVED_AS_DRAFT',
@@ -56,7 +56,7 @@ export class LibSharedModulesService {
             message: 'YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT',
             class: 'success',
           });
-        }       
+        }
         break;
       case 'draft':
         this.router.navigate([DRAFTS]);
@@ -91,7 +91,12 @@ export class LibSharedModulesService {
             class: 'success',
           });
         }
-        this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        if(this.route.snapshot.queryParamMap.get('mode') == 'metaReview') {
+          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REVIEW }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        }
+        else {
+          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        }
         break;
       default:
         this.router.navigate(['../'], { relativeTo: this.route });

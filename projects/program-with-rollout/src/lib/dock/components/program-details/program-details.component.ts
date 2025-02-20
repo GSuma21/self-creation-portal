@@ -31,7 +31,6 @@ export class ProgramDetailsComponent {
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
       private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
-      this.startAutoSaving()
       this.subscription.add(
         this.route.queryParams.subscribe((params: any) => {
           this.mode = params.mode ? params.mode : ""
@@ -54,6 +53,9 @@ export class ProgramDetailsComponent {
     if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
+    }
+    else {
+      this.startAutoSaving()
     }
     this.subscription.add( // Check validation before sending for review.
       this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(

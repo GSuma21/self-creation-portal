@@ -327,7 +327,7 @@ getsolutionList() {
               parent: 'program-resources',
               programId: this.programId,
               programResourceId: item.id,
-              mode: solutionModes.REVIEW,
+              mode: solutionModes.META_REVIEW,
             },
           });
           break;
