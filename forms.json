@@ -299,31 +299,15 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": [
-                  "GET",
-                  "POST",
-                  "DELETE",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
               },
               {
                 "module": "programs",
-                "request_type": [
-                  "POST",
-                  "DELETE",
-                  "GET",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
               }
             ],
-            "request_type": [
-              "POST"
-            ],
-            "roles": [
-              "content_creator"
-            ]
+            "request_type": ["POST"],
+            "roles": ["content_creator"]
           },
           {
             "label": "BROWSE_EXISTING",
@@ -335,28 +319,14 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": [
-                  "GET",
-                  "POST",
-                  "DELETE",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
               },
               {
                 "module": "programs",
-                "request_type": [
-                  "POST",
-                  "DELETE",
-                  "GET",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
               }
             ],
-            "roles": [
-              "content_creator"
-            ],
+            "roles": ["content_creator"],
             "filterData": [
               {
                 "label": "TYPE",
@@ -411,9 +381,7 @@
             ],
             "buttonsData": [
               {
-                "buttons": [
-                  "VIEW"
-                ]
+                "buttons": ["VIEW"]
               },
               {
                 "infoFields": [
@@ -461,32 +429,15 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": [
-                  "GET",
-                  "POST",
-                  "DELETE",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
               },
               {
                 "module": "programs",
-                "request_type": [
-                  "POST",
-                  "DELETE",
-                  "GET",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
               }
             ],
-            "roles": [
-              "content_creator"
-            ],
-            "request_type": [
-              "POST",
-              "PUT"
-            ],
+            "roles": ["content_creator"],
+            "request_type": ["POST", "PUT"],
             "filterData": [
               {
                 "label": "TYPE",
@@ -541,10 +492,7 @@
             ],
             "buttonsData": [
               {
-                "buttons": [
-                  "EDIT",
-                  "DELETE"
-                ]
+                "buttons": ["EDIT", "DELETE"]
               },
               {
                 "infoFields": [
@@ -590,35 +538,18 @@
             "url": "submit-for-review",
             "activeRole": "creator",
             "noResultMessage": "NO_SUBMITTED_FOR_REVIEW",
-            "roles": [
-              "content_creator"
-            ],
+            "roles": ["content_creator"],
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": [
-                  "GET",
-                  "POST",
-                  "DELETE",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
               },
               {
                 "module": "programs",
-                "request_type": [
-                  "POST",
-                  "DELETE",
-                  "GET",
-                  "PUT",
-                  "PATCH"
-                ]
+                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
               }
             ],
-            "request_type": [
-              "POST",
-              "PUT"
-            ],
+            "request_type": ["POST", "PUT"],
             "filterData": [
               {
                 "label": "TYPE",
@@ -709,9 +640,7 @@
             "statusButtons": [
               {
                 "status": "SUBMITTED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -752,9 +681,7 @@
               },
               {
                 "status": "NOT_STARTED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -795,9 +722,7 @@
               },
               {
                 "status": "PUBLISHED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -838,9 +763,7 @@
               },
               {
                 "status": "APPROVED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -881,10 +804,7 @@
               },
               {
                 "status": "REQUESTED_FOR_CHANGES",
-                "buttons": [
-                  "VIEW",
-                  "EDIT"
-                ],
+                "buttons": ["VIEW", "EDIT"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -925,9 +845,7 @@
               },
               {
                 "status": "INPROGRESS",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -978,9 +896,7 @@
               },
               {
                 "status": "CHANGES_UPDATED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1031,9 +947,7 @@
               },
               {
                 "status": "REJECTED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1074,9 +988,7 @@
               },
               {
                 "status": "REJECTED_AND_REPORTED",
-                "buttons": [
-                  "VIEW"
-                ],
+                "buttons": ["VIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1133,18 +1045,11 @@
             "permission_modules": [
               {
                 "module": "reviews",
-                "request_type": [
-                  "POST",
-                  "PATCH"
-                ]
+                "request_type": ["POST", "PATCH"]
               }
             ],
-            "request_type": [
-              "POST"
-            ],
-            "roles": [
-              "reviewer"
-            ],
+            "request_type": ["POST"],
+            "roles": ["reviewer"],
             "filterData": [
               {
                 "label": "TYPE",
@@ -1204,10 +1109,7 @@
             "statusButtons": [
               {
                 "status": "CHANGES_UPDATED",
-                "buttons": [
-                  "VIEW",
-                  "START_REVIEW"
-                ],
+                "buttons": ["VIEW", "START_REVIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1258,10 +1160,7 @@
               },
               {
                 "status": "NOT_STARTED",
-                "buttons": [
-                  "VIEW",
-                  "START_REVIEW"
-                ],
+                "buttons": ["VIEW", "START_REVIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1297,9 +1196,7 @@
               },
               {
                 "status": "INPROGRESS",
-                "buttons": [
-                  "RESUME_REVIEW"
-                ],
+                "buttons": ["RESUME_REVIEW"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1352,21 +1249,11 @@
             "permission_modules": [
               {
                 "module": "rollouts",
-                "request_type": [
-                  "PUT",
-                  "GET",
-                  "POST",
-                  "DELETE",
-                  "PATCH"
-                ]
+                "request_type": ["PUT", "GET", "POST", "DELETE", "PATCH"]
               }
             ],
-            "request_type": [
-              "POST"
-            ],
-            "roles": [
-              "rollout_manager"
-            ],
+            "request_type": ["POST"],
+            "roles": ["rollout_manager"],
             "filterData": [
               {
                 "label": "TYPE",
@@ -1437,10 +1324,7 @@
             "statusButtons": [
               {
                 "status": "PENDING",
-                "buttons": [
-                  "EDIT",
-                  "DELETE"
-                ],
+                "buttons": ["EDIT", "DELETE"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1481,9 +1365,7 @@
               },
               {
                 "status": "ROLLED_OUT",
-                "buttons": [
-                  "EDIT"
-                ],
+                "buttons": ["EDIT"],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1571,412 +1453,406 @@
       "template_name": "defaultTemplate",
       "fields": {
         "controls": [
-            {
-                "title": "PROJECT",
-                "image": "./../assets/images/project.svg",
-                "sidenav": [
-                    {
-                        "label": "PROJECT_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "project-details",
-                        "page": "projectDetails"
-                    },
-                    {
-                        "label": "TASKS",
-                        "action": "",
-                        "icon": "add_task",
-                        "url": "tasks",
-                        "page": "tasks"
-                    },
-                    {
-                        "label": "SUBTASKS_AND_RESOURCES",
-                        "action": "",
-                        "icon": "note_add",
-                        "url": "sub-tasks",
-                        "page": "subTasks"
-                    },
-                    {
-                        "label": "CERTIFICATE",
-                        "action": "",
-                        "icon": "card_membership",
-                        "url": "certificate",
-                        "page": "certificates"
-                    }
+          {
+            "title": "PROJECT",
+            "image": "./../assets/images/project.svg",
+            "sidenav": [
+              {
+                "label": "PROJECT_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              },
+              {
+                "label": "TASKS",
+                "action": "",
+                "icon": "add_task",
+                "url": "tasks",
+                "page": "tasks"
+              },
+              {
+                "label": "SUBTASKS_AND_RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "sub-tasks",
+                "page": "subTasks"
+              },
+              {
+                "label": "CERTIFICATE",
+                "action": "",
+                "icon": "card_membership",
+                "url": "certificate",
+                "page": "certificates"
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "headerData": {
-                    "title": "",
-                    "buttons": {
-                        "edit": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "reqEdit": [
-                            {
-                                "title": "SAVE_CHANGES",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "viewOnly": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "view": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "review": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "REQUEST_CHANGES",
-                                "disable": true,
-                                "cssClass": "primary-button-enable"
-                            },
-                            {
-                                "title": "REJECT",
-                                "disable": false,
-                                "cssClass": "enable-reject-button"
-                            },
-                            {
-                                "title": "ACCEPT",
-                                "disable": false,
-                                "cssClass": "enable-success-button"
-                            }
-                        ],
-                        "reviewerView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "START_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "creatorView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "copyEdit": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "COPY_AND_EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "metaEdit": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SAVE_CHANGES",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "showBackButton": true,
-                "url": "solution/project/project-details",
-                "formName": "PROJECT_DETAILS",
-                "permission_modules": [
-                    {
-                        "module": "projects",
-                        "request_type": [
-                            "GET",
-                            "POST",
-                            "DELETE",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "REJECT",
+                    "disable": false,
+                    "cssClass": "enable-reject-button"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "metaEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ]
+              }
             },
-            {
-                "title": "OBSERVATION",
-                "image": "./../assets/images/observation.svg",
-                "sidenav": [
-                    {
-                        "label": "OBSERVATION_NAME"
-                    }
+            "showBackButton": true,
+            "url": "solution/project/project-details",
+            "formName": "PROJECT_DETAILS",
+            "permission_modules": [
+              {
+                "module": "projects",
+                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+              }
+            ]
+          },
+          {
+            "title": "OBSERVATION",
+            "image": "./../assets/images/observation.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "showBackButton": true,
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "OBSERVATION_WITH_RUBRIC",
+            "image": "./../assets/images/observationwithrubric.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "SURVEY",
+            "image": "./../assets/images/survey.svg",
+            "sidenav": [
+              {
+                "label": "SURVEY_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "PROGRAM",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "PROGRAM_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "program-details",
+                "page": "programDetails"
+              },
+              {
+                "label": "RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "program-resources",
+                "page": "programResources"
+              },
+              {
+                "label": "RESOURCE_LEVEL_TARGETING",
+                "action": "",
+                "icon": "track_changes",
+                "url": "resource-level-targeting",
+                "page": "resourceLevelTargeting"
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "showBackButton": true,
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "OBSERVATION_WITH_RUBRIC",
-                "image": "./../assets/images/observationwithrubric.svg",
-                "sidenav": [
-                    {
-                        "label": "OBSERVATION_NAME"
-                    }
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "SURVEY",
-                "image": "./../assets/images/survey.svg",
-                "sidenav": [
-                    {
-                        "label": "SURVEY_NAME"
-                    }
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  }
                 ],
-                "url": "",
-                "permission_modules": []
-            },
-            {
-                "title": "PROGRAM",
-                "image": "./../assets/images/program.svg",
-                "sidenav": [
-                    {
-                        "label": "PROGRAM_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "program-details",
-                        "page": "programDetails"
-                    },
-                    {
-                        "label": "RESOURCES",
-                        "action": "",
-                        "icon": "note_add",
-                        "url": "program-resources",
-                        "page": "programResources"
-                    },
-                    {
-                        "label": "RESOURCE_LEVEL_TARGETING",
-                        "action": "",
-                        "icon": "track_changes",
-                        "url": "resource-level-targeting",
-                        "page": "resourceLevelTargeting"
-                    }
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
                 ],
-                "headerData": {
-                    "title": "",
-                    "buttons": {
-                        "edit": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable",
-                                "tooltip": "COMING_SOON"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "reqEdit": [
-                            {
-                                "title": "SAVE_CHANGES",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "SEND_FOR_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "viewOnly": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "view": [
-                            {
-                                "title": "SAVE_AS_DRAFT",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            }
-                        ],
-                        "review": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "REQUEST_CHANGES",
-                                "disable": true,
-                                "cssClass": "primary-button-enable"
-                            },
-                            {
-                                "title": "ACCEPT",
-                                "disable": false,
-                                "cssClass": "enable-success-button"
-                            }
-                        ],
-                        "reviewerView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "START_REVIEW",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "creatorView": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "copyEdit": [
-                            {
-                                "title": "PREVIEW",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "COPY_AND_EDIT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "url": "roll-out/details/program-details",
-                "permission_modules": [
-                    {
-                        "module": "programs",
-                        "request_type": [
-                            "POST",
-                            "DELETE",
-                            "GET",
-                            "PUT",
-                            "PATCH"
-                        ]
-                    }
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ]
+              }
             },
-            {
-                "title": "ROLL_OUT",
-                "image": "./../assets/images/program.svg",
-                "sidenav": [
-                    {
-                        "label": "TARGETING_DETAILS",
-                        "action": "",
-                        "icon": "description",
-                        "url": "project-details",
-                        "page": "projectDetails"
-                    }
+            "url": "roll-out/details/program-details",
+            "permission_modules": [
+              {
+                "module": "programs",
+                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
+              }
+            ]
+          },
+          {
+            "title": "ROLL_OUT",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "TARGETING_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              }
+            ],
+            "headerData": {
+              "title": "Project targeting",
+              "buttons": {
+                "ROLLED_OUT": [
+                  {
+                    "title": "ROLL_OUT_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
                 ],
-                "headerData": {
-                    "title": "Project targeting",
-                    "buttons": {
-                        "ROLLED_OUT": [
-                            {
-                                "title": "ROLL_OUT_CHANGES",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "PENDING": [
-                            {
-                                "title": "SAVE",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "ROLL_OUT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ],
-                        "edit": [
-                            {
-                                "title": "SAVE",
-                                "disable": false,
-                                "cssClass": "button-enable"
-                            },
-                            {
-                                "title": "ROLL_OUT",
-                                "disable": false,
-                                "cssClass": "primary-button-enable"
-                            }
-                        ]
-                    }
-                },
-                "url": "",
-                "permission_modules": []
-            }
+                "PENDING": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "edit": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "url": "",
+            "permission_modules": []
+          }
         ]
-    }
+      }
     }
   },
   {
@@ -2548,10 +2424,7 @@
                 "meta": {
                   "url": "GET_ENTITIES_LIST",
                   "type": "state",
-                  "dependantIndex": [
-                    1,
-                    2
-                  ]
+                  "dependantIndex": [1, 2]
                 },
                 "options": []
               },
@@ -2789,6 +2662,7 @@
         "controls": [
           {
             "title": "PROJECT",
+            "type": "project",
             "image": "./../assets/images/project.svg",
             "showBackButton": true,
             "url": "solution/project/project-details",
@@ -2796,9 +2670,7 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": [
-                  "GET"
-                ]
+                "request_type": ["GET"]
               }
             ]
           }

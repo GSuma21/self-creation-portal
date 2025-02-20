@@ -227,7 +227,7 @@ saveForm(){
 
 addActionButtons(){
   let buttonData = []
-  if(!this.viewOnly) {
+  if(this.mode == solutionModes.EDIT ) {
     buttonData = [
       {
         action: 'EDIT',
@@ -241,11 +241,20 @@ addActionButtons(){
       },
     ];
   }
-  else {
+  else if(this.mode == solutionModes.REVIEW){
     buttonData = [
       {
         action: 'START_REVIEW',
         label: 'REVIEW',
+        background_color: '#0a4f9d',
+      }
+    ];
+  }
+  else{
+    buttonData = [
+      {
+        action: 'VIEW',
+        label: 'VIEW',
         background_color: '#0a4f9d',
       }
     ];
@@ -275,7 +284,7 @@ getsolutionList() {
 
   onCardClick(cardItem: any) {
     const newData = { formErrors: this.programWithRolloutService.formMeta.formValidation , tabValidationForProgram:  this.programWithRolloutService.tabValidationForProgram };
-    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId}, state : { programErrors: newData } })
+    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId, type: cardItem.type}, state : { programErrors: newData }})
   }
 
   statusButtonClick(event: { label: string, item: any }) {
@@ -319,6 +328,20 @@ getsolutionList() {
               programId: this.programId,
               programResourceId: item.id,
               mode: solutionModes.REVIEW,
+            },
+          });
+          break;
+        } else {
+          break;
+        }
+      case 'VIEW':
+        if (item.type === 'project') {
+          this.router.navigate([PROJECT_DETAILS_PAGE], {
+            queryParams: {
+              parent: 'program-resources',
+              programId: this.programId,
+              programResourceId: item.id,
+              mode: solutionModes.VIEWONLY,
             },
           });
           break;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -204,6 +204,20 @@ export class LayoutComponent {
             return false;
           }
         });
+        break;
+      }
+      case "COPY_AND_EDIT": {
+        this.subscription.add(
+          this.programWithRolloutService.copyAndCreateProgram().subscribe((res: any) => {
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                programId: res.result.id,
+                mode: solutionModes.EDIT,
+                parent: "draft"
+              },
+            });
+          })
+        )
         break;
       }
       default:
