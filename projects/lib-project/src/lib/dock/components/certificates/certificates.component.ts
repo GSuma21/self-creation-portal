@@ -212,7 +212,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.controls['issuerName']?.markAsTouched()
             }
           }
-          if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.IN_REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
             this.getCertificateForm()
             if(this.libProjectService.projectData.certificate) {
               this.selectedYes = "1"
@@ -228,7 +228,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
             }
           }
-          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
             this.getCommentConfigs();
           }
         } else {
@@ -257,7 +257,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
@@ -303,7 +303,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                   this.startAutoSaving();
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 this.certificateAddIntoHtml();
@@ -335,7 +335,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
