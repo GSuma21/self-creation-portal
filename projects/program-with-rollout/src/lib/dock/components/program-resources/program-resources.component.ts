@@ -161,8 +161,6 @@ readProgram(){
       .subscribe((res: any) => {
         this.programWithRolloutService.setProgramData(res.result)
         this.programWithRolloutService.updateResourceTargetCriteria(this.programId)
-        this.subscription.add(
-        this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
         this.resourceCount  = this.programWithRolloutService.programData.resources.length;
         this.resources = this.programWithRolloutService.programData.resources
         this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources.length ? 'VALID' : 'INVALID'
@@ -379,6 +377,9 @@ getsolutionList() {
   }
 
   ngOnDestroy() {
+    if(this.mode === solutionModes.EDIT){
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
+    }
     this.subscription.unsubscribe();
     this.resources=[]
   }

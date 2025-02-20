@@ -209,7 +209,6 @@ export class LayoutComponent {
         break;
       }
       case "LOGOUT": {
-        this.utilService.saveResources = false;
         const dialogRef = this.dialog.open(DialogPopupComponent, {
           width: '39.375rem',
           disableClose: true,
@@ -223,9 +222,15 @@ export class LayoutComponent {
         });
         dialogRef.afterClosed().subscribe((result) => {
           if (result.data === 'LOGOUT') {
-            this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.libProjectService.projectData.id).subscribe((res) => {
+            this.utilService.saveComment = false;
+            this.utilService.saveResources = false;
+            if(this.mode === solutionModes.EDIT ||this.mode === solutionModes.REQUEST_FOR_EDIT ){
+              this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.libProjectService.projectData.id).subscribe((res) => {
+                this.sharedService.logout();
+              })
+            }else{
               this.sharedService.logout();
-            })
+            }
           }
         });
         break;
