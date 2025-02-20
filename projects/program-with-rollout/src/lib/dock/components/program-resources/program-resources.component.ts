@@ -340,6 +340,7 @@ getsolutionList() {
               programId: this.programId,
               programResourceId: item.id,
               mode: solutionModes.VIEWONLY,
+              parentMode : this.mode
             },
           });
           break;
