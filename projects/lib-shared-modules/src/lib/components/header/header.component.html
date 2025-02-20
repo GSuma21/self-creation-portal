@@ -27,7 +27,7 @@
     <div class="buttons-container">
         @for (button of headerData?.buttons[modeFromParent ? modeFromParent : mode]; track button) {
           @if(button.tooltip){
-            <button 
+            <button
             [disabled]="button.disable"
             mat-raised-button
             [ngClass]="[ button.disable ? 'button-disable' : button.cssClass]"
@@ -46,5 +46,5 @@
         }
     </div>
   }
-  
+
 </mat-toolbar>

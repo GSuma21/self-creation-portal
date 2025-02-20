@@ -173,7 +173,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   checkAndGetCommentConfigs(){
-    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }
@@ -188,7 +188,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.projectInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
+          this.projectInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REVIEW ;
           this.libProjectService.checkValidationForRequestChanges(comments);
         });
       })
@@ -256,7 +256,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       if (data) {
         this.route.queryParams.subscribe((params: any) => {
           let programId = params.programId;
-          let programResourceId = params.programResourceId;
+          this.projectId = params.programResourceId;
           this.subscription.add(
             this.libProjectService
               .readProgram(programId)

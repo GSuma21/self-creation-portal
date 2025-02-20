@@ -45,4 +45,5 @@ export const solutionModes = {
   REVIEW:'review',
   COPY_EDIT:"copyEdit",
   META_EDIT:'metaEdit',
+  META_REVIEW:'metaReview',
 };

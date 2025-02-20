@@ -89,6 +89,9 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
                 this.addSubtaskData()
               })
             }
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+              this.getCommentConfigs()
+            }
           }
           else if(Object.keys(this.libProjectService.projectData)?.length && this.projectId) {
             this.projectData = this.libProjectService.projectData;

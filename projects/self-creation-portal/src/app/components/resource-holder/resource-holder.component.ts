@@ -321,6 +321,16 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     //  }else{
       switch (label) {
         case 'EDIT':
+          if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
+            this.router.navigate(['roll-out/details/program-details'], {
+              queryParams: {
+                parent: 'draft',
+                programId: item.id,
+                mode: solutionModes.REQUEST_FOR_EDIT,
+              },
+            });
+            break;
+          }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
             this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
             break;
