@@ -97,6 +97,7 @@ export class LibSharedModulesService {
         else if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.VIEWONLY || this.route.snapshot.queryParamMap.get('mode') == solutionModes.REVIEWER_VIEW || this.route.snapshot.queryParamMap.get('mode') == solutionModes.CREATOR_VIEW){
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: this.route.snapshot.queryParamMap.get('topLevelParent'), programId: this.route.snapshot.queryParamMap.get('programId'), mode: this.route.snapshot.queryParamMap.get('parentMode')}, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
+        
         else {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }

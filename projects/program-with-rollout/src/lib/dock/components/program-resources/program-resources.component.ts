@@ -342,6 +342,7 @@ getsolutionList() {
               mode: (this.mode === solutionModes.CREATOR_VIEW ||  this.mode === solutionModes.REVIEWER_VIEW ) ? this.mode:solutionModes.VIEWONLY,
               parentMode : this.mode,
               topLevelParent : this.parent
+              
             },
           });
           break;
