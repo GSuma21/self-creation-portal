@@ -324,7 +324,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
           if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
             this.router.navigate(['roll-out/details/program-details'], {
               queryParams: {
-                parent: 'draft',
+                parent: 'review',
                 programId: item.id,
                 mode: solutionModes.REQUEST_FOR_EDIT,
               },
