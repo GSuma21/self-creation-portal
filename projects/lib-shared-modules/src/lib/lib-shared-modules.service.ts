@@ -91,8 +91,11 @@ export class LibSharedModulesService {
             class: 'success',
           });
         }
-        if(this.route.snapshot.queryParamMap.get('mode') == 'metaReview') {
+        if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_REVIEW) {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REVIEW }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        }
+        else if (this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_REQUEST_FOR_EDIT) {
+          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REQUEST_FOR_EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
         else {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
