@@ -81,6 +81,7 @@ export class ChooseResourceComponent {
   selectedValuesForPrograms: number[] = [];
   sortBy:any = ''
   sortOrder:any = ''
+  type:any=this.route.snapshot.queryParamMap.get('type')
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
   ngOnInit(){
@@ -110,10 +111,10 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
 
-  getResourceList(sort_by:any="",sort_order:any=""){
+  getResourceList(type:any='',sort_by:any="",sort_order:any=""){
     const config = {
       url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
-      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by ? sort_by : this.sortBy,sort_order:sort_order ? sort_order : this.sortOrder })
+      params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by ? sort_by : this.sortBy,sort_order:sort_order ? sort_order : this.sortOrder , type:this.type ?this.type:'' })
     }
     return this.httpService.get(`${config.url}?${config.params.toString()}`);
   }

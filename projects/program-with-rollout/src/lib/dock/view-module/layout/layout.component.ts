@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -206,19 +206,16 @@ export class LayoutComponent {
         });
         break;
       }
-      case "REQUEST_CHANGES": {
-        this.utilService.saveComment = false
+      case "COPY_AND_EDIT": {
         this.subscription.add(
-          this.sharedService.triggerSaveComment() //// Triggers the save comment action from the comment module
-        )
-        /**
-        * Once the save comment operation is completed, the `sendForRequestChange()` method from
-        * `libProjectService` is called to send the request for change. This ensures that further actions
-        * are triggered only after the save comment operation is fully done.
-        */
-        this.subscription.add(
-          this.sharedService.getSaveCommentCompletedObservable().subscribe(() => {
-            this.programWithRolloutService.sendForRequestChange() // Sends request change after comment save is completed
+          this.programWithRolloutService.copyAndCreateProgram().subscribe((res: any) => {
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                programId: res.result.id,
+                mode: solutionModes.EDIT,
+                parent: "draft"
+              },
+            });
           })
         )
         break;
