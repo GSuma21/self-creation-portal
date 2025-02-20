@@ -91,7 +91,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
                 this.addSubtaskData()
               })
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
           }
@@ -99,10 +99,10 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             this.projectData = this.libProjectService.projectData;
             this.createSubTaskForm()
             this.addSubtaskData()
-            if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT || params.mode === solutionModes.META_EDIT) {
+            if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
           }
@@ -113,10 +113,10 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
              this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
               this.createSubTaskForm()
               this.addSubtaskData()
-              if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT) {
+              if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
             })
@@ -142,7 +142,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           );
           // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
-          if (params.mode === solutionModes.VIEWONLY || params.mode === solutionModes.REVIEW || params.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || params.mode === solutionModes.META_EDIT) {
+          if (params.mode === solutionModes.VIEWONLY || params.mode === solutionModes.REVIEW || params.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || params.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
             this.viewOnly = true;
           }
         }else{
@@ -412,7 +412,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   getCommentConfigs() {
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
-        this.utilService.getCommentList(this.projectId).subscribe((commentListRes: any) => {
+        this.utilService.getCommentList(this.projectId ? this.projectId : this.ProgramResourceId).subscribe((commentListRes: any) => {
           const comments = commentListRes.result?.comments || [];
           const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
 

@@ -40,6 +40,7 @@ export const solutionModes = {
   VIEWONLY: 'viewOnly',
   EDIT: 'edit',
   REQUEST_FOR_EDIT:'reqEdit',
+  META_REQUEST_FOR_EDIT:'metaReqEdit',
   CREATOR_VIEW:'creatorView',
   REVIEWER_VIEW:'reviewerView',
   REVIEW:'review',
