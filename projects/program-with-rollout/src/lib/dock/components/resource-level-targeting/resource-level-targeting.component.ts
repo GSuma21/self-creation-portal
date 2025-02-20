@@ -122,7 +122,7 @@ export class ResourceLevelTargetingComponent {
 
             if (Object.keys(this.programWithRolloutService.programData).length > 1) {
               this.resourceCount =
-                this.programWithRolloutService.programData.resources.length;
+                this.programWithRolloutService.programData.resources?.length;
               this.resources =
                 this.programWithRolloutService.programData.resources;
             } else {
@@ -133,7 +133,7 @@ export class ResourceLevelTargetingComponent {
                     this.programWithRolloutService.setProgramData(res.result);
                     this.programWithRolloutService.upDateProgramTitle(res.result.title);
                     this.resourceCount =
-                      this.programWithRolloutService.programData.resources.length;
+                      this.programWithRolloutService.programData.resources?.length;
                     this.resources =
                       this.programWithRolloutService.programData.resources;
                   })
@@ -142,7 +142,7 @@ export class ResourceLevelTargetingComponent {
           })
       );
       this.resourceCount =
-        this.programWithRolloutService.programData.resources.length;
+        this.programWithRolloutService.programData.resources?.length;
       this.resources = this.programWithRolloutService.programData.resources;
       this.addResourceFields();
       if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
@@ -227,7 +227,7 @@ export class ResourceLevelTargetingComponent {
     this.resourceIds = [];
     if(Object.keys(this.programWithRolloutService.programData).length > 1){
       this.resourceCount =
-      this.programWithRolloutService.programData.resources.length;
+      this.programWithRolloutService.programData.resources?.length;
     const resourceIds =
       this.programWithRolloutService.programData.resources.map(
         (resource: any) => resource.id
@@ -241,7 +241,7 @@ export class ResourceLevelTargetingComponent {
           .subscribe((res: any) => {
             this.programWithRolloutService.setProgramData(res.result);
             this.resourceCount =
-              this.programWithRolloutService.programData.resources.length;
+              this.programWithRolloutService.programData.resources?.length;
             const resourceIds =
               this.programWithRolloutService.programData.resources.map(
                 (resource: any) => resource.id
