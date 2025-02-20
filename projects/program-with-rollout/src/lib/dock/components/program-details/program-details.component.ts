@@ -435,6 +435,7 @@ export class ProgramDetailsComponent {
   }
 
   getCommentConfigs() {
+    this.commentsList = []
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
         this.utilService.getCommentList(this.programId).subscribe((commentListRes: any) => {
