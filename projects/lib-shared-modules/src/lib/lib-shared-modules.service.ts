@@ -94,6 +94,9 @@ export class LibSharedModulesService {
         if(this.route.snapshot.queryParamMap.get('mode') == 'metaReview') {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REVIEW }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
+        else if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.VIEWONLY){
+          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: this.route.snapshot.queryParamMap.get('parentMode')}, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        }
         else {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
