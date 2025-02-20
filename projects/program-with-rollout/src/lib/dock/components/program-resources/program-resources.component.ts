@@ -95,7 +95,7 @@ ngOnInit(){
     this.createProgram();
   }
   if(this.programId && Object.keys(this.programWithRolloutService.programData)?.length > 1){
-    this.resourceCount  = this.programWithRolloutService.programData.resources.length;
+    this.resourceCount  = this.programWithRolloutService.programData.resources?.length;
     this.resources = this.programWithRolloutService.programData.resources
     this.addActionButtons()
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
@@ -163,7 +163,7 @@ readProgram(){
         this.programWithRolloutService.updateResourceTargetCriteria(this.programId)
         this.resourceCount  = this.programWithRolloutService.programData.resources.length;
         this.resources = this.programWithRolloutService.programData.resources
-        this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources.length ? 'VALID' : 'INVALID'
+        this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources?.length ? 'VALID' : 'INVALID'
         this.addActionButtons()
         this.programWithRolloutService.upDateProgramTitle()
         if((this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' || this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting == 'INVALID') && ( res.result.resources?.length <= 0)){
