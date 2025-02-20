@@ -47,7 +47,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     )
    }
    ngOnInit() {
-    if(this.mode === solutionModes.META_EDIT){
+    if(this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT){
        this.programResourceDetailsAndMap();
     }
     if(this.mode === solutionModes.EDIT || this.mode === "" || this.mode === solutionModes.REQUEST_FOR_EDIT){
@@ -175,7 +175,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
 
   checkAndGetCommentConfigs(){
-    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+    if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.META_REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }
@@ -207,7 +207,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
             this.projectId = params.projectId;
             this.libProjectService.projectData.id = params.projectId;
             if (params.projectId) {
-              if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+              if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
                 if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
                   this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
                 } else {
@@ -296,7 +296,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
         });
       }
 
-      if(this.mode === solutionModes.META_EDIT){
+      if(this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT){
         this.allowEditForMetaData(element)
       }
     });
@@ -327,7 +327,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   }
   startAutoSaving() {
       this.intervalId = setInterval(() => {
-        if(this.mode === solutionModes.META_EDIT && !this.projectId){
+        if((this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) && !this.projectId){
           this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
             resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
           );
@@ -443,7 +443,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       clearInterval(this.intervalId);
     }
     if(this.utilService.saveResources && this.mode != solutionModes.META_REVIEW){
-      if(this.mode === solutionModes.META_EDIT){
+      if(this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT){
         this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
           resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
         );

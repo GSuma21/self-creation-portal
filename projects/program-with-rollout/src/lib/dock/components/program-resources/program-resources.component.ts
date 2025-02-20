@@ -225,7 +225,7 @@ saveForm(){
 
 addActionButtons(){
   let buttonData = []
-  if(this.mode == solutionModes.EDIT ) {
+  if(this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) {
     buttonData = [
       {
         action: 'EDIT',
@@ -291,14 +291,26 @@ getsolutionList() {
     switch (label) {
       case 'EDIT':
         if (item.type === 'project') {
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              parent: 'program-resources',
-              programId: this.programId,
-              programResourceId: item.id,
-              mode: solutionModes.META_EDIT,
-            }
-          });
+          if(this.mode === solutionModes.REQUEST_FOR_EDIT) {
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'program-resources',
+                programId: this.programId,
+                programResourceId: item.id,
+                mode: solutionModes.META_REQUEST_FOR_EDIT,
+              }
+            });
+          }
+          else {
+            this.router.navigate([PROJECT_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'program-resources',
+                programId: this.programId,
+                programResourceId: item.id,
+                mode: solutionModes.META_EDIT,
+              }
+            });
+          }
           break;
         } else {
           break;

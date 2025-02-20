@@ -175,13 +175,14 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
           params.mode === solutionModes.REVIEWER_VIEW ||
           this.mode === solutionModes.CREATOR_VIEW ||
           this.mode === solutionModes.COPY_EDIT ||
-          this.mode === solutionModes.META_REVIEW
+          this.mode === solutionModes.META_REVIEW ||
+          this.mode === solutionModes.META_REQUEST_FOR_EDIT
         ) {
           this.viewOnly = true;
           this.getCertificateForm();
         }
         if (Object.keys(this.libProjectService.projectData).length > 1 && this.mode) {
-          if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT ||  params.mode === solutionModes.META_EDIT ) {
+          if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT) {
             this.startAutoSaving();
             this.setTaskEvidenceMetaData();
             if(this.libProjectService.projectData.tasks) {
@@ -228,7 +229,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
               this.certificateForm.patchValue({evidenceRequired:this.libProjectService.projectData.certificate.criteria?.conditions?.C2?.conditions?.C1?.value})
             }
           }
-          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
+          if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
             this.getCommentConfigs();
           }
         } else {
@@ -257,7 +258,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
@@ -265,7 +266,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 }
                 this.setCertificateSelection();
                 this.getCertificateForm();
-                if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || params.mode === solutionModes.META_EDIT) {
+                if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                   this.startAutoSaving();
                   this.checkValidations()
                   if(this.isTabNotValid && this.libProjectService.projectData.certificate.issuer.length == 0) {
@@ -303,7 +304,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                   this.startAutoSaving();
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 this.certificateAddIntoHtml();
@@ -335,7 +336,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                     this.disableIssuerName()
                   }
                 }
-                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW)&& (this.mode !== solutionModes.VIEWONLY)) {
+                if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !== solutionModes.VIEWONLY)) {
                   this.getCommentConfigs();
                 }
                 if(res.result.tasks) {
@@ -686,7 +687,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   getCommentConfigs() {
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
-        this.utilService.getCommentList(this.projectId).subscribe((commentListRes: any) => {
+        this.utilService.getCommentList(this.projectId ? this.projectId : this.ProgramResourceId).subscribe((commentListRes: any) => {
           const comments = commentListRes.result?.comments || [];
           const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
 

@@ -354,7 +354,8 @@ export class ProgramWithRolloutService {
   triggerProgramSendForReview(){
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
-              this.programConfig?.show_reviewer_list
+              this.programConfig?.show_reviewer_list &&
+              this.programData.stage !== resourceStatus.REVIEW
             ) {
               this.getReviewerData().subscribe((list: any) => {
                 const dialogRef = this.dialog.open(ReviewModelComponent, {
@@ -406,7 +407,35 @@ export class ProgramWithRolloutService {
                   return true;
                 });
               });
-            } else {}
+            } else {
+              this.createOrUpdateProgram(
+                this.programData,
+                this.programData.id,
+                true
+              ).subscribe((res) => {
+                this.getcommentsListAsOpen().subscribe((comment) => {
+                  this.sendForReview({}, this.programData.id).subscribe(
+                    (res: any) => {
+                      if(comment.length > 0){
+                        this.utilService
+                        .updateComment(this.programData.id, comment)
+                        .subscribe((res: any) => {
+                      });
+                      }
+                      this.toastService.openSnackBar({
+                        message: res.message,
+                        class: 'success',
+                      });
+                      this.programData = {};
+                      this.router.navigate([SUBMITTED_FOR_REVIEW]);
+                    },((err)=> {
+                      this.validateAndHighlightErrors(err)
+                    })
+                  );
+
+            });
+              })
+            }
     }else{
       this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
     }
