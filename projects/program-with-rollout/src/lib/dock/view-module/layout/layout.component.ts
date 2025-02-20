@@ -26,6 +26,7 @@ export class LayoutComponent {
       })
     )
     this.setConfig();
+    this.utilService.saveComment = true;
   }
 
 
