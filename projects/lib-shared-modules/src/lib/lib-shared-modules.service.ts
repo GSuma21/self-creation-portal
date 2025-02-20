@@ -85,7 +85,7 @@ export class LibSharedModulesService {
         this.router.navigate([ROLL_OUT]);
         break;
       case 'program-resources':
-        if (this.route.snapshot.queryParamMap.get('programResourceId')) {
+        if (this.route.snapshot.queryParamMap.get('programResourceId') && (this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_REQUEST_FOR_EDIT || this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_EDIT)) {
           this.toastService.openSnackBar({
             message: 'CHANGES_SAVED_SUCCESSFULLY',
             class: 'success',
