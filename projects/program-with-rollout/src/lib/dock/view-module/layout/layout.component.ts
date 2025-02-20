@@ -220,6 +220,23 @@ export class LayoutComponent {
         )
         break;
       }
+      case "REQUEST_CHANGES": {
+        this.utilService.saveComment = false
+        this.subscription.add(
+          this.sharedService.triggerSaveComment() //// Triggers the save comment action from the comment module
+        )
+        /**
+        * Once the save comment operation is completed, the `sendForRequestChange()` method from
+        * `libProjectService` is called to send the request for change. This ensures that further actions
+        * are triggered only after the save comment operation is fully done.
+        */
+        this.subscription.add(
+          this.sharedService.getSaveCommentCompletedObservable().subscribe(() => {
+            this.programWithRolloutService.sendForRequestChange() // Sends request change after comment save is completed
+          })
+        )
+        break;
+      }
       default:
         break;
     }

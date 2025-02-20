@@ -7,5 +7,5 @@
 </div>
 }
 @if(commentPayload || projectInReview) {
-  <lib-comments-box [commentPayload]="commentPayload" [resourceId]="projectId" [messages]="commentsList" [mode]="mode" (comment)="saveComment($event)"></lib-comments-box>
+  <lib-comments-box [commentPayload]="commentPayload" [resourceId]="projectId ? projectId : ProgramResourceId" [messages]="commentsList" [mode]="mode" (comment)="saveComment($event)"></lib-comments-box>
 }

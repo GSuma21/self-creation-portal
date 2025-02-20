@@ -72,6 +72,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   projectInReview: boolean = false;
   taskForm: any = [];
   certificateList:any = [];
+  ProgramResourceId:string|number = ''
   certificate:any = {
       base_template_id: '',
       base_template_url: "",
@@ -166,13 +167,15 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode;
+        this.ProgramResourceId = params.programResourceId;
         this.projectId = params.projectId;
         if (
           params.mode === solutionModes.VIEWONLY ||
           params.mode === solutionModes.REVIEW ||
           params.mode === solutionModes.REVIEWER_VIEW ||
           this.mode === solutionModes.CREATOR_VIEW ||
-          this.mode === solutionModes.COPY_EDIT
+          this.mode === solutionModes.COPY_EDIT ||
+          this.mode === solutionModes.META_REVIEW
         ) {
           this.viewOnly = true;
           this.getCertificateForm();
@@ -277,7 +280,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
                 }
                 this.certificateAddIntoHtml();
               }
-              
+
             })
           }
           else if(!params.projectId) {
@@ -366,12 +369,12 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       })
     )
 
-    // save resource of program 
+    // save resource of program
     this.subscription.add(
       this.libProjectService.isProgramResourceSave.subscribe(
         (isProgramResourceSave: boolean) => {
           if (isProgramResourceSave) {
-             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+             this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
               resource.id === this.libProjectService.projectData.id ? this.libProjectService.projectData : resource
             );
             this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{
@@ -920,7 +923,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
   ngOnDestroy(): void {
     if(this.mode === solutionModes.META_EDIT && this.utilService.saveResources){
-      this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) => 
+      this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
         resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
       );
       this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})

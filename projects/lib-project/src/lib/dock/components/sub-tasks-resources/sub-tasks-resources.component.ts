@@ -49,6 +49,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   projectInReview:boolean = false;
   observationFormDetails:any;
   allowOpenLinks:boolean = false;
+  ProgramResourceId:string|number = ''
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
 
@@ -69,6 +70,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
     this.subscription.add(
       this.route.queryParams.subscribe((params:any) => {
         this.mode = params.mode;
+        this.ProgramResourceId = params.programResourceId;
         this.projectId = params.projectId;
        if(params.mode){
           if(params.programId){

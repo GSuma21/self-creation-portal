@@ -26,6 +26,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   isFormDirty:boolean = true;
   allowOpenLinks:boolean = false;
   resourceId:string|number = '' // This variable represent projectId for comments.
+  ProgramResourceId:string|number = ''
   @ViewChild('formLib') formLib: MainFormComponent | undefined;
   private subscription: Subscription = new Subscription();
   constructor(
@@ -41,6 +42,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : ""
+        this.ProgramResourceId = params.programResourceId;
       })
     )
    }
@@ -51,7 +53,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if(this.mode === solutionModes.EDIT || this.mode === "" || this.mode === solutionModes.REQUEST_FOR_EDIT){
       this.getFormWithEntitiesAndMap();
     }
-    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
+    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || this.mode === solutionModes.META_REVIEW) {
       this.viewOnly = true
       this.getProjectDetailsForViewOnly();
     }
@@ -148,14 +150,14 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           this.subscription.add(
             this.route.queryParams.subscribe((params: any) => {
               this.projectId = params.projectId;
-              if (params.projectId) {
+              if (params.projectId || this.ProgramResourceId ) {
                   if (Object.keys(this.libProjectService.projectData).length > 1) { // project ID will be there so length considered as more than 1
                     this.readProjectDeatilsAndMap(data.controls,this.libProjectService.projectData);
                     this.checkAndGetCommentConfigs()
                   } else {
                     this.subscription.add(
                       this.libProjectService
-                        .readProject(this.projectId)
+                        .readProject(this.projectId ? this.projectId : this.ProgramResourceId)
                         .subscribe((res: any) => {
                           this.libProjectService.setProjectData(res.result);
                          this.libProjectService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
@@ -182,7 +184,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     this.commentsList = []
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
-        this.utilService.getCommentList(this.projectId).subscribe((commentListRes: any) => {
+        this.utilService.getCommentList(this.projectId ? this.projectId : this.ProgramResourceId).subscribe((commentListRes: any) => {
           const comments = commentListRes.result?.comments || [];
           const filteredComments = this.utilService.filterCommentByContext(comments, data.page);
 
@@ -256,7 +258,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
       if (data) {
         this.route.queryParams.subscribe((params: any) => {
           let programId = params.programId;
-          this.projectId = params.programResourceId;
+          let programResourceId = params.programResourceId;
           this.subscription.add(
             this.libProjectService
               .readProgram(programId)
@@ -331,10 +333,10 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           );
           this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res:any)=>{})
         }
-        else if(!this.projectId && this.mode !== solutionModes.META_EDIT) {
+        else if(!this.projectId && this.mode !== solutionModes.META_EDIT && this.mode != solutionModes.META_REVIEW) {
           this.createProject({title:'Untitled project'})
         } else {
-          if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.isFormDirty) {
+          if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.isFormDirty && this.mode != solutionModes.META_REVIEW) {
             this.subscription.add(this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.projectId).subscribe((res:any)=>{
               this.isFormDirty = false;
             }))
@@ -440,7 +442,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    if(this.utilService.saveResources){
+    if(this.utilService.saveResources && this.mode != solutionModes.META_REVIEW){
       if(this.mode === solutionModes.META_EDIT){
         this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
           resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
