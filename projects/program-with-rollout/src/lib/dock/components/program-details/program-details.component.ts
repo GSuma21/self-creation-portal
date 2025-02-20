@@ -142,29 +142,37 @@ export class ProgramDetailsComponent {
                 this.programWithRolloutService.programData.id = params.programId;
                 if (params.programId) {
                   if (params.mode === solutionModes.EDIT) {
+                    if (Object.keys(this.programWithRolloutService.programData).length > 1) {
+                      this.readProgramDeatilsAndMap(data.controls, this.programWithRolloutService.programData);
+                    } else {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
                             this.programWithRolloutService.setProgramData(res.result);
-                            this.readProgramDeatilsAndMap(data.controls,res.result);
+                            this.readProgramDeatilsAndMap(data.controls, res.result);
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
+                    }            
                       if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
-                  }else{
+                  } else {
+                    if (Object.keys(this.programWithRolloutService.programData).length > 1) {
+                      this.readProgramDeatilsAndMap(data.controls, this.programWithRolloutService.programData);
+                    } else {
                       this.subscription.add(
                         this.programWithRolloutService
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
                             this.programWithRolloutService.setProgramData(res.result);
-                          //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
-                            this.readProgramDeatilsAndMap(data.controls,res.result);
+                            //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
+                            this.readProgramDeatilsAndMap(data.controls, res.result);
                             // comments list and configuration
                           })
                       );
+                    }
                       if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
