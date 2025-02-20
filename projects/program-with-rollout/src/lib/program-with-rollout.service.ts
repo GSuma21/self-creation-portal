@@ -486,7 +486,7 @@ export class ProgramWithRolloutService {
   }
 
   changeCommentStatus(status:any){
-    const currentProjectMetaData = this.dataSubject.getValue();
+    const currentProjectMetaData = this.rolloutDataSubject.getValue();
     if (
       Array.isArray(
         currentProjectMetaData?.sidenavData.headerData?.buttons?.[this.mode]
