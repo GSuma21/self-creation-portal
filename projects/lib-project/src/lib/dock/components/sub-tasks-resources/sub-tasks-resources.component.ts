@@ -91,7 +91,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
                 this.addSubtaskData()
               })
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
           }
@@ -102,7 +102,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
           }
@@ -116,7 +116,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
               if (params.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
               this.startAutoSaving();
             }
-            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
+            if ((this.libProjectService?.projectData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.META_REQUEST_FOR_EDIT)&& (this.mode !==  solutionModes.VIEWONLY)) {
               this.getCommentConfigs()
             }
             })

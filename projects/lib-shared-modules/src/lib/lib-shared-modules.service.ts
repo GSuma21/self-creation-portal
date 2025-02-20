@@ -94,8 +94,8 @@ export class LibSharedModulesService {
         if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_REVIEW) {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REVIEW }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
-        else if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.VIEWONLY){
-          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: this.route.snapshot.queryParamMap.get('parentMode')}, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
+        else if(this.route.snapshot.queryParamMap.get('mode') == solutionModes.VIEWONLY || this.route.snapshot.queryParamMap.get('mode') == solutionModes.REVIEWER_VIEW || this.route.snapshot.queryParamMap.get('mode') == solutionModes.CREATOR_VIEW){
+          this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: this.route.snapshot.queryParamMap.get('topLevelParent'), programId: this.route.snapshot.queryParamMap.get('programId'), mode: this.route.snapshot.queryParamMap.get('parentMode')}, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});
         }
         else if (this.route.snapshot.queryParamMap.get('mode') == solutionModes.META_REQUEST_FOR_EDIT) {
           this.router.navigate([PROGRAM_RESOURCES],{ queryParams: { parent: 'draft', programId: this.route.snapshot.queryParamMap.get('programId'), mode: solutionModes.REQUEST_FOR_EDIT }, state:{programErrors : navigation.programErrors ? navigation.programErrors :""}});

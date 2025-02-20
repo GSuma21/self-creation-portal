@@ -98,12 +98,12 @@ ngOnInit(){
     this.resourceCount  = this.programWithRolloutService.programData.resources.length;
     this.resources = this.programWithRolloutService.programData.resources
     this.addActionButtons()
-    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }else if(!this.resourceIds?.length  && this.programId && Object.keys(this.programWithRolloutService.programData)?.length < 1){
     this.readProgram()
-    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
   }
@@ -351,8 +351,10 @@ getsolutionList() {
               parent: 'program-resources',
               programId: this.programId,
               programResourceId: item.id,
-              mode: solutionModes.VIEWONLY,
-              parentMode : this.mode
+              mode: (this.mode === solutionModes.CREATOR_VIEW ||  this.mode === solutionModes.REVIEWER_VIEW ) ? this.mode:solutionModes.VIEWONLY,
+              parentMode : this.mode,
+              topLevelParent : this.parent
+              
             },
           });
           break;
