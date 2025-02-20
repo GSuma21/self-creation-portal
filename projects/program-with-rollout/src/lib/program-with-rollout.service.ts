@@ -30,8 +30,6 @@ import {
 export class ProgramWithRolloutService {
   rolloutDataSubject = new BehaviorSubject<any>(null);
   currentRolloutData = this.rolloutDataSubject.asObservable();
-  dataSubject = new BehaviorSubject<any>(null);
-  currentProjectMetaData = this.dataSubject.asObservable();
   private getValidationForRollout = new BehaviorSubject<boolean>(false); // check and get the validation for rolled out resource
   isRolledOutValid = this.getValidationForRollout.asObservable();
   getResourceStatus = new BehaviorSubject<any>(null);
@@ -226,13 +224,13 @@ export class ProgramWithRolloutService {
   }
 
   upDateProgramTitle(title?: string) {
-    const currentProjectMetaData = this.rolloutDataSubject.getValue();
+    const currentProgramMetaData = this.rolloutDataSubject.getValue();
     const updatedData = {
-      ...currentProjectMetaData,
+      ...currentProgramMetaData,
       sidenavData: {
-        ...currentProjectMetaData?.sidenavData,
+        ...currentProgramMetaData?.sidenavData,
         headerData: {
-          ...currentProjectMetaData?.sidenavData.headerData,
+          ...currentProgramMetaData?.sidenavData.headerData,
           title: title
             ? title
             : this.programData?.title
@@ -501,13 +499,13 @@ export class ProgramWithRolloutService {
   }
 
   changeCommentStatus(status:any){
-    const currentProjectMetaData = this.dataSubject.getValue();
+    const currentProgramMetaData = this.rolloutDataSubject.getValue();
     if (
       Array.isArray(
-        currentProjectMetaData?.sidenavData.headerData?.buttons?.[this.mode]
+        currentProgramMetaData?.sidenavData.headerData?.buttons?.[this.mode]
       )
     ) {
-      currentProjectMetaData?.sidenavData.headerData?.buttons?.[
+      currentProgramMetaData?.sidenavData.headerData?.buttons?.[
         this.mode
       ].forEach((element: any) => {
         if (element.title === 'REQUEST_CHANGES') {
