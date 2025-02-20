@@ -91,6 +91,10 @@ export class ProgramDetailsComponent {
 
   ngAfterViewChecked() {
     if ((this.mode == solutionModes.EDIT) && this.programId) {
+      if (this.viewOnly) {
+        this.viewOnly = false;
+        this.getFormWithEntitiesAndMap();
+      }
       if (this.formLib && this.programWithRolloutService.tabValidationForProgram.programDetails == 'INVALID' && this.programWithRolloutService.formMeta.formValidation.programDetails == "INVALID" && this.formLib.myForm.pristine) {
         this.subscription.add(
           this.programWithRolloutService.programApiErrors.subscribe(
@@ -331,7 +335,7 @@ export class ProgramDetailsComponent {
 
      startAutoSaving() {
         this.intervalId = setInterval(() => {
-          if(!this.programId) {
+          if(!this.programId && !this.viewOnly) {
             this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
             if(this.mode === solutionModes.EDIT) {

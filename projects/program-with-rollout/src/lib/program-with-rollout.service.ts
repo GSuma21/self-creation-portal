@@ -501,4 +501,13 @@ export class ProgramWithRolloutService {
       });
     }
   }
+
+  copyAndCreateProgram(){
+    const config = {
+      url: this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM +
+          '?reference_id=' + this.programData.id,
+      payload: this.programData,
+    };
+    return this.httpService.post(config.url, config.payload);
+  }
 }
