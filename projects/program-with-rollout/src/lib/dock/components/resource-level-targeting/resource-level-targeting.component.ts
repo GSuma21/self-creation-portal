@@ -251,7 +251,7 @@ export class ResourceLevelTargetingComponent {
           })
       );
     }
-   
+
   }
 
   addResourceFields(): void {
@@ -369,9 +369,11 @@ export class ResourceLevelTargetingComponent {
     targeItem?: any
   ) {
     if (!targeItem) {
+      let targetCriteria = this.programWithRolloutService.programData.targeting_criteria
       this.programWithRolloutService.programData.resources[
         resourceIndex
       ].targeting_criteria.splice(targetIndex, 1);
+      this.programWithRolloutService.programData.targeting_criteria = targetCriteria;
       this.subscription.add(
         this.programWithRolloutService
           .createOrUpdateProgram(
