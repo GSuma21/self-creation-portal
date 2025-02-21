@@ -16,7 +16,7 @@
         <mat-icon *ngIf="chatFlag" (click)="openChatBot()" class="cursor-pointer">do_not_disturb_on</mat-icon>
       </div>
     </section>
-    @if(mode !== "review" && mode !== "reviewerView"){
+    @if(mode !== "review" && mode !== "reviewerView" && mode !== "metaReview"){
       <section class="flex justify-between items-center p-3 bg-white"  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView')}">
         <div>
           @if(messages?.length > 0){
