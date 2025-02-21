@@ -223,6 +223,13 @@ export class LayoutComponent {
                 parent: "draft"
               },
             });
+            this.subscription.add(
+              this.programWithRolloutService
+                .readProgram(res.result.id)
+                .subscribe((res: any) => {
+                  this.programWithRolloutService.setProgramData(res.result);
+                })
+            );
           })
         )
         break;
