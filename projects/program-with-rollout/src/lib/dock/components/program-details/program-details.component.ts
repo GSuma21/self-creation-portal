@@ -62,7 +62,7 @@ export class ProgramDetailsComponent {
         (reviewValidation: boolean) => {
           if(reviewValidation) {
             this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length ? 'VALID' : 'INVALID'
+            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
             this.formLib?.myForm.markAllAsTouched()
             this.programWithRolloutService.triggerProgramSendForReview();
           }
@@ -149,12 +149,14 @@ export class ProgramDetailsComponent {
                         this.programWithRolloutService
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
+                            // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
+                            this.programWithRolloutService.formMeta.formValidation = res.result.metaData
                             this.programWithRolloutService.setProgramData(res.result);
                             this.readProgramDeatilsAndMap(data.controls, res.result);
                             this.programWithRolloutService.upDateProgramTitle();
                           })
                       );
-                    }            
+                    }
                       if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
                         this.getCommentConfigs()
                       }
@@ -166,6 +168,8 @@ export class ProgramDetailsComponent {
                         this.programWithRolloutService
                           .readProgram(this.programId)
                           .subscribe((res: any) => {
+                            // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
+                            this.programWithRolloutService.formMeta.formValidation = res.result.metaData
                             this.programWithRolloutService.setProgramData(res.result);
                             //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                             this.readProgramDeatilsAndMap(data.controls, res.result);
@@ -457,6 +461,7 @@ export class ProgramDetailsComponent {
 
    ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    debugger;
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
     }

@@ -130,6 +130,8 @@ export class ResourceLevelTargetingComponent {
                 this.programWithRolloutService
                   .readProgram(this.programId)
                   .subscribe((res: any) => {
+                    // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
+                    this.programWithRolloutService.formMeta.formValidation = res.result.metaData
                     this.programWithRolloutService.setProgramData(res.result);
                     this.programWithRolloutService.upDateProgramTitle(res.result.title);
                     this.resourceCount =
@@ -177,7 +179,7 @@ export class ResourceLevelTargetingComponent {
         (reviewValidation: boolean) => {
           if(reviewValidation) {
             this.resourceForm.markAllAsTouched()
-            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =  this.resourceForm.valid ? 'VALID' : 'INVALID'
             this.programWithRolloutService.triggerProgramSendForReview();
           }
         }
@@ -195,6 +197,9 @@ export class ResourceLevelTargetingComponent {
       )
     );
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    if(this.programWithRolloutService.programData.resources?.length == 0) {
+      this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID";
+    }
   }
 
   ngAfterViewChecked() {
@@ -239,6 +244,8 @@ export class ResourceLevelTargetingComponent {
         this.programWithRolloutService
           .readProgram(this.programId)
           .subscribe((res: any) => {
+            // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
+            this.programWithRolloutService.formMeta.formValidation = res.result.metaData
             this.programWithRolloutService.setProgramData(res.result);
             this.resourceCount =
               this.programWithRolloutService.programData.resources?.length;
@@ -449,6 +456,7 @@ export class ResourceLevelTargetingComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }
 
   showTooltip(tooltip: MatTooltip) {
