@@ -263,6 +263,7 @@ export class ProgramWithRolloutService {
         : this.Configuration.urlConFig.PROGRAM_URLS.CREATE_OR_UPDATE_PROGRAM,
       payload: this.programData,
     };
+    this.programData.metaData = this.formMeta.formValidation
     return this.httpService.post(config.url, config.payload);
   }
   updateProgramDraft(projectId: string | number) {
@@ -352,6 +353,7 @@ export class ProgramWithRolloutService {
   }
 
   triggerProgramSendForReview(){
+    debugger;
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
               this.programConfig?.show_reviewer_list &&
@@ -437,6 +439,11 @@ export class ProgramWithRolloutService {
               })
             }
     }else{
+      if(!this.programData.resources && this.programData.resources?.length == 0) {
+        this.tabValidationForProgram.programResources = "INVALID"
+        this.tabValidationForProgram.resourceLevelTargeting = "INVALID"
+        this.checkProgramSendForReviewValidation(true);
+      }
       this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
     }
     this.checkProgramSendForReviewValidation(false);
