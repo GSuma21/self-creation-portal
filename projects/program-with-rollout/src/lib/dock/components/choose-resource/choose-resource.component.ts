@@ -111,7 +111,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   }
 
 
-  getResourceList(type:any='',sort_by:any="",sort_order:any=""){
+  getResourceList(sort_by:any="",sort_order:any=""){
     const config = {
       url : this.Configuration.urlConFig.RESOURCE_LISTS_URLS.BASE + this.Configuration.urlConFig.RESOURCE_LISTS_URLS.ENDPOINTS.BROWSE_EXISTING_LIST,
       params : new URLSearchParams({ page: this.page.toString(), limit: this.limit.toString(), search:this.searchText ,sort_by:sort_by ? sort_by : this.sortBy,sort_order:sort_order ? sort_order : this.sortOrder , type:this.type ?this.type:'' })
@@ -203,6 +203,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onSortOptionsChanged(event:any){
     this.sortBy = event.sort_by
     this.sortOrder = event.sort_order
+    console.log(event.sort_by,event.sort_order )
     this.page = 1
     this.subscription.add(
       this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
