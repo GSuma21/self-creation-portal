@@ -203,7 +203,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   onSortOptionsChanged(event:any){
     this.sortBy = event.sort_by
     this.sortOrder = event.sort_order
-    console.log(event.sort_by,event.sort_order )
     this.page = 1
     this.subscription.add(
       this.getResourceList(event.sort_by,event.sort_order).subscribe((resourceList: any) => {
