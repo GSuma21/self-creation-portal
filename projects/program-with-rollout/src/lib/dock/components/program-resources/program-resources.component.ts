@@ -300,6 +300,8 @@ getsolutionList() {
                 programId: this.programId,
                 programResourceId: item.id,
                 mode: solutionModes.META_REQUEST_FOR_EDIT,
+                parentMode : this.mode,
+                topLevelParent : this.parent
               }
             });
           }
@@ -310,6 +312,8 @@ getsolutionList() {
                 programId: this.programId,
                 programResourceId: item.id,
                 mode: solutionModes.META_EDIT,
+                parentMode : this.mode,
+                topLevelParent : this.parent
               }
             });
           }
@@ -340,6 +344,8 @@ getsolutionList() {
               programId: this.programId,
               programResourceId: item.id,
               mode: solutionModes.META_REVIEW,
+              parentMode : this.mode,
+              topLevelParent : this.parent
             },
           });
           break;

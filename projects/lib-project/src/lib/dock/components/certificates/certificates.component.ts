@@ -182,7 +182,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
           this.getCertificateForm();
         }
         if (Object.keys(this.libProjectService.projectData).length > 1 && this.mode) {
-          if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT) {
+          if (params.mode === solutionModes.EDIT || params.mode === solutionModes.REQUEST_FOR_EDIT || params.mode === solutionModes.META_EDIT) {
             this.startAutoSaving();
             this.setTaskEvidenceMetaData();
             if(this.libProjectService.projectData.tasks) {
@@ -480,6 +480,11 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     this.selectedYes = value;
     if(this.selectedYes == "2") {
       delete this.libProjectService.projectData.certificate;
+      if(this.libProjectService.programData && this.mode ==solutionModes.META_EDIT){
+        this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource:any) =>
+          resource.id === this.libProjectService.projectData.id ? this.libProjectService.projectData : resource
+        );
+      }
       this.libProjectService.formMeta.formValidation.certificates = "VALID"
       this.libProjectService.formMeta.isProjectEvidenceSelected = '',
       this.libProjectService.formMeta.taskEvidenceSelected = {}
