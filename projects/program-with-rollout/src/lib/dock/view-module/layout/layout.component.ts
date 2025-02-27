@@ -16,6 +16,7 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
+  lastReviewed:string = '';
   constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService, private sharedService: LibSharedModulesService){}
   ngOnInit(){
     this.getData()
@@ -27,6 +28,7 @@ export class LayoutComponent {
     )
     this.setConfig();
     this.utilService.saveComment = true;
+    this.lastReviewed = (this.mode === 'review' || this.mode === 'reviewerView' ) ? this.programWithRolloutService.programData.last_reviewed_on: "";
   }
 
 

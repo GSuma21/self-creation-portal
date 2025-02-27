@@ -353,7 +353,6 @@ export class ProgramWithRolloutService {
   }
 
   triggerProgramSendForReview(){
-    debugger;
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
               this.programConfig?.show_reviewer_list &&
