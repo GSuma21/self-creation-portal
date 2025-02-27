@@ -486,14 +486,6 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    * @param event - this is filter button click event
    */
   filterButtonClickEvent(event : { label: string }) {
-
-
-  console.log(event)
-
-
-
-
-   console.log(this.filters.filterData) 
     if(this.filters.activeFilterButton === event.label) {
       this.filters.activeFilterButton = '';
       this.filters.status = this.preservedStatus;
