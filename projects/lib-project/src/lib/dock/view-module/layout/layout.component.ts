@@ -20,12 +20,14 @@ export class LayoutComponent {
   sidenavData:any;
   mode:any
   parent:any
+  programId:string|number = ''
   private subscription: Subscription = new Subscription();
   constructor(public libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private router:Router,private dialog:MatDialog, private utilService:UtilService,private toastService:ToastService,private configuration: ConfigService,private sharedService: LibSharedModulesService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : "edit",
         this.parent = params.parent ? params.parent : "draft"
+        this.programId = params.programId;
      })
     )
   }
@@ -43,6 +45,11 @@ export class LayoutComponent {
         // });
         this.lastReviewed = (this.mode === 'review' || this.mode === 'reviewerView' ) ? this.libProjectService.projectData.last_reviewed_on: "";
         this.headerData = data?.sidenavData.headerData
+        if(this.programId && (this.mode === 'metaReview' || this.mode === 'reviewerView' )) {
+          this.libProjectService.readProgram(this.programId).subscribe((res:any) => {
+            this.lastReviewed = res.result.last_reviewed_on;
+          })
+        }
       })
     )
     this.utilService.saveComment = true;
@@ -84,6 +91,7 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {
+        console.log(this.libProjectService.programData)
         this.utilService.removeEmptyKey(this.libProjectService.projectData).subscribe(
           (cleanedData) => {
             const dialogRef = this.dialog.open(PreviewComponent, {
