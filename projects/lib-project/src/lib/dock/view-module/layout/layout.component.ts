@@ -261,7 +261,6 @@ export class LayoutComponent {
   }
 
   backToParent() {
-    console.log(this.parent)
     if (this.utilService.saveResources && this.mode != solutionModes.META_REVIEW) {
       if (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
         this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource: any) =>
