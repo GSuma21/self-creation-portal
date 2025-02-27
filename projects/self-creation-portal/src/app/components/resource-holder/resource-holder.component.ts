@@ -159,6 +159,7 @@ export class ResourceHolderComponent implements OnInit{
       this.filters.current.type = event.values;
       // Clear filter button action when type filter is applied
       this.filters.activeFilterButton = '';
+      this.filters.status = (this.filters.status ==  'REQUESTED_FOR_CHANGES') ? '' : this.filters.status;
     } else if (filterName === 'status') {
       this.preservedStatus = event.values;
       this.filters.status = event.values;
@@ -485,6 +486,14 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    * @param event - this is filter button click event
    */
   filterButtonClickEvent(event : { label: string }) {
+
+
+  console.log(event)
+
+
+
+
+   console.log(this.filters.filterData) 
     if(this.filters.activeFilterButton === event.label) {
       this.filters.activeFilterButton = '';
       this.filters.status = this.preservedStatus;

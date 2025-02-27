@@ -19,11 +19,13 @@ export class LayoutComponent {
   headerData:any
   sidenavData:any;
   mode:any
+  parent:any
   private subscription: Subscription = new Subscription();
   constructor(public libProjectService:LibProjectService,private formService:FormService,private route:ActivatedRoute,private router:Router,private dialog:MatDialog, private utilService:UtilService,private toastService:ToastService,private configuration: ConfigService,private sharedService: LibSharedModulesService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
-        this.mode = params.mode ? params.mode : "edit"
+        this.mode = params.mode ? params.mode : "edit",
+        this.parent = params.parent ? params.parent : "draft"
      })
     )
   }
@@ -258,5 +260,31 @@ export class LayoutComponent {
     this.libProjectService.setFormMetaData();
   }
 
+  backToParent() {
+    console.log(this.parent)
+    if (this.utilService.saveResources && this.mode != solutionModes.META_REVIEW) {
+      if (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
+        this.libProjectService.programData.resources = this.libProjectService.programData.resources.map((resource: any) =>
+          resource.id === this.libProjectService.projectData.id ? { ...this.libProjectService.projectData } : resource
+        );
+        this.libProjectService.updateProgramData(this.libProjectService.programData).subscribe((res: any) => {
+          this.sharedService.goBack()
+        })
+      }
+      else if (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+        if (this.libProjectService.projectData.id) {
+          this.libProjectService.createOrUpdateProject(this.libProjectService.projectData, this.libProjectService.projectData.id).subscribe((res) => {
+            this.sharedService.goBack()
+          })
+        }else{
+          this.sharedService.goBack()
+        }
+      }else{
+        this.sharedService.goBack()
+      }
+    } else {
+      this.sharedService.goBack()
+    }
+  }
 
 }

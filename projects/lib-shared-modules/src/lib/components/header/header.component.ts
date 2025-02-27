@@ -57,8 +57,10 @@ export class HeaderComponent {
     if(this.toParent) {
       this.backToParent.emit(true)
       return;
+    }else{
+      this.backToParent.emit()
     }
-    this.libsharedservice.goBack()
+  
   }
 
   onButtonClick(button : any) {
