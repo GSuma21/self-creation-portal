@@ -347,13 +347,12 @@ export class ProgramWithRolloutService {
 
   getReviewerData() {
     const config = {
-      url: this.Configuration.urlConFig.PROJECT_URLS.GET_REVIEWER_LIST,
+      url: this.Configuration.urlConFig.PROGRAM_URLS.GET_REVIEWER_LIST,
     };
     return this.httpService.get(config.url);
   }
 
   triggerProgramSendForReview(){
-    debugger;
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
               this.programConfig?.show_reviewer_list &&
