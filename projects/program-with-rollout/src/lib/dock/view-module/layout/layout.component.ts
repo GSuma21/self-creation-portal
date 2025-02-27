@@ -16,8 +16,13 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
-  lastReviewed:string = '';
-  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService, private sharedService: LibSharedModulesService){}
+  constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService, private sharedService: LibSharedModulesService){
+    this.subscription.add(
+      this.route.queryParams.subscribe((params: any) => {
+        this.mode = params.mode ? params.mode : "edit"
+     })
+    )
+  }
   ngOnInit(){
     this.getData()
     this.subscription.add(
@@ -28,7 +33,10 @@ export class LayoutComponent {
     )
     this.setConfig();
     this.utilService.saveComment = true;
-    this.lastReviewed = (this.mode === 'review' || this.mode === 'reviewerView' ) ? this.programWithRolloutService.programData.last_reviewed_on: "";
+  }
+
+  getLastReviewedDate() {
+    return (this.mode === 'review' || this.mode === 'reviewerView' ) ? this.programWithRolloutService.programData.last_reviewed_on: "";
   }
 
 
