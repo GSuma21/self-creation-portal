@@ -347,7 +347,7 @@ export class ProgramWithRolloutService {
 
   getReviewerData() {
     const config = {
-      url: this.Configuration.urlConFig.PROJECT_URLS.GET_REVIEWER_LIST,
+      url: this.Configuration.urlConFig.PROGRAM_URLS.GET_REVIEWER_LIST,
     };
     return this.httpService.get(config.url);
   }
