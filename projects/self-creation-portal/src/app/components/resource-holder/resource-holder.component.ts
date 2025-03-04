@@ -265,6 +265,13 @@ export class ResourceHolderComponent implements OnInit{
               }else{
                 this.applyButtons(button, cardItem);
               }
+              if(button.status == resourceStatus.PUBLISHED && cardItem.type == 'program'){
+                this.applyButtons({
+                  "buttons": [
+                      "EDIT",
+                  ]
+              }, cardItem);
+              }
               return true;
             }else if(button.status === cardItem.review_status){
               this.applyButtons(button, cardItem);
@@ -330,6 +337,36 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
                 mode: solutionModes.REQUEST_FOR_EDIT,
               },
             });
+            break;
+          }
+          if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED){
+            console.log("edit published program")
+
+            // const dialogRef = this.dialog.open(DialogPopupComponent, {
+            //   width: '39.375rem',
+            //   disableClose: true,
+            //   data: {
+            //     header: "DELETE_RESOURCE",
+            //     cardDetails:[{item:1}, {item:2}]
+            //   }
+            // });
+        
+            // return dialogRef.afterClosed().pipe(
+            //   map((result) => {
+            //     if (result?.data === "DELETE") {
+            //       return true;
+            //     }
+            //     return false;
+            //   })
+            // );
+
+
+
+
+
+
+
+
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
