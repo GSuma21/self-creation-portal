@@ -204,8 +204,8 @@ export class LayoutComponent {
           autoFocus: false,
           disableClose: true,
           data: {
-            header: "ACCEPT_RESOURCE",
-            content: "ACCEPT_RESOURCE_CONTENT",
+            header: "ACCEPT_PROGRAM",
+            content: "ACCEPT_PROGRAM_CONTENT",
             cancelButton: "CANCEL",
             exitButton: "ACCEPT"
           }
