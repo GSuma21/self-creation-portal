@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus , ArrayContainsAllDirective, solutionModes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus , ArrayContainsAllDirective, solutionModes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE, CardDialogPopupComponent, } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -17,7 +17,6 @@ import { RESOURCE_URLS, ROLL_OUT_URLS } from '../../services/configs/url.config.
 import { CommonModule } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { ProgramWithRolloutService } from 'program-with-rollout';
-import { CardDialogPopupComponent } from '../../../../../lib-shared-modules/src/lib/components/dialogs/card-dialog-popup/card-dialog-popup.component';
 
 
 @Component({
@@ -331,7 +330,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       switch (label) {
         case 'EDIT':
           if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
-            this.router.navigate(['roll-out/details/program-details'], {
+            this.router.navigate(['PROGRAM_DETAILS_PAGE'], {
               queryParams: {
                 parent: 'review',
                 programId: item.id,
@@ -344,7 +343,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             this.confirmProgramEdit().subscribe((result:any) =>{
               switch(result.data.title){
                 case 'CHANGE_DETAILS': {
-                  this.router.navigate(['roll-out/details/program-details'], {
+                  this.router.navigate(['PROGRAM_DETAILS_PAGE'], {
                     queryParams: {
                       parent: 'review',
                       programId: item.id,
@@ -358,7 +357,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
-            this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
+            this.router.navigate(['PROGRAM_DETAILS_PAGE'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
             break;
           }
           if(this.pageStatus === 'roll-out'){

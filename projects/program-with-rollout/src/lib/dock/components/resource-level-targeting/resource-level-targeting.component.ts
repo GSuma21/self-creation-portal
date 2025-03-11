@@ -201,7 +201,7 @@ export class ResourceLevelTargetingComponent {
       this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID";
     }
 
-    if(this.mode === solutionModes.META_EDIT && this.programWithRolloutService.programData.status === 'PUBLISHED'){
+    if(this.mode === solutionModes.META_EDIT && this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
       const currentDate = new Date();
       const startDateField = this.programWithRolloutService.programData.find((field:any) => field.name === 'start_date');
 
@@ -490,8 +490,6 @@ export class ResourceLevelTargetingComponent {
     const startDate = new Date(resource?.start_date);
     const currentDate = new Date();
     
-    return this.programWithRolloutService.programData.resources[i].status === 'PUBLISHED' && currentDate >= startDate; 
+    return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate; 
   }
-  
-
 }

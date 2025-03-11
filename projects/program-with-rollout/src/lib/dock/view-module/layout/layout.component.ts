@@ -288,7 +288,7 @@ export class LayoutComponent {
             this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED', class: 'success', });
             this.programWithRolloutService.rolloutId = ""
           } else {
-            this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+            this.toastService.openSnackBar({ message: 'FILL_ALL_THE_MANDATORY_FIELDS', class: 'error', });
           }
         },
           (err) => {
