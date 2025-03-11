@@ -35,7 +35,8 @@
        "PROGRAM_MANAGER_LIST":"scp/v1/programs/getProgramManagers",
        "REMOVE_RESOURCE":"scp/v1/programs/removeResources",
        "GET_REVIEWER_LIST":"scp/v1/programs/reviewerList",
-       "SEND_FOR_REVIEW":"scp/v1/programs/submitForReview"
+       "SEND_FOR_REVIEW":"scp/v1/programs/submitForReview",
+       "PUBLISH_PROGRAM_CHANGES":"scp/v1/programs/publish"
     },
     "LOGOUT_URLS": {
         "LOGOUT_API": "/user/v1/account/logout"

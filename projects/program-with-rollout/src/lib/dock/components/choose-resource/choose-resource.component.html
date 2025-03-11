@@ -1,4 +1,4 @@
-<lib-header class="z-50" [backButton]="backButton" [headerData]="headerData" (buttonClick)="onButtonClick($event)"></lib-header>
+<lib-header class="z-50" [backButton]="backButton" [headerData]="headerData" (buttonClick)="onButtonClick($event)" (backToParent)="backToParent()"></lib-header>
 <div class="mt-32 mx-4 pt-4 flex flex-col gap-2 sticky top-32 z-50 bg-white">
   <lib-search (searchEvent)="receiveSearchResults($event)" [maxLength]="150"></lib-search>
   <div>

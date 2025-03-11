@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus , ArrayContainsAllDirective, solutionModes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE} from 'lib-shared-modules';
+import { CardComponent, FilterComponent, HeaderComponent, PaginationComponent, SearchComponent, SideNavbarComponent, NoResultFoundComponent, DialogPopupComponent, FormService, SIDE_NAV_DATA, PROJECT_DETAILS_PAGE, ToastService, UtilService ,resourceStatus, reviewStatus , ArrayContainsAllDirective, solutionModes, RESOURCE_LIST, PROGRAM_DETAILS_PAGE, CardDialogPopupComponent, } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource-service/resource.service';
@@ -265,6 +265,13 @@ export class ResourceHolderComponent implements OnInit{
               }else{
                 this.applyButtons(button, cardItem);
               }
+              if(button.status == resourceStatus.PUBLISHED && cardItem.type == 'program'){
+                this.applyButtons({
+                  "buttons": [
+                      "EDIT",
+                  ]
+              }, cardItem);
+              }
               return true;
             }else if(button.status === cardItem.review_status){
               this.applyButtons(button, cardItem);
@@ -323,7 +330,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       switch (label) {
         case 'EDIT':
           if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
-            this.router.navigate(['roll-out/details/program-details'], {
+            this.router.navigate(['PROGRAM_DETAILS_PAGE'], {
               queryParams: {
                 parent: 'review',
                 programId: item.id,
@@ -332,8 +339,25 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             });
             break;
           }
+          if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED){
+            this.confirmProgramEdit().subscribe((result:any) =>{
+              switch(result.data.title){
+                case 'CHANGE_DETAILS': {
+                  this.router.navigate(['PROGRAM_DETAILS_PAGE'], {
+                    queryParams: {
+                      parent: 'review',
+                      programId: item.id,
+                      mode: solutionModes.META_EDIT,
+                    },
+                  });
+                  break;
+                }
+              }
+            })
+            break;
+          }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
-            this.router.navigate(['roll-out/details/program-details'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
+            this.router.navigate(['PROGRAM_DETAILS_PAGE'],{queryParams:{parent:"draft", programId:item.id, mode: solutionModes.EDIT}})
             break;
           }
           if(this.pageStatus === 'roll-out'){
@@ -676,6 +700,28 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
   onCardClick(cardItem: any) {
     this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent:"roll-out",selectFor:'roll-out', type:cardItem.type}})
+  }
+
+
+  confirmProgramEdit(){
+    const dialogRef = this.dialog.open(CardDialogPopupComponent, {
+      width: '39.375rem',
+      disableClose: true,
+      data: {
+        header: "EDIT_PUBLISHED_PROGRAM",
+        cardDetails:[{item:1, title:"CHANGE_DETAILS", image:'./../assets/images/date.png'}, {item:2, title: "ADD_RESOURCES", image:'./../assets/images/mcq.png'}]
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      map((result) => {
+        if (result?.data) {
+          return result;
+        }
+        return false;
+      })
+      
+    );
   }
 
 }

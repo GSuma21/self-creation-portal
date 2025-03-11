@@ -558,4 +558,11 @@ export class ProgramWithRolloutService {
     };
     return this.httpService.post(config.url, config.payload);
   }
+
+  publishProgram() {
+    return this.httpService.get(
+      this.Configuration.urlConFig.PROGRAM_URLS.PUBLISH_PROGRAM_CHANGES +
+        (this.programData.id ? '/' +this.programData.id : '')
+    );
+  }
 }
