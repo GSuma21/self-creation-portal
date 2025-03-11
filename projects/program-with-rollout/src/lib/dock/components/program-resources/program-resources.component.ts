@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, resourceStatus, ToastService, UtilService } from 'lib-shared-modules';
+import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, resourceStatus, ToastService, UtilService, CHOOSE_RESOURCES } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -66,7 +66,7 @@ ngOnInit(){
       this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { parent: 'draft', programId: this.programId, mode: solutionModes.EDIT }
+          queryParams: { parent: this.parent, programId: this.programId, mode: this.mode }
         });
         let data = {
           message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
@@ -287,7 +287,7 @@ getsolutionList() {
 
   onCardClick(cardItem: any) {
     const newData = { formErrors: this.programWithRolloutService.formMeta.formValidation , tabValidationForProgram:  this.programWithRolloutService.tabValidationForProgram };
-    this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId, type: cardItem.type}, state : { programErrors: newData }})
+    this.router.navigate([CHOOSE_RESOURCES],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId, type: cardItem.type, parentMode:this.mode, topLevelParent:this.parent}, state : { programErrors: newData }})
   }
 
   statusButtonClick(event: { label: string, item: any }) {
@@ -391,8 +391,8 @@ getsolutionList() {
   }
 
   ngOnDestroy() {
-    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT){
-      this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
+    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.META_EDIT){
+      this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }
     this.subscription.unsubscribe();

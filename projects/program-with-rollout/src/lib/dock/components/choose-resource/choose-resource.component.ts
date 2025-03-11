@@ -191,7 +191,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
      programErrors = navigation.programErrors
      programErrors.tabValidationForProgram.programResources = 'VALID'
     }
-    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('parent'), resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms}, state:{programErrors : programErrors ?programErrors :""}})
+    this.router.navigate([this.redirectData.redirectUrl],{queryParams:{parent:this.route.snapshot.queryParamMap.get('topLevelParent') ? this.route.snapshot.queryParamMap.get('topLevelParent'):'draft', resourceId:this.selectedResource.id, rolloutId:this.rolloutId, programId:this.route.snapshot.queryParamMap.get('programId') ,resourceIds:this.selectedValuesForPrograms, mode:this.route.snapshot.queryParamMap.get('parentMode')}, state:{programErrors : programErrors ?programErrors :""}})
   }
 
   navigateToCreateNew() {
