@@ -92,7 +92,7 @@ export class ProgramDetailsComponent {
 
 
   ngAfterViewChecked() {
-    if ((this.mode == solutionModes.EDIT) && this.programId) {
+    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) && this.programId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
