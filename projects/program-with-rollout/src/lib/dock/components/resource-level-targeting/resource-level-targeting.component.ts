@@ -10,6 +10,7 @@ import {
   SOLUTION_LIST,
   ToastService,
   UtilService,
+  CHOOSE_RESOURCES,
 } from 'lib-shared-modules';
 
 import { min, Subscription } from 'rxjs';
@@ -377,7 +378,7 @@ export class ResourceLevelTargetingComponent {
   }
 
   onCardClick(cardItem: any) {
-    this.router.navigate(['roll-out/choose-resource'], {
+    this.router.navigate([CHOOSE_RESOURCES], {
       queryParams: {
         parent: this.parent,
         selectFor: 'programs',

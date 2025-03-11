@@ -92,7 +92,7 @@ export class ProgramDetailsComponent {
 
 
   ngAfterViewChecked() {
-    if ((this.mode == solutionModes.EDIT) && this.programId) {
+    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) && this.programId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
@@ -173,6 +173,7 @@ export class ProgramDetailsComponent {
                             this.programWithRolloutService.setProgramData(res.result);
                             //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                             this.readProgramDeatilsAndMap(data.controls, res.result);
+                            this.programWithRolloutService.upDateProgramTitle();
                             // comments list and configuration
                           })
                       );
@@ -224,7 +225,7 @@ export class ProgramDetailsComponent {
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
-    
+
           if (startDateField && startDateField.value) {
             const startDate = new Date(startDateField.value);
             if (currentDate >= startDate) {
@@ -374,7 +375,7 @@ export class ProgramDetailsComponent {
           if(!this.programId && !this.viewOnly) {
             this.createProgram({title:this.programWithRolloutService.programData.title ? this.programWithRolloutService.programData.title : 'Untitled program'})
           } else {
-            if(this.mode === solutionModes.EDIT) {
+            if(this.mode === solutionModes.EDIT || this.mode === solutionModes.META_EDIT) {
               this.subscription.add(
                 this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{}))
             }
@@ -482,8 +483,8 @@ export class ProgramDetailsComponent {
   }
 
   ngOnDestroy() {
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status;
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }
     if (this.intervalId) {
