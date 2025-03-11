@@ -487,7 +487,6 @@ export class ResourceLevelTargetingComponent {
 
   isStartDateDisabled(i: number): boolean {
     const resource = this.resourceForm.get('resources')?.value[i]; // Get the current resource item
-    console.log(resource?.start_date)
     const startDate = new Date(resource?.start_date);
     const currentDate = new Date();
     

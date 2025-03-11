@@ -494,7 +494,6 @@ export class ProgramDetailsComponent {
   }
 
   allowEditForMetaData(formControls: any) {
-    console.log(formControls)
     const metaFields = [
       "targeting_criteria",
       "start_date",
