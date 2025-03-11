@@ -1,0 +1,32 @@
+@import "../../../../../../self-creation-portal/src/styles.scss";
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 3.75rem;
+    margin-left: 1.5625rem;
+}
+
+.custom-card {
+    border: 0.09375rem solid $borderGray;
+    width: 12.5rem;
+    height: 12.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.img-content{
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: start;
+   align-items: center;
+   margin-top: 10%;
+   .img-title{
+    margin: 1rem;
+    font-size: 1rem;
+    text-align: center;
+     }
+}

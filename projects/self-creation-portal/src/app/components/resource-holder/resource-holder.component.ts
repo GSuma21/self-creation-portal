@@ -17,6 +17,7 @@ import { RESOURCE_URLS, ROLL_OUT_URLS } from '../../services/configs/url.config.
 import { CommonModule } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { ProgramWithRolloutService } from 'program-with-rollout';
+import { CardDialogPopupComponent } from '../../../../../lib-shared-modules/src/lib/components/dialogs/card-dialog-popup/card-dialog-popup.component';
 
 
 @Component({
@@ -340,33 +341,20 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED){
-            console.log("edit published program")
-
-            // const dialogRef = this.dialog.open(DialogPopupComponent, {
-            //   width: '39.375rem',
-            //   disableClose: true,
-            //   data: {
-            //     header: "DELETE_RESOURCE",
-            //     cardDetails:[{item:1}, {item:2}]
-            //   }
-            // });
-        
-            // return dialogRef.afterClosed().pipe(
-            //   map((result) => {
-            //     if (result?.data === "DELETE") {
-            //       return true;
-            //     }
-            //     return false;
-            //   })
-            // );
-
-
-
-
-
-
-
-
+            this.confirmProgramEdit().subscribe((result:any) =>{
+              switch(result.data.title){
+                case 'CHANGE_DETAILS': {
+                  this.router.navigate(['roll-out/details/program-details'], {
+                    queryParams: {
+                      parent: 'review',
+                      programId: item.id,
+                      mode: solutionModes.META_EDIT,
+                    },
+                  });
+                  break;
+                }
+              }
+            })
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
@@ -713,6 +701,28 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
   onCardClick(cardItem: any) {
     this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent:"roll-out",selectFor:'roll-out', type:cardItem.type}})
+  }
+
+
+  confirmProgramEdit(){
+    const dialogRef = this.dialog.open(CardDialogPopupComponent, {
+      width: '39.375rem',
+      disableClose: true,
+      data: {
+        header: "EDIT_PUBLISHED_PROGRAM",
+        cardDetails:[{item:1, title:"CHANGE_DETAILS", image:'./../assets/images/date.png'}, {item:2, title: "ADD_RESOURCES", image:'./../assets/images/mcq.png'}]
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      map((result) => {
+        if (result?.data) {
+          return result;
+        }
+        return false;
+      })
+      
+    );
   }
 
 }

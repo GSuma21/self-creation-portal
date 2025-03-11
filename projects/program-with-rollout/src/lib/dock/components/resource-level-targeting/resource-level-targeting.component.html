@@ -40,8 +40,8 @@
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly"></mat-datepicker-toggle>
-                <mat-datepicker #startDate [disabled]="viewOnly"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly ? viewOnly:isStartDateDisabled(i)"></mat-datepicker-toggle>
+                <mat-datepicker #startDate [disabled]="viewOnly ? viewOnly : isStartDateDisabled(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'Enter the start date of the resource in DD-MM-YYYY format. The resource start date must be on or after the program start date.'" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"

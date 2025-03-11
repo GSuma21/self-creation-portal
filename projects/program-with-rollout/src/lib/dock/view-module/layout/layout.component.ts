@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, SUBMITTED_FOR_REVIEW, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -280,6 +280,20 @@ export class LayoutComponent {
             mode: solutionModes.REQUEST_FOR_EDIT,
           },
         });
+        break;
+      case "PUBLISH_CHANGES":
+        this.programWithRolloutService.publishProgram().subscribe((res: any) => {
+          if (res.responseCode === "OK") {
+            this.router.navigate([SUBMITTED_FOR_REVIEW]);
+            this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED', class: 'success', });
+            this.programWithRolloutService.rolloutId = ""
+          } else {
+            this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
+          }
+        },
+          (err) => {
+            this.programWithRolloutService.validateAndHighlightErrors(err)
+          })
         break;
       default:
         break;

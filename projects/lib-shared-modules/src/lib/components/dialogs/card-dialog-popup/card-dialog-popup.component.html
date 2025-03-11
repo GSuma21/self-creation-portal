@@ -1,0 +1,14 @@
+<div class="flex flex-row justify-between items-center bg-primary h-10">
+    <h2 class="text-white font-bold px-6">{{dialogueData?.header |translate}}</h2>
+    <mat-icon class="cursor-pointer text-white pr-8" [mat-dialog-close]="false">close</mat-icon>
+</div>
+<div class="content-container">
+    @for (cardItem of dialogueData.cardDetails; track cardItem) {
+      <mat-card [mat-dialog-close]="{ data: cardItem}" class="custom-card">
+        <mat-card-content class="img-content">
+          <img src="{{ cardItem?.image }}" alt="">
+          <mat-card-title class="img-title">{{ cardItem?.title | translate}}</mat-card-title>
+      </mat-card-content>
+      </mat-card>
+    }
+</div>
