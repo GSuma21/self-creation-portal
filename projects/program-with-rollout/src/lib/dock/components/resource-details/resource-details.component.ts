@@ -3,7 +3,7 @@ import { TargetCriteriaComponent } from '../target-criteria/target-criteria.comp
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormModule, MainFormComponent } from 'dynamic-form-suma';
 import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent, DialogPopupComponent, FormService, PreviewComponent, ROLL_OUT_DETAILS, ToastService, UtilService } from 'lib-shared-modules';
+import { CardComponent, CHOOSE_RESOURCES, DialogPopupComponent, FormService, PreviewComponent, ROLL_OUT_DETAILS, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -142,7 +142,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
         break;
       }
       case "CHANGE_SELECTION":{
-        this.router.navigate(['roll-out/choose-resource'],{queryParams:{parent:"roll-out",selectFor:'roll-out',rolloutId:this.programWithRolloutService.rolloutId, type:item.type}})
+        this.router.navigate([CHOOSE_RESOURCES],{queryParams:{parent:"roll-out",selectFor:'roll-out',rolloutId:this.programWithRolloutService.rolloutId, type:item.type}})
         break;
       }
        default:

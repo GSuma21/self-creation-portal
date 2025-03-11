@@ -6,6 +6,7 @@ export const UP_FOR_REVIEW = 'home/up-for-review'
 export const BROWSE_EXISTING = 'home/browse-existing'
 export const ROLL_OUT = 'home/roll-out'
 export const PROGRAM_RESOURCES = 'roll-out/details/program-resources'
+export const CHOOSE_RESOURCES = 'roll-out/choose-resource'
 export const resourceStatus = {
     SUBMITTED: 'SUBMITTED',
     PUBLISHED: 'PUBLISHED',
