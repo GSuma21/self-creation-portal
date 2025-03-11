@@ -222,5 +222,9 @@
     "CHANGES_SAVED_SUCCESSFULLY":"Changes saved successfully",
     "YOUR_PROGRAM_HAS_BEEN_SAVED_AS_DRAFT":"Your program has been saved as draft",
     "PLEASE_ADD_PROGRAM_TARGET_CRITERIA":"Please add program target criteria",
-    "YOU_HAVE_SUCCESSFULLY_PUBLISHED_THE_PROGRAM":"You have successfully published the program"
+    "YOU_HAVE_SUCCESSFULLY_PUBLISHED_THE_PROGRAM":"You have successfully published the program",
+    "EDIT_PUBLISHED_PROGRAM":"Edit published program",
+    "CHANGE_DETAILS":"Change details",
+    "ADD_RESOURCES":"Add resources",
+    "PUBLISH_CHANGES":"Publish changes"
 }

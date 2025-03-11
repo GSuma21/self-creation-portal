@@ -215,8 +215,30 @@ export class ProgramDetailsComponent {
               element.value = element.value.map((item: any) => item.id);
             }
           }
+
+          if(this.mode === solutionModes.META_EDIT){
+            this.allowEditForMetaData(element)
+          }
         });
-        this.dynamicFormData = formControls;
+        if(res.status === resourceStatus.PUBLISHED && this.mode === solutionModes.META_EDIT){
+          // check the program is started or not , if started start date  is not editable.
+          const currentDate = new Date();
+          const startDateField = formControls.find((field:any) => field.name === 'start_date');
+    
+          if (startDateField && startDateField.value) {
+            const startDate = new Date(startDateField.value);
+            if (currentDate >= startDate) {
+              formControls.forEach((field:any) => {
+                if (field.name === "start_date") {
+                    field.viewOnly = true;
+                }
+            });
+            }
+          }
+          this.dynamicFormData = formControls;
+        }else{
+          this.dynamicFormData = formControls;
+        }
         // if( this.formLib){
         //   this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
         // }
@@ -459,14 +481,28 @@ export class ProgramDetailsComponent {
     this.programWithRolloutService.checkValidationForRequestChanges(quillInput)
   }
 
-   ngOnDestroy() {
+  ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
-      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData,this.programId).subscribe()
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-      }
-      this.subscription.unsubscribe();
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
+    this.subscription.unsubscribe();
+  }
+
+  allowEditForMetaData(formControls: any) {
+    const metaFields = [
+      "targeting_criteria",
+      "start_date",
+      "end_date",
+      "viewers",
+    ]
+
+    if (!metaFields.includes(formControls.name)) {
+      formControls.viewOnly = true;
+    }
+    this.dynamicFormData = formControls;
+  }
 }

@@ -200,6 +200,22 @@ export class ResourceLevelTargetingComponent {
     if(this.programWithRolloutService.programData.resources?.length == 0) {
       this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID";
     }
+
+    if(this.mode === solutionModes.META_EDIT && this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
+      const currentDate = new Date();
+      const startDateField = this.programWithRolloutService.programData.find((field:any) => field.name === 'start_date');
+
+      if (startDateField && startDateField.value) {
+        const startDate = new Date(startDateField.value);
+        if (currentDate >= startDate) {
+          this.programWithRolloutService.programData.forEach((field:any) => {
+            if (field.name === "start_date") {
+                field.viewOnly = true;
+            }
+        });
+        }
+      }
+    }
   }
 
   ngAfterViewChecked() {
@@ -469,4 +485,11 @@ export class ResourceLevelTargetingComponent {
     tooltip.disabled = true;
   }
 
+  isStartDateDisabled(i: number): boolean {
+    const resource = this.resourceForm.get('resources')?.value[i]; // Get the current resource item
+    const startDate = new Date(resource?.start_date);
+    const currentDate = new Date();
+    
+    return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate; 
+  }
 }

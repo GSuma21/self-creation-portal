@@ -78,7 +78,7 @@ ngOnInit(){
       })
     )
   }
-  if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
+  if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || this.mode === solutionModes.META_EDIT) {
     this.viewOnly = true
     // this.getProjectDetailsForViewOnly();
   }
@@ -226,7 +226,7 @@ saveForm(){
 }
 
 addActionButtons(){
-  let buttonData = []
+  let buttonData: { action: string; label: string; background_color: string; }[] = []
   if(this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) {
     buttonData = [
       {
@@ -250,6 +250,9 @@ addActionButtons(){
       }
     ];
   }
+  else if(this.mode == solutionModes.META_EDIT){
+    buttonData = [];
+  }
   else{
     buttonData = [
       {
@@ -260,7 +263,7 @@ addActionButtons(){
     ];
   }
 
-  this.resources = this.resources.map((resource: any) => ({
+  this.resources = this.resources?.map((resource: any) => ({
     ...resource,
     actionButton: buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
   }));

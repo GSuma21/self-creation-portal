@@ -273,4 +273,8 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  backToParent() {
+    this.sharedService.goBack()
+  }
 }
