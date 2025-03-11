@@ -472,9 +472,7 @@ export class ResourceLevelTargetingComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    if (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
-      this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
-    }
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }
 
   showTooltip(tooltip: MatTooltip) {
