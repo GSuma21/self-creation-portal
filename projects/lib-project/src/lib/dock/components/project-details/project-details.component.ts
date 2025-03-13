@@ -38,13 +38,15 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
     private utilService:UtilService,
     private toastService: ToastService,
   ) {
-    this.startAutoSaving()
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
         this.mode = params.mode ? params.mode : ""
         this.ProgramResourceId = params.programResourceId;
       })
     )
+    if(this.mode !== solutionModes.CREATOR_VIEW) {
+      this.startAutoSaving()
+    }
    }
    ngOnInit() {
     if(this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT){

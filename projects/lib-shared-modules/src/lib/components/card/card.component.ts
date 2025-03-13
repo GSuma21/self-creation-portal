@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,Input,Output,EventEmitter } from '@angular/core';
+import { Component,Input,Output,EventEmitter, OnInit } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,12 +21,13 @@ export class CardComponent {
   @Input() showDates:any = false;
   @Output() buttonClickEvent = new EventEmitter<{ label: string, item: any }>();
   @Output() infoClickEvent = new EventEmitter<{item: any}>
-  @Input() showInfoIcon: boolean = false; 
+  @Input() showInfoIcon: boolean = false;
 
   resourceStatus = resourceStatus;
   reviewStatus = reviewStatus;
 
-  constructor() {}
+  constructor() {
+  }
 
   onButtonClick(label: string, item: any) {
     this.buttonClickEvent.emit({ label, item });
