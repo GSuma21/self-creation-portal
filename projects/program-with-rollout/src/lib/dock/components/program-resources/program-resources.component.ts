@@ -34,6 +34,7 @@ export class ProgramResourcesComponent {
   ResourceInReview: boolean = false;
   mode:any;
   viewOnly:boolean = false;
+  isResourceNotgrayedOut =  true;
   private subscription: Subscription = new Subscription();
 
 constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService, private utilService: UtilService){
@@ -82,6 +83,9 @@ ngOnInit(){
     this.viewOnly = true
     // this.getProjectDetailsForViewOnly();
   }
+  if(this.mode === solutionModes.META_EDIT){
+    this.isResourceNotgrayedOut = false
+  }
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
       (isProjectSave: boolean) => {
@@ -127,6 +131,18 @@ ngOnInit(){
         if(errors){
            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
            this.isResourceIsNotPresent = true
+        }
+      }
+    )
+  );
+
+  this.subscription.add( // Check validation before publishing published program.
+    this.programWithRolloutService.isProgramPublishalidation.subscribe(
+      (programValidation: boolean) => {
+        if (programValidation) {
+          this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
+          this.isResourceIsNotPresent =  this.programWithRolloutService.programData.resources?.length ? false : true;
+          this.programWithRolloutService.triggerPublishProgram();
         }
       }
     )
@@ -391,7 +407,7 @@ getsolutionList() {
   }
 
   ngOnDestroy() {
-    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.META_EDIT){
+    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT){
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }

@@ -39,7 +39,7 @@ export class ProgramDetailsComponent {
       this.programId =  this.route.snapshot.queryParamMap.get('programId');
      }
 
-   ngOnInit() {
+  ngOnInit() {
     this.getFormWithEntitiesAndMap()
     this.subscription.add(
       this.programWithRolloutService.isProgramSave.subscribe(
@@ -60,39 +60,52 @@ export class ProgramDetailsComponent {
     this.subscription.add( // Check validation before sending for review.
       this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
-          if(reviewValidation) {
+          if (reviewValidation) {
             this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-            this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
+            this.programWithRolloutService.formMeta.formValidation.programResources = this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
             this.formLib?.myForm.markAllAsTouched()
             this.programWithRolloutService.triggerProgramSendForReview();
           }
         }
       )
     );
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status ? this.formLib?.myForm.status : "INVALID"
 
 
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if(this.dynamicFormData) {
+          if (this.dynamicFormData) {
             for (let index = 0; index < errors.length; index++) {
-              if(this.dynamicFormData.find((item:any) => item.name === errors[index].param)?.errorMessage) {
-               this.dynamicFormData.find((item:any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
+              if (this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
+                this.dynamicFormData.find((item: any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
               }
-               // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
-               this.formLib?.myForm.controls[errors[index].param]?.setErrors({pattern:errors[index].msg})
-             }
+              // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+              this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+            }
           }
         }
       )
     );
-    }
+
+    this.subscription.add( // Check validation before publishing published program.
+      this.programWithRolloutService.isProgramPublishalidation.subscribe(
+        (programValidation: boolean) => {
+          if (programValidation) {
+            this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+            this.programWithRolloutService.formMeta.formValidation.programResources = this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
+            this.formLib?.myForm.markAllAsTouched()
+            this.programWithRolloutService.triggerPublishProgram();
+          }
+        }
+      )
+    );
+  }
 
 
 
   ngAfterViewChecked() {
-    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) && this.programId) {
+    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ||  this.mode == solutionModes.META_EDIT) && this.programId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
@@ -240,12 +253,6 @@ export class ProgramDetailsComponent {
         }else{
           this.dynamicFormData = formControls;
         }
-        // if( this.formLib){
-        //   this.libProjectService.formMeta.formValidation.projectDetails = ( this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
-        // }
-        // if(this.libProjectService.projectData.tasks && this.libProjectService.formMeta.formValidation.tasks !== "INVALID"){
-        //   this.libProjectService.validateTasksData()
-        // }
       }
 
   getDynamicFormData(data:any){
@@ -257,7 +264,12 @@ export class ProgramDetailsComponent {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
   }
 
-  getFormControlChange(item:string) {
+  getFormControlChange(item:any) {
+    if(this.programWithRolloutService.programData.status == resourceStatus.PUBLISHED && (item?.name == 'start_date' || item?.name == 'end_date')){
+      if(item.value !== this.programWithRolloutService.programData.start_date || item.value !== this.programWithRolloutService.programData.end_date ){
+        this.changeResourceLevelTargetingToast()
+      }
+    }
     if(item) {
       this.programWithRolloutService.removeItemFromAPIErrors(item);
     }
@@ -284,8 +296,11 @@ export class ProgramDetailsComponent {
 
           dialogRef.afterClosed().subscribe((res: any) => {
             this.dynamicFormData.forEach((element:any) => {
-              if(element.name == "targeting_criteria" && res) {
+              if(element.name == "targeting_criteria" && res) {   
                 element.value.push(res);
+                if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
+                  this.changeResourceLevelTargetingToast()
+                }
                 this.formLib.myForm.patchValue({ // adding target criteria to form
                   targeting_criteria: element.value,
                 });
@@ -326,6 +341,9 @@ export class ProgramDetailsComponent {
                   this.formLib.myForm.patchValue({ // adding target criteria to form
                     targeting_criteria: element.value,
                   });
+                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
+                    this.changeResourceLevelTargetingToast()
+                  }
                 }
               })
               this.updateTargetCriteria()
@@ -351,6 +369,9 @@ export class ProgramDetailsComponent {
                   this.formLib.myForm.patchValue({ // adding target criteria to form
                     targeting_criteria: element.value,
                   });
+                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && (JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
+                    this.changeResourceLevelTargetingToast()
+                  }
                 }
               })
               this.updateTargetCriteria()
@@ -484,7 +505,6 @@ export class ProgramDetailsComponent {
 
   ngOnDestroy() {
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    debugger;
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }
@@ -506,5 +526,14 @@ export class ProgramDetailsComponent {
       formControls.viewOnly = true;
     }
     this.dynamicFormData = formControls;
+  }
+
+  changeResourceLevelTargetingToast(){
+    this.toastService.openSnackBar({
+      message: 'CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM',
+      class: 'error',
+    });
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID"
+    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = "INVALID"
   }
 }
