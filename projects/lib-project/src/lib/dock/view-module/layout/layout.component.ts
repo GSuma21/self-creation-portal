@@ -49,6 +49,10 @@ export class LayoutComponent {
           this.libProjectService.readProgram(this.programId).subscribe((res:any) => {
             this.lastReviewed = res.result.last_reviewed_on;
           })
+          this.headerData.buttons.reviewerView.splice(1);
+        }
+        if(this.programId && this.mode === 'creatorView' ) {
+          this.headerData.buttons.creatorView.splice(1);
         }
       })
     )
