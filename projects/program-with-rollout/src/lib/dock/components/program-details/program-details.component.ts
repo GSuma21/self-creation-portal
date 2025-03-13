@@ -238,7 +238,7 @@ export class ProgramDetailsComponent {
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
-    
+
           if (startDateField && startDateField.value) {
             const startDate = new Date(startDateField.value);
             if (currentDate >= startDate) {
@@ -296,7 +296,7 @@ export class ProgramDetailsComponent {
 
           dialogRef.afterClosed().subscribe((res: any) => {
             this.dynamicFormData.forEach((element:any) => {
-              if(element.name == "targeting_criteria" && res) {   
+              if(element.name == "targeting_criteria" && res) {
                 element.value.push(res);
                 if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
                   this.changeResourceLevelTargetingToast()
