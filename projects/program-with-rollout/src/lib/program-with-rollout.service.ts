@@ -56,6 +56,8 @@ export class ProgramWithRolloutService {
   isProgramSendForReviewValidation = this.programsendForReviewValidation.asObservable();
   private setProgramApiErrors = new BehaviorSubject<boolean>(false);
   programApiErrors = this.setProgramApiErrors.asObservable();
+  private programPublishalidation = new BehaviorSubject<boolean>(false);
+  isProgramPublishalidation = this.programPublishalidation.asObservable();
   reviewErrors:any = [];
 
   constructor(
@@ -221,6 +223,10 @@ export class ProgramWithRolloutService {
 
   checkProgramSendForReviewValidation(newAction: boolean) {
     this.programsendForReviewValidation.next(newAction);
+  }
+
+  checkProgramPublishalidation(newAction: boolean) {
+    this.programPublishalidation.next(newAction);
   }
 
   upDateProgramTitle(title?: string) {
@@ -564,5 +570,31 @@ export class ProgramWithRolloutService {
       this.Configuration.urlConFig.PROGRAM_URLS.PUBLISH_PROGRAM_CHANGES +
         (this.programData.id ? '/' +this.programData.id : '')
     );
+  }
+
+  triggerPublishProgram() {
+    if (this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID') {
+        this.createOrUpdateProgram(this.programData, this.programData.id).subscribe((res: any) => {
+          this.utilService.saveResources = false;
+          this.publishProgram().subscribe((res: any) => {
+            if (res.responseCode === "OK") {
+              this.router.navigate([SUBMITTED_FOR_REVIEW]);
+              this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED', class: 'success', });
+              this.rolloutId = ""
+            } else {
+              this.toastService.openSnackBar({ message: 'FILL_ALL_THE_MANDATORY_FIELDS', class: 'error', });
+            }
+          },
+            (err:any) => {
+              this.validateAndHighlightErrors(err)
+            })
+        })
+    } else {
+      this.toastService.openSnackBar({
+        message: 'CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM',
+        class: 'error',
+      });
+    }
+    this.checkProgramPublishalidation(false)
   }
 }

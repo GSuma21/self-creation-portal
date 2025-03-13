@@ -171,7 +171,7 @@ export class TargetCriteriaComponent implements OnInit {
       };
       this.targetedEntity = '';
     }
-    if (key !== 'roles') {
+    if (key !== 'roles' && key!== 'gender') {
       this.selection.clear();
       this.criteriaFilters = [];
       this.displayedColumns = [];

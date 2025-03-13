@@ -198,15 +198,16 @@ export class ResourceLevelTargetingComponent {
       )
     );
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
     if(this.programWithRolloutService.programData.resources?.length == 0) {
       this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID";
     }
 
-    if(this.mode === solutionModes.META_EDIT && this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
+    if( this.programWithRolloutService.programData && this.mode === solutionModes.META_EDIT && this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
       const currentDate = new Date();
-      const startDateField = this.programWithRolloutService.programData.find((field:any) => field.name === 'start_date');
+      const startDateField = this.programWithRolloutService?.programData?.start_date;
 
-      if (startDateField && startDateField.value) {
+      if (startDateField && startDateField) {
         const startDate = new Date(startDateField.value);
         if (currentDate >= startDate) {
           this.programWithRolloutService.programData.forEach((field:any) => {
@@ -217,6 +218,18 @@ export class ResourceLevelTargetingComponent {
         }
       }
     }
+
+    this.subscription.add( // Check validation before publishing published program.
+      this.programWithRolloutService.isProgramPublishalidation.subscribe(
+        (programValidation: boolean) => {
+          if (programValidation) {
+            this.resourceForm.markAllAsTouched()
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =  this.resourceForm.valid ? 'VALID' : 'INVALID'
+            this.programWithRolloutService.triggerPublishProgram();
+          }
+        }
+      )
+    );
   }
 
   ngAfterViewChecked() {
