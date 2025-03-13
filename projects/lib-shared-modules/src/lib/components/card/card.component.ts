@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,Input,Output,EventEmitter } from '@angular/core';
+import { Component,Input,Output,EventEmitter, OnInit } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -13,7 +13,7 @@ import { resourceStatus, reviewStatus } from '../../constants/urlConstants';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   @Input() list: any;
   @Input() showActionButton: boolean = false;
   @Input() project:any;
@@ -21,12 +21,17 @@ export class CardComponent {
   @Input() showDates:any = false;
   @Output() buttonClickEvent = new EventEmitter<{ label: string, item: any }>();
   @Output() infoClickEvent = new EventEmitter<{item: any}>
-  @Input() showInfoIcon: boolean = false; 
+  @Input() showInfoIcon: boolean = false;
 
   resourceStatus = resourceStatus;
   reviewStatus = reviewStatus;
 
-  constructor() {}
+  constructor() {
+  }
+
+  ngOnInit(): void {
+    console.log(this.list)
+  }
 
   onButtonClick(label: string, item: any) {
     this.buttonClickEvent.emit({ label, item });
