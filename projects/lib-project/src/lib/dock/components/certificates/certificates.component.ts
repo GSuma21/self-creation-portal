@@ -84,7 +84,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         expression: 'C1&&C3',
         conditions: {
           C1: {
-            validationText: 'Project Should be submitted.',
+            validationText: 'Submit your project.',
             expression: 'C1',
             conditions: {
               C1: {
@@ -96,7 +96,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             },
           },
           C2: {
-            validationText: 'Evidence project level validation',
+            validationText: 'evidence at the project level',
             expression: 'C1',
             conditions: {
               C1: {
@@ -113,7 +113,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             },
           },
           C3: {
-            validationText: 'Evidence task level validation',
+            validationText: 'Add 1 evidence for the task',
             expression: '',
             conditions: {},
           },

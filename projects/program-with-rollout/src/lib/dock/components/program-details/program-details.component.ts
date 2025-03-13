@@ -504,7 +504,9 @@ export class ProgramDetailsComponent {
   }
 
   ngOnDestroy() {
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    if(this.programWithRolloutService.formMeta?.formValidation) {
+      this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    }
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }

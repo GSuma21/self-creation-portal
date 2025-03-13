@@ -122,6 +122,12 @@ export class LibProjectService {
         delete this.projectData.certificate.criteria.conditions.C3;
         this.projectData.certificate.criteria.expression = this.projectData.certificate.criteria.expression.includes("&&C3") ? this.projectData.certificate.criteria.expression.replace("&&C3", "") : this.projectData.certificate.criteria.expression;
       }
+      if(this.projectData.certificate && this.projectData.certificate.criteria.conditions.C2) {
+        this.projectData.certificate.criteria.conditions.C2.validationText = "Add" + this.projectData.certificate.criteria.conditions.C2.conditions.C1.value + this.projectData.certificate.criteria.conditions.C2.validationText
+      }
+      if(this.projectData.certificate && this.projectData.certificate.criteria.conditions.C3) {
+        this.projectData.certificate.criteria.conditions.C3.validationText = "Add" + this.projectData.certificate.criteria.conditions.C2.value + this.projectData.certificate.criteria.conditions.C2.validationText
+      }
       if (
         this.projectConfig?.show_reviewer_list &&
         this.projectData.stage !== resourceStatus.REVIEW
@@ -431,7 +437,7 @@ export class LibProjectService {
     ).pipe(
       switchMap(() => {
         if(mode === solutionModes.META_EDIT && this.programData){
-          this.programData.resources = this.programData.resources.map((resource:any) => 
+          this.programData.resources = this.programData.resources.map((resource:any) =>
             resource.id === this.projectData.id ? { ...this.projectData } : resource
           );
           return  this.updateProgramData(this.programData)
