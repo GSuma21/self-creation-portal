@@ -282,23 +282,8 @@ export class LayoutComponent {
         });
         break;
       case "PUBLISH_CHANGES":
-        this.subscription.add(
-          this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res:any)=>{
-            this.utilService.saveResources = false;
-            this.programWithRolloutService.publishProgram().subscribe((res: any) => {
-              if (res.responseCode === "OK") {
-                this.router.navigate([SUBMITTED_FOR_REVIEW]);
-                this.toastService.openSnackBar({ message: 'YOUR_CHANGES_HAVE_BEEN_PUBLISHED', class: 'success', });
-                this.programWithRolloutService.rolloutId = ""
-              } else {
-                this.toastService.openSnackBar({ message: 'FILL_ALL_THE_MANDATORY_FIELDS', class: 'error', });
-              }
-            },
-              (err) => {
-                this.programWithRolloutService.validateAndHighlightErrors(err)
-              })
-          })
-        )
+        this.programWithRolloutService.checkProgramPublishalidation(true);
+        this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
         break;
       default:
         break;
