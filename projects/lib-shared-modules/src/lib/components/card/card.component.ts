@@ -13,7 +13,7 @@ import { resourceStatus, reviewStatus } from '../../constants/urlConstants';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() list: any;
   @Input() showActionButton: boolean = false;
   @Input() project:any;
@@ -27,10 +27,6 @@ export class CardComponent implements OnInit {
   reviewStatus = reviewStatus;
 
   constructor() {
-  }
-
-  ngOnInit(): void {
-    console.log(this.list)
   }
 
   onButtonClick(label: string, item: any) {

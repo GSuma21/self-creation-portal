@@ -51,9 +51,9 @@ export class LayoutComponent {
           })
           this.headerData.buttons.reviewerView.splice(1);
         }
-        // if(this.programId && this.mode === 'creatorView' ) {
-        //   this.headerData.buttons.creatorView.splice(1);
-        // }
+        if(this.programId && this.mode === 'creatorView' ) {
+          this.headerData.buttons.creatorView.splice(1);
+        }
       })
     )
     this.utilService.saveComment = true;
