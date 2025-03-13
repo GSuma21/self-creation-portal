@@ -69,7 +69,7 @@ export class ProgramDetailsComponent {
         }
       )
     );
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status ? this.formLib?.myForm.status : "INVALID"
 
 
     this.subscription.add(
@@ -105,7 +105,7 @@ export class ProgramDetailsComponent {
 
 
   ngAfterViewChecked() {
-    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) && this.programId) {
+    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ||  this.mode == solutionModes.META_EDIT) && this.programId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();

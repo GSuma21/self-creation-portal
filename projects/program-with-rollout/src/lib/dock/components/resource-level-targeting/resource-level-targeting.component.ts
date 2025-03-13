@@ -198,7 +198,9 @@ export class ResourceLevelTargetingComponent {
       )
     );
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
-    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    if(this.mode === solutionModes.META_EDIT){
+       this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    }
     if(this.programWithRolloutService.programData.resources?.length == 0) {
       this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID";
     }

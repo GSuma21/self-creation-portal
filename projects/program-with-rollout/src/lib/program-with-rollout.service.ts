@@ -586,10 +586,15 @@ export class ProgramWithRolloutService {
             }
           },
             (err:any) => {
-              this.validateAndHighlightErrors(err)
+              this.validateAndHighlightErrorsForPrograms(err)
             })
         })
     } else {
+      if(!this.programData.resources && this.programData.resources?.length == 0) {
+        this.tabValidationForProgram.programResources = "INVALID"
+        this.tabValidationForProgram.resourceLevelTargeting = "INVALID"
+        this.checkProgramPublishalidation(true);
+      }
       this.toastService.openSnackBar({
         message: 'CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM',
         class: 'error',
