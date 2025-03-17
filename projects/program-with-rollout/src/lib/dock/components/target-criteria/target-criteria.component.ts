@@ -88,8 +88,8 @@ export class TargetCriteriaComponent implements OnInit {
   ngOnInit(): void {
     this.getTargetCriteriaDetails();
     this.tableColumns = ['select', ...this.displayedColumns];
-    if (this.dialogData) {
-      this.formData = this.dialogData;
+    if (this.dialogData.data) {
+      this.formData = this.dialogData.data;
     }
   }
 
@@ -100,10 +100,10 @@ export class TargetCriteriaComponent implements OnInit {
         .getEntitiesList('GET_ENTITIES_LIST', 'state')
         .subscribe((res: any) => {
           this.criteria[0].form[0].options = res.result;
-          if (this.dialogData && res.result) {
+          if (this.dialogData.data && res.result) {
             // this condition will check and add data to the form and table
             this.getEntityAndRoles();
-            if (this.dialogData.entity_targeting.name !== 'state') {
+            if (this.dialogData.data.entity_targeting.name !== 'state') {
               this.formService
                 .getEntitiesListAsType(
                   'GET_SUB_ENTITIES_LIST',
@@ -188,6 +188,13 @@ export class TargetCriteriaComponent implements OnInit {
     //     })
     // }
     if (key == 'entity_targeting') {
+      if(this.dialogData.targeting_criteria && this.dialogData.targeting_criteria.length > 0) {
+        const item = this.dialogData.targeting_criteria.find((element:any) => ((element.state && element.state._id) || (element.state[0] && element.state[0]._id)) === this.formData.state._id && this.formData.entity_targeting._id === element.entity_targeting._id)
+        if(item) {
+          item.state = this.formData.state;
+          this.formData = item;
+        }
+      }
       this.targetedEntity = event.value._id;
       this.criteriaFilters = [];
       for (
@@ -293,8 +300,8 @@ export class TargetCriteriaComponent implements OnInit {
           }
         );
         if (
-          this.dialogData &&
-          this.dialogData.entity_targeting.name !== 'state'
+          this.dialogData.data &&
+          this.dialogData.data.entity_targeting.name !== 'state'
         ) {
           this.targetedEntity = this.formData.entity_targeting.value;
           this.criteriaFilters = [];
@@ -374,7 +381,19 @@ export class TargetCriteriaComponent implements OnInit {
         } else {
           this.insertDataIntoTable(res.result, res.result.length);
         }
+    });
+
+    for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.length; index++) {
+      this.formService
+        .getEntitiesListAsType(
+          'GET_SUB_ENTITIES_LIST',
+          this.criteriaFilters[index].value,
+          event.values[0]
+        )
+        .subscribe((res: any) => {
+          this.criteriaFilters[index].option = res.result.data ? res.result.data : res.result;
       });
+    }
   }
   compareObjects(o1: any, o2: any): boolean {
     return o1 && o2 ? o1._id === o2._id : o1 === o2;
@@ -453,7 +472,20 @@ export class TargetCriteriaComponent implements OnInit {
     }`;
   }
 
+  isCheckboxChangeable(data?:any):boolean {
+    if(this.formData.readOnly && data) {
+
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   selectSingleRow(event: any, row: any) {
+    if(this.formData.readOnly && event.checked) {
+      return
+    }
     this.selection.toggle(row);
     console.log(this.selection.hasValue());
     if (!this.formData[this.formData.entity_targeting.name]) {
@@ -552,6 +584,14 @@ export class TargetCriteriaComponent implements OnInit {
           this.selection.select(element);
         });
       });
+  }
+
+  clearForm(tab:any) {
+    this.getTargetCriteriaDetails();
+    this.selection.clear();
+    this.dataSource = new MatTableDataSource();
+    this.tableColumns = [];
+    this.formData = {};
   }
 
   isDisable() {

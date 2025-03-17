@@ -479,6 +479,22 @@ export class ProgramWithRolloutService {
     this.setProgramApiErrors.next(newAction);
   }
 
+  checkAndUpdateTargetCriteria(result:any,criteria:any = []) {
+    if(criteria.length > 0) {
+      const index = criteria.findIndex((element:any) => ((element.state && element.state._id) || (element.state[0] && element.state[0]._id)) === ((result.state && result.state._id) || (result.state[0] && result.state[0]._id)) && result.entity_targeting._id === element.entity_targeting._id)
+      if(index >= 0 ) {
+        criteria.splice(index,1,result)
+      }
+      else {
+        criteria.push(result);
+      }
+    }
+    else {
+      return [result];
+    }
+    return criteria;
+  }
+
   validateAndHighlightErrorsForPrograms(err: any) {
     this.formService.getForm(PROGRAM_DETAILS).subscribe((data: any) => {
       if (data) {

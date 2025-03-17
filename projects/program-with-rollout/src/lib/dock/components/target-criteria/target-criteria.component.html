@@ -7,6 +7,10 @@
 <mat-tab-group class="mt-9">
     @for (tab of criteria; track tab) {
         <mat-tab [label]="tab.label">
+            <section class="flex flex-end clear-container">
+                <p (click)="clearForm(tab)">Clear</p>
+                <mat-icon (click)="clearForm(tab)">delete</mat-icon>
+            </section>
             <div class="main flex">
                 <div class="dropdown-container">
                     @for (item of tab?.form; track item;let index = $index) {
@@ -43,6 +47,7 @@
                                     <th mat-header-cell *matHeaderCellDef>
                                         @if(dataSource && dataSource.data && dataSource.data.length > 0){
                                     <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
+                                    [ngClass]="{'pointer-events-none': isCheckboxChangeable()}"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
                                                     [aria-label]="checkboxLabel()">
@@ -51,6 +56,7 @@
                                     </th>
                                     <td mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="$event.stopPropagation()"
+                                    [ngClass]="{'pointer-events-none': isCheckboxChangeable(row)}"
                                                     (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
                                                     [aria-label]="checkboxLabel(row)">
