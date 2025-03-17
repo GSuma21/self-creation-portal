@@ -353,7 +353,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           height: '80%',
           disableClose: true,
           autoFocus: false,
-          data: null,
+          data:{
+            data: null,
+            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria
+          },
         });
 
         dialogRef.afterClosed().subscribe((res: any) => {
@@ -390,7 +393,10 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           height: '80%',
           disableClose: true,
           autoFocus: false,
-          data: control.item,
+          data:{
+            data: control.item,
+            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria
+          },
         });
 
         dialogEditRef.afterClosed().subscribe((res: any) => {

@@ -291,13 +291,17 @@ export class ProgramDetailsComponent {
             height: '80%',
             disableClose: true,
             autoFocus: false,
-            data: null,
+            data:{
+              data: null,
+              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria
+            },
           });
 
           dialogRef.afterClosed().subscribe((res: any) => {
             this.dynamicFormData.forEach((element:any) => {
               if(element.name == "targeting_criteria" && res) {
-                element.value.push(res);
+
+                element.value = this.programWithRolloutService.checkAndUpdateTargetCriteria(res,this.programWithRolloutService.programData.targeting_criteria)
                 if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
                   this.changeResourceLevelTargetingToast()
                 }
@@ -330,7 +334,10 @@ export class ProgramDetailsComponent {
             height: '80%',
             disableClose: true,
             autoFocus: false,
-            data: control.item,
+            data:{
+              data: control.item,
+              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria
+            },
           });
 
           dialogEditRef.afterClosed().subscribe((res: any) => {

@@ -29,6 +29,18 @@
     margin: 5rem auto 5rem auto;
 }
 
+.clear-container {
+    position: absolute;
+    right: 0;
+    top: 5%;
+    margin-right: 1.5rem;
+    color: $primary;
+    cursor: pointer;
+    p {
+        margin-right: 0.5rem;
+    }
+}
+
 mat-select {
     border: 0;
 }

@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                         }
-                        @if(list.is_comments && list.is_comments === true && list?.status !== "PUBLISHED"){
+                        @if(list.is_comments && list.is_comments === true && commentVisible){
                             <div class="chip-container item-center text-center bg-chipComment text-black">
                                 <div class="flex justify-center items-center">
                                     <img src="assets/icons/comments-icon.png" alt="" class="mr-2">
