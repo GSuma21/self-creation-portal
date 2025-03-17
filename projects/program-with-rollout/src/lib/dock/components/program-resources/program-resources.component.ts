@@ -454,6 +454,6 @@ getsolutionList() {
     }
 
   isResourceGrayedOut(resource:any){
-    return (this.mode === solutionModes.RESOURCE_EDIT) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(resource.created_at))
+    return (this.mode === solutionModes.RESOURCE_EDIT || (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(resource.created_at))
   }
 }

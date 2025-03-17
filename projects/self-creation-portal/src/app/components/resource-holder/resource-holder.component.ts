@@ -339,7 +339,17 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             });
             break;
           }
-          if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED){
+          if(item.type == 'program' && item.review_status === resourceStatus.REQUEST_FOR_CHANGES && item.status == resourceStatus.PUBLISHED){
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'review',
+                programId: item.id,
+                mode: solutionModes.META_EDIT,
+              },
+            });
+            break;
+          }
+          if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED && item.review_status !== resourceStatus.REQUEST_FOR_CHANGES){
             this.confirmProgramEdit().subscribe((result:any) =>{
               switch(result.data.title){
                 case 'CHANGE_DETAILS': {
