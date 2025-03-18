@@ -8,7 +8,7 @@
     @for (tab of criteria; track tab) {
         <mat-tab [label]="tab.label">
             <section class="flex flex-end clear-container">
-                <p (click)="clearForm(tab)">Clear</p>
+                <p (click)="clearForm(tab)">{{"CLEAR_SELECTION" | translate}}</p>
                 <mat-icon (click)="clearForm(tab)">delete</mat-icon>
             </section>
             <div class="main flex">
