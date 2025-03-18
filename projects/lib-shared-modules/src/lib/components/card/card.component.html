@@ -17,6 +17,11 @@
                                 {{list.status | translate}}
                             </div>
                         }
+                        @if(list.status !== resourceStatus.PUBLISHED && list.published_on){
+                            <div class="chip-container item-center text-center bg-chipPublished text-white">
+                                {{resourceStatus.PUBLISHED | translate}}
+                            </div>
+                        }
                         @if(list.status === resourceStatus.REJECTED || list.status === resourceStatus.REJECTED_AND_REPORTED) {
                             <div class="chip-container item-center text-center bg-chipRejected text-white">
                                 <div class="flex justify-center items-center">

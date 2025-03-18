@@ -362,7 +362,8 @@ export class ProgramWithRolloutService {
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if (
               this.programConfig?.show_reviewer_list &&
-              this.programData.stage !== resourceStatus.REVIEW
+             ( this.programData.status !== resourceStatus.PUBLISHED || 
+              !([resourceStatus.REVIEW, resourceStatus.COMPLETION].includes(this.programData.stage)))
             ) {
               this.getReviewerData().subscribe((list: any) => {
                 const dialogRef = this.dialog.open(ReviewModelComponent, {
@@ -415,6 +416,7 @@ export class ProgramWithRolloutService {
                 });
               });
             } else {
+              this.utilService.saveResources = false;
               this.createOrUpdateProgram(
                 this.programData,
                 this.programData.id,

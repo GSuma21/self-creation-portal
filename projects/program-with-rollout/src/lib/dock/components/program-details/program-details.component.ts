@@ -234,7 +234,7 @@ export class ProgramDetailsComponent {
             this.allowEditForMetaData(element)
           }
         });
-        if(res.status === resourceStatus.PUBLISHED && this.mode === solutionModes.META_EDIT){
+        if(res.status === resourceStatus.PUBLISHED && (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT)){
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');

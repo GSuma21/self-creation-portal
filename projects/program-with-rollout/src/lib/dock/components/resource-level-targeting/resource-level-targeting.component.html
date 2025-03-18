@@ -2,12 +2,13 @@
   <div formArrayName="resources" class="form-container">
     <div *ngFor="let resourceGroup of resourceFields.controls; let i=index" [formGroupName]="i">
       <mat-card appearance="outlined" class="resource-card">
-        <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
+        <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
+          <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
         <div class="flex gap-2" >
           <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">Target criteria *</mat-label>
         </div>
         <!-- target criteria list -->
-        <div class="flex flex-col gap-4" [ngClass]="{'pointer-events-none': viewOnly}">
+        <div class="flex flex-col gap-4" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
           <div  *ngFor="let targetItem of resources[i]?.targeting_criteria;let j = index" class="resource-items-container">
             <section class="resouce-inner-section cursor-pointer">
               <img src="assets/images/video-icon.png" alt="My Image">&nbsp;
@@ -27,8 +28,8 @@
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly ? viewOnly:isStartDateDisabled(i)"></mat-datepicker-toggle>
-                <mat-datepicker #startDate [disabled]="viewOnly ? viewOnly : isStartDateDisabled(i)"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker-toggle>
+                <mat-datepicker #startDate [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'Enter the start date of the resource in DD-MM-YYYY format. The resource start date must be on or after the program start date.'" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
@@ -46,8 +47,8 @@
                 <mat-label>End Date</mat-label>
                 <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="End Date"
                   [min]="getMinDate(i)" [max]="getProgramDate('end_date')" (dateChange)="setValueToProgram($event,i,'end_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly"></mat-datepicker-toggle>
-                <mat-datepicker #endDate [disabled]="viewOnly"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker-toggle>
+                <mat-datepicker #endDate [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'Enter the end date of the resource in DD-MM-YYYY format. The resource end date must be on or before the program end date.'" [matTooltipDisabled]="true" #tooltip3="matTooltip" (click)="showTooltip(tooltip3)"
@@ -60,6 +61,7 @@
             </mat-error>
           </section>
         </section>
+        </div>
       </mat-card>
     </div>
   </div>
