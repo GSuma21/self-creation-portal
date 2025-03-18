@@ -3,7 +3,7 @@ import { ConfigService } from '../../configs/config.service';
 import { HttpProviderService } from '../http-provider.service';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DialogPopupComponent } from '../../components/dialogs/dialog-popup/dialog-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -14,6 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class UtilService {
   saveComment :boolean= true;
   saveResources : boolean = true;
+  languageChange = new BehaviorSubject<boolean>(false);
+  isLanguageChanges = this.languageChange.asObservable();
 
   constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient,private dialog : MatDialog) { }
 
@@ -39,7 +41,7 @@ export class UtilService {
       payload:{}
     }
     return this.httpService.post(config.url, config.payload)
-  }
+  } 
 
   rejectOrReportedReview(resourceId:string|number,payload:any,isReported:boolean=false){
     const config = {
@@ -172,4 +174,8 @@ export class UtilService {
         })
       );
     }
+
+  setNewLanguage(language: any) {
+    this.languageChange.next(language);
+  }
 }
