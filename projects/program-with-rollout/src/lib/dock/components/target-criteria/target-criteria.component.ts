@@ -473,8 +473,7 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   isCheckboxChangeable(data?:any):boolean {
-    if(this.formData.readOnly && data) {
-
+    if(this.formData.readOnly) {
       return true;
     }
     else {
