@@ -5,7 +5,7 @@
         <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
           <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
         <div class="flex gap-2" >
-          <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">Target criteria *</mat-label>
+          <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
         </div>
         <!-- target criteria list -->
         <div class="flex flex-col gap-4" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
@@ -74,7 +74,7 @@
 </form>
 @if(resources <= 0){
   <div  class="top-32 w-full flex flex-col items-center justify-center h-[70%]">
-    No resources are currently added to the program. Add resources to view the resource targeting details.
+    {{"NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING" | translate}}
   </div>
 }
 @if(commentPayload || ResourceInReview) {

@@ -234,5 +234,7 @@
     "RESOURCE_START_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन प्रारंभ तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।",
     "END_DATE": "समाप्ति तिथि",
     "END_DATE_REQUIRED": "समाप्ति तिथि आवश्यक है।",
-    "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन समाप्ति तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।"
+    "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन समाप्ति तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।",
+    "TARGET_CRITERIA": "लक्षित मानदंड",
+    "NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING": "कार्यक्रम में अभी कोई संसाधन नहीं जोड़ा गया है। संसाधन जोड़ें ताकि संसाधन लक्ष्य निर्धारण विवरण देख सकें।"
 }
