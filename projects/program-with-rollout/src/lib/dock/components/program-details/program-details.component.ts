@@ -262,6 +262,16 @@ export class ProgramDetailsComponent {
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    if(this.programWithRolloutService.programData.status !== resourceStatus.PUBLISHED && !this.programWithRolloutService.programData.published_on){
+      this.programWithRolloutService.programData.resources.forEach((resource:any)=>{
+        if( !resource.start_date ||( new Date(resource.start_date) < new Date(data.start_date))) {
+          resource.start_date  = data.start_date
+        }
+        if(!resource.end_date || ( new Date(resource.end_date) > new Date(data.end_date))) {
+          resource.end_date  = data.end_date
+        }
+      })
+    }
   }
 
   getFormControlChange(item:any) {
