@@ -344,7 +344,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
               queryParams: {
                 parent: 'review',
                 programId: item.id,
-                mode: solutionModes.META_EDIT,
+                mode: solutionModes.REQUEST_FOR_EDIT,
               },
             });
             break;
