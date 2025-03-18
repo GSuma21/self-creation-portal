@@ -28,6 +28,7 @@ export class ProgramDetailsComponent {
   commentPayload: any;
   commentsList: any = [];
   ResourceInReview: boolean = false;
+  language:any =  localStorage.getItem('language');
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
       private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
@@ -96,6 +97,15 @@ export class ProgramDetailsComponent {
             this.programWithRolloutService.formMeta.formValidation.programResources = this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
             this.formLib?.myForm.markAllAsTouched()
             this.programWithRolloutService.triggerPublishProgram();
+          }
+        }
+      )
+    );
+    this.subscription.add( // Check validation before sending for review.
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
           }
         }
       )

@@ -28,6 +28,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   resourceId:string|number = '' // This variable represent projectId for comments.
   ProgramResourceId:string|number = ''
   @ViewChild('formLib') formLib: MainFormComponent | undefined;
+  language:any =  localStorage.getItem('language');
   private subscription: Subscription = new Subscription();
   constructor(
     private libProjectService: LibProjectService,
@@ -110,6 +111,16 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           if(reviewValidation) {
             this.formMarkTouched();
             this.libProjectService.triggerSendForReview();
+          }
+        }
+      )
+    );
+
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
           }
         }
       )
