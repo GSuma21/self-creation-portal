@@ -76,6 +76,9 @@ ngOnInit(){
         this.toastService.openSnackBar(data);
         // Optionally, clear resourceIds in your component
         this.readProgram();
+        if(this.mode === solutionModes.RESOURCE_EDIT){
+          this.changeResourceLevelTargetingToast()
+        }
       })
     )
   }
@@ -100,7 +103,7 @@ ngOnInit(){
   }
   if(this.programId && Object.keys(this.programWithRolloutService.programData)?.length > 1){
     this.resourceCount  =this.programWithRolloutService.programData.resources ?  this.programWithRolloutService.programData.resources?.length : 0;
-    this.resources = this.programWithRolloutService.programData.resources
+    this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
     this.addActionButtons()
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
@@ -180,7 +183,7 @@ readProgram(){
         this.programWithRolloutService.setProgramData(res.result)
         this.programWithRolloutService.updateResourceTargetCriteria(this.programId)
         this.resourceCount  = this.programWithRolloutService.programData.resources ? this.programWithRolloutService.programData.resources.length : 0;
-        this.resources = this.programWithRolloutService.programData.resources
+        this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
         this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources?.length > 0 ? 'VALID' : 'INVALID'
         this.addActionButtons()
         this.programWithRolloutService.upDateProgramTitle()
@@ -463,5 +466,14 @@ getsolutionList() {
       new Date(this.programWithRolloutService.programData.published_on) >
         new Date(resource.created_at)
     );
+  }
+
+  changeResourceLevelTargetingToast(){
+    this.toastService.openSnackBar({
+      message: 'CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM',
+      class: 'error',
+    });
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID"
+    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = "INVALID"
   }
 }
