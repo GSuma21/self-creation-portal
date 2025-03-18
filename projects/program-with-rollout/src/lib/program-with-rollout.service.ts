@@ -502,7 +502,11 @@ export class ProgramWithRolloutService {
       if (data) {
         err.error.forEach((err: any) => {
           data.result.data.fields.controls.some((item: any) => {
-            if(item.name == err.param){
+            if(err.location && err.location.includes("resource")){
+              this.formMeta.formValidation.resourceLevelTargeting = "INVALID"
+              this.tabValidationForProgram.resourceLevelTargeting = 'INVALID';
+              return
+            }else if(err.location === 'program' &&  item.name == err.param){
               this.formMeta.formValidation.programDetails = "INVALID"
               this.tabValidationForProgram.programDetails = 'INVALID';
               return
@@ -537,12 +541,14 @@ export class ProgramWithRolloutService {
         }
       });
       if (isUpdated) {
+        console.log(this.programData)
         this.createOrUpdateProgram(this.programData, this.programData.id).subscribe();
       }
     }
   }
 
   removeItemFromAPIErrors(location:any) {
+    console.log(location)
     this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.param !== location)]
     this.setProgramErrorsFunc(this.reviewErrors);
   }

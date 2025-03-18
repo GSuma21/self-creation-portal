@@ -40,6 +40,9 @@
             <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('required')">
               Start date is required.
             </mat-error>
+            <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('pattern')">
+              Resource Start date should be within program Date Range.
+            </mat-error>
           </section>
           <section>
             <div class="flex">
@@ -58,6 +61,9 @@
             </div>
             <mat-error *ngIf="resourceGroup.get('end_date')?.touched &&resourceGroup.get('end_date')?.hasError('required')">
               End date is required.
+            </mat-error>
+            <mat-error *ngIf="resourceGroup.get('end_date')?.touched && resourceGroup.get('end_date')?.hasError('pattern')">
+              Resource End date should be within program Date Range.
             </mat-error>
           </section>
         </section>

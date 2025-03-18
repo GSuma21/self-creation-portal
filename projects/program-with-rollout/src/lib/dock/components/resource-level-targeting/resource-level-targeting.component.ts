@@ -188,9 +188,25 @@ export class ResourceLevelTargetingComponent {
     this.subscription.add(
       this.programWithRolloutService.programApiErrors.subscribe(
         (errors: any) => {
-          if(errors){
-           this.resourceForm.markAllAsTouched()
-           this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+          if (errors) {
+            for (let index = 0; index < errors.length; index++) {
+              if (errors[index].location.includes('resource')) {
+                const match = errors[index].location.match(/\[(\d+)\]/)
+                let i = match ? parseInt(match[1], 10) : 0;
+                const resourceArray = this.resourceForm.get('resources') as FormArray;
+                if (resourceArray) {
+                  const resourceGroup = resourceArray.at(i); // Get the resource at the given index
+                  const startDateControl = resourceGroup.get(errors[index].param); // Get the start_date control
+
+                  if (startDateControl) {
+                    startDateControl.setErrors({ pattern: true }); // Set dynamic error
+                    startDateControl.markAsTouched(); // Ensure error is visible
+                  }
+                }
+              }
+            }
+            this.resourceForm.markAllAsTouched()
+            this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
           }
         }
       )
@@ -238,6 +254,23 @@ export class ResourceLevelTargetingComponent {
         this.programWithRolloutService.programApiErrors.subscribe(
           (errors: any) => {
             if (errors) {
+              for (let index = 0; index < errors.length; index++) {
+                if (errors[index].location.includes('resource')) {
+                  const match = errors[index].location.match(/\[(\d+)\]/)
+                  let i = match ? parseInt(match[1], 10) : 0;
+                  const resourceArray = this.resourceForm.get('resources') as FormArray;
+                  if (resourceArray) {
+                    const resourceGroup = resourceArray.at(i); // Get the resource at the given index
+                    const startDateControl = resourceGroup.get(errors[index].param); // Get the start_date control
+
+                    if (startDateControl) {
+                      startDateControl.setErrors({ pattern: true }); // Set dynamic error
+                      startDateControl.markAsTouched(); // Ensure error is visible
+                    }
+                  }
+                }
+                // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
+              }
               this.resourceForm.markAllAsTouched()
               this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
             }
@@ -452,6 +485,9 @@ export class ResourceLevelTargetingComponent {
   }
 
   setValueToProgram(event: any, index: any, key: string) {
+    if(event) {
+      this.programWithRolloutService.removeItemFromAPIErrors(key);
+    }
     this.programWithRolloutService.programData.resources[index][key] = new Date(
       event.targetElement.value
     );
