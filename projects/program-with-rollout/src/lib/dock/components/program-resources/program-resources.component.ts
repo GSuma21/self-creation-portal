@@ -458,7 +458,7 @@ getsolutionList() {
 
   isResourceGrayedOut(resource:any){
     return (
-      ((this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW) ||
+      ((this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW ||  this.mode === solutionModes.REVIEWER_VIEW) ||
         (this.mode === solutionModes.REQUEST_FOR_EDIT &&
           this.programWithRolloutService.programData.status ===
             resourceStatus.REQUEST_FOR_CHANGES &&
