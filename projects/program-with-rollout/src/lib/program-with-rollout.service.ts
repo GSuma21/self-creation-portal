@@ -524,6 +524,22 @@ export class ProgramWithRolloutService {
         }
       })
     }
+    if (this.programData.status !== resourceStatus.PUBLISHED && !this.programData.published_on) {
+      let isUpdated = false;
+      this.programData.resources.forEach((resource: any) => {
+        if (!resource.start_date || resource.start_date < this.programData.start_date) {
+          resource.start_date = this.programData.start_date;
+          isUpdated = true;
+        }
+        if (!resource.end_date || resource.end_date > this.programData.end_date) {
+          resource.end_date = this.programData.end_date;
+          isUpdated = true;
+        }
+      });
+      if (isUpdated) {
+        this.createOrUpdateProgram(this.programData, this.programData.id).subscribe();
+      }
+    }
   }
 
   removeItemFromAPIErrors(location:any) {
