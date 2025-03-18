@@ -9,6 +9,7 @@ import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
 import { Subscription } from 'rxjs/internal/Subscription';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { UtilService } from '../../services/util/util.service';
 
 @Component({
   selector: 'lib-header',
@@ -28,7 +29,8 @@ export class HeaderComponent {
 
   selectedLanguage: any = 'en'; 
   supportLanguages : any = [
-    {label: "ENGLISH", value: "en"}
+    {label: "ENGLISH", value: "en"},
+    {label: "HINDI", value: "hi"}
   ]
   showToolTip: boolean = false;
 
@@ -37,7 +39,7 @@ export class HeaderComponent {
   @Output() buttonClick: EventEmitter<string> =  new EventEmitter<string>();
 
   constructor( private libsharedservice: LibSharedModulesService, private router: Router, private route: ActivatedRoute,
-    private translateService: TranslateService) {
+    private translateService: TranslateService, private utilService: UtilService) {
 
     const storedLanguage = localStorage.getItem('language');
     if (storedLanguage) {
@@ -78,6 +80,7 @@ export class HeaderComponent {
     this.selectedLanguage = event.value;
     this.translateService.use(this.selectedLanguage);
     localStorage.setItem('language', this.selectedLanguage);
+    this.utilService.setNewLanguage(this.selectedLanguage)
   }
 
   ngOnDestroy() {
