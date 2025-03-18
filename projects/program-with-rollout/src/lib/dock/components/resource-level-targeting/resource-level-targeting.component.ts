@@ -427,7 +427,12 @@ export class ResourceLevelTargetingComponent {
         height: '80%',
         disableClose: true,
         autoFocus: false,
-        data: {...targeItem,...{readOnly:true}},
+        data: {
+          data:{...targeItem,...{readOnly:true}},
+          targeting_criteria:      this.programWithRolloutService.programData.resources[
+            resourceIndex
+          ].targeting_criteria
+        },
       });
 
       dialogRef.afterClosed().subscribe((res: any) => {
@@ -505,8 +510,8 @@ export class ResourceLevelTargetingComponent {
     const resource = this.resourceForm.get('resources')?.value[i]; // Get the current resource item
     const startDate = new Date(resource?.start_date);
     const currentDate = new Date();
-    
-    return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate; 
+
+    return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate;
   }
 
   isResourceGrayedOut(index:any){
