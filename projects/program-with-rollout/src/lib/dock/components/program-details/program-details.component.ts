@@ -110,16 +110,6 @@ export class ProgramDetailsComponent {
         }
       )
     );
-
-    this.subscription.add( // set a language
-      this.utilService.isLanguageChanges.subscribe(
-        (language: boolean) => {
-          if (language) {
-            this.language = language
-          }
-        }
-      )
-    );
   }
 
 
