@@ -18,6 +18,7 @@ export const resourceStatus = {
     REVIEW:"REVIEW",
     IN_PROGRESS:"INPROGRESS",
     REQUEST_FOR_CHANGES:'REQUESTED_FOR_CHANGES',
+    COMPLETION:"COMPLETION"
 };
 export const reviewStatus = {
     NOT_STARTED: 'NOT_STARTED',
@@ -48,4 +49,5 @@ export const solutionModes = {
   COPY_EDIT:"copyEdit",
   META_EDIT:'metaEdit',
   META_REVIEW:'metaReview',
+  RESOURCE_EDIT:'resourceEdit'
 };

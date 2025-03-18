@@ -19,10 +19,10 @@
 <div  class="px-10 py-4 w-[100%]" [ngClass]="{'text-error': isResourceIsNotPresent}">
   <p>{{"ADDED_RESOURCES" | translate}} ({{resourceCount}})</p>
 </div>
-<div class="px-10 py-4 w-[100%]" [ngClass]="{'opacity-50': !isResourceNotgrayedOut}">
+<div class="px-10 py-4 w-[100%]" >
   @for(list of resources; track list){
-    <div class="pb-3">
-      <lib-card [list]="list" [showActionButton]="true" [commentVisible]="programWithRolloutService.programData.status === 'PUBLISHED' ? false : true" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
+    <div class="pb-3" [ngClass]="{'opacity-50': !isResourceNotgrayedOut || isResourceGrayedOut(list)}">
+      <lib-card [list]="list" [showActionButton]="true"  [commentVisible]="programWithRolloutService.programData.status === 'PUBLISHED' ? false : true" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
     </div>
     }
 </div>

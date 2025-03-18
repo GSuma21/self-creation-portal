@@ -513,4 +513,8 @@ export class ResourceLevelTargetingComponent {
 
     return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate;
   }
+
+  isResourceGrayedOut(index:any){
+    return (this.mode === solutionModes.RESOURCE_EDIT || (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(this.resources[index].created_at))
+  }
 }

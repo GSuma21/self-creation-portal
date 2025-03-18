@@ -113,7 +113,7 @@ export class LayoutComponent {
       }
       case "SAVE_CHANGES":
       case "SAVE_AS_DRAFT": {
-        if (this.mode === solutionModes.META_EDIT) {
+        if (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
           this.libProjectService.saveProgramResourceFunc(true)
           break;
         } else {

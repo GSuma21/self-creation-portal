@@ -99,7 +99,7 @@ ngOnInit(){
     this.createProgram();
   }
   if(this.programId && Object.keys(this.programWithRolloutService.programData)?.length > 1){
-    this.resourceCount  = this.programWithRolloutService.programData.resources?.length;
+    this.resourceCount  =this.programWithRolloutService.programData.resources ?  this.programWithRolloutService.programData.resources?.length : 0;
     this.resources = this.programWithRolloutService.programData.resources
     this.addActionButtons()
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
@@ -117,7 +117,7 @@ ngOnInit(){
       (reviewValidation: boolean) => {
         if(reviewValidation) {
           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
-          this.isResourceIsNotPresent =  this.programWithRolloutService.programData.resources?.length ? false : true
+          this.isResourceIsNotPresent =  this.programWithRolloutService.formMeta.formValidation.programResources !== 'INVALID' ? false : true
           this.programWithRolloutService.triggerProgramSendForReview();
         }
       }
@@ -141,7 +141,7 @@ ngOnInit(){
       (programValidation: boolean) => {
         if (programValidation) {
           this.programWithRolloutService.formMeta.formValidation.programResources =  this.programWithRolloutService.programData.resources?.length > 0 ? 'VALID' : 'INVALID'
-          this.isResourceIsNotPresent =  this.programWithRolloutService.programData.resources?.length ? false : true;
+          this.isResourceIsNotPresent =  this.programWithRolloutService.formMeta.formValidation.programResources !== 'INVALID' ? false : true
           this.programWithRolloutService.triggerPublishProgram();
         }
       }
@@ -179,7 +179,7 @@ readProgram(){
         this.programWithRolloutService.formMeta.formValidation = res.result.metaData
         this.programWithRolloutService.setProgramData(res.result)
         this.programWithRolloutService.updateResourceTargetCriteria(this.programId)
-        this.resourceCount  = this.programWithRolloutService.programData.resources.length;
+        this.resourceCount  = this.programWithRolloutService.programData.resources ? this.programWithRolloutService.programData.resources.length : 0;
         this.resources = this.programWithRolloutService.programData.resources
         this.programWithRolloutService.tabValidationForProgram.programResources = res.result.resources?.length > 0 ? 'VALID' : 'INVALID'
         this.addActionButtons()
@@ -243,7 +243,7 @@ saveForm(){
 
 addActionButtons(){
   let buttonData: { action: string; label: string; background_color: string; }[] = []
-  if(this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ) {
+  if(this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT  || this.mode == solutionModes.RESOURCE_EDIT) {
     buttonData = [
       {
         action: 'EDIT',
@@ -281,7 +281,7 @@ addActionButtons(){
 
   this.resources = this.resources?.map((resource: any) => ({
     ...resource,
-    actionButton: buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
+    actionButton: this.isResourceGrayedOut(resource) ? [] :buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
   }));
 }
 
@@ -407,7 +407,7 @@ getsolutionList() {
   }
 
   ngOnDestroy() {
-    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT){
+    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.utilService.saveResources){
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }
@@ -452,4 +452,8 @@ getsolutionList() {
         })
       );
     }
+
+  isResourceGrayedOut(resource:any){
+    return (this.mode === solutionModes.RESOURCE_EDIT || (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(resource.created_at))
+  }
 }
