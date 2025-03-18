@@ -5,7 +5,7 @@
         <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
           <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
         <div class="flex gap-2" >
-          <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">Target criteria *</mat-label>
+          <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
         </div>
         <!-- target criteria list -->
         <div class="flex flex-col gap-4" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
@@ -24,7 +24,7 @@
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Start Date</mat-label>
+                <mat-label>{{"START_DATE" | translate}}</mat-label>
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
@@ -38,13 +38,16 @@
               </mat-icon>
             </div>
             <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('required')">
-              Start date is required.
+              {{"START_DATE_REQUIRED" | translate}}
+            </mat-error>
+            <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('pattern')">
+              {{"RESOURCE_START_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE" | translate}}
             </mat-error>
           </section>
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>End Date</mat-label>
+                <mat-label>{{"END_DATE" | translate}}</mat-label>
                 <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="End Date"
                   [min]="getMinDate(i)" [max]="getProgramDate('end_date')" (dateChange)="setValueToProgram($event,i,'end_date')">
                 <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker-toggle>
@@ -57,7 +60,10 @@
               </mat-icon>
             </div>
             <mat-error *ngIf="resourceGroup.get('end_date')?.touched &&resourceGroup.get('end_date')?.hasError('required')">
-              End date is required.
+              {{"END_DATE_REQUIRED" | translate}}
+            </mat-error>
+            <mat-error *ngIf="resourceGroup.get('end_date')?.touched && resourceGroup.get('end_date')?.hasError('pattern')">
+              {{"RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE" | translate}}
             </mat-error>
           </section>
         </section>
@@ -68,7 +74,7 @@
 </form>
 @if(resources <= 0){
   <div  class="top-32 w-full flex flex-col items-center justify-center h-[70%]">
-    No resources are currently added to the program. Add resources to view the resource targeting details.
+    {{"NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING" | translate}}
   </div>
 }
 @if(commentPayload || ResourceInReview) {

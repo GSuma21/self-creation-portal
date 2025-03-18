@@ -360,11 +360,9 @@ export class ProgramWithRolloutService {
 
   triggerProgramSendForReview(){
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
-       if (
-              this.programConfig?.show_reviewer_list &&
-             (  this.programData.status !== resourceStatus.REQUEST_FOR_CHANGES || this.programData.status !== resourceStatus.PUBLISHED ||
-              !([resourceStatus.REVIEW, resourceStatus.COMPLETION].includes(this.programData.stage)))
-            ) {
+       if ( this.programConfig?.show_reviewer_list &&
+              !(this.programData.status === resourceStatus.REQUEST_FOR_CHANGES || this.programData.status === resourceStatus.PUBLISHED || this.programData.published_on))
+             {
               this.getReviewerData().subscribe((list: any) => {
                 const dialogRef = this.dialog.open(ReviewModelComponent, {
                   disableClose: true,
@@ -502,7 +500,11 @@ export class ProgramWithRolloutService {
       if (data) {
         err.error.forEach((err: any) => {
           data.result.data.fields.controls.some((item: any) => {
-            if(item.name == err.param){
+            if(err.location && err.location.includes("resource")){
+              this.formMeta.formValidation.resourceLevelTargeting = "INVALID"
+              this.tabValidationForProgram.resourceLevelTargeting = 'INVALID';
+              return
+            }else if(err.location === 'program' &&  item.name == err.param){
               this.formMeta.formValidation.programDetails = "INVALID"
               this.tabValidationForProgram.programDetails = 'INVALID';
               return
@@ -537,12 +539,14 @@ export class ProgramWithRolloutService {
         }
       });
       if (isUpdated) {
+        console.log(this.programData)
         this.createOrUpdateProgram(this.programData, this.programData.id).subscribe();
       }
     }
   }
 
   removeItemFromAPIErrors(location:any) {
+    console.log(location)
     this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.param !== location)]
     this.setProgramErrorsFunc(this.reviewErrors);
   }

@@ -78,11 +78,13 @@ export class ProgramDetailsComponent {
         (errors: any) => {
           if (this.dynamicFormData) {
             for (let index = 0; index < errors.length; index++) {
-              if (this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
+              if (errors[index].location === 'program' && this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
                 this.dynamicFormData.find((item: any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
               }
               // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
-              this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+              if(errors[index].location === 'program'){
+                this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+              }
             }
           }
         }
@@ -125,11 +127,13 @@ export class ProgramDetailsComponent {
           this.programWithRolloutService.programApiErrors.subscribe(
             (errors: any) => {
               for (let index = 0; index < errors.length; index++) {
-                if (this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
+                if (errors[index].location === 'program' && this.dynamicFormData.find((item: any) => item.name === errors[index].param)?.errorMessage) {
                   this.dynamicFormData.find((item: any) => item.name === errors[index].param).errorMessage.pattern = errors[index].msg;
                 }
                 // this.dynamicFormData[errors[index].location].errorMessage.pattern = errors[index].msg;
-                this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+                if(errors[index].location === 'program'){
+                  this.formLib?.myForm.controls[errors[index].param]?.setErrors({ pattern: errors[index].msg })
+                }
               }
             }
           )
@@ -244,7 +248,7 @@ export class ProgramDetailsComponent {
             this.allowEditForMetaData(element)
           }
         });
-        if(res.status === resourceStatus.PUBLISHED && (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT)){
+        if((this.programWithRolloutService.programData.published_on) && (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)){
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
@@ -272,15 +276,8 @@ export class ProgramDetailsComponent {
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if(this.programWithRolloutService.programData.status !== resourceStatus.PUBLISHED && !this.programWithRolloutService.programData.published_on){
-      this.programWithRolloutService.programData.resources.forEach((resource:any)=>{
-        if( !resource.start_date ||( new Date(resource.start_date) < new Date(data.start_date))) {
-          resource.start_date  = data.start_date
-        }
-        if(!resource.end_date || ( new Date(resource.end_date) > new Date(data.end_date))) {
-          resource.end_date  = data.end_date
-        }
-      })
+    if((this.programWithRolloutService.programData.status !== resourceStatus.PUBLISHED || this.programWithRolloutService.programData.status !== resourceStatus.REQUEST_FOR_CHANGES) && !this.programWithRolloutService.programData.published_on){
+      this.programWithRolloutService.updateResourceTargetCriteria();
     }
   }
 
