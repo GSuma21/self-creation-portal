@@ -76,6 +76,9 @@ ngOnInit(){
         this.toastService.openSnackBar(data);
         // Optionally, clear resourceIds in your component
         this.readProgram();
+        if(this.mode === solutionModes.RESOURCE_EDIT){
+          this.changeResourceLevelTargetingToast()
+        }
       })
     )
   }
@@ -455,5 +458,14 @@ getsolutionList() {
 
   isResourceGrayedOut(resource:any){
     return (this.mode === solutionModes.RESOURCE_EDIT || (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(resource.created_at))
+  }
+
+  changeResourceLevelTargetingToast(){
+    this.toastService.openSnackBar({
+      message: 'CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM',
+      class: 'error',
+    });
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID"
+    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = "INVALID"
   }
 }

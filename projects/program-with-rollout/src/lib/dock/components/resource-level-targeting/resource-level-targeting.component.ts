@@ -511,7 +511,7 @@ export class ResourceLevelTargetingComponent {
     const startDate = new Date(resource?.start_date);
     const currentDate = new Date();
 
-    return this.programWithRolloutService.programData.resources[i].status === resourceStatus.PUBLISHED && currentDate >= startDate;
+    return this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && this.mode === solutionModes.META_EDIT &&  currentDate > startDate;
   }
 
   isResourceGrayedOut(index:any){
