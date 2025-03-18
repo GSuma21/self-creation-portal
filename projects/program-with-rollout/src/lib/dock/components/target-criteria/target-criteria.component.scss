@@ -68,3 +68,13 @@ width: 25%;
     right: 10%;
     z-index: 1000;
 }
+
+.mat-paginator-sticky {
+    bottom: 0px;
+    position: sticky;
+    z-index: 10;
+}
+.table-container {
+    max-height: 24rem;
+    overflow: scroll;
+}
