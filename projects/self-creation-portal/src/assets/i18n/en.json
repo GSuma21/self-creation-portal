@@ -227,5 +227,6 @@
     "CHANGE_DETAILS":"Change details",
     "ADD_RESOURCES":"Add resources",
     "PUBLISH_CHANGES":"Publish changes",
-    "CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM":"Change resource level targeting to publish program"
+    "CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM":"Change resource level targeting to publish program",
+    "CLEAR_SELECTION":"Clear selection"
 }
