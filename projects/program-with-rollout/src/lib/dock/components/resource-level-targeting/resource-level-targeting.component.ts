@@ -37,6 +37,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TargetCriteriaComponent } from '../target-criteria/target-criteria.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'lib-resource-level-targeting',
@@ -54,7 +55,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTooltipModule,
-    CommentsBoxComponent
+    CommentsBoxComponent,
+    TranslateModule
   ],
   templateUrl: './resource-level-targeting.component.html',
   styleUrl: './resource-level-targeting.component.scss',

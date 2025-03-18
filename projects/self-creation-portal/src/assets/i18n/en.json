@@ -228,5 +228,12 @@
     "ADD_RESOURCES":"Add resources",
     "PUBLISH_CHANGES":"Publish changes",
     "CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM":"Change resource level targeting to publish program",
-    "CLEAR_SELECTION":"Clear selection"
+    "CLEAR_SELECTION":"Clear selection",
+    "START_DATE":"Start Date",
+    "START_DATE_REQUIRED":"Start date is required.",
+    "RESOURCE_START_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE":"Resource Start date should be within program Date Range.",
+    "END_DATE":"End Date",
+    "END_DATE_REQUIRED":"End date is required.",
+    "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE":"Resource End date should be within program Date Range."
+
 }

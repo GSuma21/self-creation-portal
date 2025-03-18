@@ -228,5 +228,11 @@
     "ADD_RESOURCES": "संसाधन जोड़ें",
     "PUBLISH_CHANGES": "परिवर्तन प्रकाशित करें",
     "CHANGE_RESOURCE_LEVEL_TARGETING_TO_PUBLISH_PROGRAM": "कार्यक्रम प्रकाशित करने के लिए संसाधन स्तर लक्ष्यीकरण बदलें",
-    "CLEAR_SELECTION": "चयन साफ करें"
+    "CLEAR_SELECTION": "चयन साफ करें",
+    "START_DATE": "प्रारंभ तिथि",
+    "START_DATE_REQUIRED": "प्रारंभ तिथि आवश्यक है।",
+    "RESOURCE_START_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन प्रारंभ तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।",
+    "END_DATE": "समाप्ति तिथि",
+    "END_DATE_REQUIRED": "समाप्ति तिथि आवश्यक है।",
+    "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन समाप्ति तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।"
 }

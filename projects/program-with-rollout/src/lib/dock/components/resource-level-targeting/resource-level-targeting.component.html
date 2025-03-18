@@ -24,7 +24,7 @@
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Start Date</mat-label>
+                <mat-label>{{"START_DATE" | translate}}</mat-label>
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
@@ -38,16 +38,16 @@
               </mat-icon>
             </div>
             <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('required')">
-              Start date is required.
+              {{"START_DATE_REQUIRED" | translate}}
             </mat-error>
             <mat-error *ngIf="resourceGroup.get('start_date')?.touched && resourceGroup.get('start_date')?.hasError('pattern')">
-              Resource Start date should be within program Date Range.
+              {{"RESOURCE_START_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE" | translate}}
             </mat-error>
           </section>
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>End Date</mat-label>
+                <mat-label>{{"END_DATE" | translate}}</mat-label>
                 <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="End Date"
                   [min]="getMinDate(i)" [max]="getProgramDate('end_date')" (dateChange)="setValueToProgram($event,i,'end_date')">
                 <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker-toggle>
@@ -60,10 +60,10 @@
               </mat-icon>
             </div>
             <mat-error *ngIf="resourceGroup.get('end_date')?.touched &&resourceGroup.get('end_date')?.hasError('required')">
-              End date is required.
+              {{"END_DATE_REQUIRED" | translate}}
             </mat-error>
             <mat-error *ngIf="resourceGroup.get('end_date')?.touched && resourceGroup.get('end_date')?.hasError('pattern')">
-              Resource End date should be within program Date Range.
+              {{"RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE" | translate}}
             </mat-error>
           </section>
         </section>
