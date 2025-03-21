@@ -309,7 +309,13 @@ export class LayoutComponent {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
         this.sharedService.goBack()
       })
-    }else{
+    }else if(this.programWithRolloutService.rolloutId && this.utilService.saveResources){
+      this.programWithRolloutService.rollOutDetails.title = this.programWithRolloutService.rollOutDetails.title ? this.programWithRolloutService.rollOutDetails.title : this.programWithRolloutService.resourceDetails.title;
+      this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+        this.sharedService.goBack()
+      })
+    }
+    else{
       this.sharedService.goBack()
     }
   }
