@@ -189,11 +189,15 @@ export class TargetCriteriaComponent implements OnInit {
     // }
     if (key == 'entity_targeting') {
       if(this.dialogData.targeting_criteria && this.dialogData.targeting_criteria.length > 0) {
-        const item = this.dialogData.targeting_criteria.find((element:any) => ((element.state && element.state._id) || (element.state[0] && element.state[0]._id)) === this.formData.state._id && this.formData.entity_targeting._id === element.entity_targeting._id)
+        let item = this.dialogData.targeting_criteria.find((element:any) => ((element.state && element.state._id) || (element.state[0] && element.state[0]._id)) === this.formData.state._id && this.formData.entity_targeting._id === element.entity_targeting._id)
         if(item) {
+          // item = {'roles':item.roles,'entity_targeting':item.entity_targeting,'label':item.label,[item[item.entity_targeting.value]]:item[item.entity_targeting]}
           item.state = this.formData.state;
           this.formData = item;
         }
+        this.selection.clear();
+        this.dataSource = new MatTableDataSource();
+        this.tableColumns = [];
       }
       this.targetedEntity = event.value._id;
       this.criteriaFilters = [];
@@ -473,8 +477,7 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   isCheckboxChangeable(data?:any):boolean {
-    if(this.formData.readOnly && data) {
-
+    if(this.formData.readOnly) {
       return true;
     }
     else {
@@ -587,6 +590,7 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   clearForm(tab:any) {
+    this.dialogData.data = null;
     this.getTargetCriteriaDetails();
     this.selection.clear();
     this.dataSource = new MatTableDataSource();
