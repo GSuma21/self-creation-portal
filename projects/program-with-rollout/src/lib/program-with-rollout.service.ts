@@ -526,14 +526,14 @@ export class ProgramWithRolloutService {
         }
       })
     }
-    if (this.programData.status !== resourceStatus.PUBLISHED && !this.programData.published_on) {
+    if (this.programData) {
       let isUpdated = false;
       this.programData.resources.forEach((resource: any) => {
-        if (!resource.start_date || resource.start_date < this.programData.start_date) {
+        if (!resource.start_date || new Date(resource.start_date) < new Date(this.programData.start_date)) {
           resource.start_date = this.programData.start_date;
           isUpdated = true;
         }
-        if (!resource.end_date || resource.end_date > this.programData.end_date) {
+        if (!resource.end_date || new Date(resource.end_date) > new Date(this.programData.end_date)) {
           resource.end_date = this.programData.end_date;
           isUpdated = true;
         }
