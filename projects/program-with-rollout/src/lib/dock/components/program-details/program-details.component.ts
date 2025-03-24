@@ -276,7 +276,7 @@ export class ProgramDetailsComponent {
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    if((this.programWithRolloutService.programData.status !== resourceStatus.PUBLISHED || this.programWithRolloutService.programData.status !== resourceStatus.REQUEST_FOR_CHANGES) && !this.programWithRolloutService.programData.published_on){
+    if(this.programWithRolloutService.programData?.resources){
       this.programWithRolloutService.updateResourceTargetCriteria();
     }
   }
