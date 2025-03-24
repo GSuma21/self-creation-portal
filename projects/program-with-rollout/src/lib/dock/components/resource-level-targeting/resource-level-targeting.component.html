@@ -3,7 +3,7 @@
     <div *ngFor="let resourceGroup of resourceFields.controls; let i=index" [formGroupName]="i">
       <mat-card appearance="outlined" class="resource-card">
         <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
-          <lib-card [list]="resources[i]" [showActionButton]="true" class="mb-3"></lib-card>
+          <lib-card [list]="resources[i]" [showActionButton]="true"  [commentVisible]="programWithRolloutService.programData.status === 'PUBLISHED' ? false : true" class="mb-3"></lib-card>
         <div class="flex gap-2" >
           <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
         </div>
