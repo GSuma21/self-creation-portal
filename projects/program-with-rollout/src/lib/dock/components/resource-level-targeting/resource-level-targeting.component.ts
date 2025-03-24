@@ -490,9 +490,13 @@ export class ResourceLevelTargetingComponent {
     if(event) {
       this.programWithRolloutService.removeItemFromAPIErrors(key);
     }
-    this.programWithRolloutService.programData.resources[index][key] = new Date(
-      event.targetElement.value
-    );
+    if(this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)){
+         this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = new Date(event.targetElement.value);
+    }else{
+      this.programWithRolloutService.programData.resources[index][key] = new Date(
+        event.targetElement.value
+      );
+    }
     this.subscription.add(
       this.programWithRolloutService
         .createOrUpdateProgram(
