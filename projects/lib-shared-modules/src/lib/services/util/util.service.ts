@@ -178,4 +178,8 @@ export class UtilService {
   setNewLanguage(language: any) {
     this.languageChange.next(language);
   }
+
+  clearLanguage(){
+    this.languageChange.next(false);
+  }
 }

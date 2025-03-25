@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { IndexDbService } from './services/index-db/index-db.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopupComponent } from './components/dialogs/dialog-popup/dialog-popup.component';
+import { UtilService } from './services/util/util.service';
 
 
 
@@ -25,7 +26,7 @@ export class LibSharedModulesService {
   private saveCommentSubject = new Subject<void>();
   private saveCommentCompletedSubject = new Subject<void>();
 
-  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translate: TranslateService,private toastService:ToastService, private route:ActivatedRoute,private indexDb:IndexDbService,   private dialog: MatDialog,) {
+  constructor( private router : Router, private location : Location, private httpService: HttpProviderService,private _snackBar:MatSnackBar,private translateService: TranslateService,private toastService:ToastService, private route:ActivatedRoute,private indexDb:IndexDbService,   private dialog: MatDialog,private utilService: UtilService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.previousUrl = event.url;
@@ -122,6 +123,9 @@ export class LibSharedModulesService {
 
     this.httpService.post(config.url, config.payload).subscribe(
       response => {
+        this.translateService.use('en');
+        localStorage.setItem('language', 'en');
+        this.utilService.clearLanguage();
         this.indexDb.clearObjectStore();
         this.toastService.openSnackBar({
           message: 'LOGOUT_SUCCESSFULL_MESSAGE',

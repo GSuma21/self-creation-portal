@@ -7,11 +7,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormArray, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-dialogue-model',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatInputModule, MatIconModule, TranslateModule, FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [MatDialogModule, MatButtonModule, MatInputModule, MatIconModule, TranslateModule, FormsModule,ReactiveFormsModule,CommonModule, DynamicFormModule],
   templateUrl: './dialog-model.component.html',
   styleUrl: './dialog-model.component.scss'
 })
@@ -20,12 +21,14 @@ export class DialogModelComponent {
   myGroup: FormGroup;
   @Output() saveLearningResource = new EventEmitter<any>();
   values:any = []
+  language:any
 
   constructor(public dialogRef: MatDialogRef<DialogModelComponent>, @Inject(MAT_DIALOG_DATA) public dialogData: any) {
     this.myGroup = new FormGroup({
       resources: new FormArray([])
     });
     this.addResource();
+    this.language = this.dialogData?.language
    }
 
    get resources() {
