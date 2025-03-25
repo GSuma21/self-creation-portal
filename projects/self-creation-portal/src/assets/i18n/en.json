@@ -236,6 +236,7 @@
     "END_DATE_REQUIRED":"End date is required.",
     "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE":"Resource End date should be within program Date Range.",
     "TARGET_CRITERIA":"Target criteria",
-    "NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING":"No resources are currently added to the program. Add resources to view the resource targeting details."
+    "NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING":"No resources are currently added to the program. Add resources to view the resource targeting details.",
+    "PUBLISH":"Publish"
 
 }

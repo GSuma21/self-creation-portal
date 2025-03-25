@@ -25,7 +25,8 @@
   <div class="title" [matTooltip]="headerData?.title | translate">{{ headerData?.title | translate }}</div>
   @if (headerData?.buttons) {
     <div class="buttons-container">
-        @for (button of headerData?.buttons[modeFromParent ? modeFromParent : mode]; track button) {
+       @if(isButtonsNotDependOnModes()){
+        @for (button of getButtons(); track button) {
           @if(button.tooltip){
             <button
             [disabled]="button.disable"
@@ -42,6 +43,27 @@
           }
           @else{
             <button [disabled]="button.disable" [ngClass]="[ button.disable ? 'button-disable' : button.cssClass]" mat-raised-button (click)="onButtonClick(button)" >{{ button?.title | translate }}</button>
+          }
+        }
+       }@else{
+         @for (button of headerData?.buttons[modeFromParent ? modeFromParent : mode]; track button) {
+          @if(button.tooltip){
+            <button
+            [disabled]="button.disable"
+            mat-raised-button
+            [ngClass]="[ button.disable ? 'button-disable' : button.cssClass]"
+            matTooltipClass="tooltip-info"
+            [matTooltip]="button.tooltip | translate"
+            [matTooltipDisabled]="true"
+            #tooltip="matTooltip"
+            (click)="showTooltip(button)"
+            (mouseleave)="hideTooltip(button)">
+            {{ button?.title | translate }}
+          </button>
+          }
+          @else{
+            <button [disabled]="button.disable" [ngClass]="[ button.disable ? 'button-disable' : button.cssClass]" mat-raised-button (click)="onButtonClick(button)" >{{ button?.title | translate }}</button>
+          }
           }
         }
     </div>

@@ -360,7 +360,9 @@ export class ProgramWithRolloutService {
 
   triggerProgramSendForReview(){
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
-       if ( this.programConfig?.show_reviewer_list &&
+       if ((!((!this.programData.published_on && !this.programConfig.review_required) ||
+           (this.programData.published_on && !this.programConfig.review_required_after_publish)
+             )) &&  this.programConfig?.show_reviewer_list &&
               !(this.programData.status === resourceStatus.REQUEST_FOR_CHANGES || this.programData.status === resourceStatus.PUBLISHED || this.programData.published_on))
              {
               this.getReviewerData().subscribe((list: any) => {
