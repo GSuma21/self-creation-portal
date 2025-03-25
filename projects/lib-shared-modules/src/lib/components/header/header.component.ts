@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { UtilService } from '../../services/util/util.service';
+import { solutionModes } from '../../constants/urlConstants';
 
 @Component({
   selector: 'lib-header',
@@ -25,6 +26,7 @@ export class HeaderComponent {
   @Input() headerData : any;
   @Input() modeFromParent?: string;
   @Input() toParent:boolean = false;
+  @Input() config:any;
   @Output() backToParent = new EventEmitter<boolean>();
 
   selectedLanguage: any = 'en'; 
@@ -99,5 +101,15 @@ export class HeaderComponent {
       this.tooltip.hide();
       this.tooltip.disabled = true;
     }
+  }
+
+  isButtonsNotDependOnModes(): boolean {
+    return ((this.router.url.includes('program-details') || this.router.url.includes('program-resources') || this.router.url.includes('resource-level-targeting')) && (!this.mode || this.mode === solutionModes.EDIT || this.mode === solutionModes.RESOURCE_EDIT) && !(this.config?.review_required || this.config?.review_required_after_publish))
+  }
+
+  getButtons() {
+    return this.headerData?.buttons[
+      this.mode === solutionModes.RESOURCE_EDIT ? 'review_not_required_after_publish' : 'review_not_required'
+    ] || [];
   }
 }

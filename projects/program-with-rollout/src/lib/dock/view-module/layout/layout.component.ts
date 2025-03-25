@@ -16,6 +16,7 @@ export class LayoutComponent {
   mode:any;
   sidenavData:any;
   saveRolloutData:boolean = true;
+  config:any
   constructor(private formService:FormService,  public programWithRolloutService:ProgramWithRolloutService, private utilService:UtilService,private dialog:MatDialog, private router:Router, private route:ActivatedRoute,private toastService:ToastService,private configuration: ConfigService, private sharedService: LibSharedModulesService){
     this.subscription.add(
       this.route.queryParams.subscribe((params: any) => {
@@ -25,13 +26,14 @@ export class LayoutComponent {
   }
   ngOnInit(){
     this.getData()
+    this.setConfig();
     this.subscription.add(
       this.programWithRolloutService.currentRolloutData.subscribe(data => {
         this.sidenavData= data?.sidenavData.sidenav
         this.headerData = data?.sidenavData.headerData
+        this.config = this.programWithRolloutService.programConfig
       })
     )
-    this.setConfig();
     this.utilService.saveComment = true;
   }
 
@@ -159,6 +161,7 @@ export class LayoutComponent {
         this.programWithRolloutService.saveProgramFunc(true);
         break;
       }
+      case "PUBLISH":
       case "SEND_FOR_REVIEW": {
         this.utilService.saveComment = false;
         this.programWithRolloutService.checkProgramSendForReviewValidation(true);
@@ -309,7 +312,13 @@ export class LayoutComponent {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
         this.sharedService.goBack()
       })
-    }else{
+    }else if(this.programWithRolloutService.rolloutId && this.utilService.saveResources){
+      this.programWithRolloutService.rollOutDetails.title = this.programWithRolloutService.rollOutDetails.title ? this.programWithRolloutService.rollOutDetails.title : this.programWithRolloutService.resourceDetails.title;
+      this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+        this.sharedService.goBack()
+      })
+    }
+    else{
       this.sharedService.goBack()
     }
   }

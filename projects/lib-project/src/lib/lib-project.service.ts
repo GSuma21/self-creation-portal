@@ -309,6 +309,9 @@ export class LibProjectService {
       this.projectData?.title?.length > 0
         ? this.projectData.title
         : 'Untitled project';
+    this.setProjectData(this.projectData);
+    this.saveProjectFunc(false);
+    this.upDateProjectTitle();
     // to check is task Evidence required added in criteria or to remove criteria
     for (let key in projectData) {
       if (Array.isArray(projectData[key])) {

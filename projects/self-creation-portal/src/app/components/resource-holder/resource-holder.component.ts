@@ -363,7 +363,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
                   break;
                 }
                 case 'ADD_RESOURCES': {
-                  this.router.navigate(['roll-out/details/program-resources'], {
+                  this.router.navigate([PROGRAM_DETAILS_PAGE], {
                     queryParams: {
                       parent: 'review',
                       programId: item.id,
