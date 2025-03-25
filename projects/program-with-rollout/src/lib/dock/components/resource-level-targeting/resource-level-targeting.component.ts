@@ -283,6 +283,7 @@ export class ResourceLevelTargetingComponent {
     }
   }
 
+
   initForm(): void {
     this.resourceForm = this.fb.group({
       resources: this.fb.array([]),
