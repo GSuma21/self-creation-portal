@@ -104,7 +104,7 @@ export class HeaderComponent {
   }
 
   isButtonsNotDependOnModes(): boolean {
-    return (this.router.url.includes('program-details') || this.router.url.includes('program-resources') || this.router.url.includes('resource-level-targeting') && (!this.mode || this.mode === solutionModes.EDIT || this.mode === solutionModes.RESOURCE_EDIT) && (!this.config.review_required || !this.config.review_required_after_publish))
+    return ((this.router.url.includes('program-details') || this.router.url.includes('program-resources') || this.router.url.includes('resource-level-targeting')) && (!this.mode || this.mode === solutionModes.EDIT || this.mode === solutionModes.RESOURCE_EDIT) && !(this.config?.review_required || this.config?.review_required_after_publish))
   }
 
   getButtons() {
