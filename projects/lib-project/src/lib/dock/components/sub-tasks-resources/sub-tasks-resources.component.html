@@ -24,7 +24,7 @@
                                         $index) {
                                         <div class="flex items-center space-x-2 custom-input-wrapper">
                                             <mat-form-field floatLabel="always" class="w-full" appearance="outline">
-                                            <input matInput [value]="control.name" maxlength="256" class="border border-gray-300 rounded px-2 py-1 text-gray-500" type="text" [formControlName]="j" placeholder="Add a subtask" (change)="savingSubtask(i,j)">
+                                            <input matInput [value]="control.name" maxlength="256" class="border border-gray-300 rounded px-2 py-1 text-gray-500" type="text" [formControlName]="j" placeholder="{{'ADD_A_SUBTASK' | translate}}" (change)="savingSubtask(i,j)">
                                             </mat-form-field>
                                             <mat-icon class="cursor-pointer"
                                                 (click)="onDeleteSubtask(i, j)" color="primary">delete</mat-icon>
@@ -33,8 +33,8 @@
                                             <mat-error class="error-container">
                                                     <div class="error-message">
                                                         <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
-                                                        @if(control?.errors?.['maxlength']){ <span>Subtask cannot exceed 256 characters.</span> }
-                                                        @if(control?.errors?.['pattern']){<span>Subtask can only include alphanumeric characters with spaces, -, _, &, <></span>}
+                                                        @if(control?.errors?.['maxlength']){ <span>{{'SUBTASK_ERROR_FOR_MAX_LENGTH' |translate}}</span> }
+                                                        @if(control?.errors?.['pattern']){<span>{{ 'SUBTASK_ERROR_FOR_PATTERN' | translate}}</span>}
                                                     </div>
                                                 </mat-error>
                                             }
@@ -67,7 +67,7 @@
                                             </div>
                                             <div>
                                                 <div class="flex justify-between gap-2" [ngClass]="">
-                                                    <p class="text-tertiary">{{observationFormDetails.minSubmissionRequired.label | translate}}</p>
+                                                    <p class="text-tertiary">{{observationFormDetails.minSubmissionRequired.label  | languageTranslate: language}}</p>
                                                     <input matInput [readonly]="viewOnly" required="true"
                                                         placeholder="1" type="number"
                                                         [min]="observationFormDetails.minSubmissionRequired.validators.min" [max]="observationFormDetails.minSubmissionRequired.validators.max" [value]="item.solution_details.min_no_of_submissions_required"

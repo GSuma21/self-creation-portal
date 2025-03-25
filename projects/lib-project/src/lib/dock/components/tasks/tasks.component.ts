@@ -18,11 +18,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-tasks',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SideNavbarComponent, MatFormFieldModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSlideToggleModule, MatSelectModule, MatButtonModule, TranslateModule, MatTooltipModule,CommentsBoxComponent],
+  imports: [CommonModule, HeaderComponent, SideNavbarComponent, MatFormFieldModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSlideToggleModule, MatSelectModule, MatButtonModule, TranslateModule, MatTooltipModule,CommentsBoxComponent, DynamicFormModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
@@ -42,6 +43,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   ProgramResourceId:string|number = ''
   private autoSaveSubscription: Subscription = new Subscription();
   maxTaskLength = this.libProjectService.projectConfig?.max_task_count ? this.libProjectService.projectConfig?.max_task_count : 10;
+  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
   private subscription: Subscription = new Subscription();
   constructor(private fb: FormBuilder, private libProjectService: LibProjectService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private _snackBar: MatSnackBar, private toastService: ToastService, private utilService:UtilService) {
     this.tasksForm = this.fb.group({
@@ -294,6 +296,16 @@ export class TasksComponent implements OnInit, OnDestroy {
             })
             }
           }
+      )
+    );
+
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
+          }
+        }
       )
     );
   }
