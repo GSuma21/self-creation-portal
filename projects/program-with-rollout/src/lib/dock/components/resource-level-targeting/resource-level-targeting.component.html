@@ -8,7 +8,7 @@
           <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
         </div>
         <!-- target criteria list -->
-        <div class="flex flex-col gap-4" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
+        <div class="flex flex-col gap-4">
           <div  *ngFor="let targetItem of resources[i]?.targeting_criteria;let j = index" class="resource-items-container">
             <section class="resouce-inner-section cursor-pointer">
               <img src="assets/images/video-icon.png" alt="My Image">&nbsp;
@@ -16,11 +16,11 @@
             </section>
             <div class="cursor-pointer flex flex-row gap-2">
               <mat-icon (click)="updateResource(i,j,targetItem)" class="cursor-pointer">edit_square</mat-icon>
-              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer">close</mat-icon>
+              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">close</mat-icon>
             </div>
           </div>
         </div>
-        <section class="flex mt-4 gap-2">
+        <section class="flex mt-4 gap-2" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">

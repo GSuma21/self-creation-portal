@@ -40,7 +40,7 @@
                             <lib-filter [filterData]="criteriaFilters" (filteredData)="onFilterChange($event)" class="ml-2"></lib-filter>
                         </section>
                           <div class="mat-elevation-z8 table-container">
-                            <table mat-table [dataSource]="dataSource" matSort>
+                            <table mat-table [dataSource]="dataSource" matSort   [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review'}">
 
                                 <!-- Checkbox Column -->
                                 <ng-container matColumnDef="select">

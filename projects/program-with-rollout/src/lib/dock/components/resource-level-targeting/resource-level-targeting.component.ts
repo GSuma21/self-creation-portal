@@ -462,7 +462,7 @@ export class ResourceLevelTargetingComponent {
         disableClose: true,
         autoFocus: false,
         data: {
-          data:{...targeItem,...{readOnly:true}},
+          data:{...targeItem,...{readOnly:true,mode:this.mode}},
           targeting_criteria:      this.programWithRolloutService.programData.resources[
             resourceIndex
           ].targeting_criteria
@@ -556,6 +556,6 @@ export class ResourceLevelTargetingComponent {
   }
 
   isResourceGrayedOut(index:any){
-    return (this.mode === solutionModes.RESOURCE_EDIT || (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(this.resources[index].created_at))
+    return ((this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW ||  this.mode === solutionModes.REVIEWER_VIEW)|| (this.mode === solutionModes.REQUEST_FOR_EDIT && this.programWithRolloutService.programData.status === resourceStatus.REQUEST_FOR_CHANGES && this.programWithRolloutService.programData.published_on)) && (new Date(this.programWithRolloutService.programData.published_on) > new Date(this.resources[index].created_at))
   }
 }
