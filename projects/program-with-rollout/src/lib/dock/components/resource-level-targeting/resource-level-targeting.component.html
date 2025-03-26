@@ -25,7 +25,7 @@
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>{{"START_DATE" | translate}}</mat-label>
-                <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="Start Date"
+                <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="{{ 'START_DATE'| translate}}"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
                 <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker-toggle>
@@ -48,7 +48,7 @@
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>{{"END_DATE" | translate}}</mat-label>
-                <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="End Date"
+                <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="{{'END_DATE' | translate}}"
                   [min]="getMinDate(i)" [max]="getProgramDate('end_date')" (dateChange)="setValueToProgram($event,i,'end_date')">
                 <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker-toggle>
                 <mat-datepicker #endDate [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker>

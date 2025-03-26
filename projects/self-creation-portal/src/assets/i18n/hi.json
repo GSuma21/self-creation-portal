@@ -237,5 +237,9 @@
     "RESOURCE_END_DATE_SHOULD_BE_WITHIN_PROGRAM_DATE_RANGE": "संसाधन समाप्ति तिथि कार्यक्रम की तिथि सीमा के भीतर होनी चाहिए।",
     "TARGET_CRITERIA": "लक्षित मानदंड",
     "NO_RESOURCE_MESSAGE_FOR_RESOURCE_LEVEL_TARGETING": "कार्यक्रम में अभी कोई संसाधन नहीं जोड़ा गया है। संसाधन जोड़ें ताकि संसाधन लक्ष्य निर्धारण विवरण देख सकें।",
-    "PUBLISH":"प्रकाशित"
+    "PUBLISH":"प्रकाशित",
+    "SELECTE_FILE_TYPES": "फ़ाइल प्रकार चुनें",
+    "ADD_A_SUBTASK": "एक उपकार्य जोड़ें",
+    "SUBTASK_ERROR_FOR_MAX_LENGTH": "उपकार्य 256 वर्णों से अधिक नहीं हो सकता।",
+    "SUBTASK_ERROR_FOR_PATTERN": "उपकार्य में केवल अल्फ़ान्यूमेरिक अक्षर, रिक्त स्थान, -, _, &, <> शामिल हो सकते हैं।"
 }

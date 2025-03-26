@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { v4 as uuidv4 } from 'uuid';
 import { CommonModule } from '@angular/common';
 import { CommentsBoxComponent } from 'lib-shared-modules';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-sub-tasks-resources',
@@ -30,7 +31,8 @@ import { CommentsBoxComponent } from 'lib-shared-modules';
     TranslateModule,
     ReactiveFormsModule,
     FormsModule,
-    CommentsBoxComponent
+    CommentsBoxComponent,
+    DynamicFormModule
   ],
   templateUrl: './sub-tasks-resources.component.html',
   styleUrl: './sub-tasks-resources.component.scss'
@@ -52,6 +54,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   ProgramResourceId:string|number = ''
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
+  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
 
   constructor(private dialog : MatDialog,private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router, private utilService:UtilService, private toastService:ToastService) {
     this.subtask = this.fb.group({
@@ -191,6 +194,16 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           }
       )
     );
+    
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
+          }
+        }
+      )
+    );
   }
 
   ngAfterViewChecked() {
@@ -272,7 +285,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             disableClose: true,
             data: {
               control: this.observationFormDetails.observationFormDetails,
-              ExistingObservation:this.taskData[taskIndex].solution_details
+              ExistingObservation:this.taskData[taskIndex].solution_details,
+              language:this.language
             }
             });
             const componentInstanceObservation = dialogObservation.componentInstance;
@@ -294,7 +308,8 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
             disableClose: true,
             data: {
               control: this.learningResources,
-              ExistingResources:this.taskData[taskIndex].resources
+              ExistingResources:this.taskData[taskIndex].resources,
+              language:this.language
             }
             });
 
