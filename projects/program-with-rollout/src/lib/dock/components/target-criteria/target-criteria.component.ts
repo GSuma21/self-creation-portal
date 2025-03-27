@@ -190,14 +190,21 @@ export class TargetCriteriaComponent implements OnInit {
     if (key == 'entity_targeting') {
       if(this.dialogData.targeting_criteria && this.dialogData.targeting_criteria.length > 0) {
         let item = this.dialogData.targeting_criteria.find((element:any) => ((element.state && element.state._id) || (element.state[0] && element.state[0]._id)) === this.formData.state._id && this.formData.entity_targeting._id === element.entity_targeting._id)
+        this.selection.clear();
+        this.dataSource = new MatTableDataSource();
+        this.tableColumns = [];
         if(item) {
           // item = {'roles':item.roles,'entity_targeting':item.entity_targeting,'label':item.label,[item[item.entity_targeting.value]]:item[item.entity_targeting]}
           item.state = this.formData.state;
           this.formData = item;
+          let targetingArray =
+          this.formData[this.formData.entity_targeting.value];
+          if(targetingArray) {
+            for (let index = 0; index < 5; index++) {
+              this.selection.select(targetingArray[index]);
+            }
+          }
         }
-        this.selection.clear();
-        this.dataSource = new MatTableDataSource();
-        this.tableColumns = [];
       }
       this.targetedEntity = event.value._id;
       this.criteriaFilters = [];

@@ -40,7 +40,10 @@ export class CreateNewComponent {
         // this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)
         let userRoles:any = localStorage.getItem('user_roles')
         userRoles = JSON.parse(userRoles)
-        if(!userRoles.find((item:any)=> item.title == 'content_creator') && !userRoles.find((item:any)=> item.title == 'reviewer') && !userRoles.find((item:any)=> item.title == 'program_designer')) {
+        if (userRoles.find((item:any)=> item.title == 'org_admin')) {
+          this.router.navigate(['/home/create-new'])
+        }
+        else if(!userRoles.find((item:any)=> item.title == 'content_creator') && !userRoles.find((item:any)=> item.title == 'reviewer') && !userRoles.find((item:any)=> item.title == 'program_designer')) {
           this.router.navigate(['/home/roll-out'])
         }
         else if(userRoles.find((item:any)=> item.title == 'content_creator') || userRoles.find((item:any)=> item.title == 'program_designer')) {

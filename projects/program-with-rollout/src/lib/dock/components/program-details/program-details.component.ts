@@ -58,6 +58,9 @@ export class ProgramDetailsComponent {
     else {
       this.startAutoSaving()
     }
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+      this.getCommentConfigs()
+    }
     this.subscription.add( // Check validation before sending for review.
       this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
         (reviewValidation: boolean) => {
@@ -184,9 +187,6 @@ export class ProgramDetailsComponent {
                           })
                       );
                     }
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
-                        this.getCommentConfigs()
-                      }
                   } else {
                     if (Object.keys(this.programWithRolloutService.programData).length > 1) {
                       this.readProgramDeatilsAndMap(data.controls, this.programWithRolloutService.programData);
@@ -205,9 +205,6 @@ export class ProgramDetailsComponent {
                           })
                       );
                     }
-                      if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
-                        this.getCommentConfigs()
-                      }
                   }
                 } else {
                   this.readProgramDeatilsAndMap(data.controls,this.programWithRolloutService.programData);
@@ -270,12 +267,12 @@ export class ProgramDetailsComponent {
       }
 
   getDynamicFormData(data:any){
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     this.programWithRolloutService.setProgramData(data)
     this.programWithRolloutService.upDateProgramTitle(data.title)
     if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     if(this.programWithRolloutService.programData?.resources){
       this.programWithRolloutService.updateResourceTargetCriteria();
     }

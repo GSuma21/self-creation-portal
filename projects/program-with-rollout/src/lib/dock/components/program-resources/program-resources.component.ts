@@ -264,7 +264,7 @@ addActionButtons(){
     buttonData = [
       {
         action: 'START_REVIEW',
-        label: 'REVIEW',
+        label: 'VIEW',
         background_color: '#0a4f9d',
       }
     ];
