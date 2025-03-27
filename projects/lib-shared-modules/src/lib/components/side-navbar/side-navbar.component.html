@@ -13,7 +13,7 @@
     </mat-nav-list>
     @if(lastReviewed){
       <div class="sidebar-footer p-4 bottom-0">
-        Last reviewed: {{ lastReviewed | date: 'dd-MM-yyyy HH:mm' }}
+        {{'LAST_REVIEWED'| translate}}: {{ lastReviewed | date: 'dd-MM-yyyy HH:mm' }}
       </div>
     }
     
