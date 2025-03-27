@@ -27,6 +27,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-target-criteria',
@@ -51,6 +52,7 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
     SearchComponent,
     MatTooltip,
     MatTooltipModule,
+    DynamicFormModule
   ],
   templateUrl: './target-criteria.component.html',
   styleUrl: './target-criteria.component.scss',
@@ -74,6 +76,7 @@ export class TargetCriteriaComponent implements OnInit {
   tableData: any = []; // to show the data in HTML Loop
   searchText: boolean = false;
   pageCount: number = 5;
+  language:any
 
   constructor(
     public dialogRef: MatDialogRef<TargetCriteriaComponent>,
@@ -83,6 +86,7 @@ export class TargetCriteriaComponent implements OnInit {
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
+    this.language = this.dialogData?.language
   }
 
   ngOnInit(): void {

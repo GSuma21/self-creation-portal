@@ -250,6 +250,8 @@
     "RESOLVE":"Resolve",
     "TYPE_YOUR_COMMENT":"Type your comment",
     "LAST_REVIEWED":"Last reviewed",
-    "CERTIFICATE_PREVIEW":"Certificate preview"
+    "CERTIFICATE_PREVIEW":"Certificate preview",
+    "NO_DATA_AVAILABLE":"No data available",
+    "SUBMIT":"Submit"
 
 }

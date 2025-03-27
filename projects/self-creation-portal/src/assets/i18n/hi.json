@@ -250,6 +250,8 @@
     "RESOLVE": "समाधान करें",
     "TYPE_YOUR_COMMENT": "अपनी टिप्पणी टाइप करें",
     "LAST_REVIEWED": "अंतिम समीक्षा",
-    "CERTIFICATE_PREVIEW":"प्रमाणपत्र पूर्वावलोकन"
+    "CERTIFICATE_PREVIEW":"प्रमाणपत्र पूर्वावलोकन",
+    "NO_DATA_AVAILABLE":"कोई डेटा उपलब्ध नहीं है",
+    "SUBMIT":"जमा करें"
     
 }

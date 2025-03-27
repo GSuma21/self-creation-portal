@@ -307,7 +307,8 @@ export class ProgramDetailsComponent {
             autoFocus: false,
             data:{
               data: null,
-              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria
+              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria,
+              language:this.language
             },
           });
 
@@ -350,7 +351,8 @@ export class ProgramDetailsComponent {
             autoFocus: false,
             data:{
               data: control.item,
-              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria
+              targeting_criteria:this.programWithRolloutService.programData.targeting_criteria,
+              language: this.language
             },
           });
 
