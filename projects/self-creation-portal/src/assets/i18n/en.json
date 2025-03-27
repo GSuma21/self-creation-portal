@@ -245,6 +245,11 @@
     "SEARCH_LIBRARY":"Search library",
     "SEARCH_TARGET_ELEMENT":"Search target element",
     "INFO_MESSAGE_FOR_RESOURCE_START_DATE":"Enter the start date of the resource in DD-MM-YYYY format. The resource start date must be on or after the program start date.",
-    "INFO_MESSAGE_FOR_RESOURCE_END_DATE":"Enter the end date of the resource in DD-MM-YYYY format. The resource end date must be on or before the program end date."
+    "INFO_MESSAGE_FOR_RESOURCE_END_DATE":"Enter the end date of the resource in DD-MM-YYYY format. The resource end date must be on or before the program end date.",
+    "COMMENTS_BY":"Comments by",
+    "RESOLVE":"Resolve",
+    "TYPE_YOUR_COMMENT":"Type your comment",
+    "LAST_REVIEWED":"Last reviewed",
+    "CERTIFICATE_PREVIEW":"Certificate preview"
 
 }

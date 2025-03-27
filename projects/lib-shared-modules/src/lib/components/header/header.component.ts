@@ -100,8 +100,21 @@ export class HeaderComponent {
     }
   }
 
-  isButtonsNotDependOnModes(): boolean {
-    return ((this.router.url.includes('program-details') || this.router.url.includes('program-resources') || this.router.url.includes('resource-level-targeting')) && (!this.mode || this.mode === solutionModes.EDIT || this.mode === solutionModes.RESOURCE_EDIT) && !(this.config?.review_required || this.config?.review_required_after_publish))
+  isButtonsNotDependOnModes(): any {
+    if(!this.config){
+      return false;
+    }else{
+      return (
+        (this.router.url.includes('program-details') ||
+         this.router.url.includes('program-resources') ||
+         this.router.url.includes('resource-level-targeting')) &&
+        (
+          (!this.mode && !this.config?.review_required) ||
+          (this.mode === solutionModes.EDIT && !this.config?.review_required) ||
+          (this.mode === solutionModes.RESOURCE_EDIT && !this.config?.review_required_after_publish)
+        )
+      );
+    }
   }
 
   getButtons() {

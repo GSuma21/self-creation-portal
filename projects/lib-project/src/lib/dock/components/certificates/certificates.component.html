@@ -220,7 +220,7 @@
                         </div>
                         <mat-radio-group color="primary" aria-label="Select an option">
                             <mat-radio-button value=1 class="-mx-1 mr-6" [checked]="checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('1')">{{ 'YES' | translate }}</mat-radio-button>
-                            <mat-radio-button value=0 class="-mx-1" [checked]="!checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('0')">{{ 'No' | translate }}</mat-radio-button>
+                            <mat-radio-button value=0 class="-mx-1" [checked]="!checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('0')">{{ 'NO' | translate }}</mat-radio-button>
                         </mat-radio-group>
                         }
                         @if(item.name === "noofevidence"){
@@ -277,7 +277,7 @@
                             <div class="w-1/2 mt-2">
                                 <mat-radio-group color="primary" aria-label="Select an option" class="mr-3" #taskEvidenceCriteria>
                                     <mat-radio-button value=1 class="-mx-1 mr-6" (click)="setEvidenceCriteriaValue(taskRange.value,1,item)" [checked]="checkTaskEvidenceIsAvailable(item.id)">{{ 'YES' | translate }}</mat-radio-button>
-                                    <mat-radio-button value=0 class="-mx-1" (click)="setEvidenceCriteriaValue(taskRange.value,0,item)" [checked]="!checkTaskEvidenceIsAvailable(item.id)">{{ 'No' | translate }}</mat-radio-button>
+                                    <mat-radio-button value=0 class="-mx-1" (click)="setEvidenceCriteriaValue(taskRange.value,0,item)" [checked]="!checkTaskEvidenceIsAvailable(item.id)">{{ 'NO' | translate }}</mat-radio-button>
                                 </mat-radio-group>
                                 <!-- <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                     <mat-label> {{taskForm[1]?.label}}&nbsp;{{item?.name}}</mat-label>

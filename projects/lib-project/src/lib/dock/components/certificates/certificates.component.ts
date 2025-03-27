@@ -787,7 +787,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       height: 'auto',
       panelClass: 'custom-class',
       disableClose: true,
-      data: {...{header:"Certificate preview"},...{certificate:this.certificateContainer}},
+      data: {...{header:"CERTIFICATE_PREVIEW"},...{certificate:this.certificateContainer}},
     });
     dialogRef.afterClosed().subscribe((result) => {
 

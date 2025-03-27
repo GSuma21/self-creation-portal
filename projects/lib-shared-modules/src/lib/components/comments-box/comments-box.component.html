@@ -20,11 +20,11 @@
       <section class="flex justify-between items-center p-3 bg-white"  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView')}">
         <div>
           @if(messages?.length > 0){
-            <p>Comments by {{messages[0]?.commenter?.name}}</p>
+            <p>{{"COMMENTS_BY" | translate}} {{messages[0]?.commenter?.name}}</p>
           }
         </div>
         <!-- [0] represents the reviewer initiates the message, so the reviewer with be the commenter -->
-        <button class="btn mr-5 save-button" [ngClass]="{'button-disabled': (resolveDisable || !(messages?.length > 0))}" mat-flat-button [disabled]="resolveDisable || !(messages?.length > 0)" (click)="resolveComment()">Resolve</button>
+        <button class="btn mr-5 save-button" [ngClass]="{'button-disabled': (resolveDisable || !(messages?.length > 0))}" mat-flat-button [disabled]="resolveDisable || !(messages?.length > 0)" (click)="resolveComment()">{{ "RESOLVE" | translate}}</button>
       </section>
     }
     @if(messages?.length || (this.mode === 'creatorView' || this.mode === 'reqEdit' )){
@@ -51,11 +51,11 @@
       </section>
     }
     <section  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView'), 'expanded-editor': ((!messages || messages.length === 0) && !(mode === 'creatorView' || mode === 'reqEdit')) }">
-      <quill-editor [(ngModel)]="quillInput" placeholder="Type your comment" [modules]="quillConfig"
+      <quill-editor [(ngModel)]="quillInput" placeholder="{{'TYPE_YOUR_COMMENT' | translate}}" [modules]="quillConfig"
         (onSelectionChanged)="onSelectionChanged($event)"></quill-editor>
     </section>
     <section class="flex justify-end p-1"  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView')}">
-      <button class="btn button-enable mr-5 save-button" mat-flat-button (click)="saveComment(true)">Save</button>
+      <button class="btn button-enable mr-5 save-button" mat-flat-button (click)="saveComment(true)">{{"SAVE" | translate}}</button>
     </section>
   </div>
 </body>
