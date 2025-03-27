@@ -4,7 +4,7 @@
   <div>
     <lib-filter [filterData]="filters.filterData" [language]=[language]  (filteredData)="onFilterChange($event)"
       (sortOptionsChanged)="onSortOptionsChanged($event)" [changeReqCount]="filters.changeReqCount"
-      [inprogressCount]="filters.inprogressCount" (filterButtonActionEvent)="filterButtonClickEvent($event)"
+      [inprogressCount]="filters.inprogressCount"
       [activeFilterButton]="filters.activeFilterButton"> </lib-filter>
   </div>
 </div>
@@ -27,14 +27,14 @@
       </mat-list-item>
       }
       @else{
-        <mat-list-item 
-        color="primary" 
+        <mat-list-item
+        color="primary"
         class="flex flex-row items-center p-2 hover:bg-gray-200 cursor-pointer"
-        (click)="onSelectionChangeForPrograms(item)" 
+        (click)="onSelectionChangeForPrograms(item)"
         [ngClass]="{'active': selectedValuesForPrograms.includes(item.id)}">
         <div class="flex flex-row ">
-          <mat-checkbox 
-          color="primary" 
+          <mat-checkbox
+          color="primary"
           class="mr-2"
           [checked]="selectedValuesForPrograms.includes(item.id)">
         </mat-checkbox>
@@ -43,10 +43,10 @@
             <p class="overflow-ellipsis">{{ "BY" | translate }} {{ item?.creator }}</p>
           </div>
         </div>
-       
-      
+
+
       </mat-list-item>
-      
+
 
       }
 
@@ -94,6 +94,6 @@
       </button>
     </div>
   }
- 
+
 </div>
 }
