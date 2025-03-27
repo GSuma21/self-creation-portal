@@ -243,6 +243,7 @@ export class LayoutComponent {
                 .readProgram(res.result.id)
                 .subscribe((res: any) => {
                   this.programWithRolloutService.setProgramData(res.result);
+                  location.reload();
                 })
             );
           })
