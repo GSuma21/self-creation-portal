@@ -31,6 +31,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
 import { HttpClient } from '@angular/common/http';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-certificates',
@@ -49,7 +50,8 @@ import { HttpClient } from '@angular/common/http';
     CommentsBoxComponent,
     MatTooltip,
     MatTooltipModule,
-    MatSliderModule
+    MatSliderModule,
+    DynamicFormModule
   ],
   templateUrl: './certificates.component.html',
   styleUrl: './certificates.component.scss',
@@ -124,6 +126,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   isTabNotValid:boolean = false;
   maximunNumberOfEvedence=15
   @ViewChild('certificateContainer', { static: false }) certificateContainer: ElementRef | any;
+  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
 
   private subscription: Subscription = new Subscription();
 
@@ -390,6 +393,16 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             })
             }
           }
+      )
+    );
+
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
+          }
+        }
       )
     );
   }
