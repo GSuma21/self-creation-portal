@@ -32,7 +32,7 @@
                 <mat-datepicker #startDate [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
-                [matTooltip]="'Enter the start date of the resource in DD-MM-YYYY format. The resource start date must be on or after the program start date.'" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
+                [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_START_DATE' | translate" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
                 (mouseleave)="hideTooltip(tooltip2)">
                 info
               </mat-icon>
@@ -54,7 +54,7 @@
                 <mat-datepicker #endDate [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
-                [matTooltip]="'Enter the end date of the resource in DD-MM-YYYY format. The resource end date must be on or before the program end date.'" [matTooltipDisabled]="true" #tooltip3="matTooltip" (click)="showTooltip(tooltip3)"
+                [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_END_DATE' | translate" [matTooltipDisabled]="true" #tooltip3="matTooltip" (click)="showTooltip(tooltip3)"
                 (mouseleave)="hideTooltip(tooltip3)">
                 info
               </mat-icon>

@@ -49,23 +49,38 @@ export class ChooseResourceComponent {
     "changeReqCount":1,
     "inprogressCount":1,
     "filterData": [{
-      "label": "SORT_BY",
+      "label": {
+          "en": "Sort by",
+          "hi": "क्रमबद्ध करें"
+      },
       "value": "sort_by",
       "option": [
           {
-              "label": "A_TO_Z",
+              "label": {
+                  "en": "A to Z",
+                  "hi": "ए से जेड तक"
+              },
               "value": "A_TO_Z"
           },
           {
-              "label": "Z_TO_A",
+              "label": {
+                  "en": "Z to A",
+                  "hi": "जेड से ए तक"
+              },
               "value": "Z_TO_A"
           },
           {
-              "label": "LATEST_FIRST",
+              "label": {
+                  "en": "Latest first",
+                  "hi": "नवीनतम पहले"
+              },
               "value": "LATEST_FIRST"
           },
           {
-              "label": "OLDEST_FIRST",
+              "label": {
+                  "en": "Oldest first",
+                  "hi": "सबसे पुराना पहले"
+              },
               "value": "OLDEST_FIRST"
           }
       ],
@@ -82,6 +97,7 @@ export class ChooseResourceComponent {
   sortBy:any = ''
   sortOrder:any = ''
   type:any=this.route.snapshot.queryParamMap.get('type')
+  language:any = localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
   ngOnInit(){
@@ -108,6 +124,16 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       }
      })
    )
+
+   this.subscription.add(  // set a language
+    this.utilService.isLanguageChanges.subscribe(
+      (language: boolean) => {
+        if (language) {
+          this.language = language
+        }
+      }
+    )
+  );
   }
 
 

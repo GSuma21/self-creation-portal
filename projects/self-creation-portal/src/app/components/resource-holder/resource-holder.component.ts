@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { RESOURCE_URLS, ROLL_OUT_URLS } from '../../services/configs/url.config.json';
 import { CommonModule } from '@angular/common';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { ProgramWithRolloutService } from 'program-with-rollout';
 
 
@@ -68,6 +68,8 @@ export class ResourceHolderComponent implements OnInit{
   activeRole:any;
   areQueryParamsEmpty:boolean = false;
   showDates:boolean = false;
+  language:any
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -86,6 +88,16 @@ export class ResourceHolderComponent implements OnInit{
   ngOnInit() {
     this.loadSidenavData();
     this.getsolutionList()
+
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
+          }
+        }
+      )
+    );
   }
 
   /**
@@ -742,6 +754,10 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       })
       
     );
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

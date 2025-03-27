@@ -16,7 +16,7 @@
 <div class="px-10 w-[100%] flex flex-col gap-2 z-50 bg-white sticky top-32">
   @if(pageStatus === 'roll-out'){<h1 class="text-lg">{{"HISTORY" | translate}}</h1>}
   <lib-search (searchEvent)="receiveSearchResults($event)" [maxLength]="150"></lib-search>
-  <lib-filter [filterData]="filters.filterData" (filteredData)="onFilterChange($event)" (sortOptionsChanged)="onSortOptionsChanged($event)"
+  <lib-filter [filterData]="filters.filterData" [language]=[language] (filteredData)="onFilterChange($event)" (sortOptionsChanged)="onSortOptionsChanged($event)"
     [changeReqCount]="filters.changeReqCount" [inprogressCount]="filters.inprogressCount" (filterButtonActionEvent)="filterButtonClickEvent($event)"
     [activeFilterButton]="filters.activeFilterButton"> </lib-filter>
 

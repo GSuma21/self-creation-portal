@@ -2,7 +2,7 @@
     <div class="flex text-center flex-grow">
         <mat-icon class="search-icon my-1 ml-2 cursor-pointer" matPrefix (click)="onSearch(searchInput.value)">search</mat-icon>
     </div>
-    <input type="text" matInput #searchInput [formControl]="searchControl" [attr.maxlength]="maxLength"  (keyup.enter)="onSearch(searchInput.value)" [placeholder]="placeHolder" class="w-full pl-1 pr-8 py-1" >
+    <input type="text" matInput #searchInput [formControl]="searchControl" [attr.maxlength]="maxLength"  (keyup.enter)="onSearch(searchInput.value)" [placeholder]="placeHolder | translate" class="w-full pl-1 pr-8 py-1" >
     @if(searchControl.value) {
         <div class="flex text-center flex-grow">
             <mat-icon class="search-icon my-1 mr-2 cursor-pointer" matSuffix (click)="searchControl.setValue('')">close</mat-icon>
