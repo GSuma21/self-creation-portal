@@ -7,16 +7,16 @@
     'bg-white text-primary': activeFilterButton !== filter.label
     }">
     @if(filter.option){
-      <mat-select [placeholder]="filter.label | translate" [multiple]="filter.isMultiple"  (selectionChange)="OnClickfilter($event, filter)">
+      <mat-select [placeholder]="filter.label | languageTranslate: language" [multiple]="filter.isMultiple"  (selectionChange)="OnClickfilter($event, filter)">
         @for(option of filter.option;track option){
-      <mat-option [value]="option.value">{{option.label | translate}}</mat-option>
+      <mat-option [value]="option.value">{{option.label | languageTranslate: language}}</mat-option>
         }
     </mat-select>
     }
     @else {
         <div class="flex items-center justify-center">
           <button class="inline-flex items-center text-center px-2" (click)="filterButtonAction(filter)">
-          {{ filter.label | translate }}
+          {{ filter.label | languageTranslate: language }}
           @if((changeReqCount > 0) || (inprogressCount > 0)) {
             <span class="ml-2 flex items-center justify-center w-5 h-5 rounded-full bg-numberCircle text-white text-sm">
               {{ changeReqCount || inprogressCount}}</span>

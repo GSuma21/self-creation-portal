@@ -57,7 +57,7 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 })
 export class TargetCriteriaComponent implements OnInit {
   criteria: any;
-  placeHolder: string = 'Search target element';
+  placeHolder: string = 'SEARCH_TARGET_ELEMENT';
   criteriaFilters: any = [];
   formData: any = {};
   filterSelectedValue: string = '';
