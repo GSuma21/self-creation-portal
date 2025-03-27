@@ -1170,10 +1170,7 @@
                 "isMultiple": false
               },
               {
-                "label": {
-                  "en": "Changes required",
-                  "hi": "परिवर्तन आवश्यक"
-                },
+                "label": "REQUESTED_FOR_CHANGES",
                 "value": "REQUESTED_FOR_CHANGES"
               }
             ],
@@ -1761,10 +1758,7 @@
                 "isMultiple": false
               },
               {
-                "label": {
-                  "en": "In progress",
-                  "hi": "कार्यान्वयन में"
-                },
+                "label": "INPROGRESS",
                 "value": "INPROGRESS"
               }
             ],
