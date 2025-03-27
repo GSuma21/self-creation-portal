@@ -16,7 +16,7 @@
     @else {
         <div class="flex items-center justify-center">
           <button class="inline-flex items-center text-center px-2" (click)="filterButtonAction(filter)">
-          {{ filter.label | languageTranslate: language }}
+          {{ filter.label | translate }}
           @if((changeReqCount > 0) || (inprogressCount > 0)) {
             <span class="ml-2 flex items-center justify-center w-5 h-5 rounded-full bg-numberCircle text-white text-sm">
               {{ changeReqCount || inprogressCount}}</span>
