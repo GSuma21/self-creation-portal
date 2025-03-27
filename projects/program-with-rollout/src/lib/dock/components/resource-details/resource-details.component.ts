@@ -366,7 +366,8 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           autoFocus: false,
           data:{
             data: null,
-            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria
+            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria,
+            language:this.language
           },
         });
 
@@ -406,7 +407,8 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           autoFocus: false,
           data:{
             data: control.item,
-            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria
+            targeting_criteria:this.programWithRolloutService.rollOutDetails.targeting_criteria,
+            language:this.language
           },
         });
 

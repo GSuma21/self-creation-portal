@@ -74,6 +74,7 @@ export class ResourceLevelTargetingComponent {
   commentPayload: any;
   commentsList: any = [];
   ResourceInReview: boolean = false;
+  language:any =  localStorage.getItem('language') ? localStorage.getItem('language'):'en';
 
   constructor(
     private formService: FormService,
@@ -244,6 +245,16 @@ export class ResourceLevelTargetingComponent {
             this.resourceForm.markAllAsTouched()
             this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =  this.resourceForm.valid ? 'VALID' : 'INVALID'
             this.programWithRolloutService.triggerPublishProgram();
+          }
+        }
+      )
+    );
+
+    this.subscription.add(  // set a language
+      this.utilService.isLanguageChanges.subscribe(
+        (language: boolean) => {
+          if (language) {
+            this.language = language
           }
         }
       )
@@ -465,7 +476,8 @@ export class ResourceLevelTargetingComponent {
           data:{...targeItem,...{readOnly:true,mode:this.mode}},
           targeting_criteria:      this.programWithRolloutService.programData.resources[
             resourceIndex
-          ].targeting_criteria
+          ].targeting_criteria,
+          language:this.language
         },
       });
 
