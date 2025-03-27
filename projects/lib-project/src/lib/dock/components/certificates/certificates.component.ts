@@ -30,6 +30,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'lib-certificates',
@@ -113,7 +114,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
             },
           },
           C3: {
-            validationText: 'Add 1 evidence for the task',
+            validationText: '',
             expression: '',
             conditions: {},
           },
@@ -135,7 +136,8 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     private router: Router,
     private utilService: UtilService,
     private renderer: Renderer2,
-    private toastService:ToastService
+    private toastService:ToastService,
+    private http:HttpClient
   ) {}
 
   ngOnInit() {
@@ -409,7 +411,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   setTaskEvidenceMetaData() {
     if(this.libProjectService.projectData.certificate && !this.libProjectService.projectData.certificate.criteria.conditions.C3) {
       this.libProjectService.projectData.certificate.criteria.conditions.C3 = {
-        validationText: 'Evidence task level validation',
+        validationText: '',
         expression: '',
         conditions: {},
       }
@@ -419,12 +421,28 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
   checkValidations() {
     if(this.libProjectService.projectData.certificate) {
-      if(this.libProjectService.projectData?.certificate?.logos && !Object.values(this.libProjectService.projectData?.certificate?.logos).some(value => value === '') && this.libProjectService.projectData?.certificate?.signature && !Object.values(this.libProjectService.projectData?.certificate?.signature).some(value => value === '') && this.certificateForm.status == "VALID") {
-        this.libProjectService.formMeta.formValidation.certificates = "VALID";
-      }
-      else {
-        this.libProjectService.formMeta.formValidation.certificates = "INVALID";
-        this.isTabNotValid = this.libProjectService.tabValidation.certificates == "INVALID" ? true: false;
+      if (
+        this.libProjectService.projectData?.certificate?.logos &&
+        !Object.values(
+          this.libProjectService.projectData?.certificate?.logos
+        ).some((value) => value === '') &&
+        Object.keys(this.libProjectService.projectData?.certificate?.logos)
+          .length > this.libProjectService.projectData?.certificate?.logos?.no_of_logos &&
+        this.libProjectService.projectData?.certificate?.signature &&
+        !Object.values(
+          this.libProjectService.projectData?.certificate?.signature
+        ).some((value) => value === '') && Object.keys(
+          this.libProjectService.projectData?.certificate?.signature
+        .length > this.libProjectService.projectData?.certificate?.signature?.no_of_signature) &&
+        this.certificateForm.status == 'VALID'
+      ) {
+        this.libProjectService.formMeta.formValidation.certificates = 'VALID';
+      } else {
+        this.libProjectService.formMeta.formValidation.certificates = 'INVALID';
+        this.isTabNotValid =
+          this.libProjectService.tabValidation.certificates == 'INVALID'
+            ? true
+            : false;
       }
     }
     else {
@@ -633,6 +651,20 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
     }
   }
 
+  setQRForPreview() {
+    this.subscription.add(
+      this.http.get('assets/images/qr-scan.png', { responseType: 'blob' }).subscribe((blob:any) => {
+        console.log(blob)
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          let value = reader.result as string;
+          this.updateCertificatePreview("QrCode",value,'image')
+        };
+      })
+    )
+  }
+
   attachSignature(signatureType:number) {
     if(this.libProjectService.projectData.certificate.base_template_id == '') {
       return
@@ -744,6 +776,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.setLogoPreview();
         this.initiateCertificatePreview();
         this.updateCertificatePreview('stateTitle',this.libProjectService.projectData.certificate?.issuer,'text')
+        this.setQRForPreview()
       }
     });
   }

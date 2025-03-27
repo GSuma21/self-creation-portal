@@ -267,12 +267,12 @@ export class ProgramDetailsComponent {
       }
 
   getDynamicFormData(data:any){
+    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     this.programWithRolloutService.setProgramData(data)
     this.programWithRolloutService.upDateProgramTitle(data.title)
     if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
       this.programWithRolloutService.programData.viewers = data?.viewers.map((item:any) => item.id? item.id : item.value);
     }
-    this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     if(this.programWithRolloutService.programData?.resources){
       this.programWithRolloutService.updateResourceTargetCriteria();
     }

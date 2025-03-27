@@ -123,10 +123,15 @@ export class LibProjectService {
         this.projectData.certificate.criteria.expression = this.projectData.certificate.criteria.expression.includes("&&C3") ? this.projectData.certificate.criteria.expression.replace("&&C3", "") : this.projectData.certificate.criteria.expression;
       }
       if(this.projectData.certificate && this.projectData.certificate.criteria.conditions.C2) {
-        this.projectData.certificate.criteria.conditions.C2.validationText = "Add" + this.projectData.certificate.criteria.conditions.C2.conditions.C1.value + this.projectData.certificate.criteria.conditions.C2.validationText
+        this.projectData.certificate.criteria.conditions.C2.validationText = '';
+        this.projectData.certificate.criteria.conditions.C2.validationText = "Add " + this.projectData.certificate.criteria.conditions.C2.conditions.C1.value + " evidence at the project level"
       }
       if(this.projectData.certificate && this.projectData.certificate.criteria.conditions.C3) {
-        this.projectData.certificate.criteria.conditions.C3.validationText = "Add" + this.projectData.certificate.criteria.conditions.C2.value + this.projectData.certificate.criteria.conditions.C2.validationText
+        this.projectData.certificate.criteria.conditions.C3.validationText = ''; // to remove validation texts if old task were added.
+        let array = Object.keys(this.projectData.certificate.criteria.conditions.C3.conditions)
+        array.forEach((element:any) => {
+          this.projectData.certificate.criteria.conditions.C3.validationText = this.projectData.certificate.criteria.conditions.C3.validationText + " Add "+this.projectData.certificate.criteria.conditions.C3.conditions[element].value + " evidence for the task " + this.projectData.tasks.find((task:any)=> task.id == element).name+'. '
+        })
       }
       if (
         this.projectConfig?.show_reviewer_list &&
@@ -222,7 +227,7 @@ export class LibProjectService {
   setTaskEvidenceMetaData() {
     if(this.projectData.certificate && !this.projectData.certificate.criteria.conditions.C3) {
       this.projectData.certificate.criteria.conditions.C3 = {
-        validationText: 'Evidence task level validation',
+        validationText: '',
         expression: '',
         conditions: {},
       }
