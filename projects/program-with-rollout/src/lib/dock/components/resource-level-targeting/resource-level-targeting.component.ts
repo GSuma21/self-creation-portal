@@ -508,8 +508,6 @@ export class ResourceLevelTargetingComponent {
     );
   }
 
-  statusButtonClick(event: { label: string; item: any }) {}
-
   infoIconClickEvent(data: any) {}
 
   saveComment(quillInput:any){ //  This method is checking validation when a comment is updated or deleted.

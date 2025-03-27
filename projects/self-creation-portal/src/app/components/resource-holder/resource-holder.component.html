@@ -25,7 +25,7 @@
         <div class="flex justify-center items-center text-lg">
           {{"SHOWING" | translate}} <span class="px-1">{{filters.filteredLists.length}}</span> {{"RESULTS" | translate}}
           @if(filters.search) {
-            <span class="px-1">{{"for" | translate}} <span class="px-2">"{{filters.search}}"</span></span>
+            <span class="px-1 result-inner">{{"for" | translate}} <span class="px-2">"{{filters.search}}"</span></span>
           }
          </div>
         <lib-pagination [totalCount]="pagination.totalCount" [pageSize]="pagination.pageSize" [pageSizeOptions]="pagination.pageSizeOptions"

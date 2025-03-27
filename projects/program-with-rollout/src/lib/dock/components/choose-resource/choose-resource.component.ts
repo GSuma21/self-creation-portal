@@ -180,7 +180,7 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
       }
     }, 200);  // Adds a debounce delay of 200 milliseconds to limit frequent API calls.
   }
-  
+
   loadMoreData(): void {
     this.page++; // Increment page number
     this.subscription.add(
@@ -245,8 +245,6 @@ constructor(private httpService: HttpProviderService, private Configuration: Con
   isLastItem(item: any): boolean {
     return this.contentList.length > 0 && this.contentList[this.contentList.length - 1].id === item.id;
   }
-
-  filterButtonClickEvent(event:any){}
 
   onSelectionChangeForPrograms(item: any) {
     this.onSelectionChange(item)

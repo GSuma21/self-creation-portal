@@ -12,6 +12,12 @@ mat-toolbar{
     font-size: 18px;
     margin-left: 4rem;
 }
+.result-inner {
+    max-width: 25rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 .main{
     display: flex;
 }

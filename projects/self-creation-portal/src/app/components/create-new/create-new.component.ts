@@ -35,6 +35,7 @@ export class CreateNewComponent {
   getsolutionList() {
     this.formService.getPermissions().subscribe((res:any) => {
       this.permissions = res.result;
+      localStorage.setItem("permission",JSON.stringify(this.permissions));
       this.formService.getForm(SOLUTION_LIST).subscribe((form) =>{
         this.resourceList = form?.result?.data?.fields?.controls
         // this.resourceList = this.formService.checkPermissions(this.resourceList,res.result)

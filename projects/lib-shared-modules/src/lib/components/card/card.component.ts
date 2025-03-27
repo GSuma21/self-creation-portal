@@ -20,7 +20,7 @@ export class CardComponent {
   @Input() commentVisible:boolean = true;
   @Input() activeRole:any;
   @Input() showDates:any = false;
-  @Output() buttonClickEvent = new EventEmitter<{ label: string, item: any }>();
+  @Output() buttonClickEvent = new EventEmitter<{ button: any, item: any }>();
   @Output() infoClickEvent = new EventEmitter<{item: any}>
   @Input() showInfoIcon: boolean = false;
 
@@ -30,8 +30,8 @@ export class CardComponent {
   constructor() {
   }
 
-  onButtonClick(label: string, item: any) {
-    this.buttonClickEvent.emit({ label, item });
+  onButtonClick(button: any, item: any) {
+    this.buttonClickEvent.emit({ button, item });
   }
 
   onInfoClick(item: any) {

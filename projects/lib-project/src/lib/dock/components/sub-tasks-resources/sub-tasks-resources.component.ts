@@ -145,7 +145,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           );
           // this.libProjectService.formMeta.formValidation.subTasks =  this.subtasks?.status? this.subtasks?.status: "INVALID"
           }
-          if (params.mode === solutionModes.VIEWONLY || params.mode === solutionModes.REVIEW || params.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || params.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
+          if (params.mode === solutionModes.VIEWONLY || params.mode === solutionModes.REVIEW || params.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || params.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT || this.mode === solutionModes.META_REVIEW) {
             this.viewOnly = true;
           }
         }else{
@@ -194,7 +194,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
           }
       )
     );
-    
+
     this.subscription.add(  // set a language
       this.utilService.isLanguageChanges.subscribe(
         (language: boolean) => {
