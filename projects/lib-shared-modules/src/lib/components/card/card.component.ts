@@ -39,9 +39,7 @@ export class CardComponent {
   }
 
   formatLabel(type: string): string {
-    return type
-      .replace(/_/g, ' ')         // Replace all underscores with spaces
-      .replace(/^./, (str: string) => str.toUpperCase()); // Capitalize the first letter
+    return type.toUpperCase();  //convert to uppercase
   }
 
 }

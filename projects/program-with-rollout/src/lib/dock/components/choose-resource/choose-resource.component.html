@@ -2,7 +2,7 @@
 <div class="mt-32 mx-4 pt-4 flex flex-col gap-2 sticky top-32 z-50 bg-white">
   <lib-search (searchEvent)="receiveSearchResults($event)" [maxLength]="150"></lib-search>
   <div>
-    <lib-filter [filterData]="filters.filterData" (filteredData)="onFilterChange($event)"
+    <lib-filter [filterData]="filters.filterData" [language]=[language]  (filteredData)="onFilterChange($event)"
       (sortOptionsChanged)="onSortOptionsChanged($event)" [changeReqCount]="filters.changeReqCount"
       [inprogressCount]="filters.inprogressCount" (filterButtonActionEvent)="filterButtonClickEvent($event)"
       [activeFilterButton]="filters.activeFilterButton"> </lib-filter>
