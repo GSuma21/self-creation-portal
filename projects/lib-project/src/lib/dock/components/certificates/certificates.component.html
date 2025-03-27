@@ -42,7 +42,7 @@
                                                 @if(ele?.infoMessage){
                                                 <mat-icon
                                                 class="absolute pl-1 bottom-[2.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events"
-                                                [matTooltip]="ele?.infoMessage"
+                                                [matTooltip]="ele?.infoMessage | languageTranslate: language"
                                                 matTooltipClass="info-tooltip"
                                                 matTooltipPosition="above"
                                                 [matTooltipDisabled]="true"
@@ -56,7 +56,7 @@
                                                     <div class="error-message">
                                                         <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
                                                         @if(certificateForm.get(ele.formControlName)?.hasError('required')) {
-                                                            <span>{{ ele.errorMessage?.required }}</span>
+                                                            <span>{{ ele.errorMessage?.required | languageTranslate: language}}</span>
                                                           }
                                                     </div>
                                                 </mat-error>
@@ -77,7 +77,7 @@
                                             </mat-form-field>
                                             @if(ele?.infoMessage){
                                             <mat-icon
-                                            class="absolute pl-1 bottom-[2.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events" [matTooltip]="ele?.infoMessage" matTooltipClass="info-tooltip"
+                                            class="absolute pl-1 bottom-[2.3rem] cursor-pointer text-xl text-iconGray enable-with-pointer-events" [matTooltip]="ele?.infoMessage | languageTranslate: language" matTooltipClass="info-tooltip"
                                             matTooltipPosition="above" [matTooltipDisabled]="true"
                                             #tooltip="matTooltip"
                                             (click)="showTooltip(tooltip)"
@@ -89,12 +89,12 @@
                                                 @if(certificateForm.get(ele.formControlName)?.touched && certificateForm.get(ele.formControlName)?.invalid ){
                                                 <div class="error-message">
                                                   <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
-                                                  @if(certificateForm.get(ele.formControlName)?.errors?.['required']){<span>{{ ele.errorMessage?.required}}</span> }
+                                                  @if(certificateForm.get(ele.formControlName)?.errors?.['required']){<span>{{ ele.errorMessage?.required | languageTranslate: language}}</span> }
                                                   @if(certificateForm.get(ele.formControlName)?.errors?.['maxlength']){
-                                                    <span>{{ ele.errorMessage?.maxLength }}</span>
+                                                    <span>{{ ele.errorMessage?.maxLength | languageTranslate: language }}</span>
                                                   }
                                                   @if(certificateForm.get(ele.formControlName)?.errors?.['pattern']){
-                                                    <span>{{ ele.errorMessage?.pattern }}</span>
+                                                    <span>{{ ele.errorMessage?.pattern | languageTranslate: language }}</span>
                                                   }
                                                 </div>
                                                 }
@@ -210,7 +210,7 @@
                             <p>{{ item.label | translate}}</p>
                             @if(item?.infoMessage){
                             <mat-icon class="cursor-pointer pl-1  text-iconGray text-xl enable-with-pointer-events"
-                            [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                            [matTooltip]="item?.infoMessage | languageTranslate: language" matTooltipClass="info-tooltip" matTooltipPosition="above"
                             [matTooltipDisabled]="true"
                             #tooltip="matTooltip"
                             (click)="showTooltip(tooltip)"
@@ -220,7 +220,7 @@
                         </div>
                         <mat-radio-group color="primary" aria-label="Select an option">
                             <mat-radio-button value=1 class="-mx-1 mr-6" [checked]="checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('1')">{{ 'YES' | translate }}</mat-radio-button>
-                            <mat-radio-button value=0 class="-mx-1" [checked]="!checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('0')">{{ 'No' | translate }}</mat-radio-button>
+                            <mat-radio-button value=0 class="-mx-1" [checked]="!checkProjectEvidenceIsAvailable()" (click)="setProjectEvidenceCriteriaSelection('0')">{{ 'NO' | translate }}</mat-radio-button>
                         </mat-radio-group>
                         }
                         @if(item.name === "noofevidence"){
@@ -245,7 +245,7 @@
                                </div>
                                 @if(item?.infoMessage){
                                 <mat-icon class="cursor-pointer pl-1 text-xl text-iconGray enable-with-pointer-events"
-                                [matTooltip]="item?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                                [matTooltip]="item?.infoMessage | languageTranslate: language" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                 [matTooltipDisabled]="true"
                                 #tooltip="matTooltip"
                                 (click)="showTooltip(tooltip)"
@@ -266,7 +266,7 @@
                                 <p class="mt-2 label-wrap task-label"> {{taskForm[0]?.label | translate}}&nbsp;{{item.slicedName ? item.slicedName :item?.name}}&nbsp;<span class="text-emerald-600 cursor-pointer" (click)="onShowMore(item.id)" *ngIf="item?.slicedName && item.name.length > 150">show more</span></p>
                             @if(taskForm[0]?.infoMessage){
                             <mat-icon class="cursor-pointer mt-[0.40rem] pl-1 text-iconGray text-xl enable-with-pointer-events"
-                                [matTooltip]="taskForm[0]?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                                [matTooltip]="taskForm[0]?.infoMessage | languageTranslate: language" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                 [matTooltipDisabled]="true"
                                 #tooltip="matTooltip"
                                 (click)="showTooltip(tooltip)"
@@ -277,7 +277,7 @@
                             <div class="w-1/2 mt-2">
                                 <mat-radio-group color="primary" aria-label="Select an option" class="mr-3" #taskEvidenceCriteria>
                                     <mat-radio-button value=1 class="-mx-1 mr-6" (click)="setEvidenceCriteriaValue(taskRange.value,1,item)" [checked]="checkTaskEvidenceIsAvailable(item.id)">{{ 'YES' | translate }}</mat-radio-button>
-                                    <mat-radio-button value=0 class="-mx-1" (click)="setEvidenceCriteriaValue(taskRange.value,0,item)" [checked]="!checkTaskEvidenceIsAvailable(item.id)">{{ 'No' | translate }}</mat-radio-button>
+                                    <mat-radio-button value=0 class="-mx-1" (click)="setEvidenceCriteriaValue(taskRange.value,0,item)" [checked]="!checkTaskEvidenceIsAvailable(item.id)">{{ 'NO' | translate }}</mat-radio-button>
                                 </mat-radio-group>
                                 <!-- <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                     <mat-label> {{taskForm[1]?.label}}&nbsp;{{item?.name}}</mat-label>
@@ -292,7 +292,7 @@
                                     @if(taskForm[1]?.infoMessage){
                                     <mat-icon
                                     class="cursor-pointer pl-1 text-xl  text-iconGray mr-12 enable-with-pointer-events"
-                                    [matTooltip]="taskForm[1]?.infoMessage" matTooltipClass="info-tooltip" matTooltipPosition="above"
+                                    [matTooltip]="taskForm[1]?.infoMessage | languageTranslate: language" matTooltipClass="info-tooltip" matTooltipPosition="above"
                                     [matTooltipDisabled]="true"
                                     #tooltip1="matTooltip"
                                     (click)="showTooltip(tooltip1)"

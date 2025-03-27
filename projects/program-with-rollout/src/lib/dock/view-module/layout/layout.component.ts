@@ -67,6 +67,7 @@ export class LayoutComponent {
   setConfig(){
     this.subscription.add(
     this.programWithRolloutService.setConfig().subscribe((res:any) => {
+      this.config = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
       this.programWithRolloutService.instanceConfig = res?.result.instance;
       this.programWithRolloutService.programConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
     })

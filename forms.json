@@ -9,17 +9,32 @@
         "controls": [
           {
             "name": "title",
-            "label": "Project title",
+            "label": {
+              "en": "Project title",
+              "hi": "परियोजना का शीर्षक"
+            },
             "value": "",
             "class": "",
             "type": "text",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Enter project title",
+            "placeHolder": {
+              "en": "Enter project title",
+              "hi": "प्रोजेक्ट शीर्षक दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Name your project as it should appear to the user on the consumption app.",
+            "infoMessage": {
+              "en": "Name your project as it should appear to the user on the consumption app.",
+              "hi": "अपने प्रोजेक्ट का नाम उसी प्रकार रखें जैसा कि उपयोगकर्ता को उपभोग ऐप में दिखाई देगा।"
+            },
             "errorMessage": {
-              "required": "Enter valid project title",
-              "maxlength": "Project title must not exceed 256 characters"
+              "required": {
+                "en": "Enter valid project title",
+                "hi": "मान्य प्रोजेक्ट शीर्षक दर्ज करें"
+              },
+              "maxlength": {
+                "en": "Project title must not exceed 256 characters",
+                "hi": "प्रोजेक्ट का शीर्षक 256 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -28,17 +43,29 @@
           },
           {
             "name": "categories",
-            "label": "Category",
+            "label": {
+              "en": "Category",
+              "hi": "श्रेणी"
+            },
             "value": "",
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "true",
-            "placeHolder": "Add project category",
+            "placeHolder": {
+              "en": "Add project category",
+              "hi": "प्रोजेक्ट श्रेणी जोड़ें"
+            },
             "position": "floating",
-            "infoMessage": "A project can have multiple categories.",
+            "infoMessage": {
+              "en": "A project can have multiple categories.",
+              "hi": "एक प्रोजेक्ट में कई श्रेणियाँ हो सकती हैं।"
+            },
             "errorMessage": {
-              "required": "Add project category"
+              "required": {
+                "en": "Add project category",
+                "hi": "प्रोजेक्ट श्रेणी जोड़ें"
+              }
             },
             "validators": {
               "required": true
@@ -50,17 +77,32 @@
           },
           {
             "name": "objective",
-            "label": "Objective",
+            "label": {
+              "en": "Objective",
+              "hi": "उद्देश्य"
+            },
             "value": "",
             "class": "",
             "type": "textarea",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Summarize the goal of the project",
+            "placeHolder": {
+              "en": "Summarize the goal of the project",
+              "hi": "परियोजना का लक्ष्य संक्षेप में लिखें"
+            },
             "position": "floating",
-            "infoMessage": "Describe the projects main goal in one or two lines.",
+            "infoMessage": {
+              "en": "Describe the project's main goal in one or two lines.",
+              "hi": "परियोजना के मुख्य लक्ष्य को एक या दो पंक्तियों में वर्णित करें।"
+            },
             "errorMessage": {
-              "required": "Summarize the goal of the project",
-              "maxlength": "Objective must not exceed 2000 characters"
+              "required": {
+                "en": "Summarize the goal of the project",
+                "hi": "परियोजना का लक्ष्य संक्षेप में लिखें"
+              },
+              "maxlength": {
+                "en": "Objective must not exceed 2000 characters",
+                "hi": "उद्देश्य 2000 वर्णों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -69,7 +111,7 @@
           },
           {
             "name": "recommended_duration",
-            "label": "Recommended duration",
+            "label": "",
             "value": "",
             "class": "",
             "type": "subFields",
@@ -78,17 +120,32 @@
             "subfields": [
               {
                 "name": "number",
-                "label": "Recommended duration",
+                "label": {
+                  "en": "Recommended Duration",
+                  "hi": "अनुशंसित अवधि"
+                },
                 "value": "",
                 "class": "",
                 "type": "number",
                 "cssStyle": "relative w-[100%]",
-                "placeHolder": "Number",
+                "placeHolder": {
+                  "en": "Number",
+                  "hi": "संख्या"
+                },
                 "position": "floating",
                 "errorMessage": {
-                  "required": "Enter duration in numbers",
-                  "min": "Duration must be at least 1",
-                  "max": "Duration must not exceed 100,000"
+                  "required": {
+                    "en": "Enter duration in numbers",
+                    "hi": "संख्या में अवधि दर्ज करें"
+                  },
+                  "min": {
+                    "en": "Duration must be at least 1",
+                    "hi": "अवधि कम से कम 1 होनी चाहिए"
+                  },
+                  "max": {
+                    "en": "Duration must not exceed 100,000",
+                    "hi": "अवधि 100,000 से अधिक नहीं होनी चाहिए"
+                  }
                 },
                 "validators": {
                   "required": true,
@@ -104,10 +161,16 @@
                 "type": "select",
                 "cssStyle": "relative w-[100%]",
                 "isMultiSelect": "false",
-                "placeHolder": "Add a duration",
+                "placeHolder": {
+                  "en": "Add a duration",
+                  "hi": "एक अवधि जोड़ें"
+                },
                 "position": "floating",
                 "errorMessage": {
-                  "required": "Enter duration"
+                  "required": {
+                    "en": "Enter duration",
+                    "hi": "अवधि दर्ज करें"
+                  }
                 },
                 "validators": {
                   "required": true
@@ -119,24 +182,42 @@
               }
             ],
             "position": "floating",
-            "infoMessage": "Specify the time user will take to complete the Improvement Project.",
+            "infoMessage": {
+              "en": "Specify the time user will take to complete the Improvement Project.",
+              "hi": "सुधार परियोजना को पूरा करने के लिए उपयोगकर्ता को लगने वाले समय को निर्दिष्ट करें।"
+            },
             "validators": {
               "required": true
             }
           },
           {
             "name": "keywords",
-            "label": "Add keywords",
+            "label": {
+              "en": "Add Keywords",
+              "hi": "कीवर्ड जोड़ें"
+            },
             "value": "",
             "class": "",
             "type": "text",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Add a tag",
+            "placeHolder": {
+              "en": "Add a tag",
+              "hi": "एक टैग जोड़ें"
+            },
             "position": "floating",
-            "infoMessage": "Keywords improve searchability. Help users find your project easily with relevant keywords.",
+            "infoMessage": {
+              "en": "Keywords improve searchability. Help users find your project easily with relevant keywords.",
+              "hi": "कीवर्ड खोज योग्यता में सुधार करते हैं। उपयोगकर्ताओं को प्रासंगिक कीवर्ड के साथ आपका प्रोजेक्ट आसानी से खोजने में मदद करें।"
+            },
             "errorMessage": {
-              "required": "Add a tag",
-              "maxlength": "Keyword must not exceed 256 characters"
+              "required": {
+                "en": "Add a tag",
+                "hi": "एक टैग जोड़ें"
+              },
+              "maxlength": {
+                "en": "Keyword must not exceed 256 characters",
+                "hi": "कीवर्ड 256 वर्णों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": false,
@@ -145,17 +226,29 @@
           },
           {
             "name": "recommended_for",
-            "label": "Recommended for",
+            "label": {
+              "en": "Recommended for",
+              "hi": "इसके लिए अनुशंसित"
+            },
             "value": "",
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "true",
-            "placeHolder": "Select role",
+            "placeHolder": {
+              "en": "Select role",
+              "hi": "भूमिका चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select the target audience for your project. Multiple user types can be selected.",
+            "infoMessage": {
+              "en": "Select the target audience for your project. Multiple user types can be selected.",
+              "hi": "अपने प्रोजेक्ट के लिए लक्षित दर्शकों का चयन करें। एक से अधिक उपयोगकर्ता प्रकारों का चयन किया जा सकता है।"
+            },
             "errorMessage": {
-              "required": "Select role"
+              "required": {
+                "en": "Select role",
+                "hi": "भूमिका चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -167,17 +260,29 @@
           },
           {
             "name": "languages",
-            "label": "Language",
+            "label": {
+              "en": "Language",
+              "hi": "भाषा"
+            },
             "value": "",
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "true",
-            "placeHolder": "Select language",
+            "placeHolder": {
+              "en": "Select language",
+              "hi": "भाषा चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select languages used in your project.",
+            "infoMessage": {
+              "en": "Select languages used in your project.",
+              "hi": "अपने प्रोजेक्ट में उपयोग की जाने वाली भाषाओं का चयन करें।"
+            },
             "errorMessage": {
-              "required": "Select language"
+              "required": {
+                "en": "Select language",
+                "hi": "भाषा चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -189,34 +294,58 @@
           },
           {
             "name": "learning_resources",
-            "label": "Project resource (You can add learning resource(s) as a project level)",
+            "label": {
+              "en": "Project resource (You can add learning resource(s) at a project level)",
+              "hi": "परियोजना संसाधन (आप परियोजना स्तर पर अधिगम संसाधन जोड़ सकते हैं)"
+            },
             "value": "",
             "class": "",
             "icon": "add_circle",
             "type": "addResource",
             "cssStyle": "relative w-[100%]",
-            "textForLink": "Add learning resource(s)",
+            "textForLink": {
+              "en": "Add learning resource(s)",
+              "hi": "अधिगम संसाधन जोड़ें"
+            },
             "placeHolder": "",
             "position": "floating",
-            "infoMessage": "Add Name and the link of the Learning resource for users to view while doing the project. These learning resources are added at a project level. ",
+            "infoMessage": {
+              "en": "Add the name and link of the learning resource for users to view while doing the project. These learning resources are added at a project level.",
+              "hi": "उपयोगकर्ताओं के लिए परियोजना करते समय देखने के लिए अधिगम संसाधन का नाम और लिंक जोड़ें। ये अधिगम संसाधन परियोजना स्तर पर जोड़े जाते हैं।"
+            },
             "listIcon": "videocam_off",
             "listLabel": "Video information",
             "dialogData": {
-              "header": "Add learning resource(s)",
+              "header": {
+                "en": "Add learning resource(s)",
+                "hi": "अधिगम संसाधन जोड़ें"
+              },
               "headerCss": "flex flex-row justify-between items-center bg-[#0a4f9d] h-10",
               "resource": [
                 [
                   {
                     "name": "name",
-                    "label": "Name of the resource",
+                    "label": {
+                      "en": "Name of the resource",
+                      "hi": "संसाधन का नाम"
+                    },
                     "value": "",
                     "class": "",
                     "type": "text",
-                    "placeHolder": "Name",
+                    "placeHolder": {
+                      "en": "Name",
+                      "hi": "नाम"
+                    },
                     "position": "floating",
                     "errorMessage": {
-                      "required": "Enter Name of the resource",
-                      "maxlength": "Name must not exceed 256 characters"
+                      "required": {
+                        "en": "Enter Name of the resource",
+                        "hi": "संसाधन का नाम दर्ज करें"
+                      },
+                      "maxlength": {
+                        "en": "Name must not exceed 256 characters",
+                        "hi": "नाम 256 अक्षरों से अधिक नहीं होना चाहिए"
+                      }
                     },
                     "validators": {
                       "required": true,
@@ -225,16 +354,31 @@
                   },
                   {
                     "name": "url",
-                    "label": "Link to the resource",
+                    "label": {
+                      "en": "Link to the resource",
+                      "hi": "संसाधन का लिंक"
+                    },
                     "value": "",
                     "class": "",
                     "type": "text",
-                    "placeHolder": "Link",
+                    "placeHolder": {
+                      "en": "Link",
+                      "hi": "लिंक"
+                    },
                     "position": "floating",
                     "errorMessage": {
-                      "required": "Enter link to the resource",
-                      "pattern": "Please add a valid link to resource",
-                      "maxlength": "Url must not exceed 256 characters"
+                      "required": {
+                        "en": "Enter link to the resource",
+                        "hi": "संसाधन का लिंक दर्ज करें"
+                      },
+                      "pattern": {
+                        "en": "Please add a valid link to resource",
+                        "hi": "कृपया संसाधन के लिए एक मान्य लिंक जोड़ें"
+                      },
+                      "maxlength": {
+                        "en": "URL must not exceed 256 characters",
+                        "hi": "URL 256 अक्षरों से अधिक नहीं होना चाहिए"
+                      }
                     },
                     "validators": {
                       "required": true,
@@ -244,12 +388,24 @@
                   }
                 ]
               ],
-              "confirmButton": "Save",
-              "cancelButton": "Cancel",
-              "addButton": "Add learning resource(s)"
+              "confirmButton": {
+                "en": "Save",
+                "hi": "सहेजें"
+              },
+              "cancelButton": {
+                "en": "Cancel",
+                "hi": "रद्द करें"
+              },
+              "addButton": {
+                "en": "Add learning resource(s)",
+                "hi": "अधिगम संसाधन जोड़ें"
+              }
             },
             "errorMessage": {
-              "required": "Enter project title"
+              "required": {
+                "en": "Enter project title",
+                "hi": "परियोजना शीर्षक दर्ज करें"
+              }
             },
             "validators": {
               "required": false,
@@ -258,17 +414,29 @@
           },
           {
             "name": "licenses",
-            "label": "License",
+            "label": {
+              "en": "License",
+              "hi": "लाइसेंस"
+            },
             "value": "cc_by_4.0",
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "false",
-            "placeHolder": "Select license",
+            "placeHolder": {
+              "en": "Select license",
+              "hi": "लाइसेंस चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select license type of your project.",
+            "infoMessage": {
+              "en": "Select the license type for your project.",
+              "hi": "अपने प्रोजेक्ट के लिए लाइसेंस प्रकार चुनें।"
+            },
             "errorMessage": {
-              "required": "Select license"
+              "required": {
+                "en": "Select a license",
+                "hi": "कृपया एक लाइसेंस चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -299,15 +467,31 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
               },
               {
                 "module": "programs",
-                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
               }
             ],
-            "request_type": ["POST"],
-            "roles": ["content_creator"]
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "content_creator"
+            ]
           },
           {
             "label": "BROWSE_EXISTING",
@@ -319,60 +503,167 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
               },
               {
                 "module": "programs",
-                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
               }
             ],
-            "roles": ["content_creator"],
+            "roles": [
+              "content_creator"
+            ],
             "filterData": [
               {
-                "label": "TYPE",
+                "label": {
+                  "en": "Type",
+                  "hi": "प्रकार"
+                },
                 "value": "type",
                 "option": [
                   {
-                    "label": "PROJECT",
-                    "value": "project"
+                    "label": {
+                      "en": "Project",
+                      "hi": "परियोजना"
+                    },
+                    "value": "project",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION",
-                    "value": "observation"
+                    "label": {
+                      "en": "Observation",
+                      "hi": "अवलोकन"
+                    },
+                    "value": "observation",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION_WITH_RUBRICS",
-                    "value": "observation_with_rubric"
+                    "label": {
+                      "en": "Observation with rubric",
+                      "hi": "रूब्रिक के साथ अवलोकन"
+                    },
+                    "value": "observation_with_rubric",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "SURVEY",
-                    "value": "survey"
+                    "label": {
+                      "en": "Survey",
+                      "hi": "सर्वेक्षण"
+                    },
+                    "value": "survey",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "PROGRAM",
-                    "value": "program"
+                    "label": {
+                      "en": "Program",
+                      "hi": "कार्यक्रम"
+                    },
+                    "value": "program",
+                    "permission_modules": [
+                      {
+                        "module": "programs",
+                        "request_type": [
+                          "POST",
+                          "DELETE",
+                          "GET",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "isMultiple": true
               },
               {
-                "label": "SORT_BY",
+                "label": {
+                  "en": "Sort by",
+                  "hi": "क्रमबद्ध करें"
+                },
                 "value": "sort_by",
                 "option": [
                   {
-                    "label": "A_TO_Z",
+                    "label": {
+                      "en": "A to Z",
+                      "hi": "ए से जेड तक"
+                    },
                     "value": "A_TO_Z"
                   },
                   {
-                    "label": "Z_TO_A",
+                    "label": {
+                      "en": "Z to A",
+                      "hi": "जेड से ए तक"
+                    },
                     "value": "Z_TO_A"
                   },
                   {
-                    "label": "LATEST_FIRST",
+                    "label": {
+                      "en": "Latest first",
+                      "hi": "नवीनतम पहले"
+                    },
                     "value": "LATEST_FIRST"
                   },
                   {
-                    "label": "OLDEST_FIRST",
+                    "label": {
+                      "en": "Oldest first",
+                      "hi": "सबसे पुराना पहले"
+                    },
                     "value": "OLDEST_FIRST"
                   }
                 ],
@@ -381,7 +672,9 @@
             ],
             "buttonsData": [
               {
-                "buttons": ["VIEW"]
+                "buttons": [
+                  "VIEW"
+                ]
               },
               {
                 "infoFields": [
@@ -429,61 +722,171 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
               },
               {
                 "module": "programs",
-                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
               }
             ],
-            "roles": ["content_creator"],
-            "request_type": ["POST", "PUT"],
+            "roles": [
+              "content_creator"
+            ],
+            "request_type": [
+              "POST",
+              "PUT"
+            ],
             "filterData": [
               {
-                "label": "TYPE",
+                "label": {
+                  "en": "Type",
+                  "hi": "प्रकार"
+                },
                 "value": "type",
                 "option": [
                   {
-                    "label": "PROJECT",
-                    "value": "project"
+                    "label": {
+                      "en": "Project",
+                      "hi": "परियोजना"
+                    },
+                    "value": "project",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION",
-                    "value": "observation"
+                    "label": {
+                      "en": "Observation",
+                      "hi": "अवलोकन"
+                    },
+                    "value": "observation",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION_WITH_RUBRICS",
-                    "value": "observation_with_rubric"
+                    "label": {
+                      "en": "Observation with rubric",
+                      "hi": "रूब्रिक के साथ अवलोकन"
+                    },
+                    "value": "observation_with_rubric",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "SURVEY",
-                    "value": "survey"
+                    "label": {
+                      "en": "Survey",
+                      "hi": "सर्वेक्षण"
+                    },
+                    "value": "survey",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "PROGRAM",
-                    "value": "program"
+                    "label": {
+                      "en": "Program",
+                      "hi": "कार्यक्रम"
+                    },
+                    "value": "program",
+                    "permission_modules": [
+                      {
+                        "module": "programs",
+                        "request_type": [
+                          "POST",
+                          "DELETE",
+                          "GET",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "isMultiple": true
               },
               {
-                "label": "SORT_BY",
+                "label": {
+                  "en": "Sort by",
+                  "hi": "क्रमबद्ध करें"
+                },
                 "value": "sort_by",
                 "option": [
                   {
-                    "label": "A_TO_Z",
+                    "label": {
+                      "en": "A to Z",
+                      "hi": "ए से जेड तक"
+                    },
                     "value": "A_TO_Z"
                   },
                   {
-                    "label": "Z_TO_A",
+                    "label": {
+                      "en": "Z to A",
+                      "hi": "जेड से ए तक"
+                    },
                     "value": "Z_TO_A"
                   },
                   {
-                    "label": "LATEST_FIRST",
+                    "label": {
+                      "en": "Latest first",
+                      "hi": "नवीनतम पहले"
+                    },
                     "value": "LATEST_FIRST"
                   },
                   {
-                    "label": "OLDEST_FIRST",
+                    "label": {
+                      "en": "Oldest first",
+                      "hi": "सबसे पुराना पहले"
+                    },
                     "value": "OLDEST_FIRST"
                   }
                 ],
@@ -492,7 +895,10 @@
             ],
             "buttonsData": [
               {
-                "buttons": ["EDIT", "DELETE"]
+                "buttons": [
+                  "EDIT",
+                  "DELETE"
+                ]
               },
               {
                 "infoFields": [
@@ -538,95 +944,226 @@
             "url": "submit-for-review",
             "activeRole": "creator",
             "noResultMessage": "NO_SUBMITTED_FOR_REVIEW",
-            "roles": ["content_creator"],
+            "roles": [
+              "content_creator"
+            ],
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
               },
               {
                 "module": "programs",
-                "request_type": ["POST", "DELETE", "GET", "PUT", "PATCH"]
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
               }
             ],
-            "request_type": ["POST", "PUT"],
+            "request_type": [
+              "POST",
+              "PUT"
+            ],
             "filterData": [
               {
-                "label": "TYPE",
+                "label": {
+                  "en": "Type",
+                  "hi": "प्रकार"
+                },
                 "value": "type",
                 "option": [
                   {
-                    "label": "PROJECT",
-                    "value": "project"
+                    "label": {
+                      "en": "Project",
+                      "hi": "परियोजना"
+                    },
+                    "value": "project",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION",
-                    "value": "observation"
+                    "label": {
+                      "en": "Observation",
+                      "hi": "अवलोकन"
+                    },
+                    "value": "observation",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION_WITH_RUBRICS",
-                    "value": "observation_with_rubric"
+                    "label": {
+                      "en": "Observation with rubric",
+                      "hi": "रूब्रिक के साथ अवलोकन"
+                    },
+                    "value": "observation_with_rubric",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "SURVEY",
-                    "value": "survey"
+                    "label": {
+                      "en": "Survey",
+                      "hi": "सर्वेक्षण"
+                    },
+                    "value": "survey",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "PROGRAM",
-                    "value": "program"
+                    "label": {
+                      "en": "Program",
+                      "hi": "कार्यक्रम"
+                    },
+                    "value": "program",
+                    "permission_modules": [
+                      {
+                        "module": "programs",
+                        "request_type": [
+                          "POST",
+                          "DELETE",
+                          "GET",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "isMultiple": true
               },
               {
-                "label": "SORT_BY",
+                "label": {
+                  "en": "Sort by",
+                  "hi": "क्रमबद्ध करें"
+                },
                 "value": "sort_by",
                 "option": [
                   {
-                    "label": "A_TO_Z",
+                    "label": {
+                      "en": "A to Z",
+                      "hi": "ए से जेड तक"
+                    },
                     "value": "A_TO_Z"
                   },
                   {
-                    "label": "Z_TO_A",
+                    "label": {
+                      "en": "Z to A",
+                      "hi": "जेड से ए तक"
+                    },
                     "value": "Z_TO_A"
                   },
                   {
-                    "label": "LATEST_FIRST",
+                    "label": {
+                      "en": "Latest first",
+                      "hi": "नवीनतम पहले"
+                    },
                     "value": "LATEST_FIRST"
                   },
                   {
-                    "label": "OLDEST_FIRST",
+                    "label": {
+                      "en": "Oldest first",
+                      "hi": "सबसे पुराना पहले"
+                    },
                     "value": "OLDEST_FIRST"
                   }
                 ],
                 "isMultiple": false
               },
               {
-                "label": "ALL_STATUS",
+                "label": {
+                  "en": "All Status",
+                  "hi": "सभी स्थिति"
+                },
                 "value": "status",
                 "option": [
                   {
-                    "label": "ALL_STATUS",
+                    "label": {
+                      "en": "All Status",
+                      "hi": "सभी स्थिति"
+                    },
                     "value": ""
                   },
                   {
-                    "label": "NOT_STARTED",
+                    "label": {
+                      "en": "Not Started",
+                      "hi": "शुरू नहीं हुआ"
+                    },
                     "value": "SUBMITTED"
                   },
                   {
-                    "label": "IN_PROGRESS",
+                    "label": {
+                      "en": "In Progress",
+                      "hi": "कार्यान्वयन में"
+                    },
                     "value": "INPROGRESS"
                   },
                   {
-                    "label": "REJECTED",
+                    "label": {
+                      "en": "Rejected",
+                      "hi": "अस्वीकृत"
+                    },
                     "value": "REJECTED"
                   },
                   {
-                    "label": "REPORTED_AND_REJECTED",
+                    "label": {
+                      "en": "Reported and Rejected",
+                      "hi": "रिपोर्ट किया और अस्वीकृत किया गया"
+                    },
                     "value": "REJECTED_AND_REPORTED"
                   },
                   {
-                    "label": "PUBLISHED",
+                    "label": {
+                      "en": "Published",
+                      "hi": "प्रकाशित"
+                    },
                     "value": "PUBLISHED"
                   }
                 ],
@@ -640,7 +1177,9 @@
             "statusButtons": [
               {
                 "status": "SUBMITTED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -681,7 +1220,9 @@
               },
               {
                 "status": "NOT_STARTED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -722,7 +1263,9 @@
               },
               {
                 "status": "PUBLISHED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -763,7 +1306,9 @@
               },
               {
                 "status": "APPROVED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -804,7 +1349,10 @@
               },
               {
                 "status": "REQUESTED_FOR_CHANGES",
-                "buttons": ["VIEW", "EDIT"],
+                "buttons": [
+                  "VIEW",
+                  "EDIT"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -845,7 +1393,9 @@
               },
               {
                 "status": "INPROGRESS",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -896,7 +1446,9 @@
               },
               {
                 "status": "CHANGES_UPDATED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -947,7 +1499,9 @@
               },
               {
                 "status": "REJECTED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -988,7 +1542,9 @@
               },
               {
                 "status": "REJECTED_AND_REPORTED",
-                "buttons": ["VIEW"],
+                "buttons": [
+                  "VIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1045,57 +1601,157 @@
             "permission_modules": [
               {
                 "module": "reviews",
-                "request_type": ["POST", "PATCH"]
+                "request_type": [
+                  "POST",
+                  "PATCH"
+                ]
               }
             ],
-            "request_type": ["POST"],
-            "roles": ["reviewer"],
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "reviewer"
+            ],
             "filterData": [
               {
-                "label": "TYPE",
+                "label": {
+                  "en": "Type",
+                  "hi": "प्रकार"
+                },
                 "value": "type",
                 "option": [
                   {
-                    "label": "PROJECT",
-                    "value": "project"
+                    "label": {
+                      "en": "Project",
+                      "hi": "परियोजना"
+                    },
+                    "value": "project",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION",
-                    "value": "observation"
+                    "label": {
+                      "en": "Observation",
+                      "hi": "अवलोकन"
+                    },
+                    "value": "observation",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION_WITH_RUBRICS",
-                    "value": "observation_with_rubric"
+                    "label": {
+                      "en": "Observation with rubric",
+                      "hi": "रूब्रिक के साथ अवलोकन"
+                    },
+                    "value": "observation_with_rubric",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "SURVEY",
-                    "value": "survey"
+                    "label": {
+                      "en": "Survey",
+                      "hi": "सर्वेक्षण"
+                    },
+                    "value": "survey",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "PROGRAM",
-                    "value": "program"
+                    "label": {
+                      "en": "Program",
+                      "hi": "कार्यक्रम"
+                    },
+                    "value": "program",
+                    "permission_modules": [
+                      {
+                        "module": "programs",
+                        "request_type": [
+                          "POST",
+                          "DELETE",
+                          "GET",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "isMultiple": true
               },
               {
-                "label": "SORT_BY",
+                "label": {
+                  "en": "Sort by",
+                  "hi": "क्रमबद्ध करें"
+                },
                 "value": "sort_by",
                 "option": [
                   {
-                    "label": "A_TO_Z",
+                    "label": {
+                      "en": "A to Z",
+                      "hi": "ए से जेड तक"
+                    },
                     "value": "A_TO_Z"
                   },
                   {
-                    "label": "Z_TO_A",
+                    "label": {
+                      "en": "Z to A",
+                      "hi": "जेड से ए तक"
+                    },
                     "value": "Z_TO_A"
                   },
                   {
-                    "label": "LATEST_FIRST",
+                    "label": {
+                      "en": "Latest first",
+                      "hi": "नवीनतम पहले"
+                    },
                     "value": "LATEST_FIRST"
                   },
                   {
-                    "label": "OLDEST_FIRST",
+                    "label": {
+                      "en": "Oldest first",
+                      "hi": "सबसे पुराना पहले"
+                    },
                     "value": "OLDEST_FIRST"
                   }
                 ],
@@ -1109,7 +1765,10 @@
             "statusButtons": [
               {
                 "status": "CHANGES_UPDATED",
-                "buttons": ["VIEW", "START_REVIEW"],
+                "buttons": [
+                  "VIEW",
+                  "START_REVIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1160,7 +1819,10 @@
               },
               {
                 "status": "NOT_STARTED",
-                "buttons": ["VIEW", "START_REVIEW"],
+                "buttons": [
+                  "VIEW",
+                  "START_REVIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1196,7 +1858,9 @@
               },
               {
                 "status": "INPROGRESS",
-                "buttons": ["RESUME_REVIEW"],
+                "buttons": [
+                  "RESUME_REVIEW"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1249,73 +1913,213 @@
             "permission_modules": [
               {
                 "module": "rollouts",
-                "request_type": ["PUT", "GET", "POST", "DELETE", "PATCH"]
+                "request_type": [
+                  "PUT",
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PATCH"
+                ]
               }
             ],
-            "request_type": ["POST"],
-            "roles": ["rollout_manager"],
+            "request_type": [
+              "POST"
+            ],
+            "roles": [
+              "rollout_manager"
+            ],
             "filterData": [
               {
-                "label": "TYPE",
-                "value": "resource_type",
+                "label": {
+                  "en": "Type",
+                  "hi": "प्रकार"
+                },
+                "value": "type",
                 "option": [
                   {
-                    "label": "PROJECT",
-                    "value": "project"
+                    "label": {
+                      "en": "Project",
+                      "hi": "परियोजना"
+                    },
+                    "value": "project",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION",
-                    "value": "observation"
+                    "label": {
+                      "en": "Observation",
+                      "hi": "अवलोकन"
+                    },
+                    "value": "observation",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "OBSERVATION_WITH_RUBRICS",
-                    "value": "observation_with_rubric"
+                    "label": {
+                      "en": "Observation with rubric",
+                      "hi": "रूब्रिक के साथ अवलोकन"
+                    },
+                    "value": "observation_with_rubric",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   },
                   {
-                    "label": "SURVEY",
-                    "value": "survey"
+                    "label": {
+                      "en": "Survey",
+                      "hi": "सर्वेक्षण"
+                    },
+                    "value": "survey",
+                    "permission_modules": [
+                      {
+                        "module": "projects",
+                        "request_type": [
+                          "GET",
+                          "POST",
+                          "DELETE",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label": {
+                      "en": "Program",
+                      "hi": "कार्यक्रम"
+                    },
+                    "value": "program",
+                    "permission_modules": [
+                      {
+                        "module": "programs",
+                        "request_type": [
+                          "POST",
+                          "DELETE",
+                          "GET",
+                          "PUT",
+                          "PATCH"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "isMultiple": true
               },
               {
-                "label": "SORT_BY",
+                "label": {
+                  "en": "Sort by",
+                  "hi": "क्रमबद्ध करें"
+                },
                 "value": "sort_by",
                 "option": [
                   {
-                    "label": "A_TO_Z",
+                    "label": {
+                      "en": "A to Z",
+                      "hi": "ए से जेड तक"
+                    },
                     "value": "A_TO_Z"
                   },
                   {
-                    "label": "Z_TO_A",
+                    "label": {
+                      "en": "Z to A",
+                      "hi": "जेड से ए तक"
+                    },
                     "value": "Z_TO_A"
                   },
                   {
-                    "label": "LATEST_FIRST",
+                    "label": {
+                      "en": "Latest first",
+                      "hi": "नवीनतम पहले"
+                    },
                     "value": "LATEST_FIRST"
                   },
                   {
-                    "label": "OLDEST_FIRST",
+                    "label": {
+                      "en": "Oldest first",
+                      "hi": "सबसे पुराना पहले"
+                    },
                     "value": "OLDEST_FIRST"
                   }
                 ],
                 "isMultiple": false
               },
               {
-                "label": "ALL_STATUS",
+                "label": {
+                  "en": "All Status",
+                  "hi": "सभी स्थिति"
+                },
                 "value": "status",
                 "option": [
                   {
-                    "label": "ALL_STATUS",
+                    "label": {
+                      "en": "All Status",
+                      "hi": "सभी स्थिति"
+                    },
                     "value": ""
                   },
                   {
-                    "label": "PENDING",
-                    "value": "PENDING"
+                    "label": {
+                      "en": "Not Started",
+                      "hi": "शुरू नहीं हुआ"
+                    },
+                    "value": "SUBMITTED"
                   },
                   {
-                    "label": "ROLLED_OUT",
-                    "value": "ROLLED_OUT"
+                    "label": {
+                      "en": "In Progress",
+                      "hi": "कार्यान्वयन में"
+                    },
+                    "value": "INPROGRESS"
+                  },
+                  {
+                    "label": {
+                      "en": "Rejected",
+                      "hi": "अस्वीकृत"
+                    },
+                    "value": "REJECTED"
+                  },
+                  {
+                    "label": {
+                      "en": "Reported and Rejected",
+                      "hi": "रिपोर्ट किया और अस्वीकृत किया गया"
+                    },
+                    "value": "REJECTED_AND_REPORTED"
+                  },
+                  {
+                    "label": {
+                      "en": "Published",
+                      "hi": "प्रकाशित"
+                    },
+                    "value": "PUBLISHED"
                   }
                 ],
                 "isMultiple": false
@@ -1324,7 +2128,10 @@
             "statusButtons": [
               {
                 "status": "PENDING",
-                "buttons": ["EDIT", "DELETE"],
+                "buttons": [
+                  "EDIT",
+                  "DELETE"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1365,7 +2172,9 @@
               },
               {
                 "status": "ROLLED_OUT",
-                "buttons": ["EDIT"],
+                "buttons": [
+                  "EDIT"
+                ],
                 "infoFields": [
                   {
                     "label": "TITLE",
@@ -1452,446 +2261,505 @@
     "data": {
       "template_name": "defaultTemplate",
       "fields": {
-            "controls": [
-                {
-                    "title": "PROJECT",
-                    "image": "./../assets/images/project.svg",
-                    "sidenav": [
-                        {
-                            "label": "PROJECT_DETAILS",
-                            "action": "",
-                            "icon": "description",
-                            "url": "project-details",
-                            "page": "projectDetails"
-                        },
-                        {
-                            "label": "TASKS",
-                            "action": "",
-                            "icon": "add_task",
-                            "url": "tasks",
-                            "page": "tasks"
-                        },
-                        {
-                            "label": "SUBTASKS_AND_RESOURCES",
-                            "action": "",
-                            "icon": "note_add",
-                            "url": "sub-tasks",
-                            "page": "subTasks"
-                        },
-                        {
-                            "label": "CERTIFICATE",
-                            "action": "",
-                            "icon": "card_membership",
-                            "url": "certificate",
-                            "page": "certificates"
-                        }
-                    ],
-                    "headerData": {
-                        "title": "",
-                        "buttons": {
-                            "edit": [
-                                {
-                                    "title": "SAVE_AS_DRAFT",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "SEND_FOR_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "reqEdit": [
-                                {
-                                    "title": "SAVE_CHANGES",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "SEND_FOR_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "viewOnly": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                }
-                            ],
-                            "view": [
-                                {
-                                    "title": "SAVE_AS_DRAFT",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                }
-                            ],
-                            "review": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "REQUEST_CHANGES",
-                                    "disable": true,
-                                    "cssClass": "primary-button-enable"
-                                },
-                                {
-                                    "title": "REJECT",
-                                    "disable": false,
-                                    "cssClass": "enable-reject-button"
-                                },
-                                {
-                                    "title": "ACCEPT",
-                                    "disable": false,
-                                    "cssClass": "enable-success-button"
-                                }
-                            ],
-                            "reviewerView": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "START_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "creatorView": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "EDIT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "copyEdit": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "COPY_AND_EDIT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "metaEdit": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "SAVE_CHANGES",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "metaReview": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                }
-                            ],
-                            "metaReqEdit": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                }
-                            ]
-                        }
-                    },
-                    "showBackButton": true,
-                    "url": "solution/project/project-details",
-                    "formName": "PROJECT_DETAILS",
-                    "permission_modules": [
-                        {
-                            "module": "projects",
-                            "request_type": [
-                                "GET",
-                                "POST",
-                                "DELETE",
-                                "PUT",
-                                "PATCH"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "title": "OBSERVATION",
-                    "image": "./../assets/images/observation.svg",
-                    "sidenav": [
-                        {
-                            "label": "OBSERVATION_NAME"
-                        }
-                    ],
-                    "showBackButton": true,
-                    "url": "",
-                    "permission_modules": []
-                },
-                {
-                    "title": "OBSERVATION_WITH_RUBRIC",
-                    "image": "./../assets/images/observationwithrubric.svg",
-                    "sidenav": [
-                        {
-                            "label": "OBSERVATION_NAME"
-                        }
-                    ],
-                    "url": "",
-                    "permission_modules": []
-                },
-                {
-                    "title": "SURVEY",
-                    "image": "./../assets/images/survey.svg",
-                    "sidenav": [
-                        {
-                            "label": "SURVEY_NAME"
-                        }
-                    ],
-                    "url": "",
-                    "permission_modules": []
-                },
-                {
-                    "title": "PROGRAM",
-                    "image": "./../assets/images/program.svg",
-                    "sidenav": [
-                        {
-                            "label": "PROGRAM_DETAILS",
-                            "action": "",
-                            "icon": "description",
-                            "url": "program-details",
-                            "page": "programDetails"
-                        },
-                        {
-                            "label": "RESOURCES",
-                            "action": "",
-                            "icon": "note_add",
-                            "url": "program-resources",
-                            "page": "programResources"
-                        },
-                        {
-                            "label": "RESOURCE_LEVEL_TARGETING",
-                            "action": "",
-                            "icon": "track_changes",
-                            "url": "resource-level-targeting",
-                            "page": "resourceLevelTargeting"
-                        }
-                    ],
-                    "headerData": {
-                        "title": "",
-                        "buttons": {
-                            "edit": [
-                                {
-                                    "title": "SAVE_AS_DRAFT",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "SEND_FOR_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "reqEdit": [
-                                {
-                                    "title": "SAVE_CHANGES",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "SEND_FOR_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "viewOnly": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                }
-                            ],
-                            "view": [
-                                {
-                                    "title": "SAVE_AS_DRAFT",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                }
-                            ],
-                            "review": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "REQUEST_CHANGES",
-                                    "disable": true,
-                                    "cssClass": "primary-button-enable"
-                                },
-                                {
-                                    "title": "ACCEPT",
-                                    "disable": false,
-                                    "cssClass": "enable-success-button"
-                                }
-                            ],
-                            "reviewerView": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "START_REVIEW",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "creatorView": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "EDIT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "copyEdit": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "COPY_AND_EDIT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "metaEdit": [
-                                {
-                                    "title": "PREVIEW",
-                                    "disable": false,
-                                    "cssClass": "button-enable",
-                                    "tooltip": "COMING_SOON"
-                                },
-                                {
-                                    "title": "PUBLISH_CHANGES",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ]
-                        }
-                    },
-                    "url": "roll-out/details/program-details",
-                    "permission_modules": [
-                        {
-                            "module": "programs",
-                            "request_type": [
-                                "POST",
-                                "DELETE",
-                                "GET",
-                                "PUT",
-                                "PATCH"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "title": "ROLL_OUT",
-                    "image": "./../assets/images/program.svg",
-                    "sidenav": [
-                        {
-                            "label": "TARGETING_DETAILS",
-                            "action": "",
-                            "icon": "description",
-                            "url": "project-details",
-                            "page": "projectDetails"
-                        }
-                    ],
-                    "headerData": {
-                        "title": "Project targeting",
-                        "buttons": {
-                            "ROLLED_OUT": [
-                                {
-                                    "title": "ROLL_OUT_CHANGES",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "PENDING": [
-                                {
-                                    "title": "SAVE",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "ROLL_OUT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ],
-                            "edit": [
-                                {
-                                    "title": "SAVE",
-                                    "disable": false,
-                                    "cssClass": "button-enable"
-                                },
-                                {
-                                    "title": "ROLL_OUT",
-                                    "disable": false,
-                                    "cssClass": "primary-button-enable"
-                                }
-                            ]
-                        }
-                    },
-                    "url": "",
-                    "permission_modules": []
-                }
+        "controls": [
+          {
+            "title": "PROJECT",
+            "image": "./../assets/images/project.svg",
+            "sidenav": [
+              {
+                "label": "PROJECT_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              },
+              {
+                "label": "TASKS",
+                "action": "",
+                "icon": "add_task",
+                "url": "tasks",
+                "page": "tasks"
+              },
+              {
+                "label": "SUBTASKS_AND_RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "sub-tasks",
+                "page": "subTasks"
+              },
+              {
+                "label": "CERTIFICATE",
+                "action": "",
+                "icon": "card_membership",
+                "url": "certificate",
+                "page": "certificates"
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "REJECT",
+                    "disable": false,
+                    "cssClass": "enable-reject-button"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "metaEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "metaReview": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "metaReqEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "showBackButton": true,
+            "url": "solution/project/project-details",
+            "formName": "PROJECT_DETAILS",
+            "permission_modules": [
+              {
+                "module": "projects",
+                "request_type": [
+                  "GET",
+                  "POST",
+                  "DELETE",
+                  "PUT",
+                  "PATCH"
+                ]
+              }
             ]
-        }
+          },
+          {
+            "title": "OBSERVATION",
+            "image": "./../assets/images/observation.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "showBackButton": true,
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "OBSERVATION_WITH_RUBRIC",
+            "image": "./../assets/images/observationwithrubric.svg",
+            "sidenav": [
+              {
+                "label": "OBSERVATION_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "SURVEY",
+            "image": "./../assets/images/survey.svg",
+            "sidenav": [
+              {
+                "label": "SURVEY_NAME"
+              }
+            ],
+            "url": "",
+            "permission_modules": []
+          },
+          {
+            "title": "PROGRAM",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "PROGRAM_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "program-details",
+                "page": "programDetails"
+              },
+              {
+                "label": "RESOURCES",
+                "action": "",
+                "icon": "note_add",
+                "url": "program-resources",
+                "page": "programResources"
+              },
+              {
+                "label": "RESOURCE_LEVEL_TARGETING",
+                "action": "",
+                "icon": "track_changes",
+                "url": "resource-level-targeting",
+                "page": "resourceLevelTargeting"
+              }
+            ],
+            "headerData": {
+              "title": "",
+              "buttons": {
+                "edit": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "reqEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "viewOnly": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  }
+                ],
+                "view": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  }
+                ],
+                "review": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "REQUEST_CHANGES",
+                    "disable": true,
+                    "cssClass": "primary-button-enable"
+                  },
+                  {
+                    "title": "ACCEPT",
+                    "disable": false,
+                    "cssClass": "enable-success-button"
+                  }
+                ],
+                "reviewerView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "START_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "creatorView": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "copyEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "COPY_AND_EDIT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "metaEdit": [
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "PUBLISH_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "resourceEdit": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "SEND_FOR_REVIEW",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "review_not_required": [
+                  {
+                    "title": "SAVE_AS_DRAFT",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "PUBLISH",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "review_not_required_after_publish": [
+                  {
+                    "title": "SAVE_CHANGES",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "PREVIEW",
+                    "disable": false,
+                    "cssClass": "button-enable",
+                    "tooltip": "COMING_SOON"
+                  },
+                  {
+                    "title": "PUBLISH_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "url": "roll-out/details/program-details",
+            "permission_modules": [
+              {
+                "module": "programs",
+                "request_type": [
+                  "POST",
+                  "DELETE",
+                  "GET",
+                  "PUT",
+                  "PATCH"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "ROLL_OUT",
+            "image": "./../assets/images/program.svg",
+            "sidenav": [
+              {
+                "label": "TARGETING_DETAILS",
+                "action": "",
+                "icon": "description",
+                "url": "project-details",
+                "page": "projectDetails"
+              }
+            ],
+            "headerData": {
+              "title": "Project targeting",
+              "buttons": {
+                "ROLLED_OUT": [
+                  {
+                    "title": "ROLL_OUT_CHANGES",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "PENDING": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ],
+                "edit": [
+                  {
+                    "title": "SAVE",
+                    "disable": false,
+                    "cssClass": "button-enable"
+                  },
+                  {
+                    "title": "ROLL_OUT",
+                    "disable": false,
+                    "cssClass": "primary-button-enable"
+                  }
+                ]
+              }
+            },
+            "url": "",
+            "permission_modules": []
+          }
+        ]
+      }
     }
   },
   {
@@ -1905,12 +2773,21 @@
           "tasks": {
             "description": {
               "label": "DESCRIBE_THE_TASKS",
-              "placeholder": "Describe the task",
+              "placeholder": {
+                "en": "Describe the task",
+                "hi": "कार्य का वर्णन करें"
+              },
               "type": "text",
               "name": "name",
               "errorMessage": {
-                "required": "Enter description for task",
-                "maxLength": "Description title must not exceed 2000 characters"
+                "required": {
+                  "en": "Enter description for task",
+                  "hi": "कार्य के लिए विवरण दर्ज करें"
+                },
+                "maxLength": {
+                  "en": "Description title must not exceed 2000 characters",
+                  "hi": "विवरण शीर्षक 2000 अक्षरों से अधिक नहीं होना चाहिए"
+                }
               },
               "validators": {
                 "required": true,
@@ -1918,13 +2795,19 @@
               }
             },
             "mandatory": {
-              "label": "MANDATORY",
+              "label": {
+                "en": "Mandatory",
+                "hi": "अनिवार्य"
+              },
               "type": "checkbox",
               "name": "is_mandatory",
               "validators": {}
             },
             "allowEvidence": {
-              "label": "ALLOW_EVIDENCE",
+              "label": {
+                "en": "Allow evidence(s)",
+                "hi": "साक्ष्य की अनुमति दें"
+              },
               "type": "checkbox",
               "name": "allow_evidences",
               "validators": {}
@@ -1936,30 +2819,51 @@
               "options": [
                 {
                   "value": "images",
-                  "label": "Images"
+                  "label": {
+                    "en": "Images",
+                    "hi": "छवियाँ"
+                  }
                 },
                 {
                   "value": "document",
-                  "label": "Document"
+                  "label": {
+                    "en": "Document",
+                    "hi": "दस्तावेज़"
+                  }
                 },
                 {
                   "value": "videos",
-                  "label": "Videos"
+                  "label": {
+                    "en": "Videos",
+                    "hi": "वीडियो"
+                  }
                 },
                 {
                   "value": "audio",
-                  "label": "Audio"
+                  "label": {
+                    "en": "Audio",
+                    "hi": "ऑडियो"
+                  }
                 }
               ],
               "validators": {}
             },
             "minEvidences": {
-              "label": "MIN_NUMBER_OF_EVIDENCE",
+              "label": {
+                "en": "Min. number of evidences",
+                "hi": "न्यूनतम प्रमाण की संख्या"
+              },
               "type": "number",
               "name": "min_no_of_evidences",
               "errorMessage": {
-                "max": "Maximum number of evidences allowed is 10.",
-                "min": "Minimum number of evidences required is 1."
+                "max": {
+                  "en": "Maximum number of evidences allowed is 10.",
+                  "hi": "अनुमत प्रमाणों की अधिकतम संख्या 10 है।"
+                },
+                "min": {
+                  "en": "Minimum number of evidences required is 1.",
+                  "hi": "न्यूनतम प्रमाणों की संख्या 1 होनी चाहिए।"
+                }
               },
               "validators": {
                 "max": 10,
@@ -1968,21 +2872,36 @@
             }
           },
           "subTaskLearningResources": {
-            "header": "Add learning resource(s)",
+            "header": {
+              "en": "Add learning resource(s)",
+              "hi": "लर्निंग संसाधन जोड़ें"
+            },
             "headerCss": "flex flex-row justify-between items-center bg-[#0a4f9d] h-10",
             "resource": [
               [
                 {
                   "name": "name",
-                  "label": "Name of the resource",
+                  "label": {
+                    "en": "Name of the resource",
+                    "hi": "संसाधन का नाम"
+                  },
                   "value": "",
                   "class": "",
                   "type": "text",
-                  "placeHolder": "Name",
+                  "placeHolder": {
+                    "en": "Name",
+                    "hi": "नाम"
+                  },
                   "position": "floating",
                   "errorMessage": {
-                    "required": "Enter Name of the resource",
-                    "maxLength": "Name must not exceed 256 characters"
+                    "required": {
+                      "en": "Enter Name of the resource",
+                      "hi": "संसाधन का नाम दर्ज करें"
+                    },
+                    "maxLength": {
+                      "en": "Name must not exceed 256 characters",
+                      "hi": "नाम 256 अक्षरों से अधिक नहीं होना चाहिए"
+                    }
                   },
                   "validators": {
                     "required": true,
@@ -1991,16 +2910,31 @@
                 },
                 {
                   "name": "url",
-                  "label": "Link to the resource",
+                  "label": {
+                    "en": "Link to the resource",
+                    "hi": "संसाधन का लिंक"
+                  },
                   "value": "",
                   "class": "",
                   "type": "text",
-                  "placeHolder": "Link",
+                  "placeHolder": {
+                    "en": "Link",
+                    "hi": "लिंक"
+                  },
                   "position": "floating",
                   "errorMessage": {
-                    "required": "Enter link to the resource",
-                    "pattern": "Please add a valid link to resource",
-                    "maxLength": "Url must not exceed 256 characters"
+                    "required": {
+                      "en": "Enter link to the resource",
+                      "hi": "संसाधन का लिंक दर्ज करें"
+                    },
+                    "pattern": {
+                      "en": "Please add a valid link to resource",
+                      "hi": "कृपया संसाधन का मान्य लिंक जोड़ें"
+                    },
+                    "maxLength": {
+                      "en": "URL must not exceed 256 characters",
+                      "hi": "यूआरएल 256 अक्षरों से अधिक नहीं होना चाहिए"
+                    }
                   },
                   "validators": {
                     "required": true,
@@ -2010,13 +2944,25 @@
                 }
               ]
             ],
-            "confirmButton": "Save",
-            "cancelButton": "Cancel",
-            "addButton": "Add learning resource(s)"
+            "confirmButton": {
+              "en": "Save",
+              "hi": "सहेजें"
+            },
+            "cancelButton": {
+              "en": "Cancel",
+              "hi": "रद्द करें"
+            },
+            "addButton": {
+              "en": "Add learning resource(s)",
+              "hi": "लर्निंग संसाधन जोड़ें"
+            }
           },
           "observationDeatils": {
             "minSubmissionRequired": {
-              "label": "MIN_SUBMISSION_REQUIRED",
+              "label": {
+                "en": "Min. Submission required*",
+                "hi": "न्यूनतम प्रस्तुतिकरण आवश्यक*"
+              },
               "type": "number",
               "name": "min_no_of_submissions_required",
               "validators": {
@@ -2025,21 +2971,36 @@
               }
             },
             "observationFormDetails": {
-              "header": "Add observation",
+              "header": {
+                "en": "Add observation",
+                "hi": "अवलोकन जोड़ें"
+              },
               "headerCss": "flex flex-row justify-between items-center bg-[#0a4f9d] h-10",
               "resource": [
                 [
                   {
                     "name": "name",
-                    "label": "Name of the resource",
+                    "label": {
+                      "en": "Name of the resource",
+                      "hi": "संसाधन का नाम"
+                    },
                     "value": "",
                     "class": "",
                     "type": "text",
-                    "placeHolder": "Name",
+                    "placeHolder": {
+                      "en": "Name",
+                      "hi": "नाम"
+                    },
                     "position": "floating",
                     "errorMessage": {
-                      "required": "Enter Name of the resource",
-                      "maxLength": "Name must not exceed 256 characters"
+                      "required": {
+                        "en": "Enter Name of the resource",
+                        "hi": "संसाधन का नाम दर्ज करें"
+                      },
+                      "maxLength": {
+                        "en": "Name must not exceed 256 characters",
+                        "hi": "नाम 256 अक्षरों से अधिक नहीं होना चाहिए"
+                      }
                     },
                     "validators": {
                       "required": true,
@@ -2048,27 +3009,48 @@
                   },
                   {
                     "name": "link",
-                    "label": "Link to the resource",
+                    "label": {
+                      "en": "Link to the resource",
+                      "hi": "संसाधन का लिंक"
+                    },
                     "value": "",
                     "class": "",
                     "type": "text",
-                    "placeHolder": "Link",
+                    "placeHolder": {
+                      "en": "Link",
+                      "hi": "लिंक"
+                    },
                     "position": "floating",
                     "errorMessage": {
-                      "required": "Enter link to the resource",
-                      "pattern": "Please add a valid link to resource",
-                      "maxLength": "Url must not exceed 256 characters"
+                      "required": {
+                        "en": "Enter link to the resource",
+                        "hi": "संसाधन का लिंक दर्ज करें"
+                      },
+                      "pattern": {
+                        "en": "Please add a valid link to resource",
+                        "hi": "कृपया संसाधन का मान्य लिंक जोड़ें"
+                      },
+                      "maxLength": {
+                        "en": "URL must not exceed 256 characters",
+                        "hi": "यूआरएल 256 अक्षरों से अधिक नहीं होना चाहिए"
+                      }
                     },
                     "validators": {
                       "required": true,
-                      "pattern": "^https://qa\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
+                      "pattern": "^https://dev\\.elevate-ml\\.shikshalokam\\.org/view/observation/[a-f0-9]{32}$",
                       "maxLength": 255
                     }
                   }
                 ]
               ],
-              "confirmButton": "Save",
-              "cancelButton": "Cancel"
+              "confirmButton": {
+                "en": "Save",
+                "hi": "सहेजें"
+              },
+              "cancelButton": {
+                "en": "Cancel",
+                "hi": "रद्द करें"
+              }
             }
           },
           "allowOpenLinks": true
@@ -2116,9 +3098,15 @@
             "formControlName": "certificateType",
             "isMultiSelect": "false",
             "placeHolder": "SELECT_CERTIFICATE_TYPE",
-            "infoMessage": "Select one of the four certificate formats. You can see a preview of the chosen format on the right side of the screen.",
+            "infoMessage": {
+              "en": "Select one of the four certificate formats. You can see a preview of the chosen format on the right side of the screen.",
+              "hi": "चार प्रमाणपत्र प्रारूपों में से एक का चयन करें। आप स्क्रीन के दाईं ओर चयनित प्रारूप का पूर्वावलोकन देख सकते हैं।"
+            },
             "errorMessage": {
-              "required": "Add certificate type"
+              "required": {
+                "en": "Add certificate type",
+                "hi": "प्रमाणपत्र प्रकार जोड़ें"
+              }
             },
             "validators": {
               "required": true
@@ -2138,10 +3126,19 @@
             "formControlName": "issuerName",
             "placeHolder": "ENTER_CERTIFICATE_ISSUER_NAME",
             "position": "floating",
-            "infoMessage": "Provide the Name of the organization issuing the certificate.",
+            "infoMessage": {
+              "en": "Provide the Name of the organization issuing the certificate.",
+              "hi": "प्रमाणपत्र जारी करने वाले संगठन का नाम प्रदान करें।"
+            },
             "errorMessage": {
-              "required": "Enter valid certificate issuer name",
-              "maxLength": "Certificate issuer name must not exceed 256 characters"
+              "required": {
+                "en": "Enter valid certificate issuer name",
+                "hi": "मान्य प्रमाणपत्र जारीकर्ता नाम दर्ज करें"
+              },
+              "maxLength": {
+                "en": "Certificate issuer name must not exceed 256 characters",
+                "hi": "प्रमाणपत्र जारीकर्ता नाम 256 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -2184,7 +3181,10 @@
               }
             },
             "errorMessage": {
-              "required": "Attach logo"
+              "required": {
+                "en": "Attach logo",
+                "hi": "लोगो संलग्न करें"
+              }
             },
             "validators": {
               "required": true
@@ -2214,8 +3214,14 @@
                   "placeHolder": "Name",
                   "position": "",
                   "errorMessage": {
-                    "required": "Enter Name of the signature",
-                    "maxLength": "Name must not exceed 256 characters"
+                    "required": {
+                      "en": "Enter Name of the signature",
+                      "hi": "हस्ताक्षर का नाम दर्ज करें"
+                    },
+                    "maxLength": {
+                      "en": "Name must not exceed 256 characters",
+                      "hi": "नाम 256 अक्षरों से अधिक नहीं होना चाहिए"
+                    }
                   }
                 },
                 {
@@ -2227,7 +3233,10 @@
                   "placeHolder": "Designation",
                   "position": "",
                   "errorMessage": {
-                    "required": "Enter designation to the resource"
+                    "required": {
+                      "en": "Enter designation to the resource",
+                      "hi": "संसाधन के लिए पदनाम दर्ज करें"
+                    }
                   }
                 }
               ],
@@ -2253,7 +3262,10 @@
               }
             },
             "errorMessage": {
-              "required": "Attach sign"
+              "required": {
+                "en": "Attach sign",
+                "hi": "हस्ताक्षर संलग्न करें"
+              }
             },
             "validators": {
               "required": false
@@ -2267,7 +3279,10 @@
             "class": "",
             "type": "radio",
             "formControlName": "enableTaskEvidence",
-            "infoMessage": "Select Yes if you want the user to upload evidence for the project to get the certificate.",
+            "infoMessage": {
+              "en": "Select Yes if you want the user to upload evidence for the project to get the certificate.",
+              "hi": "यदि आप चाहते हैं कि उपयोगकर्ता प्रमाणपत्र प्राप्त करने के लिए परियोजना का प्रमाण अपलोड करे, तो हाँ चुनें।"
+            },
             "options": [],
             "meta": {
               "entityType": "attachprojectevidence"
@@ -2282,11 +3297,23 @@
             "type": "number",
             "formControlName": "evidenceRequired",
             "placeHolder": "Enter number",
-            "infoMessage": "The default value will be '1' if you leave it blank.",
+            "infoMessage": {
+              "en": "The default value will be '1' if you leave it blank.",
+              "hi": "यदि आप इसे खाली छोड़ते हैं, तो डिफ़ॉल्ट मान '1' होगा।"
+            },
             "errorMessage": {
-              "required": "Enter number of evidences",
-              "min": "Evidence number must be at least 1",
-              "max": "Evidence number must not exceed 100,000"
+              "required": {
+                "en": "Enter number of evidences",
+                "hi": "प्रमाणों की संख्या दर्ज करें"
+              },
+              "min": {
+                "en": "Evidence number must be at least 1",
+                "hi": "प्रमाण संख्या कम से कम 1 होनी चाहिए"
+              },
+              "max": {
+                "en": "Evidence number must not exceed 100,000",
+                "hi": "प्रमाण संख्या 100,000 से अधिक नहीं होनी चाहिए"
+              }
             },
             "validators": {
               "required": false,
@@ -2301,7 +3328,10 @@
             "value": "",
             "class": "",
             "type": "radio",
-            "infoMessage": "Select Yes if you want the user to upload evidence for this task to get the certificate",
+            "infoMessage": {
+              "en": "Select Yes if you want the user to upload evidence for this task to get the certificate.",
+              "hi": "यदि आप चाहते हैं कि उपयोगकर्ता प्रमाणपत्र प्राप्त करने के लिए इस कार्य का प्रमाण अपलोड करे, तो हां चुनें।"
+            },
             "options": [],
             "meta": {
               "entityType": "attachtaskevidence"
@@ -2316,11 +3346,23 @@
             "type": "number",
             "formControlName": "evidenceCriteria",
             "placeHolder": "Enter number",
-            "infoMessage": "Enter a number equal to or greater than the minimum number of evidence set for this task on 'Tasks' page. If left blank, the default value will be '1' or same as minimum value set on the 'Tasks' page, whichever is greater.",
+            "infoMessage": {
+              "en": "Enter a number equal to or greater than the minimum number of evidence set for this task on the 'Tasks' page. If left blank, the default value will be '1' or the same as the minimum value set on the 'Tasks' page, whichever is greater.",
+              "hi": "'कार्य' पृष्ठ पर इस कार्य के लिए निर्धारित न्यूनतम साक्ष्य की संख्या के बराबर या उससे अधिक कोई संख्या दर्ज करें। यदि खाली छोड़ दिया जाता है, तो डिफ़ॉल्ट मान '1' होगा या 'कार्य' पृष्ठ पर निर्धारित न्यूनतम मान के बराबर होगा, जो भी अधिक होगा।"
+            },
             "errorMessage": {
-              "required": "Enter number of evidences",
-              "min": "Evidence number must be at least 1",
-              "max": "Evidence number must not exceed 100,000"
+              "required": {
+                "en": "Enter number of evidences",
+                "hi": "प्रमाणों की संख्या दर्ज करें"
+              },
+              "min": {
+                "en": "Evidence number must be at least 1",
+                "hi": "प्रमाण संख्या कम से कम 1 होनी चाहिए"
+              },
+              "max": {
+                "en": "Evidence number must not exceed 100,000",
+                "hi": "प्रमाण संख्या 100,000 से अधिक नहीं होनी चाहिए"
+              }
             },
             "validators": {
               "required": false,
@@ -2343,17 +3385,32 @@
         "controls": [
           {
             "name": "title",
-            "label": "Title",
+            "label": {
+              "en": "Title",
+              "hi": "शीर्षक"
+            },
             "value": "",
             "class": "",
             "type": "text",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Enter project title",
+            "placeHolder": {
+              "en": "Enter project title",
+              "hi": "परियोजना शीर्षक दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Name your project as it should appear to the user on the consumption app.",
+            "infoMessage": {
+              "en": "Name your project as it should appear to the user on the consumption app.",
+              "hi": "उपयोगकर्ता के लिए उपभोग ऐप पर जैसा दिखना चाहिए वैसा अपने प्रोजेक्ट का नाम दें।"
+            },
             "errorMessage": {
-              "required": "Enter valid project title",
-              "maxlength": "Project title must not exceed 256 characters"
+              "required": {
+                "en": "Enter valid project title",
+                "hi": "मान्य परियोजना शीर्षक दर्ज करें"
+              },
+              "maxlength": {
+                "en": "Project title must not exceed 256 characters",
+                "hi": "परियोजना शीर्षक 256 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -2362,17 +3419,26 @@
           },
           {
             "name": "targeting_criteria",
-            "label": "Target criteria",
+            "label": {
+              "en": "Target criteria",
+              "hi": "लक्ष्य मानदंड"
+            },
             "value": [],
             "class": "",
             "icon": "add_circle",
             "type": "triggerParent",
             "cssStyle": "relative w-[100%]",
-            "textForLink": "Select targeting details",
+            "textForLink": {
+              "en": "Add target criteria",
+              "hi": "लक्ष्य मानदंड जोड़ें"
+            },
             "isMultiSelect": "false",
-            "placeHolder": "Select targeting details",
+            "placeHolder": "Select license",
             "position": "floating",
-            "infoMessage": "Select the targeting criteria for your resource. Multiple criteria can be selected.",
+            "infoMessage": {
+              "en": "Select the targeting criteria for your resource. Multiple criteria can be selected.",
+              "hi": "अपने संसाधन के लिए लक्ष्य मानदंड चुनें। कई मानदंड चुने जा सकते हैं।"
+            },
             "errorMessage": {},
             "validators": {
               "required": true
@@ -2380,17 +3446,29 @@
           },
           {
             "name": "start_date",
-            "label": "Start date",
+            "label": {
+              "en": "Start date",
+              "hi": "प्रारंभ तिथि"
+            },
             "value": "",
             "class": "",
             "type": "date",
             "cssStyle": "relative w-[47%]",
-            "placeHolder": "Enter start date",
+            "placeHolder": {
+              "en": "Enter start date",
+              "hi": "प्रारंभ तिथि दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Enter the start date of the resource rollout in DD-MM-YYYY format",
+            "infoMessage": {
+              "en": "Enter the start date of the resource rollout in DD-MM-YYYY format",
+              "hi": "संसाधन रोलआउट की प्रारंभ तिथि DD-MM-YYYY प्रारूप में दर्ज करें"
+            },
             "maxDependentChild": "end_date",
             "errorMessage": {
-              "required": "Enter start date "
+              "required": {
+                "en": "Enter start date",
+                "hi": "प्रारंभ तिथि दर्ज करें"
+              }
             },
             "validators": {
               "required": true
@@ -2398,17 +3476,29 @@
           },
           {
             "name": "end_date",
-            "label": "End date",
+            "label": {
+              "en": "End date",
+              "hi": "समाप्ति तिथि"
+            },
             "value": "",
             "class": "",
             "type": "date",
             "cssStyle": "relative w-[47%]",
-            "placeHolder": "Enter end date",
+            "placeHolder": {
+              "en": "Enter end date",
+              "hi": "समाप्ति तिथि दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Enter the end date of the resource rollout in DD-MM-YYYY format",
+            "infoMessage": {
+              "en": "Enter the end date of the resource rollout in DD-MM-YYYY format",
+              "hi": "संसाधन रोलआउट की समाप्ति तिथि DD-MM-YYYY प्रारूप में दर्ज करें"
+            },
             "minDependentChild": "start_date",
             "errorMessage": {
-              "required": "Enter end date "
+              "required": {
+                "en": "Enter end date",
+                "hi": "समाप्ति तिथि दर्ज करें"
+              }
             },
             "validators": {
               "required": true
@@ -2416,17 +3506,29 @@
           },
           {
             "name": "viewers",
-            "label": "Data manager",
+            "label": {
+              "en": "Data manager",
+              "hi": "डेटा प्रबंधक"
+            },
             "value": [],
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "true",
-            "placeHolder": "Select data manager",
+            "placeHolder": {
+              "en": "Select data manager",
+              "hi": "डेटा प्रबंधक चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select Data Manager of your resource who will get access to the detailed data of the roll out.",
+            "infoMessage": {
+              "en": "Select Data Manager of your resource who will get access to the detailed data of the roll out.",
+              "hi": "अपने संसाधन के डेटा प्रबंधक का चयन करें, जिसे रोलआउट का विस्तृत डेटा एक्सेस मिलेगा।"
+            },
             "errorMessage": {
-              "required": "Select data manager"
+              "required": {
+                "en": "Select data manager",
+                "hi": "डेटा प्रबंधक चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -2463,7 +3565,10 @@
                 "meta": {
                   "url": "GET_ENTITIES_LIST",
                   "type": "state",
-                  "dependantIndex": [1, 2]
+                  "dependantIndex": [
+                    1,
+                    2
+                  ]
                 },
                 "options": []
               },
@@ -2534,17 +3639,32 @@
         "controls": [
           {
             "name": "title",
-            "label": "Program title",
+            "label": {
+              "en": "Program Title",
+              "hi": "प्रोग्राम शीर्षक"
+            },
             "value": "",
             "class": "",
             "type": "text",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Enter program title",
+            "placeHolder": {
+              "en": "Enter program title",
+              "hi": "प्रोग्राम शीर्षक दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Name your program as it should appear to the user on the consumption app.",
+            "infoMessage": {
+              "en": "Name your program as it should appear to the user on the consumption app.",
+              "hi": "अपने प्रोग्राम का नाम वैसे ही दें जैसे यह उपभोक्ता ऐप में दिखेगा।"
+            },
             "errorMessage": {
-              "required": "Enter valid program title",
-              "maxlength": "Program title must not exceed 256 characters"
+              "required": {
+                "en": "Enter valid program title",
+                "hi": "मान्य प्रोग्राम शीर्षक दर्ज करें"
+              },
+              "maxlength": {
+                "en": "Program title must not exceed 256 characters",
+                "hi": "प्रोग्राम शीर्षक 256 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -2553,17 +3673,29 @@
           },
           {
             "name": "targeting_criteria",
-            "label": "Target criteria",
+            "label": {
+              "en": "Target criteria",
+              "hi": "लक्षित मानदंड"
+            },
             "value": [],
             "class": "",
             "icon": "add_circle",
             "type": "triggerParent",
             "cssStyle": "relative w-[100%]",
-            "textForLink": "Add target criteria",
+            "textForLink": {
+              "en": "Add target criteria",
+              "hi": "लक्ष्य मानदंड जोड़ें"
+            },
             "isMultiSelect": "false",
-            "placeHolder": "Select license",
+            "placeHolder": {
+              "en": "Select license",
+              "hi": "लाइसेंस चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select the targeting details for your program. Details for multiple criteria can be added.",
+            "infoMessage": {
+              "en": "Select the targeting details for your program. Details for multiple criteria can be added.",
+              "hi": "अपने प्रोग्राम के लिए लक्ष्य निर्धारण विवरण चुनें। कई मानदंडों के लिए विवरण जोड़े जा सकते हैं।"
+            },
             "errorMessage": {},
             "validators": {
               "required": true
@@ -2571,17 +3703,32 @@
           },
           {
             "name": "objective",
-            "label": "Objective",
+            "label": {
+              "en": "Objective",
+              "hi": "उद्देश्य"
+            },
             "value": "",
             "class": "",
             "type": "textarea",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Summarize the goal of the program",
+            "placeHolder": {
+              "en": "Summarize the goal of the program",
+              "hi": "कार्यक्रम के लक्ष्य का सारांश दें"
+            },
             "position": "floating",
-            "infoMessage": "Describe the program's main goal in one or two lines.",
+            "infoMessage": {
+              "en": "Describe the program's main goal in one or two lines.",
+              "hi": "कार्यक्रम के मुख्य लक्ष्य को एक या दो पंक्तियों में वर्णित करें।"
+            },
             "errorMessage": {
-              "required": "Summarize the goal of the program",
-              "maxlength": "Objective must not exceed 2000 characters"
+              "required": {
+                "en": "Summarize the goal of the program",
+                "hi": "कार्यक्रम के लक्ष्य का सारांश दें"
+              },
+              "maxlength": {
+                "en": "Objective must not exceed 2000 characters",
+                "hi": "उद्देश्य 2000 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": true,
@@ -2590,17 +3737,29 @@
           },
           {
             "name": "start_date",
-            "label": "Start date",
+            "label": {
+              "en": "Start date",
+              "hi": "प्रारंभ तिथि"
+            },
             "value": "",
             "class": "",
             "type": "date",
             "cssStyle": "relative w-[47%]",
-            "placeHolder": "Enter start date",
+            "placeHolder": {
+              "en": "Enter start date",
+              "hi": "प्रारंभ तिथि दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Enter the start date of the program in DD-MM-YYYY format",
+            "infoMessage": {
+              "en": "Enter the start date of the program in DD-MM-YYYY format",
+              "hi": "कार्यक्रम की प्रारंभ तिथि DD-MM-YYYY प्रारूप में दर्ज करें"
+            },
             "maxDependentChild": "end_date",
             "errorMessage": {
-              "required": "Enter start date "
+              "required": {
+                "en": "Enter start date",
+                "hi": "प्रारंभ तिथि दर्ज करें"
+              }
             },
             "validators": {
               "required": true
@@ -2608,17 +3767,29 @@
           },
           {
             "name": "end_date",
-            "label": "End date",
+            "label": {
+              "en": "End date",
+              "hi": "समाप्ति तिथि"
+            },
             "value": "",
             "class": "",
             "type": "date",
             "cssStyle": "relative w-[47%]",
-            "placeHolder": "Enter end date",
+            "placeHolder": {
+              "en": "Enter end date",
+              "hi": "समाप्ति तिथि दर्ज करें"
+            },
             "position": "floating",
-            "infoMessage": "Enter the end date of the program in DD-MM-YYYY format",
+            "infoMessage": {
+              "en": "Enter the end date of the program in DD-MM-YYYY format",
+              "hi": "कार्यक्रम की समाप्ति तिथि DD-MM-YYYY प्रारूप में दर्ज करें"
+            },
             "minDependentChild": "start_date",
             "errorMessage": {
-              "required": "Enter end date "
+              "required": {
+                "en": "Enter end date",
+                "hi": "समाप्ति तिथि दर्ज करें"
+              }
             },
             "validators": {
               "required": true
@@ -2626,17 +3797,32 @@
           },
           {
             "name": "keywords",
-            "label": "Add keywords",
+            "label": {
+              "en": "Add keywords",
+              "hi": "कीवर्ड जोड़ें"
+            },
             "value": "",
             "class": "",
             "type": "text",
             "cssStyle": "relative w-[100%]",
-            "placeHolder": "Add a tag",
+            "placeHolder": {
+              "en": "Add a tag",
+              "hi": "एक टैग जोड़ें"
+            },
             "position": "floating",
-            "infoMessage": "Keywords improve searchability. Help users find your program easily with relevant keywords.",
+            "infoMessage": {
+              "en": "Keywords improve searchability. Help users find your program easily with relevant keywords.",
+              "hi": "कीवर्ड खोज योग्यता में सुधार करते हैं। उपयोगकर्ताओं को आपके कार्यक्रम को आसानी से खोजने में मदद करें।"
+            },
             "errorMessage": {
-              "required": "Add a tag",
-              "maxlength": "Keyword must not exceed 256 characters"
+              "required": {
+                "en": "Add a tag",
+                "hi": "एक टैग जोड़ें"
+              },
+              "maxlength": {
+                "en": "Keyword must not exceed 256 characters",
+                "hi": "कीवर्ड 256 अक्षरों से अधिक नहीं होना चाहिए"
+              }
             },
             "validators": {
               "required": false,
@@ -2645,17 +3831,29 @@
           },
           {
             "name": "viewers",
-            "label": "Program manager",
+            "label": {
+              "en": "Program manager",
+              "hi": "कार्यक्रम प्रबंधक"
+            },
             "value": [],
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "true",
-            "placeHolder": "Select program manager",
+            "placeHolder": {
+              "en": "Select program manager",
+              "hi": "कार्यक्रम प्रबंधक चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select Program Manager of your program",
+            "infoMessage": {
+              "en": "Select Program Manager of your program",
+              "hi": "अपने कार्यक्रम के कार्यक्रम प्रबंधक का चयन करें"
+            },
             "errorMessage": {
-              "required": "Select program manager"
+              "required": {
+                "en": "Select program manager",
+                "hi": "कार्यक्रम प्रबंधक चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -2667,17 +3865,29 @@
           },
           {
             "name": "licenses",
-            "label": "License",
+            "label": {
+              "en": "License",
+              "hi": "लाइसेंस"
+            },
             "value": "cc_by_4.0",
             "class": "",
             "type": "select",
             "cssStyle": "relative w-[100%]",
             "isMultiSelect": "false",
-            "placeHolder": "Select license",
+            "placeHolder": {
+              "en": "Select license",
+              "hi": "लाइसेंस चुनें"
+            },
             "position": "floating",
-            "infoMessage": "Select license type of your program",
+            "infoMessage": {
+              "en": "Select license type of your program",
+              "hi": "अपने कार्यक्रम के लिए लाइसेंस प्रकार चुनें"
+            },
             "errorMessage": {
-              "required": "Select license"
+              "required": {
+                "en": "Select license",
+                "hi": "लाइसेंस चुनें"
+              }
             },
             "validators": {
               "required": true
@@ -2687,7 +3897,51 @@
               "entityType": "licenses"
             }
           }
-        ]
+        ],
+        "program_resources": {
+          "buttonsData": [
+            {
+              "buttons": [
+                "EDIT",
+                "DELETE"
+              ]
+            },
+            {
+              "infoFields": [
+                {
+                  "label": "TITLE",
+                  "value": "",
+                  "name": "title"
+                },
+                {
+                  "label": "CREATOR",
+                  "value": "",
+                  "name": "creator"
+                },
+                {
+                  "label": "ORGANIZATION",
+                  "value": "",
+                  "name": "organization.name"
+                },
+                {
+                  "label": "CREATED_ON",
+                  "value": "",
+                  "name": "created_at"
+                },
+                {
+                  "label": "RESOURCE_TYPE",
+                  "value": "",
+                  "name": "type"
+                },
+                {
+                  "label": "LAST_UPDATED_ON",
+                  "value": "",
+                  "name": "updated_at"
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   },
@@ -2709,7 +3963,9 @@
             "permission_modules": [
               {
                 "module": "projects",
-                "request_type": ["GET"]
+                "request_type": [
+                  "GET"
+                ]
               }
             ]
           }
