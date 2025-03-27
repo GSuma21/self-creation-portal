@@ -22,7 +22,7 @@
 <div class="px-10 py-4 w-[100%]" >
   @for(list of resources; track list){
     <div class="pb-3" [ngClass]="{'opacity-50': !isResourceNotgrayedOut || isResourceGrayedOut(list)}">
-      <lib-card [list]="list" [showActionButton]="true"  [commentVisible]="programWithRolloutService.programData.status === 'PUBLISHED' ? false : true" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
+      <lib-card [list]="list" [showActionButton]="true"  [commentVisible]="(programWithRolloutService.programData.status === 'PUBLISHED' || mode === 'reviewerView' || mode === 'review') ? false : true" (buttonClickEvent)="statusButtonClick($event)"></lib-card>
     </div>
     }
 </div>

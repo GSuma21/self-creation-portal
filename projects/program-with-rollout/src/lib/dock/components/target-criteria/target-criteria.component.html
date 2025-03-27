@@ -17,7 +17,7 @@
                         <section class="flex">
                             <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                 <mat-label> {{ item.label}}</mat-label>
-                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="item.options.length == 0 || formData.readOnly">
+                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="(item.options.length == 0 || formData.readOnly) && item?.meta?.type !== 'roles'">
                                     <mat-option *ngFor="let option of item.options" [value]="option">
                                         {{ option.name ? option.name : option?.label }}
                                     </mat-option>
@@ -49,7 +49,7 @@
                                     <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                                    [aria-label]="checkboxLabel()">
+                                                    [aria-label]="checkboxLabel()"  [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review'}">
                                     </mat-checkbox>
                                 }
                                     </th>
@@ -57,7 +57,7 @@
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                                     (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
-                                                    [aria-label]="checkboxLabel(row)">
+                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'review' && !checkIsRowAvailable(row) ) }">
                                     </mat-checkbox>
                                     </td>
                                 </ng-container>
@@ -68,7 +68,7 @@
                                 </ng-container>
 
                                 <tr mat-header-row *matHeaderRowDef="tableColumns; sticky: true"></tr>
-                                <tr mat-row *matRowDef="let row; columns:tableColumns" (click)="selection.toggle(row)"></tr>
+                                <tr mat-row *matRowDef="let row; columns:tableColumns"></tr>
 
                                 <!-- Row shown when there is no matching data. -->
                                 <tr class="mat-row" *matNoDataRow>
