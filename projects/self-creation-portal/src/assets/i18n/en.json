@@ -241,6 +241,8 @@
     "SELECTE_FILE_TYPES":"Select file types",
     "ADD_A_SUBTASK":"Add a subtask",
     "SUBTASK_ERROR_FOR_MAX_LENGTH":"Subtask cannot exceed 256 characters.",
-    "SUBTASK_ERROR_FOR_PATTERN":"Subtask can only include alphanumeric characters with spaces, -, _, &, <>"
+    "SUBTASK_ERROR_FOR_PATTERN":"Subtask can only include alphanumeric characters with spaces, -, _, &, <>",
+    "SEARCH_LIBRARY":"Search library",
+    "SEARCH_TARGET_ELEMENT":"Search target element"
 
 }
