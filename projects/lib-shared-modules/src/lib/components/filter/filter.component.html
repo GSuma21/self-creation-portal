@@ -1,15 +1,15 @@
 @if(filterData){
 <div class="container">
   @for(filter of filterData;track filter){
-  <div class="filter-container" 
+  <div class="filter-container"
     [ngClass]="{
-    'bg-primary text-white': activeFilterButton === filter.label, 
+    'bg-primary text-white': activeFilterButton === filter.label,
     'bg-white text-primary': activeFilterButton !== filter.label
     }">
-    @if(filter.option){
+    @if(filter.option && permissions){
       <mat-select [placeholder]="filter.label | languageTranslate: language" [multiple]="filter.isMultiple"  (selectionChange)="OnClickfilter($event, filter)">
         @for(option of filter.option;track option){
-      <mat-option [value]="option.value">{{option.label | languageTranslate: language}}</mat-option>
+      <mat-option [value]="option.value" *appArrayContainsAll="{ mainArray: permissions, checkArray: option.permission_modules }">{{option.label | languageTranslate: language}}</mat-option>
         }
     </mat-select>
     }

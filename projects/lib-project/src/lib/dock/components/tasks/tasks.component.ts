@@ -226,7 +226,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           })
         }
 
-        if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT) {
+        if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || this.mode === solutionModes.META_EDIT || this.mode === solutionModes.META_REQUEST_FOR_EDIT || this.mode === solutionModes.META_REVIEW) {
           this.viewOnly = true
           // this.tasksForm.disable()
         }

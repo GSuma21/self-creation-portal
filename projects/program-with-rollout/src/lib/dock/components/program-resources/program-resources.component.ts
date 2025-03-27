@@ -293,6 +293,7 @@ getsolutionList() {
     this.formService.getPermissions().subscribe((res:any) => {
       this.formService.getForm(RESOURCE_LIST).subscribe((form) =>{
         this.permissions = res.result;
+        localStorage.setItem("permission",JSON.stringify(this.permissions));
           this.resourceList = form?.result?.data?.fields?.controls.filter((item:any) => {
             if(item.title != "PROGRAM") {
               return item
@@ -309,10 +310,10 @@ getsolutionList() {
     this.router.navigate([CHOOSE_RESOURCES],{queryParams:{parent: 'program-resources', selectFor:'programs', programId: this.programId, type: cardItem.type, parentMode:this.mode, topLevelParent:this.parent}, state : { programErrors: newData }})
   }
 
-  statusButtonClick(event: { label: string, item: any }) {
-    const { label, item } = event;
+  statusButtonClick(event: { button:any, item: any }) {
+    const { button, item } = event;
 
-    switch (label) {
+    switch (button.label) {
       case 'EDIT':
         if (item.type === 'project') {
           if(this.mode === solutionModes.REQUEST_FOR_EDIT) {
@@ -360,21 +361,16 @@ getsolutionList() {
         break;
       case 'REVIEW':
         if (item.type === 'project') {
-          this.router.navigate([PROJECT_DETAILS_PAGE], {
-            queryParams: {
-              parent: 'program-resources',
-              programId: this.programId,
-              programResourceId: item.id,
-              mode: solutionModes.META_REVIEW,
-              parentMode : this.mode,
-              topLevelParent : this.parent
-            },
-          });
+          this.goToProjectReview(item);
           break;
         } else {
           break;
         }
       case 'VIEW':
+        if(button.action == "START_REVIEW") {
+          this.goToProjectReview(item);
+          return;
+        }
         if (item.type === 'project') {
           this.router.navigate([PROJECT_DETAILS_PAGE], {
             queryParams: {
@@ -393,6 +389,21 @@ getsolutionList() {
         }
       default:
         break;
+    }
+  }
+
+  goToProjectReview(item:any) {
+    if (item.type === 'project') {
+      this.router.navigate([PROJECT_DETAILS_PAGE], {
+        queryParams: {
+          parent: 'program-resources',
+          programId: this.programId,
+          programResourceId: item.id,
+          mode: solutionModes.META_REVIEW,
+          parentMode : this.mode,
+          topLevelParent : this.parent
+        },
+      });
     }
   }
 

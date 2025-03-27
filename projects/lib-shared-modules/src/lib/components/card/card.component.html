@@ -91,7 +91,7 @@
                     @if(showActionButton){
                         @for (button of list.actionButton; track button){
                             <div>
-                                <button mat-flat-button [ngStyle]="{'background-color': button.background_color, 'color': button.color ? button.color : 'white'}" (click)="onButtonClick(button.label, list)" [class]="button?.class">{{button.label | translate}}</button>
+                                <button mat-flat-button [ngStyle]="{'background-color': button.background_color, 'color': button.color ? button.color : 'white'}" (click)="onButtonClick(button, list)" [class]="button?.class">{{button.label | translate}}</button>
                             </div>
                             }
                     }

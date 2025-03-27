@@ -334,12 +334,12 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
    * @param event -listresource api response.
    * event click action for each label
    */
-  statusButtonClick(event: { label: string, item: any }) {
-     const { label, item } = event;
+  statusButtonClick(event: { button:any, item: any }) {
+    const { button, item } = event;
     //  if(this.pageStatus === 'roll-out'){
 
     //  }else{
-      switch (label) {
+      switch (button.label) {
         case 'EDIT':
           if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
             this.router.navigate([PROGRAM_DETAILS_PAGE], {
@@ -480,7 +480,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
 
           this.router.navigate([detailsPage], { queryParams });
           break;
-          
+
 
         case 'START_REVIEW':
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){
@@ -712,6 +712,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
     this.formService.getPermissions().subscribe((res:any) => {
       this.formService.getForm(RESOURCE_LIST).subscribe((form) =>{
         this.permissions = res.result;
+        localStorage.setItem("permission",JSON.stringify(this.permissions));
         this.resourceList = form?.result?.data?.fields?.controls
         if(this.pageStatus == 'roll-out') {
           this.resourceList = this.resourceList.filter((item:any) => {
@@ -752,7 +753,7 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
         }
         return false;
       })
-      
+
     );
   }
 

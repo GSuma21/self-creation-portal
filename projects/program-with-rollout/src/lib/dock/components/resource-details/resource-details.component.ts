@@ -126,12 +126,12 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
    * @param event -listresource api response.
    * event click action for each label
    */
-   statusButtonClick(event: { label: string, item: any }) {
-    const { label, item } = event;
+   statusButtonClick(event: { button:any, item: any }) {
+    const { button, item } = event;
    //  if(this.pageStatus === 'roll-out'){
 
    //  }else{
-     switch (label) {
+     switch (button.label) {
       case 'PREVIEW': {
         this.subscription.add(
           this.programWithRolloutService.readProject(this.resourceId).subscribe((res:any)=> {
