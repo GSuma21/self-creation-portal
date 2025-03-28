@@ -416,7 +416,16 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             break;
           }
         case 'RESUME_EDITING':
-         if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
+          if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'review',
+                programId: item.id,
+                mode: solutionModes.REQUEST_FOR_EDIT,
+              },
+            });
+            break;
+          }else if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && this.activeRole == "creator"){
            this.router.navigate([PROJECT_DETAILS_PAGE], {
              queryParams: {
                projectId: item.id,
