@@ -241,7 +241,7 @@ export class ProgramWithRolloutService {
             ? title
             : this.programData?.title
             ? this.programData?.title
-            : 'PROGRAM_NAME',
+            : (this.router.url.includes('project-details') ? 'PROJECT_TARGETING' :'PROGRAM_NAME'),
         },
       },
     };

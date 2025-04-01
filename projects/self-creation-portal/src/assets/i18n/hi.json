@@ -252,6 +252,8 @@
     "LAST_REVIEWED": "अंतिम समीक्षा",
     "CERTIFICATE_PREVIEW":"प्रमाणपत्र पूर्वावलोकन",
     "NO_DATA_AVAILABLE":"कोई डेटा उपलब्ध नहीं है",
-    "SUBMIT":"जमा करें"
+    "SUBMIT":"जमा करें",
+    "PROJECT_TARGETING": "प्रोजेक्ट लक्ष्यीकरण"
+
     
 }
