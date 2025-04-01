@@ -27,7 +27,7 @@
         <button class="btn mr-5 save-button" [ngClass]="{'button-disabled': (resolveDisable || !(messages?.length > 0))}" mat-flat-button [disabled]="resolveDisable || !(messages?.length > 0)" (click)="resolveComment()">{{ "RESOLVE" | translate}}</button>
       </section>
     }
-    @if(messages?.length || (this.mode === 'creatorView' || this.mode === 'reqEdit' )){
+    @if(messages?.length || (this.mode === 'creatorView' || this.mode === 'reqEdit' || this.mode === 'metaReqEdit' )){
       <section class="p-3 chat-window z-[100]" #chatWindow [ngClass]="{'content-center items-center': !messages?.length}">
         @if(!messages?.length){
           <div class="flex items-center justify-center" >
@@ -50,7 +50,7 @@
         }
       </section>
     }
-    <section  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView'), 'expanded-editor': ((!messages || messages.length === 0) && !(mode === 'creatorView' || mode === 'reqEdit')) }">
+    <section  [ngClass]="{'disabled-with-pointer-events': (mode === 'viewOnly' || mode === 'creatorView' || mode === 'reviewerView'), 'expanded-editor': ((!messages || messages.length === 0) && !(mode === 'creatorView' || mode === 'reqEdit' || this.mode === 'metaReqEdit')) }">
       <quill-editor [(ngModel)]="quillInput" placeholder="{{'TYPE_YOUR_COMMENT' | translate}}" [modules]="quillConfig"
         (onSelectionChanged)="onSelectionChanged($event)"></quill-editor>
     </section>
