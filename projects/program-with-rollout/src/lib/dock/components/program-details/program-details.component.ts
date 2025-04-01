@@ -516,7 +516,7 @@ export class ProgramDetailsComponent {
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
           this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
-          this.programWithRolloutService.checkValidationForRequestChanges(comments);
+          this.programWithRolloutService.checkValidationForRequestChanges(comments, commentListRes.result.childResources);
         });
       })
     );
@@ -530,6 +530,7 @@ export class ProgramDetailsComponent {
     if(this.programWithRolloutService.formMeta?.formValidation) {
       this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     }
+    console.log(this.utilService.saveResources,this.programWithRolloutService.programData.id )
     if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }

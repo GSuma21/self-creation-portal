@@ -553,8 +553,11 @@ export class ProgramWithRolloutService {
     this.setProgramErrorsFunc(this.reviewErrors);
   }
 
-  checkValidationForRequestChanges(input:any = "") { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
-    if(input === null){
+  checkValidationForRequestChanges(input:any = "" , resourceComments:any=[]) { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
+    if(resourceComments){
+      this.changeCommentStatus(!resourceComments.some((item:any) => item.is_comments === true))
+    }
+    else if(input === null){
       this.getComments().subscribe((data:any)=>{
         if(data.some((comment: any) => comment.status === resourceStatus.DRAFT)){
           this.changeCommentStatus(false)

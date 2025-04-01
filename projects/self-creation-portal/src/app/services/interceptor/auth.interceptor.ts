@@ -56,7 +56,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      commonService.openErrorToast(error.error.message)
+      commonService.openErrorToast(!onlineStatus ? "OFFLINE_MSG_NETWORK" : error.error.message)
       if(error.status === 403){
         matDialog.closeAll();
       }

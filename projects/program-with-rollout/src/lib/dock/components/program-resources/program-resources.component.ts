@@ -439,7 +439,7 @@ getsolutionList() {
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
           this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
-          this.programWithRolloutService.checkValidationForRequestChanges(comments);
+          this.programWithRolloutService.checkValidationForRequestChanges(comments,commentListRes.result.childResources);
         });
       })
     );
