@@ -490,6 +490,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
           class: 'success',
         };
         this.toastService.openSnackBar(data);
+        this.programWithRolloutService.rolloutId = ""
       })
     }
     this.programWithRolloutService.resourceDetails = {};
