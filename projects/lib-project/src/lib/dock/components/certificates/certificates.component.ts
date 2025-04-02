@@ -445,9 +445,8 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
         this.libProjectService.projectData?.certificate?.signature &&
         !Object.values(
           this.libProjectService.projectData?.certificate?.signature
-        ).some((value) => value === '') && Object.keys(
-          this.libProjectService.projectData?.certificate?.signature
-        .length > this.libProjectService.projectData?.certificate?.signature?.no_of_signature) &&
+        ).some((value) => value === '') &&
+        Object.keys(this.libProjectService.projectData?.certificate?.signature).length > (this.libProjectService.projectData?.certificate?.signature?.no_of_signature*3) &&
         this.certificateForm.status == 'VALID'
       ) {
         this.libProjectService.formMeta.formValidation.certificates = 'VALID';
@@ -828,6 +827,9 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
   setProjectEvidenceCriteriaSelection(value:string) {
     this.libProjectService.formMeta.isProjectEvidenceSelected = value
+    if(this.libProjectService.projectData.formMeta) {
+      this.libProjectService.projectData.formMeta = this.libProjectService.formMeta;
+    }
     this.libProjectService.projectData.formMeta.isProjectEvidenceSelected = value
     if(value == "0" && this.libProjectService.projectData.certificate.criteria.expression.includes("C2")) {
       this.certificateForm.controls['evidenceRequired'].disable()
@@ -845,6 +847,9 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   setEvidenceCriteriaValue(criterialValue:any,taskCriteria:any,item:any) {
    if(!this.libProjectService.formMeta.taskEvidenceSelected[item.id] && taskCriteria == 1) {
       this.libProjectService.formMeta.taskEvidenceSelected[item.id] = taskCriteria;
+      if(this.libProjectService.projectData.formMeta) {
+        this.libProjectService.projectData.formMeta = this.libProjectService.formMeta
+      }
       this.libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] = taskCriteria;
       this.libProjectService.projectData.certificate.criteria.conditions.C3.expression = this.libProjectService.projectData.certificate.criteria.conditions.C3.expression ? this.libProjectService.projectData.certificate.criteria.conditions.C3.expression +'&&'+item.id : item.id
       this.libProjectService.projectData.certificate.criteria.conditions.C3.conditions[item.id] = {

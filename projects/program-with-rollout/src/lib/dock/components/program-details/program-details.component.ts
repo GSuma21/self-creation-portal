@@ -268,6 +268,7 @@ export class ProgramDetailsComponent {
 
   getDynamicFormData(data:any){
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
+    this.programWithRolloutService.tabValidationForProgram.programDetails = this.formLib?.myForm.status
     this.programWithRolloutService.setProgramData(data)
     this.programWithRolloutService.upDateProgramTitle(data.title)
     if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
@@ -364,7 +365,7 @@ export class ProgramDetailsComponent {
                   this.formLib.myForm.patchValue({ // adding target criteria to form
                     targeting_criteria: element.value,
                   });
-                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
+                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(control.item))) {
                     this.changeResourceLevelTargetingToast()
                   }
                 }

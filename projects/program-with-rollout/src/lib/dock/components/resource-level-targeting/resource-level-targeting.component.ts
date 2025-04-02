@@ -516,7 +516,10 @@ export class ResourceLevelTargetingComponent {
           this.programWithRolloutService.programData,
           this.programId
         )
-        .subscribe((res: any) => {})
+        .subscribe((res: any) => {
+          this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+          this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+        })
     );
   }
 
