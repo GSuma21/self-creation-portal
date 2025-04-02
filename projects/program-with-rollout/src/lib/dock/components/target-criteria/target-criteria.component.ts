@@ -166,7 +166,10 @@ export class TargetCriteriaComponent implements OnInit {
       delete this.criteria[0].form[2];
       this.criteria[0].form[2] = {
         isMultiple: true,
-        label: 'Select Target',
+        label: {
+          "en": "Select Target",
+          "hi": "लक्षित चयन करें"
+      },
         meta: { url: 'GET_ENTITY_ROLES', type: 'roles' },
         options: [],
         placeHolder: 'Role',
