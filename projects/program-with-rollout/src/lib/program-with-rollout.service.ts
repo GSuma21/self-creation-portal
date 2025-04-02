@@ -441,7 +441,7 @@ export class ProgramWithRolloutService {
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
                     },((err)=> {
                       this.utilService.saveResources = true;
-                      this.validateAndHighlightErrors(err)
+                      this.validateAndHighlightErrorsForPrograms(err)
                     })
                   );
 

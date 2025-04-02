@@ -236,19 +236,21 @@ export class TargetCriteriaComponent implements OnInit {
       // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
       //     this.criteriaFilters[formElementIndex].options = res.result.data;
       // })
-      for (let index = 0; index < 1; index++) {
-        // index starts 1 to skip state fetching
-        this.formService
-          .getEntitiesListAsType(
-            'GET_SUB_ENTITIES_LIST',
-            this.criteriaFilters[index].value,
-            Array.isArray(this.formData.state)
-              ? this.formData.state[0]._id
-              : this.formData.state._id
-          )
-          .subscribe((res: any) => {
-            this.criteriaFilters[index].option = res.result.data;
-          });
+      if(this.criteriaFilters.length > 0) {
+        for (let index = 0; index < 1; index++) {
+          // index starts 1 to skip state fetching
+          this.formService
+            .getEntitiesListAsType(
+              'GET_SUB_ENTITIES_LIST',
+              this.criteriaFilters[index].value,
+              Array.isArray(this.formData.state)
+                ? this.formData.state[0]._id
+                : this.formData.state._id
+            )
+            .subscribe((res: any) => {
+              this.criteriaFilters[index].option = res.result.data;
+            });
+        }
       }
       this.formService
         .getEntitiesList(
@@ -419,14 +421,9 @@ export class TargetCriteriaComponent implements OnInit {
 
   checkIsRowAvailable(row: any) {
     if (this.formData[this.formData.entity_targeting.value]) {
-      let value = this.formData[this.formData.entity_targeting.value].find(
+      return this.formData[this.formData.entity_targeting.value].some(
         (obj: any) => JSON.stringify(obj) === JSON.stringify(row)
-      )
-      console.log(value);
-      return value ? true : false;
-    }
-    else {
-      return false;
+      );
     }
   }
 
