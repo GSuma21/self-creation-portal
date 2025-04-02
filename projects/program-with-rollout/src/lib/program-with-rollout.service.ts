@@ -241,7 +241,7 @@ export class ProgramWithRolloutService {
             ? title
             : this.programData?.title
             ? this.programData?.title
-            : 'PROGRAM_NAME',
+            : (this.router.url.includes('project-details') ? 'PROJECT_TARGETING' :'PROGRAM_NAME'),
         },
       },
     };
@@ -379,6 +379,7 @@ export class ProgramWithRolloutService {
                 });
                 dialogRef.afterClosed().subscribe((result: any) => {
                   if (result.sendForReview == 'SEND_FOR_REVIEW') {
+                    this.utilService.saveResources = false;
                     this.createOrUpdateProgram(
                       this.programData,
                       this.programData.id,
@@ -407,6 +408,7 @@ export class ProgramWithRolloutService {
                           this.programData = {};
                           this.router.navigate([SUBMITTED_FOR_REVIEW]);
                         },((err)=> {
+                          this.utilService.saveResources = true;
                           this.validateAndHighlightErrorsForPrograms(err)
                         })
                       );
@@ -438,6 +440,7 @@ export class ProgramWithRolloutService {
                       this.programData = {};
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
                     },((err)=> {
+                      this.utilService.saveResources = true;
                       this.validateAndHighlightErrors(err)
                     })
                   );

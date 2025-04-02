@@ -252,6 +252,7 @@
     "LAST_REVIEWED":"Last reviewed",
     "CERTIFICATE_PREVIEW":"Certificate preview",
     "NO_DATA_AVAILABLE":"No data available",
-    "SUBMIT":"Submit"
+    "SUBMIT":"Submit",
+    "PROJECT_TARGETING":"Project targeting"
 
 }
