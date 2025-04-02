@@ -179,7 +179,7 @@
     "THE_MAXIMUM_NUMBER_OF_TASKS_THAT_CAN_BE_ADDED_IS": "*अधिकतम कार्यों की संख्या जो जोड़ी जा सकती है: ",
     "MIN_SUBMISSION_REQUIRED": "न्यूनतम जमा आवश्यक*",
     "PUBLISHED_ON": "प्रकाशित किया गया: ",
-    "ENGLISH": "अंग्रेज़ी",
+    "ENGLISH":"English",
     "HINDI": "हिंदी",
     "ENTER_CERTIFICATE_ISSUER_NAME": "प्रमाणपत्र जारीकर्ता का नाम दर्ज करें",
     "ENABLE_TASK_EVIDENCE": "क्या आप कार्य के लिए प्रमाणपत्र मानदंड शामिल करना चाहते हैं -",
@@ -255,5 +255,5 @@
     "SUBMIT":"जमा करें",
     "PROJECT_TARGETING": "प्रोजेक्ट लक्ष्यीकरण"
 
-    
+
 }

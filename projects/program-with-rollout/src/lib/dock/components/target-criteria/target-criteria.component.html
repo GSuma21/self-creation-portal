@@ -59,7 +59,7 @@
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                                     (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
-                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'viewOnly' ||  dialogData.data?.mode === 'review' ||  (dialogData.data?.mode !== 'review' && !checkIsRowAvailable(row)) ) }">
+                                                    [aria-label]="checkboxLabel(row)">
                                     </mat-checkbox>
                                     </td>
                                 </ng-container>
