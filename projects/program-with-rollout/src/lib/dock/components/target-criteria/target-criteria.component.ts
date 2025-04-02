@@ -403,7 +403,7 @@ export class TargetCriteriaComponent implements OnInit {
         }
     });
 
-    for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.length; index++) {
+    for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+2; index++) {
       this.formService
         .getEntitiesListAsType(
           'GET_SUB_ENTITIES_LIST',
@@ -507,15 +507,17 @@ export class TargetCriteriaComponent implements OnInit {
       return
     }
     this.selection.toggle(row);
-    this.formData[this.formData.entity_targeting.name] = this.formData[
-      this.formData.entity_targeting.name
-    ].filter(
-      (item: any, index: number, self: any) =>
-        index ===
-        self.findIndex(
-          (obj: any) => JSON.stringify(obj) === JSON.stringify(item)
-        )
-    );
+    if(this.formData[this.formData.entity_targeting.name] && this.formData[this.formData.entity_targeting.name].length > 0) {
+      this.formData[this.formData.entity_targeting.name] = this.formData[
+        this.formData.entity_targeting.name
+      ].filter(
+        (item: any, index: number, self: any) =>
+          index ===
+          self.findIndex(
+            (obj: any) => JSON.stringify(obj) === JSON.stringify(item)
+          )
+      );
+    }
     if (!this.formData[this.formData.entity_targeting.name]) {
       this.formData[this.formData.entity_targeting.name] = [];
     }

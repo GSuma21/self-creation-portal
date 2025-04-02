@@ -268,7 +268,9 @@ export class ProgramDetailsComponent {
 
   getDynamicFormData(data:any){
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
-    this.programWithRolloutService.tabValidationForProgram.programDetails = this.formLib?.myForm.status
+    if(this.formLib?.myForm.status == "VALID") {
+      this.programWithRolloutService.tabValidationForProgram.programDetails = this.formLib?.myForm.status
+    }
     this.programWithRolloutService.setProgramData(data)
     this.programWithRolloutService.upDateProgramTitle(data.title)
     if(data.viewers.every((item:any) => typeof item === "object" && item !== null)){
