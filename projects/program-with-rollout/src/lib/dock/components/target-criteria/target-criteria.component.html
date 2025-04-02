@@ -19,7 +19,7 @@
                         <section class="flex">
                             <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                 <mat-label> {{ item.label | languageTranslate: language}}</mat-label>
-                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder | languageTranslate: language" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="(item.options.length == 0 || formData.readOnly) && item?.meta?.type !== 'roles'" [ngClass]="{'pointer-events-none': dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly'}">
+                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder | languageTranslate: language" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="(item.options.length == 0 || dialogData.data?.readOnly) && item?.meta?.type !== 'roles'" [ngClass]="{'pointer-events-none': dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly'}">
                                     <mat-option *ngFor="let option of item.options" [value]="option" [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly'}">
                                         {{ option.name ? (option.name | languageTranslate: language) : option?.label }}
                                     </mat-option>
@@ -59,7 +59,7 @@
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                                     (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
-                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'viewOnly' ||  dialogData.data?.mode === 'review' ||  (dialogData.data?.page === 'resource-level-targeting' && !checkIsRowAvailable(row)) ) }">
+                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'viewOnly' ||  dialogData.data?.mode === 'review' ||  ((dialogData.data?.page === 'resource-level-targeting') && !checkIsRowAvailable(row)) ) }">
                                     </mat-checkbox>
                                     </td>
                                 </ng-container>
