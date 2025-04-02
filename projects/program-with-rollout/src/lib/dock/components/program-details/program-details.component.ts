@@ -350,7 +350,7 @@ export class ProgramDetailsComponent {
             disableClose: true,
             autoFocus: false,
             data:{
-              data: control.item,
+              data: {...control.item,...{readOnly:true,mode:this.mode}},
               targeting_criteria:this.programWithRolloutService.programData.targeting_criteria,
               language: this.language
             },

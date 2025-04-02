@@ -473,7 +473,7 @@ export class ResourceLevelTargetingComponent {
         disableClose: true,
         autoFocus: false,
         data: {
-          data:{...targeItem,...{readOnly:true,mode:this.mode}},
+          data:{...targeItem,...{readOnly:true,mode:this.mode, page:'resource-level-targeting'}},
           targeting_criteria:      this.programWithRolloutService.programData.resources[
             resourceIndex
           ].targeting_criteria,
