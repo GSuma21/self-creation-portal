@@ -9,9 +9,9 @@
     @if(filter.option && permissions){
       <mat-select [placeholder]="filter.label | languageTranslate: language" [multiple]="filter.isMultiple"  (selectionChange)="OnClickfilter($event, filter)">
         @for(option of filter.option;track option){
-      <mat-option [value]="option.value" *appArrayContainsAll="{ mainArray: permissions, checkArray: option.permission_modules }">{{option.label | languageTranslate: language}}</mat-option>
+          <mat-option [value]="option.value" *ngIf="checkIsHavePermission(option.permission_modules)">{{option.label | languageTranslate: language}}</mat-option>
         }
-    </mat-select>
+      </mat-select>
     }
     @else {
         <div class="flex items-center justify-center">

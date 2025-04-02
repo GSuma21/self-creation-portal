@@ -39,6 +39,9 @@ mat-error {
     color: gray;
     margin-bottom: 1rem;
 }
+.enable-with-pointer-events {
+    pointer-events: auto !important;
+}
 
 .info-icon{
     color: #80868B;

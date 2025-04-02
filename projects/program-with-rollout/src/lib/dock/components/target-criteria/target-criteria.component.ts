@@ -233,7 +233,7 @@ export class TargetCriteriaComponent implements OnInit {
       // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
       //     this.criteriaFilters[formElementIndex].options = res.result.data;
       // })
-      for (let index = 0; index < this.criteriaFilters.length; index++) {
+      for (let index = 0; index < 1; index++) {
         // index starts 1 to skip state fetching
         this.formService
           .getEntitiesListAsType(

@@ -72,6 +72,22 @@ export class FilterComponent implements OnInit {
     this.permissions = JSON.parse(this.permissions);
   }
 
+  checkIsHavePermission(permission:any) {
+    if(this.permissions.length > 0 && permission && permission.length > 0) {
+      let item = '';
+      this.permissions.forEach((element:any)=> {
+        if(element.module === permission[0].module) {
+          item = permission[0].module;
+        }
+      })
+      console.log(item,this.permissions);
+      return item ? true : false;
+    }
+    else {
+      return true;
+    }
+  }
+
   filterButtonAction(filter: any){
     this.filterButtonActionEvent.emit({ label: filter.value});
   }

@@ -364,7 +364,7 @@ export class ProgramDetailsComponent {
                   this.formLib.myForm.patchValue({ // adding target criteria to form
                     targeting_criteria: element.value,
                   });
-                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(this.programWithRolloutService.programData.targeting_criteria))) {
+                  if (this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED && ( JSON.stringify(res) !== JSON.stringify(control.item))) {
                     this.changeResourceLevelTargetingToast()
                   }
                 }
