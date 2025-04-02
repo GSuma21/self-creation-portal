@@ -441,7 +441,6 @@ export class ProgramWithRolloutService {
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
                     },((err)=> {
                       this.utilService.saveResources = true;
-                      debugger;
                       this.validateAndHighlightErrorsForPrograms(err)
                     })
                   );
@@ -505,7 +504,6 @@ export class ProgramWithRolloutService {
     this.formService.getForm(PROGRAM_DETAILS).subscribe((data: any) => {
       if (data) {
         err.error.forEach((err: any) => {
-          debugger;
           data.result.data.fields.controls.some((item: any) => {
             if(err.location && err.location.includes("resource")){
               this.formMeta.formValidation.resourceLevelTargeting = "INVALID"
@@ -519,7 +517,6 @@ export class ProgramWithRolloutService {
 
           });
         });
-        debugger;
         this.reviewErrors = err.error
         this.setProgramErrorsFunc(err.error);
       }
