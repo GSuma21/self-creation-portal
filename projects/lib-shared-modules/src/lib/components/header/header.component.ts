@@ -122,4 +122,13 @@ export class HeaderComponent {
       this.mode === solutionModes.RESOURCE_EDIT ? 'review_not_required_after_publish' : 'review_not_required'
     ] || [];
   }
+
+  getButtonsList() {
+    if (this.isButtonsNotDependOnModes()) {
+      return this.getButtons();
+    } else {
+      const buttons = this.headerData?.buttons[this.modeFromParent ?? this.mode];
+      return buttons ? buttons : [];
+    }
+  }
 }
