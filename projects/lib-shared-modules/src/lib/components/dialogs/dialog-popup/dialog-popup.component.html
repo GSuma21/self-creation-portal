@@ -26,8 +26,8 @@
         @for(control of dialogueData?.form; track control){
           <div class="flex">
             <mat-form-field class="w-full" appearance="outline" floatLabel="always">
-              <mat-label>{{ control.label }}</mat-label>
-              <input matInput id="exampleInput"  [(ngModel)]="title"   #input="ngModel" name="{{control.name}}" [placeholder]="control.placeHolder"
+              <mat-label>{{ control.label | languageTranslate: language}}</mat-label>
+              <input matInput id="exampleInput"  [(ngModel)]="title"   #input="ngModel" name="{{control.name}}" [placeholder]="control.placeHolder | languageTranslate: language"
               [maxlength]="control?.validators.maxLength"
               [required]="control?.validators?.required"
               [pattern]="control?.validators?.pattern">
@@ -38,13 +38,13 @@
               <div class="error-message">
                 <mat-icon class="error-icon" matPrefix>error_outline</mat-icon>
                 @if(dialogueForm.controls[control.name]?.errors?.['required']){
-                  <span>{{control.errorMessage.required}}</span>
+                  <span>{{control.errorMessage.required | languageTranslate: language}}</span>
                 }
                 @if(dialogueForm.controls[control.name]?.errors?.['pattern']){
-                  <span>{{control.errorMessage.pattern}}</span>
+                  <span>{{control.errorMessage.pattern | languageTranslate: language}}</span>
                 }
                 @if(dialogueForm.controls[control.name]?.errors?.['maxlength']){
-                  <span>{{control.errorMessage.maxLength}}</span>
+                  <span>{{control.errorMessage.maxLength | languageTranslate: language}}</span>
                 }
               </div>
             }
