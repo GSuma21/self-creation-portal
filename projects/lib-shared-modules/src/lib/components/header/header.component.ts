@@ -104,25 +104,6 @@ export class HeaderComponent {
     }
   }
 
-
-  checkIsHavePermission(button:string) {
-    debugger;
-    console.log(button)
-    // if(this.permissions.length > 0 && permission && permission.length > 0) {
-    //   let item = '';
-    //   this.permissions.forEach((element:any)=> {
-    //     if(element.module === permission) {
-    //       item = permission
-    //     }
-    //   })
-    //   console.log(item,this.permissions);
-    //   return item ? true : false;
-    // }
-    // else {
-    //   return true;
-    // }
-  }
-
   isButtonsNotDependOnModes(): any {
     if(!this.config){
       return false;
