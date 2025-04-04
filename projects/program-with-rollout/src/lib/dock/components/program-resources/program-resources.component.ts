@@ -35,6 +35,7 @@ export class ProgramResourcesComponent {
   mode:any;
   viewOnly:boolean = false;
   isResourceNotgrayedOut =  true;
+  isResourceTileShow= true;
   private subscription: Subscription = new Subscription();
 
 constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService, private utilService: UtilService){
@@ -86,8 +87,9 @@ ngOnInit(){
     this.viewOnly = true
     // this.getProjectDetailsForViewOnly();
   }
-  if(this.mode === solutionModes.META_EDIT){
-    this.isResourceNotgrayedOut = false
+  if(this.mode === solutionModes.META_EDIT || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW){
+    this.isResourceNotgrayedOut = this.mode === solutionModes.META_EDIT ? false : true;
+    this.isResourceTileShow = false
   }
   this.subscription.add(
     this.programWithRolloutService.isProgramSave.subscribe(
