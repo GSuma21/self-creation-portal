@@ -253,6 +253,7 @@
     "CERTIFICATE_PREVIEW":"Certificate preview",
     "NO_DATA_AVAILABLE":"No data available",
     "SUBMIT":"Submit",
-    "PROJECT_TARGETING":"Project targeting"
-
+    "PROJECT_TARGETING":"Project targeting",
+    "CHECK_HIGHLIGHT_FIELDS":"Check the highlighted fields. Some inputs contain invalid characters.",
+    "FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM":"Fill the mandatory fields and/or add at least one resource to the program."
 }

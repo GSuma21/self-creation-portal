@@ -28,8 +28,9 @@ export class HeaderComponent {
   @Input() toParent:boolean = false;
   @Input() config:any;
   @Output() backToParent = new EventEmitter<boolean>();
+  permissions:any = [];
 
-  selectedLanguage: any = 'en'; 
+  selectedLanguage: any = 'en';
   supportLanguages : any = [
     {label: "ENGLISH", value: "en"},
     {label: "HINDI", value: "hi"}
@@ -55,6 +56,8 @@ export class HeaderComponent {
      })
     )
 
+    this.permissions = localStorage.getItem('permission');
+    this.permissions = JSON.parse(this.permissions);
   }
 
   backArrowButton() {
@@ -64,7 +67,7 @@ export class HeaderComponent {
     }else{
       this.backToParent.emit()
     }
-  
+
   }
 
   onButtonClick(button : any) {
@@ -92,11 +95,28 @@ export class HeaderComponent {
       this.tooltip.show();
     }
   }
-  
+
   hideTooltip(button:any) {
     if(this.tooltip){
       this.tooltip.hide();
       this.tooltip.disabled = true;
+    }
+  }
+
+
+  checkIsHavePermission(permission:string) {
+    if(this.permissions.length > 0 && permission && permission.length > 0) {
+      let item = '';
+      this.permissions.forEach((element:any)=> {
+        if(element.module === permission) {
+          item = permission
+        }
+      })
+      console.log(item,this.permissions);
+      return item ? true : false;
+    }
+    else {
+      return true;
     }
   }
 
