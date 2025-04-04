@@ -111,8 +111,7 @@ export class LibProjectService {
   }
 
   triggerSendForReview() {
-    if (
-      this.formMeta.formValidation.projectDetails === 'VALID' &&
+    if (this.formMeta.formValidation.projectDetails === 'VALID' &&
       this.formMeta.formValidation.tasks === 'VALID' &&
       this.formMeta.formValidation.subTasks === 'VALID' &&
       (this.formMeta.isCertificateSelected && this.formMeta.formValidation.certificates === 'VALID') &&
@@ -130,7 +129,7 @@ export class LibProjectService {
         this.projectData.certificate.criteria.conditions.C3.validationText = ''; // to remove validation texts if old task were added.
         let array = Object.keys(this.projectData.certificate.criteria.conditions.C3.conditions)
         array.forEach((element:any) => {
-          this.projectData.certificate.criteria.conditions.C3.validationText = this.projectData.certificate.criteria.conditions.C3.validationText + " Add "+this.projectData.certificate.criteria.conditions.C3.conditions[element].value + " evidence for the task " + this.projectData.tasks.find((task:any)=> task.id == element).name+'. '
+          this.projectData.certificate.criteria.conditions.C3.validationText = this.projectData.certificate.criteria.conditions.C3.validationText + " Add "+this.projectData.certificate.criteria.conditions.C3.conditions[element].value + " evidence for the task " + this.projectData.tasks.find((task:any)=> task.id == element)?.name+'. '
         })
       }
       if (
@@ -219,7 +218,12 @@ export class LibProjectService {
         })
       }
     } else {
-      this.openSnackBarAndRedirect('FILL_ALL_THE_MANDATORY_FIELDS', 'error');
+      if(this.reviewErrors.length > 0) {
+        this.openSnackBarAndRedirect('CHECK_HIGHLIGHT_FIELDS', 'error');
+      }
+      else {
+        this.openSnackBarAndRedirect('FILL_ALL_THE_MANDATORY_FIELDS', 'error');
+      }
     }
     this.checkSendForReviewValidation(false);
   }

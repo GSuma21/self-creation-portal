@@ -827,7 +827,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
 
   setProjectEvidenceCriteriaSelection(value:string) {
     this.libProjectService.formMeta.isProjectEvidenceSelected = value
-    if(this.libProjectService.projectData.formMeta) {
+    if(!this.libProjectService.projectData.formMeta) {
       this.libProjectService.projectData.formMeta = this.libProjectService.formMeta;
     }
     this.libProjectService.projectData.formMeta.isProjectEvidenceSelected = value
@@ -847,7 +847,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   setEvidenceCriteriaValue(criterialValue:any,taskCriteria:any,item:any) {
    if(!this.libProjectService.formMeta.taskEvidenceSelected[item.id] && taskCriteria == 1) {
       this.libProjectService.formMeta.taskEvidenceSelected[item.id] = taskCriteria;
-      if(this.libProjectService.projectData.formMeta) {
+      if(!this.libProjectService.projectData.formMeta) {
         this.libProjectService.projectData.formMeta = this.libProjectService.formMeta
       }
       this.libProjectService.projectData.formMeta.taskEvidenceSelected[item.id] = taskCriteria;

@@ -454,7 +454,12 @@ export class ProgramWithRolloutService {
         this.tabValidationForProgram.resourceLevelTargeting = "INVALID"
         this.checkProgramSendForReviewValidation(true);
       }
-      this.openSnackBarAndRedirect('Fill the mandatory fields and/or add at least one resource to the program.','error');
+      if(this.reviewErrors.length > 0) {
+        this.openSnackBarAndRedirect('CHECK_HIGHLIGHT_FIELDS', 'error');
+      }
+      else {
+        this.openSnackBarAndRedirect('FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM', 'error');
+      }
     }
     this.checkProgramSendForReviewValidation(false);
 

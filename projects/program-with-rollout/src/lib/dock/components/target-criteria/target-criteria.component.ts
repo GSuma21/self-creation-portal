@@ -402,6 +402,9 @@ export class TargetCriteriaComponent implements OnInit {
           this.insertDataIntoTable(res.result, res.result.length);
         }
     });
+    for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.findIndex((element:any) => element.value === event.filterName); index++) {
+      this.criteriaFilters[index].option = [];
+    }
 
     for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+2; index++) {
       this.formService

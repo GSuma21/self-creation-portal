@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ArrayContainsAllDirective, CardComponent, CommentsBoxComponent, DialogPopupComponent, FormService, solutionModes, PROJECT_DETAILS_PAGE, RESOURCE_LIST, resourceStatus, ToastService, UtilService, CHOOSE_RESOURCES } from 'lib-shared-modules';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './program-resources.component.html',
   styleUrl: './program-resources.component.scss',
 })
-export class ProgramResourcesComponent {
+export class ProgramResourcesComponent implements OnDestroy {
   resourceList:any
   resourceCount:any = 0;
   resources:any;
@@ -422,15 +422,6 @@ getsolutionList() {
     this.programWithRolloutService.checkValidationForRequestChanges(quillInput)
   }
 
-  ngOnDestroy() {
-    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.utilService.saveResources){
-      this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
-      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
-    }
-    this.subscription.unsubscribe();
-    this.resources=[]
-  }
-
   getCommentConfigs() {
     this.subscription.add(
       this.route.data.subscribe((data: any) => {
@@ -488,5 +479,18 @@ getsolutionList() {
     });
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = "INVALID"
     this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = "INVALID"
+  }
+
+
+  ngOnDestroy() {
+    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.utilService.saveResources){
+      this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+      this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
+    }
+    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+      this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+    }
+    this.subscription.unsubscribe();
+    this.resources=[]
   }
 }
