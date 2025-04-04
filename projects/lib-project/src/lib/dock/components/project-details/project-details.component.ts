@@ -401,6 +401,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           content: 'ADD_TITLE_TO_CONTINUE_SAVING',
           form:[this.formDataForTitle],
           exitButton: 'CONTINUE',
+          language:this.language
         },
       });
       return dialogRef
