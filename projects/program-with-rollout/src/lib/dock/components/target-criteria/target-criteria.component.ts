@@ -162,20 +162,9 @@ export class TargetCriteriaComponent implements OnInit {
       this.dataSource = new MatTableDataSource();
       this.getEntityAndRoles();
       this.formData = {};
-      let infoMessage = this.criteria[0].form[2].infoMessage
+      let targetFormInfo= JSON.parse(JSON.stringify(this.criteria[0].form[2]));
       delete this.criteria[0].form[2];
-      this.criteria[0].form[2] = {
-        isMultiple: true,
-        label: {
-          "en": "Select Target",
-          "hi": "लक्षित चयन करें"
-      },
-        meta: { url: 'GET_ENTITY_ROLES', type: 'roles' },
-        options: [],
-        placeHolder: 'Role',
-        validators: { required: true },
-        infoMessage:infoMessage
-      };
+      this.criteria[0].form[2] = targetFormInfo;
       this.targetedEntity = '';
     }
     if (key !== 'roles' && key!== 'gender') {
