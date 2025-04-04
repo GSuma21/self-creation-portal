@@ -27,6 +27,7 @@
     <div class="buttons-container">
       @for (button of getButtonsList(); track button) {
           <button
+            *appArrayContainsAll="{ mainArray: permissions, checkArray: button.permission }"
             [disabled]="button.disable"
             mat-raised-button
             [ngClass]="[button.disable ? 'button-disable' : button.cssClass]"

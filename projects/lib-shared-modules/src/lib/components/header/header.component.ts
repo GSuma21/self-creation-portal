@@ -11,11 +11,12 @@ import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { UtilService } from '../../services/util/util.service';
 import { solutionModes } from '../../constants/urlConstants';
+import { ArrayContainsAllDirective } from '../../directive/permission.directive';
 
 @Component({
   selector: 'lib-header',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, TranslateModule,CommonModule,MatTooltipModule, MatSelectModule, FormsModule],
+  imports: [MatToolbarModule, MatIconModule, TranslateModule,CommonModule,MatTooltipModule, MatSelectModule, FormsModule,ArrayContainsAllDirective],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -104,20 +105,22 @@ export class HeaderComponent {
   }
 
 
-  checkIsHavePermission(permission:string) {
-    if(this.permissions.length > 0 && permission && permission.length > 0) {
-      let item = '';
-      this.permissions.forEach((element:any)=> {
-        if(element.module === permission) {
-          item = permission
-        }
-      })
-      console.log(item,this.permissions);
-      return item ? true : false;
-    }
-    else {
-      return true;
-    }
+  checkIsHavePermission(button:string) {
+    debugger;
+    console.log(button)
+    // if(this.permissions.length > 0 && permission && permission.length > 0) {
+    //   let item = '';
+    //   this.permissions.forEach((element:any)=> {
+    //     if(element.module === permission) {
+    //       item = permission
+    //     }
+    //   })
+    //   console.log(item,this.permissions);
+    //   return item ? true : false;
+    // }
+    // else {
+    //   return true;
+    // }
   }
 
   isButtonsNotDependOnModes(): any {

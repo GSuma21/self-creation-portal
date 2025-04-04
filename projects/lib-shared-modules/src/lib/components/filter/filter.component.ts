@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DynamicFormModule } from 'dynamic-form-suma';
-import { ArrayContainsAllDirective } from '../../directive/permission.directive';
 
 
 interface FilterChangeEvent {
@@ -16,7 +15,7 @@ interface FilterChangeEvent {
 @Component({
   selector: 'lib-filter',
   standalone: true,
-  imports: [MatSelectModule,MatFormFieldModule,MatIconModule,FormsModule,ReactiveFormsModule, TranslateModule, CommonModule, DynamicFormModule,ArrayContainsAllDirective],
+  imports: [MatSelectModule,MatFormFieldModule,MatIconModule,FormsModule,ReactiveFormsModule, TranslateModule, CommonModule, DynamicFormModule],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
