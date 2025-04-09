@@ -12,11 +12,12 @@
                                 {{( reviewStatus.NOT_STARTED || list.review_status )| translate}}
                             </div>
                         }
-                        @if((list.status === resourceStatus.PUBLISHED || list.status === 'ROLLED_OUT') && (list.creator) ){
+                        @if(((list.status === resourceStatus.PUBLISHED || list.status === resourceStatus.DRAFT ) || list.status === 'ROLLED_OUT') && (list.creator) ){
                             <div class="chip-container item-center text-center bg-chipPublished text-white">
                                 {{list.status | translate}}
                             </div>
                         }
+
                         @if(list.status !== resourceStatus.PUBLISHED && list.published_on){
                             <div class="chip-container item-center text-center bg-chipPublished text-white">
                                 {{resourceStatus.PUBLISHED | translate}}
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                         }
-                        @if(list.status === 'PENDING'){
+                        @if(list.status === 'PROCESSING'){
                             <div class="chip-container item-center text-center bg-chipPending  text-white">
                                 {{ list.status | translate}}
                             </div>

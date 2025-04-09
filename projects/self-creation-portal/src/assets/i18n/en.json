@@ -258,5 +258,7 @@
     "FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM":"Fill the mandatory fields and/or add at least one resource to the program.",
     "END_DATE_SHOULD_BE_GREATER_THAN_CURRENCT_DATE":"End date should be greater than currenct date.",
     "PROCESSING":"Processing",
-    "FAILED":"Failed"
+    "FAILED":"Failed",
+    "DRAFT":"Draft",
+    "RESOURCE_LEVEL_TARGET_INFO":"Select the targeting details for your resource. Details for multiple criteria can be edited."
 }
