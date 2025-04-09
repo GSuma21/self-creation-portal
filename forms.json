@@ -2080,7 +2080,7 @@
             ],
             "statusButtons": [
               {
-                "status": "PENDING",
+                "status": "DRAFT",
                 "buttons": [
                   "EDIT",
                   "DELETE"
