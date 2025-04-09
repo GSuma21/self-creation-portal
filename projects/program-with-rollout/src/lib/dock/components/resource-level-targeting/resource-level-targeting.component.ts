@@ -74,7 +74,7 @@ export class ResourceLevelTargetingComponent {
   commentPayload: any;
   commentsList: any = [];
   ResourceInReview: boolean = false;
-  language:any =  localStorage.getItem('language') ? localStorage.getItem('language'):'en';
+  language:any =  JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
 
   constructor(
     private formService: FormService,

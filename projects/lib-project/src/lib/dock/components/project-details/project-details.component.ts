@@ -28,7 +28,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
   resourceId:string|number = '' // This variable represent projectId for comments.
   ProgramResourceId:string|number = ''
   @ViewChild('formLib') formLib: MainFormComponent | undefined;
-  language:any = localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  language:any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   private subscription: Subscription = new Subscription();
   constructor(
     private libProjectService: LibProjectService,
@@ -401,6 +401,7 @@ export class ProjectDetailsComponent implements OnDestroy, OnInit, AfterViewChec
           content: 'ADD_TITLE_TO_CONTINUE_SAVING',
           form:[this.formDataForTitle],
           exitButton: 'CONTINUE',
+          language:this.language
         },
       });
       return dialogRef

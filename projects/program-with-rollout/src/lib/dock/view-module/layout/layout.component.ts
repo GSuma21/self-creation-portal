@@ -204,28 +204,32 @@ export class LayoutComponent {
         break;
       }
       case "ACCEPT": {
-        const dialogRef = this.dialog.open(DialogPopupComponent, {
-          width: '39.375rem',
-          autoFocus: false,
-          disableClose: true,
-          data: {
-            header: "ACCEPT_PROGRAM",
-            content: "ACCEPT_PROGRAM_CONTENT",
-            cancelButton: "CANCEL",
-            exitButton: "ACCEPT"
-          }
-        });
-        dialogRef.afterClosed().toPromise().then(result => {
-          if (result.data === "CANCEL") {
-            return true;
-          } else if (result.data === "ACCEPT") {
-            this.utilService.saveComment = false
-            this.programWithRolloutService.approveProject()
-            return true;
-          } else {
-            return false;
-          }
-        });
+        if(new Date(this.programWithRolloutService.programData.end_date) > new Date()){
+          const dialogRef = this.dialog.open(DialogPopupComponent, {
+            width: '39.375rem',
+            autoFocus: false,
+            disableClose: true,
+            data: {
+              header: "ACCEPT_PROGRAM",
+              content: "ACCEPT_PROGRAM_CONTENT",
+              cancelButton: "CANCEL",
+              exitButton: "ACCEPT"
+            }
+          });
+          dialogRef.afterClosed().toPromise().then(result => {
+            if (result.data === "CANCEL") {
+              return true;
+            } else if (result.data === "ACCEPT") {
+              this.utilService.saveComment = false
+              this.programWithRolloutService.approveProject()
+              return true;
+            } else {
+              return false;
+            }
+          });
+        }else{
+          this.toastService.openSnackBar({ message: 'END_DATE_SHOULD_BE_GREATER_THAN_CURRENCT_DATE', class: 'error', });
+        }
         break;
       }
       case "COPY_AND_EDIT": {

@@ -54,7 +54,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
   ProgramResourceId:string|number = ''
   private subscription: Subscription = new Subscription();
   private autoSaveSubscription: Subscription = new Subscription();
-  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  language:any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
 
   constructor(private dialog : MatDialog,private fb: FormBuilder,private libProjectService:LibProjectService, private route:ActivatedRoute, private router:Router, private utilService:UtilService, private toastService:ToastService) {
     this.subtask = this.fb.group({

@@ -123,8 +123,6 @@ export class LibSharedModulesService {
 
     this.httpService.post(config.url, config.payload).subscribe(
       response => {
-        this.translateService.use('en');
-        localStorage.setItem('language', 'en');
         this.utilService.clearLanguage();
         this.indexDb.clearObjectStore();
         this.toastService.openSnackBar({

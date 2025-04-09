@@ -60,5 +60,8 @@
             "UP_FOR_REVIEW_LIST": "upForReview",
             "BROWSE_EXISTING_LIST": "getPublishedResources"
         }
+    },
+    "SET_LANGUAGE":{
+        "SET_LANGUAGE_PREFERENCE":"user/v1/user/setLanguagePreference"
     }
 }

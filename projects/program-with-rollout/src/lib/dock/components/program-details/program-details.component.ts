@@ -28,7 +28,7 @@ export class ProgramDetailsComponent {
   commentPayload: any;
   commentsList: any = [];
   ResourceInReview: boolean = false;
-  language:any =  localStorage.getItem('language');
+  language:any =  JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
 
   constructor( private formService: FormService,private dialog:MatDialog, private programWithRolloutService:ProgramWithRolloutService,  private router: Router,
       private route: ActivatedRoute, private toastService: ToastService, private utilService: UtilService) {
@@ -489,6 +489,7 @@ export class ProgramDetailsComponent {
           content: 'ADD_TITLE_TO_CONTINUE_SAVING',
           form: [this.formDataForTitle],
           exitButton: 'CONTINUE',
+          language:this.language
         },
       });
       return dialogRef

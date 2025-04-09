@@ -8,11 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { DynamicFormModule } from 'dynamic-form-suma';
 
 @Component({
   selector: 'lib-dialog-popup',
   standalone: true,
-  imports: [MatDialogModule,MatButtonModule, MatIconModule, TranslateModule,MatFormFieldModule,FormsModule,MatInputModule,MatCheckboxModule],
+  imports: [MatDialogModule,MatButtonModule, MatIconModule, TranslateModule,MatFormFieldModule,FormsModule,MatInputModule,MatCheckboxModule,DynamicFormModule],
   templateUrl: './dialog-popup.component.html',
   styleUrl: './dialog-popup.component.scss'
 })
@@ -21,12 +22,14 @@ export class DialogPopupComponent implements OnInit {
   title: string = '';
   errorMessage: string = '';
   selectedFiles: File | undefined;
+  language:any
   @ViewChild('dialogueForm') dialogueForm!: NgForm;
   @ViewChild('certificateContainer', { static: true }) certificateContainer: ElementRef | any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogPopupComponent>, private renderer: Renderer2,
     @Inject(MAT_DIALOG_DATA)  public dialogueData: any) {
+      this.language = this.dialogueData?.language
   }
 
   ngOnInit(): void {
