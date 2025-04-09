@@ -255,5 +255,6 @@
     "SUBMIT":"Submit",
     "PROJECT_TARGETING":"Project targeting",
     "CHECK_HIGHLIGHT_FIELDS":"Check the highlighted fields. Some inputs contain invalid characters.",
-    "FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM":"Fill the mandatory fields and/or add at least one resource to the program."
+    "FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM":"Fill the mandatory fields and/or add at least one resource to the program.",
+    "END_DATE_SHOULD_BE_GREATER_THAN_CURRENCT_DATE":"End date should be greater than currenct date."
 }

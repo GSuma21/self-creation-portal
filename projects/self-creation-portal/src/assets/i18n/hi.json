@@ -253,7 +253,8 @@
     "CERTIFICATE_PREVIEW":"प्रमाणपत्र पूर्वावलोकन",
     "NO_DATA_AVAILABLE":"कोई डेटा उपलब्ध नहीं है",
     "SUBMIT":"जमा करें",
-    "PROJECT_TARGETING": "प्रोजेक्ट लक्ष्यीकरण"
-
-
+    "PROJECT_TARGETING": "प्रोजेक्ट लक्ष्यीकरण",
+    "CHECK_HIGHLIGHT_FIELDS": "हाइलाइट किए गए फील्ड्स की जाँच करें। कुछ इनपुट में अमान्य वर्ण हैं।",
+    "FILL_ALL_THE_MANDATORY_FIELDS_PROGRAM": "सभी अनिवार्य फील्ड्स भरें और/या कार्यक्रम में कम से कम एक संसाधन जोड़ें।",
+    "END_DATE_SHOULD_BE_GREATER_THAN_CURRENCT_DATE":"समाप्ति तिथि वर्तमान तिथि से अधिक होनी चाहिए।"
 }
