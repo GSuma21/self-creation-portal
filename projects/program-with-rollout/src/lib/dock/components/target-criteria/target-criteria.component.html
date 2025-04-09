@@ -7,7 +7,7 @@
 <mat-tab-group class="mt-9">
     @for (tab of criteria; track tab) {
         <mat-tab [label]="tab.label | languageTranslate: language">
-            @if(!(dialogData.data?.mode === 'review' ||  dialogData?.data?.page === 'resource-level-targeting' || dialogData.data?.mode === 'viewOnly' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView')){
+            @if(!(dialogData.data?.mode === 'review' ||  dialogData?.data?.page === 'resource-level-targeting' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView')){
                 <section class="flex flex-end clear-container">
                     <p (click)="clearForm(tab)">{{"CLEAR_SELECTION" | translate}}</p>
                     <mat-icon (click)="clearForm(tab)">delete</mat-icon>
@@ -19,8 +19,8 @@
                         <section class="flex">
                             <mat-form-field floatLabel="always" class="w-full mt-4" appearance="outline" >
                                 <mat-label> {{ item.label | languageTranslate: language}}</mat-label>
-                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder | languageTranslate: language" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="(item.options.length == 0 || dialogData.data?.readOnly) && item?.meta?.type !== 'roles'" [ngClass]="{'pointer-events-none': dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView'}">
-                                    <mat-option *ngFor="let option of item.options" [value]="option" [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView'}">
+                                <mat-select class="border px-2 w-40" [multiple]="item.isMultiple" [placeholder]="item.placeHolder | languageTranslate: language" (selectionChange)="setFormData($event,item?.meta?.type,index)" [required]="item.validators?.required" [(ngModel)]="formData[item.meta.type]" [compareWith]="compareObjects" [disabled]="(item.options.length == 0 || dialogData.data?.readOnly) && item?.meta?.type !== 'roles'" [ngClass]="{'pointer-events-none': dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView'}">
+                                    <mat-option *ngFor="let option of item.options" [value]="option" [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView'}">
                                         {{ option.name ? (option.name | languageTranslate: language) : option?.label }}
                                     </mat-option>
                                 </mat-select>
@@ -51,7 +51,7 @@
                                     <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                                    [aria-label]="checkboxLabel()"  [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView'}">
+                                                    [aria-label]="checkboxLabel()"  [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView'}">
                                     </mat-checkbox>
                                 }
                                     </th>
@@ -59,7 +59,7 @@
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                                     (change)="selectSingleRow($event,row)"
                                                     [checked]="checkIsRowAvailable(row)"
-                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'viewOnly' ||  dialogData.data?.mode === 'review' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView' ||  ((dialogData.data?.page === 'resource-level-targeting') && !checkIsRowAvailable(row)) ) }">
+                                                    [aria-label]="checkboxLabel(row)" [ngClass]="{'pointer-events-none': (dialogData.data?.mode === 'viewOnly' ||  dialogData.data?.mode === 'review' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView' ||  ((dialogData.data?.page === 'resource-level-targeting') && !checkIsRowAvailable(row)) ) }">
                                     </mat-checkbox>
                                     </td>
                                 </ng-container>
@@ -85,7 +85,7 @@
         </mat-tab>
     }
 </mat-tab-group>
-@if(!(dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data.mode === 'creatorView' ||  dialogData.data.mode === 'reviewerView')){
+@if(!(dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView')){
     <section class="flex justify-end mr-5 mb-3 submit-section">
         <button mat-raised-button class="btn-submit primary-button-enable py-2 px-3" (click)="closeDialog()" [disabled]="isDisable()">{{"SUBMIT"| translate}}</button>
     </section>
