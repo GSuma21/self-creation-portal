@@ -126,7 +126,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
   isTabNotValid:boolean = false;
   maximunNumberOfEvedence=15
   @ViewChild('certificateContainer', { static: false }) certificateContainer: ElementRef | any;
-  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  language:any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
 
   private subscription: Subscription = new Subscription();
 

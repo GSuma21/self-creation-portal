@@ -43,7 +43,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   ProgramResourceId:string|number = ''
   private autoSaveSubscription: Subscription = new Subscription();
   maxTaskLength = this.libProjectService.projectConfig?.max_task_count ? this.libProjectService.projectConfig?.max_task_count : 10;
-  language:any =  localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  language:any =  JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   private subscription: Subscription = new Subscription();
   constructor(private fb: FormBuilder, private libProjectService: LibProjectService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private _snackBar: MatSnackBar, private toastService: ToastService, private utilService:UtilService) {
     this.tasksForm = this.fb.group({

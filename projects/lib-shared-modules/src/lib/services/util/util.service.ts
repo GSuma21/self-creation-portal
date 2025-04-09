@@ -182,4 +182,12 @@ export class UtilService {
   clearLanguage(){
     this.languageChange.next(false);
   }
+
+  setPreferredLanguage(language:any = 'en'){
+    const config = {
+      url : `${this.Configuration.urlConFig.SET_LANGUAGE.SET_LANGUAGE_PREFERENCE}`,
+      payload:{"preferred_language":language}
+    };
+    return this.httpService.patch(config.url, config.payload)
+  }
 }

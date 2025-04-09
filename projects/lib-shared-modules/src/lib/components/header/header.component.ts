@@ -31,7 +31,7 @@ export class HeaderComponent {
   @Output() backToParent = new EventEmitter<boolean>();
   permissions:any = [];
 
-  selectedLanguage: any = 'en';
+  selectedLanguage = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   supportLanguages : any = [
     {label: "ENGLISH", value: "en"},
     {label: "HINDI", value: "hi"}
@@ -45,7 +45,7 @@ export class HeaderComponent {
   constructor( private libsharedservice: LibSharedModulesService, private router: Router, private route: ActivatedRoute,
     private translateService: TranslateService, private utilService: UtilService) {
 
-    const storedLanguage = localStorage.getItem('language');
+    const storedLanguage = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
     if (storedLanguage) {
         this.selectedLanguage = storedLanguage;
         this.translateService.use(this.selectedLanguage);
@@ -82,8 +82,8 @@ export class HeaderComponent {
   languageChange(event:any) {
     this.selectedLanguage = event.value;
     this.translateService.use(this.selectedLanguage);
-    localStorage.setItem('language', this.selectedLanguage);
     this.utilService.setNewLanguage(this.selectedLanguage)
+    this.utilService.setPreferredLanguage(event.value).subscribe()
   }
 
   ngOnDestroy() {

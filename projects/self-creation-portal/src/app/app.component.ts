@@ -36,10 +36,9 @@ export class AppComponent {
   }
 
   private initializeTranslation(): void {
-    const storedLanguage = localStorage.getItem('language') || 'en';
+    const storedLanguage = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
     this.translate.setDefaultLang(storedLanguage);
     this.translate.use(storedLanguage);
-    localStorage.setItem('language', storedLanguage);
     this.utilService.setNewLanguage(storedLanguage)
   }
 
