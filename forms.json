@@ -1791,16 +1791,6 @@
                     "name": "submitted_on"
                   },
                   {
-                    "label": "REVIEWED_BY",
-                    "value": "",
-                    "name": "reviewed_by"
-                  },
-                  {
-                    "label": "REVIEWED_STARTED_ON",
-                    "value": "",
-                    "name": "reviewed_started_on"
-                  },
-                  {
                     "label": "NOTE_TO_REVIEWER",
                     "value": "",
                     "name": "notes"
@@ -2058,38 +2048,31 @@
                   },
                   {
                     "label": {
-                      "en": "Not Started",
-                      "hi": "शुरू नहीं हुआ"
+                      "en": "Draft",
+                      "hi": "ड्राफ्ट"
                     },
-                    "value": "SUBMITTED"
+                    "value": "DRAFT"
                   },
                   {
                     "label": {
-                      "en": "In Progress",
-                      "hi": "कार्यान्वयन में"
+                      "en": "Rolled Out",
+                      "hi": "जारी किया गया"
                     },
-                    "value": "INPROGRESS"
+                    "value": "ROLLED_OUT"
                   },
                   {
                     "label": {
-                      "en": "Rejected",
-                      "hi": "अस्वीकृत"
+                      "en": "Processing",
+                      "hi": "प्रक्रिया में"
                     },
-                    "value": "REJECTED"
+                    "value": "PROCESSING"
                   },
                   {
                     "label": {
-                      "en": "Reported and Rejected",
-                      "hi": "रिपोर्ट किया और अस्वीकृत किया गया"
+                      "en": "Failed",
+                      "hi": "विफल"
                     },
-                    "value": "REJECTED_AND_REPORTED"
-                  },
-                  {
-                    "label": {
-                      "en": "Published",
-                      "hi": "प्रकाशित"
-                    },
-                    "value": "PUBLISHED"
+                    "value": "FAILED"
                   }
                 ],
                 "isMultiple": false
