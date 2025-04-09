@@ -382,11 +382,11 @@ export class ResourceLevelTargetingComponent {
   }
 
   getMaxDate(index: number) {
-    return this.resources[index].end_date ? this.resources[index].end_date : this.programWithRolloutService.programData?.end_date;
+    return this.resources[index].end_date || this.programWithRolloutService.programData?.end_date;
   }
 
   getMinDate(index: number) {
-    return this.resources[index].start_date ? this.resources[index].start_date : this.programWithRolloutService.programData?.start_date;
+    return new Date(this.resources[index]?.start_date || this.programWithRolloutService.programData?.start_date) < new Date(new Date().setHours(0,0,0,0)) ? new Date() : new Date(this.resources[index]?.start_date || this.programWithRolloutService.programData?.start_date); // comparing today and start date
   }
 
   getProgramDate(type:string) {
@@ -504,11 +504,9 @@ export class ResourceLevelTargetingComponent {
       this.programWithRolloutService.removeItemFromAPIErrors(key);
     }
     if(this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)){
-         this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = new Date(event.targetElement.value);
+         this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(event.targetElement.value).setHours(23, 59, 59, 999); // set time of start date to 00:00 and end date time to 11:59.
     }else{
-      this.programWithRolloutService.programData.resources[index][key] = new Date(
-        event.targetElement.value
-      );
+      this.programWithRolloutService.programData.resources[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(event.targetElement.value).setHours(23, 59, 59, 999);
     }
     this.subscription.add(
       this.programWithRolloutService
