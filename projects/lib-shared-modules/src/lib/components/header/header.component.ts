@@ -48,7 +48,7 @@ export class HeaderComponent {
     const storedLanguage = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
     if (storedLanguage) {
         this.selectedLanguage = storedLanguage;
-        this.translateService.use(this.selectedLanguage);
+        this.translateService.use(storedLanguage);
     }
 
     this.subscription.add(
@@ -81,9 +81,11 @@ export class HeaderComponent {
 
   languageChange(event:any) {
     this.selectedLanguage = event.value;
-    this.translateService.use(this.selectedLanguage);
-    this.utilService.setNewLanguage(this.selectedLanguage)
-    this.utilService.setPreferredLanguage(event.value).subscribe()
+    this.translateService.use(event.value);
+    this.utilService.setNewLanguage(event.value)
+    this.utilService.setPreferredLanguage(event.value).subscribe((res:any) => {
+      localStorage.setItem('preferred_language', JSON.stringify({ value: this.selectedLanguage }));
+    })
   }
 
   ngOnDestroy() {
