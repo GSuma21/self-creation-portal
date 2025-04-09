@@ -97,7 +97,7 @@ export class ChooseResourceComponent {
   sortBy:any = ''
   sortOrder:any = ''
   type:any=this.route.snapshot.queryParamMap.get('type')
-  language:any = localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  language:any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
 
 constructor(private httpService: HttpProviderService, private Configuration: ConfigService,  private utilService:UtilService, private router:Router, private route: ActivatedRoute,   private formService: FormService, private dialog:MatDialog, private sharedService : LibSharedModulesService) {}
   ngOnInit(){

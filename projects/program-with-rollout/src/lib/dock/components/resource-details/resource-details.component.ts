@@ -60,7 +60,7 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
   resourceButtons:any;
   private subscription: Subscription = new Subscription();
   mode: string = '';
-  language:any =  localStorage.getItem('language');
+  language:any =  JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   constructor(private dialog:MatDialog, private formService: FormService, private programWithRolloutService:ProgramWithRolloutService, private route: ActivatedRoute, private datePipe: DatePipe, private utilService:UtilService, private router:Router,private toastService:ToastService) {
     this.subscription.add(
       this.route.queryParams.subscribe((params:any) => {

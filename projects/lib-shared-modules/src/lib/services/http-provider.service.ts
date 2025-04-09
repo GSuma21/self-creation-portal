@@ -43,6 +43,12 @@ export class HttpProviderService {
         .pipe(catchError(this.handleError));
     }
 
+    patch(endpoint: string, body: any, options?: { headers?: HttpHeaders, params?: HttpParams }) {
+      const updatedOptions = this.addXRequestedWithHeader(options);
+      return this.http.patch(endpoint, body,updatedOptions)
+        .pipe(catchError(this.handleError));
+    }
+
     /**
     * Method to handle errors.
     * @param error : Error from API response

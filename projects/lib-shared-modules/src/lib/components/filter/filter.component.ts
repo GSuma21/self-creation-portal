@@ -27,7 +27,7 @@ export class FilterComponent implements OnInit {
   @Input() changeReqCount: number = 0
   @Input() inprogressCount : number = 0
   @Output() filterButtonActionEvent = new EventEmitter<{ label: string }>();
-  @Input() language :any = localStorage.getItem('language') ?  localStorage.getItem('language') : 'en';
+  @Input() language :any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   permissions:any = [];
 
   OnClickfilter(event:any, filter: any){
