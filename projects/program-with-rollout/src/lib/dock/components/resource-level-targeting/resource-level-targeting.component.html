@@ -4,8 +4,13 @@
       <mat-card appearance="outlined" class="resource-card">
         <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
           <lib-card [list]="resources[i]" [showActionButton]="true"  [commentVisible]="false" class="mb-3"></lib-card>
-        <div class="flex gap-2" >
+        <div class="flex gap-2 mt-2">
           <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
+          <mat-icon class="info-icon enable-with-pointer-events mt-1" matTooltipClass="info-tooltip" matTooltipPosition="above"
+          [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_START_DATE' | translate" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
+          (mouseleave)="hideTooltip(tooltip2)">
+          info
+        </mat-icon>
         </div>
         <!-- target criteria list -->
         <div class="flex flex-col gap-4">
@@ -15,8 +20,8 @@
               <p>{{targetItem?.label}}</p>
             </section>
             <div class="cursor-pointer flex flex-row gap-2">
-              <mat-icon (click)="updateResource(i,j,targetItem)" class="cursor-pointer">edit_square</mat-icon>
-              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">close</mat-icon>
+              <mat-icon (click)="updateResource(i,j,targetItem)" class="cursor-pointer" [ngClass]="{'pointer-events-none': (isResourceGrayedOut(i))}">edit_square</mat-icon>
+              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer" [ngClass]="{'pointer-events-none': (viewOnly || !isResourceGrayedOut(i))}">close</mat-icon>
             </div>
           </div>
         </div>

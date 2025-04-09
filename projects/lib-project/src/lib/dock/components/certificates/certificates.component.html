@@ -114,7 +114,7 @@
                                             <div class="">
                                                 <div class="flex items-center" [ngClass]="{'opacity-70':libProjectService?.projectData?.certificate?.base_template_id == '' }">
                                                     <mat-icon class="cursor-pointer text-primary"
-                                                    (click)="attachLogos(0)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(0)">{{ele.textForLink}}</span>
+                                                    (click)="attachLogos(0)">{{ele.icon}}</mat-icon><span class="px-2 text-primary cursor-pointer" (click)="attachLogos(0)">{{'ADD_IMAGE_1' | translate}}</span>
                                                 </div><br>
                                                  <div class="flex justify-between items-center p-1 bg-gray-100 rounded mb-2" (click)="openAttachment(libProjectService.projectData.certificate.logos?.stateLogo1)" *ngIf="libProjectService.projectData.certificate && libProjectService.projectData.certificate.logos?.stateLogo1">
                                                     <section class="flex items-center gap-2 min-w-0 flex-grow mr-3">

@@ -128,6 +128,9 @@ export class ResourceLevelTargetingComponent {
               this.resourceCount =
                 this.programWithRolloutService.programData.resources?.length;
               this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
+              if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+                this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+              }
             } else {
               this.subscription.add(
                 this.programWithRolloutService
@@ -140,6 +143,9 @@ export class ResourceLevelTargetingComponent {
                     this.resourceCount =
                       this.programWithRolloutService.programData.resources?.length;
                     this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
+                    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+                      this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+                    }
                   })
               );
             }
@@ -214,7 +220,11 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
-    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    if(!this.programWithRolloutService.formMeta.formValidation) {
+      this.programWithRolloutService.setValidationForProgram();
+      this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
+    }
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =  this.resourceForm.valid ? 'VALID' : 'INVALID'
     if(this.mode === solutionModes.META_EDIT){
        this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
     }
@@ -545,6 +555,10 @@ export class ResourceLevelTargetingComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    if(!this.programWithRolloutService.formMeta.formValidation) {
+      this.programWithRolloutService.setValidationForProgram();
+      this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
+    }
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
     this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }

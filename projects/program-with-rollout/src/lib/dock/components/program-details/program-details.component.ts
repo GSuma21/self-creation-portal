@@ -73,6 +73,10 @@ export class ProgramDetailsComponent {
         }
       )
     );
+    if(!this.programWithRolloutService.formMeta.formValidation) {
+      this.programWithRolloutService.setValidationForProgram();
+      this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
+    }
     this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status ? this.formLib?.myForm.status : "INVALID"
 
 
@@ -142,6 +146,10 @@ export class ProgramDetailsComponent {
           )
         );
         this.formLib?.myForm.markAllAsTouched()
+      }
+      if(!this.programWithRolloutService.formMeta.formValidation) {
+        this.programWithRolloutService.setValidationForProgram();
+        this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
       }
       this.programWithRolloutService.formMeta.formValidation.programDetails = (this.formLib?.myForm.status) ? this.formLib?.myForm.status : "INVALID";
     }
