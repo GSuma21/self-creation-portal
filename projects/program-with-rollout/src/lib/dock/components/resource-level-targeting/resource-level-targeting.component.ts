@@ -214,7 +214,11 @@ export class ResourceLevelTargetingComponent {
         }
       )
     );
-    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
+    if(!this.programWithRolloutService.formMeta.formValidation) {
+      this.programWithRolloutService.setValidationForProgram();
+      this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
+    }
+    this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting =  this.resourceForm.valid ? 'VALID' : 'INVALID'
     if(this.mode === solutionModes.META_EDIT){
        this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting=  this.resourceForm.valid ? 'VALID' : 'INVALID'
     }
@@ -547,6 +551,10 @@ export class ResourceLevelTargetingComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    if(!this.programWithRolloutService.formMeta.formValidation) {
+      this.programWithRolloutService.setValidationForProgram();
+      this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
+    }
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
     this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
   }
