@@ -68,7 +68,7 @@ export class ResourceHolderComponent implements OnInit{
   activeRole:any;
   areQueryParamsEmpty:boolean = false;
   showDates:boolean = false;
-  language:any
+  language:any = JSON.parse(localStorage.getItem('preferred_language') ?? '{}')?.value ?? 'en';
   private subscription: Subscription = new Subscription();
 
   constructor(
