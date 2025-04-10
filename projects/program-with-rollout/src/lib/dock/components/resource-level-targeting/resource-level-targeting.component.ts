@@ -349,6 +349,8 @@ export class ResourceLevelTargetingComponent {
   }
 
   addResourceFields(): void {
+    this.programWithRolloutService.programData.start_date = (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date // keeping in UTC format
+    this.programWithRolloutService.programData.end_date = (typeof(this.programWithRolloutService.programData?.end_date) === 'object') ? new Date(this.programWithRolloutService.programData?.end_date).toISOString(): this.programWithRolloutService.programData?.end_date
     this.resources.forEach((element: any) => {
       const resourceGroup = this.fb.group({
         start_date: [
@@ -391,12 +393,15 @@ export class ResourceLevelTargetingComponent {
     });
   }
 
-  getMaxDate(index: number) {
-    return this.resources[index].end_date || this.programWithRolloutService.programData?.end_date;
+  getMaxDate(index: number): Date | undefined {
+    return this.resources[index]?.end_date || this.programWithRolloutService.programData?.end_date ? new Date(new Date(this.resources[index]?.end_date || this.programWithRolloutService.programData?.end_date).setHours(23, 59, 59, 999)) : undefined;
   }
 
   getMinDate(index: number) {
-    return new Date(this.resources[index]?.start_date || this.programWithRolloutService.programData?.start_date) < new Date(new Date().setHours(0,0,0,0)) ? new Date() : new Date(this.resources[index]?.start_date || this.programWithRolloutService.programData?.start_date); // comparing today and start date
+    const start = new Date(this.resources[index]?.start_date || this.programWithRolloutService.programData?.start_date);
+    const today = new Date();
+    start.setHours(0, 0, 0, 0); today.setHours(0, 0, 0, 0);
+    return start < today ? today : start;
   }
 
   getProgramDate(type:string) {
@@ -513,10 +518,10 @@ export class ResourceLevelTargetingComponent {
     if(event) {
       this.programWithRolloutService.removeItemFromAPIErrors(key);
     }
-    if(this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)){
-         this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(event.targetElement.value).setHours(23, 59, 59, 999); // set time of start date to 00:00 and end date time to 11:59.
-    }else{
-      this.programWithRolloutService.programData.resources[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(event.targetElement.value).setHours(23, 59, 59, 999);
+    if (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
+      this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999)); // set time of start date to 00:00 and end date time to 11:59.
+    } else {
+      this.programWithRolloutService.programData.resources[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999));
     }
     this.subscription.add(
       this.programWithRolloutService
