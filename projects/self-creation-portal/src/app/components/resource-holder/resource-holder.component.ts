@@ -277,7 +277,7 @@ export class ResourceHolderComponent implements OnInit{
               }else{
                 this.applyButtons(button, cardItem);
               }
-              if(button.status == resourceStatus.PUBLISHED && cardItem.type == 'program'){
+              if(button.status == resourceStatus.PUBLISHED && cardItem.type == 'program' && !cardItem.is_under_edit){
                 this.applyButtons({
                   "buttons": [
                       "EDIT",

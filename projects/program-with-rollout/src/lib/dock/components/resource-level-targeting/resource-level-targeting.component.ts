@@ -430,7 +430,6 @@ export class ResourceLevelTargetingComponent {
           })
       );
     } else {
-      this.programWithRolloutService.programData.is_under_edit = (this.programWithRolloutService.programData.published_on && this.mode == solutionModes.RESOURCE_EDIT) ? true: this.programWithRolloutService.programData.is_under_edit;
       this.subscription.add(
         this.programWithRolloutService
           .updateProgramDraft(this.programId)
