@@ -57,6 +57,7 @@ export class ProgramDetailsComponent {
     }
     else {
       this.startAutoSaving()
+      this.programWithRolloutService.removeQueryParam()
     }
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
