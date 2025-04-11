@@ -362,30 +362,38 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED && item.review_status !== resourceStatus.REQUEST_FOR_CHANGES){
-            this.confirmProgramEdit().subscribe((result:any) =>{
-              switch(result.data.title){
-                case 'CHANGE_DETAILS': {
-                  this.router.navigate([PROGRAM_DETAILS_PAGE], {
-                    queryParams: {
-                      parent: 'review',
-                      programId: item.id,
-                      mode: solutionModes.META_EDIT,
-                    },
-                  });
-                  break;
-                }
-                case 'ADD_RESOURCES': {
-                  this.router.navigate([PROGRAM_DETAILS_PAGE], {
-                    queryParams: {
-                      parent: 'review',
-                      programId: item.id,
-                      mode: solutionModes.RESOURCE_EDIT,
-                    },
-                  });
-                  break;
-                }
-              }
-            })
+            // as per discussion on 11  april 2025 we are taking only one flow for edit
+            // this.confirmProgramEdit().subscribe((result:any) =>{
+            //   switch(result.data.title){
+            //     case 'CHANGE_DETAILS': {
+            //       this.router.navigate([PROGRAM_DETAILS_PAGE], {
+            //         queryParams: {
+            //           parent: 'review',
+            //           programId: item.id,
+            //           mode: solutionModes.META_EDIT,
+            //         },
+            //       });
+            //       break;
+            //     }
+            //     case 'ADD_RESOURCES': {
+            //       this.router.navigate([PROGRAM_DETAILS_PAGE], {
+            //         queryParams: {
+            //           parent: 'review',
+            //           programId: item.id,
+            //           mode: solutionModes.RESOURCE_EDIT,
+            //         },
+            //       });
+            //       break;
+            //     }
+            //   }
+            // })
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'review',
+                programId: item.id,
+                mode: solutionModes.RESOURCE_EDIT,
+              },
+            });
             break;
           }
           if(item.type == 'program' && this.pageStatus !== 'roll-out'){

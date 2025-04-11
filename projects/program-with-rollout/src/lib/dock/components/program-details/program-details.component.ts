@@ -189,6 +189,9 @@ export class ProgramDetailsComponent {
                           .subscribe((res: any) => {
                             // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
                             this.programWithRolloutService.formMeta.formValidation = res.result.metaData
+                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false &&  !this.programWithRolloutService.formMeta?.publishedStartDate){
+                              this.programWithRolloutService.formMeta.publishedStartDate = res.result.start_date
+                            }
                             this.programWithRolloutService.setProgramData(res.result);
                             this.readProgramDeatilsAndMap(data.controls, res.result);
                             this.programWithRolloutService.upDateProgramTitle();
@@ -205,6 +208,9 @@ export class ProgramDetailsComponent {
                           .subscribe((res: any) => {
                             // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
                             this.programWithRolloutService.formMeta.formValidation = res.result.metaData
+                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false &&  ! this.programWithRolloutService.formMeta.formValidation.publishedStartDate){
+                              this.programWithRolloutService.formMeta.formValidation.publishedStartDate = res.result.start_date
+                            }
                             this.programWithRolloutService.setProgramData(res.result);
                             //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
                             this.readProgramDeatilsAndMap(data.controls, res.result);
@@ -257,9 +263,14 @@ export class ProgramDetailsComponent {
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
+          if(this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
+            for (const field of formControls) {
+              if (field.name === "start_date") field.publishedProgram = true;
+            }
+          }
 
           if (startDateField && startDateField.value) {
-            const startDate = new Date(startDateField.value);
+            const startDate =  this.programWithRolloutService.formMeta.formValidation.publishedStartDate ? new Date( this.programWithRolloutService.formMeta.formValidation.publishedStartDate) : new Date(startDateField.value);
             if (currentDate >= startDate) {
               formControls.forEach((field:any) => {
                 if (field.name === "start_date") {
