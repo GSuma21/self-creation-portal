@@ -351,7 +351,7 @@ export class ResourceLevelTargetingComponent {
   addResourceFields(): void {
     this.programWithRolloutService.programData.start_date = (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date // keeping in UTC format
     this.programWithRolloutService.programData.end_date = (typeof(this.programWithRolloutService.programData?.end_date) === 'object') ? new Date(this.programWithRolloutService.programData?.end_date).toISOString(): this.programWithRolloutService.programData?.end_date
-    this.resources.forEach((element: any) => {
+    this?.resources.forEach((element: any) => {
       element.start_date = (typeof(element.start_date) === 'object') ? new Date(element.start_date).toISOString(): element.start_date
       element.end_date = (typeof(element.end_date) === 'object') ? new Date(element.end_date).toISOString(): element.end_date
       const resourceGroup = this.fb.group({
