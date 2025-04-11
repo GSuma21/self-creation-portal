@@ -321,7 +321,7 @@ export class ResourceLevelTargetingComponent {
       this.resourceCount =
       this.programWithRolloutService.programData.resources?.length;
     const resourceIds =
-      this.programWithRolloutService.programData.resources.map(
+      this.programWithRolloutService.programData?.resources?.map(
         (resource: any) => resource.id
       );
       this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
@@ -352,6 +352,8 @@ export class ResourceLevelTargetingComponent {
     this.programWithRolloutService.programData.start_date = (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date // keeping in UTC format
     this.programWithRolloutService.programData.end_date = (typeof(this.programWithRolloutService.programData?.end_date) === 'object') ? new Date(this.programWithRolloutService.programData?.end_date).toISOString(): this.programWithRolloutService.programData?.end_date
     this.resources.forEach((element: any) => {
+      element.start_date = (typeof(element.start_date) === 'object') ? new Date(element.start_date).toISOString(): element.start_date
+      element.end_date = (typeof(element.end_date) === 'object') ? new Date(element.end_date).toISOString(): element.end_date
       const resourceGroup = this.fb.group({
         start_date: [
           element.start_date
@@ -519,9 +521,9 @@ export class ResourceLevelTargetingComponent {
       this.programWithRolloutService.removeItemFromAPIErrors(key);
     }
     if (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
-      this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999)); // set time of start date to 00:00 and end date time to 11:59.
+      this.programWithRolloutService.programData.resources.slice().reverse()[index][key] = (key === 'start_date') ?  new Date(new Date(event.targetElement.value).setHours(0, 0, 0, 0)) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999)); // set time of start date to 00:00 and end date time to 11:59.
     } else {
-      this.programWithRolloutService.programData.resources[index][key] = (key === 'start_date') ? new Date(event.targetElement.value).setMinutes(event.targetElement.value.getMinutes() - event.targetElement.value.getTimezoneOffset()) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999));
+      this.programWithRolloutService.programData.resources[index][key] = (key === 'start_date') ? new Date(new Date(event.targetElement.value).setHours(0, 0, 0, 0)) : new Date(new Date(event.targetElement.value).setHours(23, 59, 59, 999));
     }
     this.subscription.add(
       this.programWithRolloutService
