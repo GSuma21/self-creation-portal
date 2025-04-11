@@ -271,7 +271,8 @@ export class ProgramDetailsComponent {
           }
 
           if (startDateField && startDateField.value) {
-            const startDate =  this.programWithRolloutService.formMeta.formValidation.publishedStartDate ? new Date( this.programWithRolloutService.formMeta.formValidation.publishedStartDate) : new Date(startDateField.value);
+            this.programWithRolloutService.programData.start_date = (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date 
+            const startDate =  this.programWithRolloutService.formMeta.formValidation.publishedStartDate ? (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date  : (typeof(startDateField.value) === 'object') ? new Date(startDateField.value).toISOString(): startDateField.value ;
             if (currentDate >= startDate) {
               formControls.forEach((field:any) => {
                 if (field.name === "start_date") {

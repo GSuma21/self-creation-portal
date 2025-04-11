@@ -96,7 +96,6 @@ export class AppMainViewComponent {
       //     return element;
       //   }
       // })
-      console.log(this.sidenavData)
     })
   }
 

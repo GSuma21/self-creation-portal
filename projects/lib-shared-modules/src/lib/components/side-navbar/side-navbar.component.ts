@@ -31,7 +31,6 @@ export class SideNavbarComponent implements OnInit{
   }
 
   currentTab(data:any) {
-    console.log(data)
     this.navChange.emit(data);
   }
 
