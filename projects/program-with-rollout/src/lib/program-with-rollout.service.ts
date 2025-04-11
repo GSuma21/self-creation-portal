@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import {
   ConfigService,
   FormService,
@@ -358,6 +358,17 @@ export class ProgramWithRolloutService {
     return this.httpService.get(config.url);
   }
 
+  removeQueryParam() {
+    // Read current query params
+    const queryParams = { ...this.route.snapshot.queryParams };
+
+    // Remove the query param you want
+    delete queryParams['checkValidations'];
+
+    // Navigate to the same route with updated query params
+    this.router.navigate([],{relativeTo:this.route,queryParams:{ ...queryParams }});
+  }
+
   triggerProgramSendForReview(){
     if(this.formMeta.formValidation.programDetails === 'VALID' && this.formMeta.formValidation.programResources === 'VALID' && this.formMeta.formValidation.resourceLevelTargeting === 'VALID'){
        if ((!((!this.programData.published_on && !this.programConfig.review_required) ||
@@ -378,6 +389,7 @@ export class ProgramWithRolloutService {
                   },
                 });
                 dialogRef.afterClosed().subscribe((result: any) => {
+                  debugger;
                   if (result.sendForReview == 'SEND_FOR_REVIEW') {
                     this.utilService.saveResources = false;
                     this.createOrUpdateProgram(

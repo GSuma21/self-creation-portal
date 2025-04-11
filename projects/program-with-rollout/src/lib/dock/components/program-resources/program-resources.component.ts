@@ -26,6 +26,7 @@ export class ProgramResourcesComponent implements OnDestroy {
   resources:any;
   permissions:any;
   parent:any;
+  checkValidationOnInit:any = false;
   resourceIds:any=[]
   programId:any;
   isResourceIsNotPresent:boolean = false;
@@ -44,6 +45,7 @@ constructor(private formService: FormService, private router:Router,private rout
     this.route.queryParamMap.subscribe((params) => {
       this.resourceIds = params.getAll('resourceIds').map(id => Number(id));
       this.programId =  this.route.snapshot.queryParamMap.get('programId');
+      this.checkValidationOnInit =  this.route.snapshot.queryParamMap.get('checkValidations');
     })
   )
   this.subscription.add(
@@ -68,7 +70,7 @@ ngOnInit(){
       this.programWithRolloutService.addResourceToProgram({"resource_ids": this.resourceIds},this.programId).subscribe((res:any) => {
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { parent: this.parent, programId: this.programId, mode: this.mode }
+          queryParams: { parent: this.parent, programId: this.programId, mode: this.mode, checkValidations:this.checkValidationOnInit }
         });
         let data = {
           message: 'ADDED_RESOURCE_SUCCESSFULLY_MESSAGE',
@@ -110,10 +112,16 @@ ngOnInit(){
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
     }
+    if(this.checkValidationOnInit) {
+      this.programWithRolloutService.triggerProgramSendForReview();
+    }
   }else if(!this.resourceIds?.length  && this.programId && Object.keys(this.programWithRolloutService.programData)?.length < 1){
     this.readProgram()
     if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
       this.getCommentConfigs()
+    }
+    if(this.checkValidationOnInit) {
+      this.programWithRolloutService.triggerProgramSendForReview();
     }
   }
 

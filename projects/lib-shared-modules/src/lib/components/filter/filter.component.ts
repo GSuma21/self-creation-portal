@@ -79,7 +79,6 @@ export class FilterComponent implements OnInit {
           item = permission[0].module;
         }
       })
-      console.log(item,this.permissions);
       return item ? true : false;
     }
     else {
