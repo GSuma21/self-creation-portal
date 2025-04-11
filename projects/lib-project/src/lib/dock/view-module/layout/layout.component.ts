@@ -95,7 +95,6 @@ export class LayoutComponent {
   onButtonClick(buttonTitle: string) {
     switch (buttonTitle) {
       case 'PREVIEW': {
-        console.log(this.libProjectService.programData)
         this.utilService.removeEmptyKey(this.libProjectService.projectData).subscribe(
           (cleanedData) => {
             const dialogRef = this.dialog.open(PreviewComponent, {

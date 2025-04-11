@@ -556,14 +556,12 @@ export class ProgramWithRolloutService {
         }
       });
       if (isUpdated) {
-        console.log(this.programData)
         this.createOrUpdateProgram(this.programData, this.programData.id).subscribe();
       }
     }
   }
 
   removeItemFromAPIErrors(location:any) {
-    console.log(location)
     this.reviewErrors = [...this.reviewErrors.filter((obj:any) => obj.param !== location)]
     this.setProgramErrorsFunc(this.reviewErrors);
   }

@@ -374,7 +374,6 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   onFilterChange(event: any) {
-    console.log(event, this.selection);
     this.filterSelectedValue = event.values[0];
     this.formService
       .getEntitiesListAsType(
@@ -464,7 +463,6 @@ export class TargetCriteriaComponent implements OnInit {
       this.formData.entity_targeting.value
     ].concat(this.dataSource.data);
     this.selection.select(...this.dataSource.data);
-    console.log(this.formData[this.formData.entity_targeting.value])
   }
 
   /**
