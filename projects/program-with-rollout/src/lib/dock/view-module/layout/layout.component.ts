@@ -166,6 +166,7 @@ export class LayoutComponent {
       case "SEND_FOR_REVIEW": {
         this.utilService.saveComment = false;
         this.programWithRolloutService.checkProgramSendForReviewValidation(true);
+        debugger;
         this.programWithRolloutService.tabValidationForProgram = this.programWithRolloutService.formMeta.formValidation;
         break;
       }

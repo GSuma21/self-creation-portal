@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -61,7 +61,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './resource-level-targeting.component.html',
   styleUrl: './resource-level-targeting.component.scss',
 })
-export class ResourceLevelTargetingComponent {
+export class ResourceLevelTargetingComponent implements OnInit {
   resourceCount: any = 0;
   resources: any=[];
   parent: any;
@@ -104,6 +104,9 @@ export class ResourceLevelTargetingComponent {
         this.mode = params.mode ? params.mode : ""
       })
     )
+    if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
+      this.programWithRolloutService.removeQueryParam()
+    }
     this.initForm();
     if (this.resourceIds.length) {
       this.subscription.add(
@@ -130,6 +133,7 @@ export class ResourceLevelTargetingComponent {
               this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
               if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                 this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+                this.programWithRolloutService.removeQueryParam()
               }
             } else {
               this.subscription.add(
@@ -145,6 +149,7 @@ export class ResourceLevelTargetingComponent {
                     this.resources = (this.programWithRolloutService.programData.published_on && (this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT)) ? this.programWithRolloutService.programData.resources.slice().reverse():  this.programWithRolloutService.programData.resources
                     if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
                       this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+                      this.programWithRolloutService.removeQueryParam()
                     }
                   })
               );
