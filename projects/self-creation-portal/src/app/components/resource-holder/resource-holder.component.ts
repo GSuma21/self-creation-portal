@@ -424,6 +424,16 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             break;
           }
         case 'RESUME_EDITING':
+          if(item.type == 'program' && this.pageStatus !== 'roll-out' && item.status == resourceStatus.PUBLISHED && item.review_status !== resourceStatus.REQUEST_FOR_CHANGES){
+            this.router.navigate([PROGRAM_DETAILS_PAGE], {
+              queryParams: {
+                parent: 'review',
+                programId: item.id,
+                mode: solutionModes.RESOURCE_EDIT,
+              },
+            });
+            break;
+          }
           if(item.review_status == reviewStatus.REQUEST_FOR_CHANGES && item.type == 'program' && this.pageStatus !== 'roll-out'){
             this.router.navigate([PROGRAM_DETAILS_PAGE], {
               queryParams: {
