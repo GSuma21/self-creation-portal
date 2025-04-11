@@ -88,7 +88,6 @@ export class CommentsBoxComponent implements OnInit, OnDestroy {
 
   triggerSaveComment(){
     if(this.quillInput){
-      debugger;
       // Call saveComment() and handle the promise
       this.saveComment().then((res) => {
           this.subscription.add(
@@ -98,7 +97,6 @@ export class CommentsBoxComponent implements OnInit, OnDestroy {
         console.error('Error saving comment:', error);
       });
     }else{
-      debugger;
        // If there's no input, directly notify that saving is complete
       this.subscription.add(
         this.sharedService.notifySaveCommentCompleted()
