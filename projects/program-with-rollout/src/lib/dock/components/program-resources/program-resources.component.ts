@@ -483,7 +483,7 @@ getsolutionList() {
 
 
   ngOnDestroy() {
-    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.utilService.saveResources && this.programWithRolloutService.programData.length > 1){
+    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.RESOURCE_EDIT) && this.utilService.saveResources && this.programWithRolloutService.programData.length > 1){
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }
