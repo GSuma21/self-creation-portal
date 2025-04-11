@@ -29,6 +29,7 @@ export class CommentsBoxComponent implements OnInit, OnDestroy {
   @Input() commentPayload:any;
   @Input() resourceId:string|number = '';
   @Input() messages:any;
+  programId:string = '';
   @Output() comment = new EventEmitter<String>();
   private subscription: Subscription = new Subscription();
   value: any;
@@ -71,6 +72,10 @@ export class CommentsBoxComponent implements OnInit, OnDestroy {
         this.triggerSaveComment() // Triggers the comment save process
       })
     )
+    this.subscription.add(
+      this.route.queryParams.subscribe((res:any) => {
+        this.programId = res.programId;
+    }))
   }
 
   ngAfterViewChecked() {
@@ -223,6 +228,9 @@ export class CommentsBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if(this.mode == "metaReview" && this.programId) {
+      this.sharedService.notifySaveCommentCompleted();
+    }
     this.subscription.unsubscribe();
     if(this.utilService.saveComment){
       this.saveComment();
