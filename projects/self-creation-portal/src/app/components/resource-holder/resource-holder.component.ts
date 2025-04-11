@@ -612,6 +612,11 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
       infoFields = filterAndMapFields(cardItem.status);
     }
 
+    if(cardItem.type == 'program') {
+      infoFields.push({label: 'START_DATE', value:  this.datePipe.transform(cardItem.start_date, 'dd/MM/yyyy'), name: 'start_date'})
+      infoFields.push({label: 'END_DATE', value:  this.datePipe.transform(cardItem.end_date, 'dd/MM/yyyy'), name: 'end_date'})
+    }
+
     const dialogRef = this.dialog.open(DialogPopupComponent, {
       width: '39.375rem',
       data: {
