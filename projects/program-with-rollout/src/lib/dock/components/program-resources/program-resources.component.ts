@@ -238,6 +238,7 @@ saveForm(){
       })
     )
   } else {
+    this.programWithRolloutService.programData.is_under_edit = (this.programWithRolloutService.programData.published_on && this.mode == solutionModes.RESOURCE_EDIT) ? true: this.programWithRolloutService.programData.is_under_edit;
     this.subscription.add(
       this.programWithRolloutService
       .updateProgramDraft(this.programId)
@@ -483,7 +484,7 @@ getsolutionList() {
 
 
   ngOnDestroy() {
-    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) && this.utilService.saveResources && this.programWithRolloutService.programData.length > 1){
+    if((this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.RESOURCE_EDIT) && this.utilService.saveResources && this.programWithRolloutService.programData.length > 1){
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }

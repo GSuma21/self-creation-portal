@@ -263,7 +263,7 @@ export class ProgramDetailsComponent {
           // check the program is started or not , if started start date  is not editable.
           const currentDate = new Date();
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
-          if(this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
+          if(this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED || this.programWithRolloutService.programData.published_on){
             for (const field of formControls) {
               if (field.name === "start_date") field.publishedProgram = true;
             }
@@ -481,6 +481,7 @@ export class ProgramDetailsComponent {
     if (this.programWithRolloutService.programData.title) {
       // this.programWithRolloutService.formMeta.formValidation.projectDetail = (this.formLib?.myForm.status === "INVALID" || this.formLib?.subform?.myForm.status === "INVALID") ? "INVALID" : "VALID";
       if (this.programId) {
+        this.programWithRolloutService.programData.is_under_edit = (this.programWithRolloutService.programData.published_on && this.mode == solutionModes.RESOURCE_EDIT) ? true: this.programWithRolloutService.programData.is_under_edit;
         return this.subscription.add(
           this.programWithRolloutService.updateProgramDraft(this.programId).subscribe()
         )
@@ -512,6 +513,7 @@ export class ProgramDetailsComponent {
               this.programWithRolloutService.upDateProgramTitle(result.title);
               this.programWithRolloutService.setProgramData({ title: result.title });
               if (this.programId) {
+                this.programWithRolloutService.programData.is_under_edit = (this.programWithRolloutService.programData.published_on && this.mode == solutionModes.RESOURCE_EDIT) ? true: this.programWithRolloutService.programData.is_under_edit;
                 this.programWithRolloutService.updateProgramDraft(this.programId).subscribe();
               }
               else {
@@ -554,7 +556,7 @@ export class ProgramDetailsComponent {
       this.programWithRolloutService.formMeta.formValidation.programDetails = this.formLib?.myForm.status
     }
     console.log(this.utilService.saveResources,this.programWithRolloutService.programData.id )
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT)) {
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT)) {
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe()
     }
     if (this.intervalId) {

@@ -314,7 +314,8 @@ export class LayoutComponent {
 
 
   backToParent() {
-    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)) {
+    if (this.programWithRolloutService.programData.id && this.utilService.saveResources && (this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.RESOURCE_EDIT)) {
+      this.programWithRolloutService.programData.is_under_edit = (this.programWithRolloutService.programData.published_on && this.mode == solutionModes.RESOURCE_EDIT) ? true: this.programWithRolloutService.programData.is_under_edit;
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programWithRolloutService.programData.id).subscribe((res: any) => {
         this.sharedService.goBack()
       })

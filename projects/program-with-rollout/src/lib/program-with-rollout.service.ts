@@ -419,6 +419,8 @@ export class ProgramWithRolloutService {
               });
             } else {
               this.utilService.saveResources = false;
+              let publishedDate = this.programData.metaData.publishedStartDate
+              delete this.programData.metaData.publishedStartDate
               this.createOrUpdateProgram(
                 this.programData,
                 this.programData.id,
@@ -440,6 +442,7 @@ export class ProgramWithRolloutService {
                       this.programData = {};
                       this.router.navigate([SUBMITTED_FOR_REVIEW]);
                     },((err)=> {
+                      this.programData.metaData.publishedStartDate = publishedDate
                       this.utilService.saveResources = true;
                       this.validateAndHighlightErrorsForPrograms(err)
                     })
