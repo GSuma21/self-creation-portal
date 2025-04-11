@@ -262,8 +262,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                     {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"}]
                    }else{
                     this.resourceButtons = [
-                      {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
-                      {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+                      {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"}
+                      // {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}
+                    ]
                    }
                    this.resourceItem.actionButton = this.resourceButtons
                 this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
@@ -279,8 +280,9 @@ export class ResourceDetailsComponent implements OnInit, OnDestroy {
                 }
               });
               this.resourceButtons = [
-                {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"},
-                {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}]
+                {action :"PREVIEW",background_color:"#0a4f9d",label: "PREVIEW"}
+                // {action :"CHANGE_SELECTION",label: "CHANGE_SELECTION", color:'#0a4f9d', class:'button-enable'}
+              ]
              this.resourceItem.actionButton = this.resourceButtons
               this.programWithRolloutService.rollOutDetails.resource_id = this.resourceId;
               this.dynamicFormData = rolloutDetails.result.data.fields?.controls;

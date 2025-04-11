@@ -85,7 +85,7 @@
                 </div>
                 <div class="flex-row flex-end ">
                     <div class="flex justify-center items-center">
-                        @if(showInfoIcon){
+                        @if(showInfoIcon && list.status != 'PROCESSING'){
                             <mat-icon class="info-icon cursor-pointer" (click)="onInfoClick(list)">info</mat-icon>
                         }
                     </div>

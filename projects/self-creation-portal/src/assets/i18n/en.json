@@ -260,5 +260,6 @@
     "PROCESSING":"Processing",
     "FAILED":"Failed",
     "DRAFT":"Draft",
-    "RESOURCE_LEVEL_TARGET_INFO":"Select the targeting details for your resource. Details for multiple criteria can be edited."
+    "RESOURCE_LEVEL_TARGET_INFO":"Select the targeting details for your resource. Details for multiple criteria can be edited.",
+    "TASK_EVIDENCE_LABEL":"Number of evidence needed for this task"
 }

@@ -51,7 +51,7 @@
                                     <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
                                                     [checked]="selection.hasValue() && isAllSelected()"
                                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                                    [aria-label]="checkboxLabel()"  [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView'}">
+                                                    [aria-label]="checkboxLabel()"  [ngClass]="{'pointer-events-none':dialogData.data?.mode === 'review' || dialogData.data?.mode === 'viewOnly' || dialogData.data?.mode === 'creatorView' ||  dialogData.data?.mode === 'reviewerView' || formData.readOnly}">
                                     </mat-checkbox>
                                 }
                                     </th>
