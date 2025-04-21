@@ -221,6 +221,7 @@ export class LayoutComponent {
             if (result.data === "CANCEL") {
               return true;
             } else if (result.data === "ACCEPT") {
+              delete this.programWithRolloutService.programData.metaData.publishedStartDate
               this.utilService.saveComment = false
               this.programWithRolloutService.approveProject()
               return true;
