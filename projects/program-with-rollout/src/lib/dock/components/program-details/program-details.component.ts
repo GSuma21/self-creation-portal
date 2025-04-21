@@ -190,7 +190,7 @@ export class ProgramDetailsComponent {
                           .subscribe((res: any) => {
                             // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
                             this.programWithRolloutService.formMeta.formValidation = res.result.metaData
-                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false &&  !this.programWithRolloutService.formMeta?.publishedStartDate){
+                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false ){
                               this.programWithRolloutService.formMeta.publishedStartDate = res.result.start_date
                             }
                             this.programWithRolloutService.setProgramData(res.result);
@@ -209,8 +209,8 @@ export class ProgramDetailsComponent {
                           .subscribe((res: any) => {
                             // this.programWithRolloutService.tabValidationForProgram = res.result.metaData
                             this.programWithRolloutService.formMeta.formValidation = res.result.metaData
-                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false &&  ! this.programWithRolloutService.formMeta.formValidation.publishedStartDate){
-                              this.programWithRolloutService.formMeta.formValidation.publishedStartDate = res.result.start_date
+                            if(res.result.status === resourceStatus.PUBLISHED && res.result.is_under_edit == false ){
+                              this.programWithRolloutService.formMeta.publishedStartDate = res.result.start_date
                             }
                             this.programWithRolloutService.setProgramData(res.result);
                             //  this.programWithRolloutService.formMeta = res.result.formMeta ? res.result.formMeta : this.libProjectService.formMeta;
@@ -262,18 +262,14 @@ export class ProgramDetailsComponent {
         });
         if((this.programWithRolloutService.programData.published_on) && (this.mode === solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT)){
           // check the program is started or not , if started start date  is not editable.
-          const currentDate = new Date();
+          const currentFormatedDate = (typeof(new Date()) === 'object') ? new Date(new Date()).toISOString(): new Date()
           const startDateField = formControls.find((field:any) => field.name === 'start_date');
-          if(this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED || this.programWithRolloutService.programData.published_on){
-            for (const field of formControls) {
-              if (field.name === "start_date") field.publishedProgram = true;
-            }
-          }
 
           if (startDateField && startDateField.value) {
             this.programWithRolloutService.programData.start_date = (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date 
-            const startDate =  this.programWithRolloutService.formMeta.formValidation.publishedStartDate ? (typeof(this.programWithRolloutService.programData?.start_date) === 'object') ? new Date(this.programWithRolloutService.programData?.start_date).toISOString(): this.programWithRolloutService.programData?.start_date  : (typeof(startDateField.value) === 'object') ? new Date(startDateField.value).toISOString(): startDateField.value ;
-            if (currentDate >= startDate) {
+            this.programWithRolloutService.programData.metaData.publishedStartDate  = this.programWithRolloutService.formMeta.publishedStartDate ? (typeof(this.programWithRolloutService.formMeta.publishedStartDate ) === 'object') ? new Date(this.programWithRolloutService.formMeta.publishedStartDate ).toISOString():this.programWithRolloutService.formMeta.publishedStartDate : (typeof(this.programWithRolloutService.programData.metaData.publishedStartDate ) === 'object') ? new Date(this.programWithRolloutService.programData.metaData.publishedStartDate ).toISOString():this.programWithRolloutService.programData.metaData.publishedStartDate ;
+            const startDate = this.programWithRolloutService.programData.metaData.publishedStartDate  ? this.programWithRolloutService.programData.metaData.publishedStartDate  : this.programWithRolloutService.programData.start_date
+            if (currentFormatedDate >= startDate) {
               formControls.forEach((field:any) => {
                 if (field.name === "start_date") {
                     field.viewOnly = true;

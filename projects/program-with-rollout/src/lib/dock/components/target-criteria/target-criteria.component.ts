@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   FilterComponent,
   FormService,
+  ROLLOUT_TARGET_CRITERIA_DETAILS,
   SearchComponent,
   SideNavbarComponent,
   TARGET_CRITERIA_DETAILS,
@@ -28,6 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { DynamicFormModule } from 'dynamic-form-suma';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lib-target-criteria',
@@ -82,7 +84,8 @@ export class TargetCriteriaComponent implements OnInit {
     public dialogRef: MatDialogRef<TargetCriteriaComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private formService: FormService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
@@ -98,7 +101,7 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   getTargetCriteriaDetails() {
-    this.formService.getForm(TARGET_CRITERIA_DETAILS).subscribe((data: any) => {
+    this.formService.getForm( this.router.url.includes('project-details') ? ROLLOUT_TARGET_CRITERIA_DETAILS :TARGET_CRITERIA_DETAILS).subscribe((data: any) => {
       this.criteria = data.result.data.fields?.controls;
       this.formService
         .getEntitiesList('GET_ENTITIES_LIST', 'state')
