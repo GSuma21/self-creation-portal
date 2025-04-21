@@ -44,3 +44,8 @@ export const RESOURCE_LIST : IFORM = {
 	"type": "resourceList",
 	"sub_type": "resourceListForm",
 }
+
+export const ROLLOUT_TARGET_CRITERIA_DETAILS: IFORM = {
+	"type": "rolloutTargetCriteriaDetails",
+	"sub_type": "rolloutTargetCriteriaDetailsForm"
+}
