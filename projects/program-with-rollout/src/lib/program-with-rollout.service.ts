@@ -393,7 +393,6 @@ export class ProgramWithRolloutService {
                   },
                 });
                 dialogRef.afterClosed().subscribe((result: any) => {
-                  debugger;
                   if (result.sendForReview == 'SEND_FOR_REVIEW') {
                     this.utilService.saveResources = false;
                     this.createOrUpdateProgram(
