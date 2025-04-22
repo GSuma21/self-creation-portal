@@ -3994,5 +3994,137 @@
         ]
       }
     }
+  },
+  {
+    "type": "rolloutTargetCriteriaDetails",
+    "sub_type": "rolloutTargetCriteriaDetailsForm",
+    "data": {
+      "template_name": "defaultTemplate",
+      "fields": {
+        "controls": [
+          {
+            "label": {
+              "en": "Location",
+              "hi": "स्थान"
+            },
+            "showTable": true,
+            "form": [
+              {
+                "placeHolder": {
+                  "en": "Choose State",
+                  "hi": "राज्य चुनें"
+                },
+                "isMultiple": false,
+                "label": {
+                  "en": "Select State",
+                  "hi": "राज्य चुनें"
+                },
+                "validators": {
+                  "required": true
+                },
+                "infoMessage": {
+                  "en": "Select the State that the rollout needs to be targeted to",
+                  "hi": "उस राज्य का चयन करें जिसमें संसाधन को लक्षित किया जाना चाहिए"
+                },
+                "meta": {
+                  "url": "GET_ENTITIES_LIST",
+                  "type": "state",
+                  "dependantIndex": [
+                    1,
+                    2
+                  ]
+                },
+                "options": []
+              },
+              {
+                "placeHolder": {
+                  "en": "Choose Entity targeting",
+                  "hi": "एंटिटी लक्षित करें"
+                },
+                "isMultiple": false,
+                "meta": {
+                  "url": "GET_ENTITY_HIERARCHY",
+                  "type": "entity_targeting"
+                },
+                "infoMessage": {
+                  "en": "Select any one of the entity types for the level at which the resource needs to be targeted. You can then choose the values for only this level in the table below.",
+                  "hi": "वह किसी एक एंटिटी प्रकार चुनें जिसके स्तर पर संसाधन को लक्षित किया जाना चाहिए। फिर आप केवल इस स्तर के लिए नीचे तालिका में मान चुन सकते हैं।"
+                },
+                "label": {
+                  "en": "Select Entity Targeting",
+                  "hi": "एंटिटी लक्षित करें"
+                },
+                "options": []
+              },
+              {
+                "placeHolder": {
+                  "en": "Role",
+                  "hi": "भूमिका"
+                },
+                "isMultiple": true,
+                "label": {
+                  "en": "Select Target",
+                  "hi": "लक्षित चयन करें"
+                },
+                "value": "select_target",
+                "meta": {
+                  "url": "GET_ENTITY_ROLES",
+                  "type": "roles"
+                },
+                "infoMessage": {
+                  "en": "Select the role/users to whom the resource is targeted",
+                  "hi": "उन भूमिकाओं/उपयोगकर्ताओं का चयन करें जिन्हें संसाधन को लक्षित किया गया है"
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": []
+              }
+            ]
+          },
+          {
+            "label": {
+              "en": "Gender",
+              "hi": "लिंग"
+            },
+            "showTable": false,
+            "form": [
+              {
+                "placeHolder": {
+                  "en": "Select Gender",
+                  "hi": "लिंग चुनें"
+                },
+                "isMultiple": true,
+                "label": {
+                  "en": "Gender",
+                  "hi": "लिंग"
+                },
+                "meta": {
+                  "type": "gender"
+                },
+                "options": [
+                  {
+                    "_id": "male",
+                    "name": {
+                      "en": "Male",
+                      "hi": "पुरुष"
+                    },
+                    "externalId": "enf3"
+                  },
+                  {
+                    "_id": "female",
+                    "name": {
+                      "en": "Female",
+                      "hi": "महिला"
+                    },
+                    "externalId": "enkhfjg"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
   }
 ]
