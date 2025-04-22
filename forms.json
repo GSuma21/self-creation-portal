@@ -2107,16 +2107,6 @@
                     "name": "resource_type"
                   },
                   {
-                    "label": "Start date",
-                    "value": "",
-                    "name": "start_date"
-                  },
-                  {
-                    "label": "End date",
-                    "value": "",
-                    "name": "end_date"
-                  },
-                  {
                     "label": "LAST_UPDATED_ON",
                     "value": "",
                     "name": "updated_at"
@@ -2148,16 +2138,6 @@
                     "label": "RESOURCE_TYPE",
                     "value": "",
                     "name": "resource_type"
-                  },
-                  {
-                    "label": "Start date",
-                    "value": "",
-                    "name": "start_date"
-                  },
-                  {
-                    "label": "End date",
-                    "value": "",
-                    "name": "end_date"
                   },
                   {
                     "label": "LAST_UPDATED_ON",
