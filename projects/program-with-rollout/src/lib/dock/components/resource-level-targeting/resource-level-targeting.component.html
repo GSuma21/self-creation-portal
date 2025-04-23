@@ -33,8 +33,8 @@
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="{{ 'START_DATE'| translate}}"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly || isStartDateDisabled(i)"></mat-datepicker-toggle>
-                <mat-datepicker #startDate [disabled]="viewOnly || isStartDateDisabled(i)"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly ||isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker-toggle>
+                <mat-datepicker #startDate [disabled]="viewOnly ||isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_START_DATE' | translate" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
