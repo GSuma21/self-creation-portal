@@ -207,7 +207,7 @@
     "NO_PUBLISHED_RESOURCES_MESSAGE": "प्लेटफ़ॉर्म पर कोई प्रकाशित संसाधन नहीं हैं।",
     "SEARCH_RESULT_NOT_FOUND": "खोज परिणाम नहीं मिले।",
     "ROLL_OUT_CHANGES": "परिवर्तन रोलआउट करें",
-    "NO_ROLLED_OUT_FOUND": "इस समय कोई संसाधन रोलआउट नहीं किए गए हैं।",
+    "NO_ROLLED_OUT_FOUND": "कोई परिणाम नहीं मिला। अपने चयनों को बदलने या फ़िल्टर रीसेट करने का प्रयास करें।",
     "ENTITY_NOT_FOUND": "सत्ता नहीं मिली",
     "PROGRAM_NAME": "कार्यक्रम का नाम",
     "ADDED_RESOURCES": "जोड़े गए संसाधन",
@@ -261,5 +261,10 @@
     "PROCESSING":"प्रसंस्करण",
     "FAILED":"असफल",
     "DRAFT":"मसौदा",
-    "TASK_EVIDENCE_LABEL":"इस कार्य के लिए आवश्यक प्रमाणों की संख्या"
+    "TASK_EVIDENCE_LABEL":"इस कार्य के लिए आवश्यक प्रमाणों की संख्या",
+    "FAILED_TO_COPY_TEXT":"पाठ की प्रतिलिपि बनाने में विफल",
+    "COPY_RESOURCE":"संसाधन लिंक",
+    "COPY_LINK":"लिंक की प्रतिलिपि करें",
+    "COPIED_TO_CLIPBOARD":"क्लिपबोर्ड पर कॉपी किया गया",
+    "NO_LINK_AVAILABLE_TO_COPY":"कॉपी करने के लिए कोई लिंक उपलब्ध नहीं है"
 }

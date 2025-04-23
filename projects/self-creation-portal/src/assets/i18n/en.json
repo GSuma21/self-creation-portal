@@ -207,7 +207,7 @@
     "NO_PUBLISHED_RESOURCES_MESSAGE":"No resources are published on the platform.",
     "SEARCH_RESULT_NOT_FOUND":"Search results not found.",
     "ROLL_OUT_CHANGES":"Roll out changes",
-    "NO_ROLLED_OUT_FOUND":"No results found. Try changing your selections or reset the filters..",
+    "NO_ROLLED_OUT_FOUND":"No results found. Try changing your selections or reset the filters.",
     "ENTITY_NOT_FOUND":"Entity not found",
     "PROGRAM_NAME":"Program name",
     "ADDED_RESOURCES":"Added Resources",
@@ -261,5 +261,10 @@
     "FAILED":"Failed",
     "DRAFT":"Draft",
     "RESOURCE_LEVEL_TARGET_INFO":"Select the targeting details for your resource. Details for multiple criteria can be edited.",
-    "TASK_EVIDENCE_LABEL":"Number of evidence needed for this task"
+    "TASK_EVIDENCE_LABEL":"Number of evidence needed for this task",
+    "FAILED_TO_COPY_TEXT":"Failed to copy text",
+    "COPY_RESOURCE":"Resource link",
+    "COPY_LINK" : "Copy link",
+    "COPIED_TO_CLIPBOARD":"Copied to clipboard",
+    "NO_LINK_AVAILABLE_TO_COPY":"No link available to copy"
 }

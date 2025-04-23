@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DialogPopupComponent } from '../../components/dialogs/dialog-popup/dialog-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastService } from '../toast/toast.service';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class UtilService {
   languageChange = new BehaviorSubject<boolean>(false);
   isLanguageChanges = this.languageChange.asObservable();
 
-  constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient,private dialog : MatDialog) { }
+  constructor( private Configuration:ConfigService,private httpService:HttpProviderService,private http:HttpClient,private dialog : MatDialog,private toast:ToastService) { }
 
   approveResource(resourceId:string|number,payload:any){
     const config = {
@@ -41,7 +42,7 @@ export class UtilService {
       payload:{}
     }
     return this.httpService.post(config.url, config.payload)
-  } 
+  }
 
   rejectOrReportedReview(resourceId:string|number,payload:any,isReported:boolean=false){
     const config = {
@@ -164,7 +165,7 @@ export class UtilService {
           exitButton: exitButton
         }
       });
-  
+
       return dialogRef.afterClosed().pipe(
         map((result:any) => {
           if (result?.data === exitButton) {
@@ -189,5 +190,24 @@ export class UtilService {
       payload:{"preferred_language":language}
     };
     return this.httpService.patch(config.url, config.payload)
+  }
+
+  copyTextToClipboard(text:string) {
+    navigator.clipboard.writeText(text).then(() => {
+      let data = {
+        "message":'COPIED_TO_CLIPBOARD',
+        "class":"success",
+      }
+      this.toast.openSnackBar(data)
+      console.log('Text copied to clipboard');
+      // Optionally show a toast or some UI feedback here
+    }).catch(err => {
+      let data = {
+        "message":'FAILED_TO_COPY_TEXT',
+        "class":"error",
+      }
+      this.toast.openSnackBar(data)
+      console.error('Failed to copy text', err);
+    });
   }
 }

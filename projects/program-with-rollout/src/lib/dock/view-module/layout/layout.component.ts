@@ -284,12 +284,14 @@ export class LayoutComponent {
         })
         break;
       case 'EDIT':
-        this.router.navigate(['roll-out/details/program-details'], {
-          queryParams: {
-            parent: 'review',
-            programId: this.programWithRolloutService.programData.id,
-            mode: solutionModes.REQUEST_FOR_EDIT,
-          },
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['roll-out/details/program-details'], {
+            queryParams: {
+              parent: 'review',
+              programId: this.programWithRolloutService.programData.id,
+              mode: solutionModes.REQUEST_FOR_EDIT,
+            },
+          });
         });
         break;
       case "PUBLISH_CHANGES":
