@@ -294,7 +294,17 @@ addActionButtons(){
 
   this.resources = this.resources?.map((resource: any) => ({
     ...resource,
-    actionButton: this.isResourceGrayedOut(resource) ? [] :buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
+    actionButton: this.isResourceGrayedOut(resource) ? [
+      {
+        action: 'VIEW',
+        label: 'VIEW',
+        background_color: '#0a4f9d',
+      },
+      {
+      action: 'COPY_TO_CLIPBOARD',
+      label: 'COPY_RESOURCE',
+      background_color: '#0a4f9d',
+      }] :buttonData, // Use spread operator to add 'EDIT' and 'DELETE' to each object
   }));
 }
 
@@ -372,6 +382,25 @@ getsolutionList() {
       case 'REVIEW':
         if (item.type === 'project') {
           this.goToProjectReview(item);
+          break;
+        } else {
+          break;
+        }
+      case 'COPY_RESOURCE':
+        if (item.type === 'project') {
+          const dialogRef = this.dialog.open(DialogPopupComponent, {
+            width: '39.375rem',
+            height:'auto',
+            data: {
+              header: "COPY_RESOURCE",
+              link: item.link,
+              copyButton:"COPY_LINK"
+            }
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            return result ? true : false;
+          });
           break;
         } else {
           break;
@@ -495,8 +524,16 @@ getsolutionList() {
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.createOrUpdateProgram(this.programWithRolloutService.programData, this.programId).subscribe((res:any)=>{})
     }
+    this.subscription.add( // Check validation before sending for review.
+    this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+      (reviewValidation: boolean) => {
+        if(reviewValidation) {
+          this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
+        }
+      }
+    )
+  );
     if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
-      this.programWithRolloutService.tabValidationForProgram.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
     }
     this.subscription.unsubscribe();

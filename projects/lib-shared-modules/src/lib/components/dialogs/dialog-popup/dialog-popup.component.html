@@ -14,6 +14,12 @@
   @if(dialogueData?.content){
     <h3 class="text-sm font-bold p-4" >{{dialogueData?.content |translate}}</h3>
   }
+  @if(dialogueData?.link){
+    <div class="flex justify-between link-container">
+      <h3 class="text-sm font-bold p-4" >{{dialogueData?.link}}</h3>
+      <mat-icon (click)="onCopy()">content_copy</mat-icon>
+    </div>
+  }
   @if(dialogueData.reportContent){
     <div class="pb-6 flex items-center">
       <mat-checkbox [(ngModel)]="reportContent"> Report content</mat-checkbox>
@@ -116,7 +122,7 @@
       <div  class=" w-[100%] sm:w-[80%]" #certificateContainer>
       </div>
     </div>
-    
+
 </div>
 @if(dialogueData.cancelButton || dialogueData.exitButton || dialogueData.attachButton){
   <div class="border-t"></div>
@@ -130,5 +136,8 @@
   }
   @if(dialogueData.attachButton){
     <button class="btn text-primary border-blueCircle w-30 min-w-[135px]" (click)="onAttach()">{{dialogueData.attachButton | translate}}</button>
+  }
+  @if(dialogueData.copyButton){
+    <button class="btn bg-primary text-white w-30 min-w-[135px]" (click)="onCopy()">{{dialogueData.copyButton | translate}}</button>
   }
 </div>

@@ -2,7 +2,7 @@
   <div formArrayName="resources" class="form-container">
     <div *ngFor="let resourceGroup of resourceFields.controls; let i=index" [formGroupName]="i">
       <mat-card appearance="outlined" class="resource-card">
-        <div [ngClass]="{'opacity-50': isResourceGrayedOut(i)}">
+        <div>
           <lib-card [list]="resources[i]" [showActionButton]="true"  [commentVisible]="false" class="mb-3"></lib-card>
         <div class="flex gap-2 mt-2">
           <mat-label _ngcontent-ng-c2505383043="" class="ng-tns-c3736059725-23 ng-star-inserted target-criteria">{{"TARGET_CRITERIA" | translate}} *</mat-label>
@@ -20,12 +20,12 @@
               <p>{{targetItem?.label}}</p>
             </section>
             <div class="cursor-pointer flex flex-row gap-2">
-              <mat-icon (click)="updateResource(i,j,targetItem)" class="cursor-pointer" [ngClass]="{'pointer-events-none': (isResourceGrayedOut(i))}">edit_square</mat-icon>
-              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer" [ngClass]="{'pointer-events-none': (viewOnly || !isResourceGrayedOut(i))}">close</mat-icon>
+              <mat-icon (click)="updateResource(i,j,targetItem)" class="cursor-pointer">edit_square</mat-icon>
+              <mat-icon (click)="updateResource(i,j)"class="cursor-pointer" [ngClass]="{'pointer-events-none': viewOnly}">close</mat-icon>
             </div>
           </div>
         </div>
-        <section class="flex mt-4 gap-2" [ngClass]="{'pointer-events-none': (viewOnly || isResourceGrayedOut(i))}">
+        <section class="flex mt-4 gap-2" [ngClass]="{'pointer-events-none': viewOnly}">
           <section>
             <div class="flex">
               <mat-form-field appearance="outline" floatLabel="always">
@@ -33,8 +33,8 @@
                 <input matInput [matDatepicker]="startDate" readonly formControlName="start_date" placeholder="{{ 'START_DATE'| translate}}"
                   [max]="getMaxDate(i)" [min]="getProgramDate('start_date')"
                   (dateChange)="setValueToProgram($event,i,'start_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker-toggle>
-                <mat-datepicker #startDate [disabled]="viewOnly || isResourceGrayedOut(i) || isStartDateDisabled(i)"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="startDate" [disabled]="viewOnly || isStartDateDisabled(i)"></mat-datepicker-toggle>
+                <mat-datepicker #startDate [disabled]="viewOnly || isStartDateDisabled(i)"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_START_DATE' | translate" [matTooltipDisabled]="true" #tooltip2="matTooltip" (click)="showTooltip(tooltip2)"
@@ -55,8 +55,8 @@
                 <mat-label>{{"END_DATE" | translate}}</mat-label>
                 <input matInput [matDatepicker]="endDate" readonly formControlName="end_date" placeholder="{{'END_DATE' | translate}}"
                   [min]="getMinDate(i)" [max]="getProgramDate('end_date')" (dateChange)="setValueToProgram($event,i,'end_date')">
-                <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker-toggle>
-                <mat-datepicker #endDate [disabled]="viewOnly || isResourceGrayedOut(i)"></mat-datepicker>
+                <mat-datepicker-toggle matIconSuffix [for]="endDate" [disabled]="viewOnly"></mat-datepicker-toggle>
+                <mat-datepicker #endDate [disabled]="viewOnly"></mat-datepicker>
               </mat-form-field>
               <mat-icon class="info-icon enable-with-pointer-events" matTooltipClass="info-tooltip" matTooltipPosition="above"
                 [matTooltip]="'INFO_MESSAGE_FOR_RESOURCE_END_DATE' | translate" [matTooltipDisabled]="true" #tooltip3="matTooltip" (click)="showTooltip(tooltip3)"

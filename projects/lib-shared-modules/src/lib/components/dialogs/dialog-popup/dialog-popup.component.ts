@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { DynamicFormModule } from 'dynamic-form-suma';
+import { UtilService } from '../../../../public-api';
 
 @Component({
   selector: 'lib-dialog-popup',
@@ -28,7 +29,7 @@ export class DialogPopupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogPopupComponent>, private renderer: Renderer2,
-    @Inject(MAT_DIALOG_DATA)  public dialogueData: any) {
+    @Inject(MAT_DIALOG_DATA)  public dialogueData: any, private utilService:UtilService) {
       this.language = this.dialogueData?.language
   }
 
@@ -128,6 +129,11 @@ export class DialogPopupComponent implements OnInit {
     }else{
       this.closeDialog();
     }
+  }
+
+  onCopy() {
+    this.utilService.copyTextToClipboard(this.dialogueData.link)
+    this.closeDialog();
   }
 
 

@@ -566,13 +566,21 @@ export class ResourceLevelTargetingComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.add( // Check validation before sending for review.
+    this.programWithRolloutService.isProgramSendForReviewValidation.subscribe(
+      (reviewValidation: boolean) => {
+        if(reviewValidation) {
+          this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
+        }
+      }
+    )
+  );
     if(!this.programWithRolloutService.formMeta.formValidation) {
       this.programWithRolloutService.setValidationForProgram();
       this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
     }
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
-    this.programWithRolloutService.tabValidationForProgram.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
+    this.subscription.unsubscribe();
   }
 
   showTooltip(tooltip: MatTooltip) {
