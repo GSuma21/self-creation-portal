@@ -265,5 +265,6 @@
     "FAILED_TO_COPY_TEXT":"पाठ की प्रतिलिपि बनाने में विफल",
     "COPY_RESOURCE":"संसाधन लिंक",
     "COPY_LINK":"लिंक की प्रतिलिपि करें",
-    "COPIED_TO_CLIPBOARD":"क्लिपबोर्ड पर कॉपी किया गया"
+    "COPIED_TO_CLIPBOARD":"क्लिपबोर्ड पर कॉपी किया गया",
+    "NO_LINK_AVAILABLE_TO_COPY":"कॉपी करने के लिए कोई लिंक उपलब्ध नहीं है"
 }

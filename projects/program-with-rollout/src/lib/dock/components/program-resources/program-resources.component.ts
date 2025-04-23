@@ -39,7 +39,7 @@ export class ProgramResourcesComponent implements OnDestroy {
   isResourceTileShow= true;
   private subscription: Subscription = new Subscription();
 
-constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService, private utilService: UtilService){
+constructor(private formService: FormService, private router:Router,private route: ActivatedRoute,public programWithRolloutService:ProgramWithRolloutService, private dialog:MatDialog, private toastService:ToastService, private utilService: UtilService,private toast:ToastService){
   this.parent = this.route.snapshot.queryParamMap.get('parent');
   this.subscription.add(
     this.route.queryParamMap.subscribe((params) => {
@@ -388,19 +388,28 @@ getsolutionList() {
         }
       case 'COPY_RESOURCE':
         if (item.type === 'project') {
-          const dialogRef = this.dialog.open(DialogPopupComponent, {
-            width: '39.375rem',
-            height:'auto',
-            data: {
-              header: "COPY_RESOURCE",
-              link: item.link,
-              copyButton:"COPY_LINK"
-            }
-          });
+          if(item.link !== null) {
+            const dialogRef = this.dialog.open(DialogPopupComponent, {
+              width: '39.375rem',
+              height:'auto',
+              data: {
+                header: "COPY_RESOURCE",
+                link: item.link,
+                copyButton:"COPY_LINK"
+              }
+            });
 
-          dialogRef.afterClosed().subscribe(result => {
-            return result ? true : false;
-          });
+            dialogRef.afterClosed().subscribe(result => {
+              return result ? true : false;
+            });
+          }
+          else {
+            let data = {
+              "message":'NO_LINK_AVAILABLE_TO_COPY',
+              "class":"error",
+            }
+            this.toast.openSnackBar(data)
+          }
           break;
         } else {
           break;

@@ -265,5 +265,6 @@
     "FAILED_TO_COPY_TEXT":"Failed to copy text",
     "COPY_RESOURCE":"Resource link",
     "COPY_LINK" : "Copy link",
-    "COPIED_TO_CLIPBOARD":"Copied to clipboard"
+    "COPIED_TO_CLIPBOARD":"Copied to clipboard",
+    "NO_LINK_AVAILABLE_TO_COPY":"No link available to copy"
 }
