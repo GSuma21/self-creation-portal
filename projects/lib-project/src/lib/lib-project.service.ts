@@ -546,7 +546,7 @@ export class LibProjectService {
     });
   }
 
-  checkValidationForRequestChanges(input:any = "") { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
+  checkValidationForRequestChanges(input:any = null) { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
     if(input === null){
       this.getComments().subscribe((data:any)=>{
         if(data.some((comment: any) => comment.status === resourceStatus.DRAFT)){

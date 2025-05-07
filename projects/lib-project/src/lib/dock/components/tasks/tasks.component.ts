@@ -439,6 +439,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.checkValidation()
       this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
     }
+    this.libProjectService.checkValidationForRequestChanges()
     this.subscription.unsubscribe();
     if (this.autoSaveSubscription) {
       this.autoSaveSubscription.unsubscribe();

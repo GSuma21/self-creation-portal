@@ -557,6 +557,7 @@ export class ProgramDetailsComponent {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    this.programWithRolloutService.checkValidationForRequestChanges()
     this.subscription.unsubscribe();
   }
 

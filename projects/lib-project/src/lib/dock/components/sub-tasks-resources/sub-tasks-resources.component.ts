@@ -411,6 +411,7 @@ export class SubTasksResourcesComponent implements OnInit,OnDestroy, AfterViewCh
       }
     this.libProjectService.createOrUpdateProject(this.libProjectService.projectData,this.projectId).subscribe((res)=> console.log(res))
     }
+    this.libProjectService.checkValidationForRequestChanges()
     this.subscription.unsubscribe();
   }
 

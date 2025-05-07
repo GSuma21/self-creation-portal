@@ -579,6 +579,7 @@ export class ResourceLevelTargetingComponent implements OnInit {
       this.programWithRolloutService.setValidationForProgram();
       this.programWithRolloutService.formMeta = this.programWithRolloutService.formMeta
     }
+    this.programWithRolloutService.checkValidationForRequestChanges()
     this.programWithRolloutService.formMeta.formValidation.resourceLevelTargeting = this.resourceForm.valid ? 'VALID' : 'INVALID'
     this.subscription.unsubscribe();
   }

@@ -994,6 +994,7 @@ export class CertificatesComponent implements OnInit, OnDestroy,AfterViewInit{
       }
       this.libProjectService.saveProjectFunc(false);
     }
+    this.libProjectService.checkValidationForRequestChanges()
     this.subscription.unsubscribe();
   }
 

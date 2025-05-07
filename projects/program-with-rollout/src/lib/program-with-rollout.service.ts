@@ -574,7 +574,8 @@ export class ProgramWithRolloutService {
     this.setProgramErrorsFunc(this.reviewErrors);
   }
 
-  checkValidationForRequestChanges(input:any = "" , resourceComments:any=[]) { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
+  checkValidationForRequestChanges(input:any = null , resourceComments:any=[]) { // Method to check validation for enabling or disabling the 'REQUEST_CHANGES' button based on the content of `quillInput` and existing comments.
+    console.log(input)
     if(resourceComments.length){
       this.changeCommentStatus(!(resourceComments.some((item:any) => item.is_comments === true)))
     }

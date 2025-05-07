@@ -542,6 +542,7 @@ getsolutionList() {
       }
     )
   );
+  this.programWithRolloutService.checkValidationForRequestChanges()
     if(this.mode === solutionModes.EDIT || this.mode === solutionModes.REQUEST_FOR_EDIT) {
       this.programWithRolloutService.formMeta.formValidation.programResources =  (this.programWithRolloutService.programData.resources?.length > 0) ? 'VALID' : 'INVALID'
     }
