@@ -49,5 +49,6 @@ export const solutionModes = {
   COPY_EDIT:"copyEdit",
   META_EDIT:'metaEdit',
   META_REVIEW:'metaReview',
-  RESOURCE_EDIT:'resourceEdit'
+  RESOURCE_EDIT:'resourceEdit',
+  PUBLISHED_VIEW:'publishedView'
 };

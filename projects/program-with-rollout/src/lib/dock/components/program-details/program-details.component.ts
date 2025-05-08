@@ -51,7 +51,7 @@ export class ProgramDetailsComponent {
         }
       )
     );
-    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT) {
+    if (this.mode === solutionModes.VIEWONLY || this.mode === solutionModes.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW || this.mode === solutionModes.COPY_EDIT || this.mode === solutionModes.PUBLISHED_VIEW) {
       this.viewOnly = true
       // this.getProjectDetailsForViewOnly();
     }
@@ -125,7 +125,7 @@ export class ProgramDetailsComponent {
 
 
   ngAfterViewChecked() {
-    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ||  this.mode == solutionModes.META_EDIT) && this.programId) {
+    if ((this.mode == solutionModes.EDIT || this.mode == solutionModes.REQUEST_FOR_EDIT ||  this.mode == solutionModes.META_EDIT || this.mode === solutionModes.RESOURCE_EDIT) && this.programId) {
       if (this.viewOnly) {
         this.viewOnly = false;
         this.getFormWithEntitiesAndMap();
@@ -536,7 +536,7 @@ export class ProgramDetailsComponent {
 
           this.commentsList = this.commentsList.concat(filteredComments);
           this.commentPayload = data;
-          this.ResourceInReview = this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW ;
+          this.ResourceInReview = (this.mode === solutionModes.REVIEW || this.mode === solutionModes.REQUEST_FOR_EDIT ||  this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.CREATOR_VIEW)  && (this.programWithRolloutService.programData.status !== resourceStatus.PUBLISHED) ;
           this.programWithRolloutService.checkValidationForRequestChanges(comments, commentListRes.result?.childResources);
         });
       })

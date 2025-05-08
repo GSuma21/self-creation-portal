@@ -496,7 +496,9 @@ applyButtons(button: any, cardItem: any, clearExisting: boolean = false): void {
             queryParams = { ...idParam, mode: solutionModes.CREATOR_VIEW, parent: 'review' };
           } else if (item.review_status === reviewStatus.CHANGES_UPDATED && this.activeRole === 'creator') {
             queryParams = { ...idParam, mode: solutionModes.VIEWONLY, parent: 'review' };
-          } else if (item.status) {
+          } else if(isProgram && item.status === resourceStatus.PUBLISHED){
+            queryParams = { ...idParam, mode: solutionModes.PUBLISHED_VIEW, parent: 'review' };
+          }else if (item.status) {
             queryParams = { ...idParam, mode: solutionModes.VIEWONLY };
             if (this.activeRole === 'creator') {
               queryParams.parent = 'review';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, SUBMITTED_FOR_REVIEW, ToastService, UtilService } from 'lib-shared-modules';
+import { ConfigService, DialogPopupComponent, FormService, LibSharedModulesService, PreviewComponent, PROGRAM_DETAILS_PAGE, resourceStatus, ROLL_OUT, SIDE_NAV_DATA, SOLUTION_LIST, solutionModes, SUBMITTED_FOR_REVIEW, ToastService, UtilService } from 'lib-shared-modules';
 import { ProgramWithRolloutService } from '../../../program-with-rollout.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -284,13 +284,23 @@ export class LayoutComponent {
         })
         break;
       case 'EDIT':
-        this.router.navigate(['roll-out/details/program-details'], {
-          queryParams: {
-            parent: 'review',
-            programId: this.programWithRolloutService.programData.id,
-            mode: solutionModes.REQUEST_FOR_EDIT,
-          },
-        });
+        if(this.programWithRolloutService.programData.status === resourceStatus.PUBLISHED){
+          this.router.navigate(['roll-out/details/program-details'], {
+            queryParams: {
+              parent: 'review',
+              programId: this.programWithRolloutService.programData.id,
+              mode: solutionModes.RESOURCE_EDIT,
+            },
+          });
+        }else{
+          this.router.navigate(['roll-out/details/program-details'], {
+            queryParams: {
+              parent: 'review',
+              programId: this.programWithRolloutService.programData.id,
+              mode: solutionModes.REQUEST_FOR_EDIT,
+            },
+          });
+        }
         break;
       case "PUBLISH_CHANGES":
         this.programWithRolloutService.checkProgramPublishalidation(true);
