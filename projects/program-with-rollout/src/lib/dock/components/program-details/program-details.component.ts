@@ -557,7 +557,7 @@ export class ProgramDetailsComponent {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW  || this.mode === solutionModes.REQUEST_FOR_EDIT || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW || this.mode === solutionModes.CREATOR_VIEW) && (this.mode !== solutionModes.VIEWONLY)) {
+    if ((this.programWithRolloutService?.programData?.stage == resourceStatus.REVIEW || this.mode === solutionModes.REVIEWER_VIEW || this.mode === solutionModes.REVIEW ) && (this.mode !== solutionModes.VIEWONLY)) {
       this.programWithRolloutService.checkValidationForRequestChanges()
     }
     this.subscription.unsubscribe();
