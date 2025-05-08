@@ -24,6 +24,7 @@ export class DialogPopupComponent implements OnInit {
   errorMessage: string = '';
   selectedFiles: File | undefined;
   language:any
+  copied:any = false;
   @ViewChild('dialogueForm') dialogueForm!: NgForm;
   @ViewChild('certificateContainer', { static: true }) certificateContainer: ElementRef | any;
 

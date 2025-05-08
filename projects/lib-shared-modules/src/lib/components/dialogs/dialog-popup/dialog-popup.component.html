@@ -16,8 +16,14 @@
   }
   @if(dialogueData?.link){
     <div class="flex justify-between link-container">
-      <h3 class="text-sm font-bold p-4" >{{dialogueData?.link}}</h3>
-      <mat-icon (click)="onCopy()">content_copy</mat-icon>
+        <input 
+          #linkInput 
+          [value]="dialogueData.link" 
+          readonly 
+          class="hidden-input"
+        />
+        <h3 class="text-sm font-bold p-4 truncate">{{dialogueData.link }}</h3>
+        <mat-icon (click)="onCopy()">content_copy</mat-icon>
     </div>
   }
   @if(dialogueData.reportContent){
