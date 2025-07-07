@@ -7,24 +7,24 @@
     github_token: "your_token_here"
     GIT_TOKEN:
   tasks:
-  - name: Slurp hosts file
-    slurp:
-    src: "{{ project_path }}/.token"
-  - name: Create GitHub Release Tag
-    uri:
-      url: "https://api.github.com/repos/{{ GIT_REF }}/releases"
-      method: POST
-      headers:
-        Accept: "application/vnd.github+json"
-        Content-Type: "application/json"
-      body_format: json
-      body:
-        tag_name: "v{{ new_version }}"
-        target_commitish: "{{ gitBranch }}"
-        name: "v{{ new_version }}"
-        body: "Automated release v{{ new_version }} created by Ansible"
-        draft: false
-        prerelease: false
-      status_code: 201
-      delegate_to: localhost
-      run_once: true
+    - name: Slurp hosts file
+      slurp:
+      src: "{{ project_path }}/.token"
+    - name: Create GitHub Release Tag
+      uri:
+        url: "https://api.github.com/repos/{{ GIT_REF }}/releases"
+        method: POST
+        headers:
+          Accept: "application/vnd.github+json"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          tag_name: "v{{ new_version }}"
+          target_commitish: "{{ gitBranch }}"
+          name: "v{{ new_version }}"
+          body: "Automated release v{{ new_version }} created by Ansible"
+          draft: false
+          prerelease: false
+        status_code: 201
+        delegate_to: localhost
+        run_once: true
