@@ -9,7 +9,7 @@
   tasks:
     - name: Slurp hosts file
       slurp:
-        src: "{{ project_path }}/.token"
+        src: "/opt/backend/deployment/.token"
       register: slurpfile
     - name: Create GitHub Release Tag
       uri:
