@@ -1,7 +1,7 @@
 ---
 - hosts: elevate
   vars:
-    GIT_RED: "ELEVATE-Project/self-creation-portal"
+    GIT_REF: "ELEVATE-Project/self-creation-portal"
     gitBranch: "sprint-5"
     new_version: "1.0.2"
     github_token: "your_token_here"
