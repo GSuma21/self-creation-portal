@@ -1,0 +1,19 @@
+- name: Create GitHub Release Tag
+  uri:
+    url: "https://api.github.com/repos/{{ github_repo }}/releases"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ github_token }}"
+      Accept: "application/vnd.github+json"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      tag_name: "v{{ new_version }}"
+      target_commitish: "{{ gitBranch }}"
+      name: "v{{ new_version }}"
+      body: "Automated release v{{ new_version }} created by Ansible"
+      draft: false
+      prerelease: false
+    status_code: 201
+  delegate_to: localhost
+  run_once: true
