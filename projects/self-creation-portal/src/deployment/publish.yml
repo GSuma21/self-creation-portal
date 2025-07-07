@@ -1,0 +1,45 @@
+---
+- hosts: elevate
+  vars:
+    project_path: /opt/frontend/self-creation-portal
+    root_path: /opt/frontend
+  tasks:
+    - name: Slurp host file
+      slurp:
+        src: "/opt/backend/deployment/.token"
+      register: slurpfile
+    - name: Run vault credentials
+      shell: "curl --location --request GET '{{ vaultAddress }}self-creation-portal-frontend' --header 'X-Vault-Token: {{ slurpfile['content'] | b64decode }}' | jq '.data' > '{{root_path}}/data2.json'"
+      register: vaultCurl
+    - name: Change directory
+      shell: cd {{project_path}}
+    - name: Fetch the latest code
+      git:
+        repo: https://github.com/ELEVATE-Project/self-creation-portal
+        dest: "{{project_path}}"
+        version: "{{gitBranch}}"
+        force: yes
+    - name: Update npm
+      shell: cd {{project_path}} && npm i --force
+    - name: Set permission
+      shell: chmod 744 {{ project_path }}/projects/self-creation-portal/src/scripts/json2env.sh
+    - name: Generate .env
+      shell: cat {{root_path}}/data2.json | jq '.data' > {{ project_path }}/environments/environment.prod.ts && sed -i '1s/^/export const environment = \n/' {{ project_path }}/environments/environment.prod.ts
+      register: envConfig
+    - debug: msg=" cred {{ envConfig }} "
+    - name: Change directory
+      shell: chdir {{project_path}}
+    - name: Change directory
+      shell: cd {{project_path}}
+    - name: Fetch pm2 config file
+      shell: "curl --location --request GET '{{ vaultAddress }}selfCreationPortalPM2Config' --header 'X-Vault-Token: {{ slurpfile['content'] | b64decode }}' | jq '.data.data' > '{{ project_path }}/pm2.config.json'"
+      register: pm2
+    - name: Remove dist folder
+      shell: rm -rf dist
+    - name: Build angular app
+      shell: cd {{project_path}} && ng build lib-shared-modules && ng build lib-project && ng build program-with-rollout && ng build self-creation-portal --configuration production
+
+    - name: Publish to NPM
+      shell: npm publish dist/lib-shared-modules --access public
+      args:
+        chdir: "{{ project_path }}"
