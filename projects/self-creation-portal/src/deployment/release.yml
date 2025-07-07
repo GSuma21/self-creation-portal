@@ -5,11 +5,12 @@
     gitBranch: "sprint-5"
     new_version: "1.0.2"
     github_token: "your_token_here"
-    GIT_TOKEN:
+    project_path: /opt/frontend/self-creation-portal
   tasks:
     - name: Slurp hosts file
       slurp:
-      src: "{{ project_path }}/.token"
+        src: "{{ project_path }}/.token"
+      register: slurpfile
     - name: Create GitHub Release Tag
       uri:
         url: "https://api.github.com/repos/{{ GIT_REF }}/releases"
