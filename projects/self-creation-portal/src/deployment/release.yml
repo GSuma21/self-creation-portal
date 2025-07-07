@@ -1,9 +1,9 @@
 - name: Create GitHub Release Tag
   uri:
-    url: "https://api.github.com/repos/{{ github_repo }}/releases"
+    url: "https://api.github.com/repos/{{ GIT_REF }}/releases"
     method: POST
     headers:
-      Authorization: "Bearer {{ github_token }}"
+      Authorization: "Bearer {{ GIT_TOKEN }}"
       Accept: "application/vnd.github+json"
       Content-Type: "application/json"
     body_format: json
