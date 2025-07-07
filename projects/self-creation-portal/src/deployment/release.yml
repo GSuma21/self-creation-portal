@@ -1,7 +1,10 @@
+---
 - hosts: elevate
   vars:
-    project_path: /opt/frontend/self-creation-portal
-    root_path: /opt/frontend
+    github_repo: "ELEVATE-Project/utils"
+    gitBranch: "sprint-5"
+    new_version: "1.0.2"
+    github_token: "your_token_here"
   tasks:
   - name: Create GitHub Release Tag
     uri:
