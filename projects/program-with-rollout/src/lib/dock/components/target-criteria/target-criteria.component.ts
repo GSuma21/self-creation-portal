@@ -60,7 +60,7 @@ import { Router } from '@angular/router';
   styleUrl: './target-criteria.component.scss',
 })
 export class TargetCriteriaComponent implements OnInit {
-  criteria: any;
+  criteria: any = [];
   placeHolder: string = 'SEARCH_TARGET_ELEMENT';
   criteriaFilters: any = [];
   formData: any = {};
@@ -78,7 +78,11 @@ export class TargetCriteriaComponent implements OnInit {
   tableData: any = []; // to show the data in HTML Loop
   searchText: boolean = false;
   pageCount: number = 5;
-  language:any
+  language:any;
+  entityURL:string = '';
+  subEntityURL:string = '';
+  hierarchyList:string = '';
+  rolesObject:any = '';
 
   constructor(
     public dialogRef: MatDialogRef<TargetCriteriaComponent>,
@@ -93,6 +97,7 @@ export class TargetCriteriaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getEntitiesAndSubEntitiesURL()
     this.getTargetCriteriaDetails();
     this.tableColumns = ['select', ...this.displayedColumns];
     if (this.dialogData.data) {
@@ -100,11 +105,29 @@ export class TargetCriteriaComponent implements OnInit {
     }
   }
 
+  getEntitiesAndSubEntitiesURL() {
+    this.dialogData.config.factors.forEach((element:any) => {
+      if(element.key == 'state') {
+        this.entityURL = element.api.base_name + '/' + element.api.endpoint;
+      }
+      else if (element.key == "district") {
+        this.subEntityURL = element.api.base_name + '/' + element.api.endpoint;
+      }
+      else if (element.key == "entityType") {
+        this.hierarchyList = element.api.base_name + '/' + element.api.endpoint;
+      }
+      else if (element.key == "entityType") {
+        this.rolesObject = element.api;
+      }
+    })
+  }
+
   getTargetCriteriaDetails() {
     this.formService.getForm( this.router.url.includes('project-details') ? ROLLOUT_TARGET_CRITERIA_DETAILS :TARGET_CRITERIA_DETAILS).subscribe((data: any) => {
-      this.criteria = data.result.data.fields?.controls;
+      this.criteria = [];
+      this.dialogData.config.ui_config.tabs.forEach((element:any) => this.criteria.push(data.result.data.fields?.controls.find((tab:any) => element.name == tab.label.en)));
       this.formService
-        .getEntitiesList('GET_ENTITIES_LIST', 'state')
+        .getEntitiesList(this.entityURL, 'state')
         .subscribe((res: any) => {
           this.criteria[0].form[0].options = res.result;
           if (this.dialogData.data && res.result) {
@@ -113,7 +136,7 @@ export class TargetCriteriaComponent implements OnInit {
             if (this.dialogData.data.entity_targeting.name !== 'state') {
               this.formService
                 .getEntitiesListAsType(
-                  'GET_SUB_ENTITIES_LIST',
+                  this.subEntityURL,
                   this.formData.entity_targeting.value,
                   Array.isArray(this.formData.state)
                     ? this.formData.state[0]._id
@@ -142,10 +165,10 @@ export class TargetCriteriaComponent implements OnInit {
 
   insertDataIntoTable(data: any, count?: number) {
     let newArray = data.map((element: any) => {
-      delete element.label;
+      // delete element.label;
       delete element.entityType;
       delete element.value;
-      delete element.name;
+      // delete element.name;
       return element;
     });
     this.displayedColumns = newArray.length ? Object.keys(newArray[0]) : [];
@@ -170,7 +193,7 @@ export class TargetCriteriaComponent implements OnInit {
       this.criteria[0].form[2] = targetFormInfo;
       this.targetedEntity = '';
     }
-    if (key !== 'roles' && key!== 'gender') {
+    if (key !== 'roles' && key !== 'sub_roles' && key!== 'gender') {
       this.selection.clear();
       this.criteriaFilters = [];
       this.displayedColumns = [];
@@ -217,7 +240,7 @@ export class TargetCriteriaComponent implements OnInit {
           placeHolder: `select ${this.targetEntityArray[index]}`,
           isMultiple: false,
           meta: {
-            url: 'GET_SUB_ENTITIES_LIST',
+            url: this.subEntityURL,
             type: this.targetEntityArray[index],
           },
           label: this.targetEntityArray[index],
@@ -225,7 +248,7 @@ export class TargetCriteriaComponent implements OnInit {
           value: this.targetEntityArray[index],
         });
       }
-      // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
+      // this.formService.getEntitiesListAsType(this.subEntityURL,this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
       //     this.criteriaFilters[formElementIndex].options = res.result.data;
       // })
       if(this.criteriaFilters.length > 0) {
@@ -233,7 +256,7 @@ export class TargetCriteriaComponent implements OnInit {
           // index starts 1 to skip state fetching
           this.formService
             .getEntitiesListAsType(
-              'GET_SUB_ENTITIES_LIST',
+              this.subEntityURL,
               this.criteriaFilters[index].value,
               Array.isArray(this.formData.state)
                 ? this.formData.state[0]._id
@@ -246,18 +269,23 @@ export class TargetCriteriaComponent implements OnInit {
       }
       this.formService
         .getEntitiesList(
-          this.criteria[0].form[2].meta.url,
-          this.targetedEntity,
-          Array.isArray(this.formData.state)
-            ? this.formData.state[0]._id
-            : this.formData.state._id
+          this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.base_name+'/'+this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.endpoint,
+          this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.query_params.entityType,
         )
         .subscribe((res: any) => {
           this.criteria[0].form[2].options = res.result;
         });
+        this.formService
+        .getEntitiesList(
+          this.dialogData.config.factors.find((element:any) => element.key == 'professional_subroles').api.base_name+'/'+this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.endpoint,
+          this.dialogData.config.factors.find((element:any) => element.key == 'professional_subroles').api.query_params.entityType,
+        )
+        .subscribe((res: any) => {
+          this.criteria[0].form[3].options = res.result;
+        });
       this.formService
         .getEntitiesListAsType(
-          'GET_SUB_ENTITIES_LIST',
+          this.subEntityURL,
           event.value._id,
           Array.isArray(this.formData.state)
             ? this.formData.state[0]._id
@@ -271,13 +299,14 @@ export class TargetCriteriaComponent implements OnInit {
     }
     if (
       key != 'roles' &&
+      key != 'sub_roles' &&
       key != 'entity_targeting' &&
       key != 'state' &&
       key != 'gender'
     ) {
       this.formService
         .getEntitiesListAsType(
-          'GET_SUB_ENTITIES_LIST',
+          this.subEntityURL,
           this.targetEntityArray[formElementIndex - 1],
           event.value._id
         )
@@ -294,7 +323,7 @@ export class TargetCriteriaComponent implements OnInit {
       : this.formData.state;
     this.formService
       .getEntitiesList(
-        this.criteria[0].form[1].meta.url,
+        this.hierarchyList,
         '',
         Array.isArray(this.formData.state)
           ? this.formData.state[0]?.externalId
@@ -328,7 +357,7 @@ export class TargetCriteriaComponent implements OnInit {
               placeHolder: `select ${this.targetEntityArray[index]}`,
               isMultiple: false,
               meta: {
-                url: 'GET_SUB_ENTITIES_LIST',
+                url: this.subEntityURL,
                 type: this.targetEntityArray[index],
               },
               label: this.targetEntityArray[index],
@@ -336,13 +365,13 @@ export class TargetCriteriaComponent implements OnInit {
               value: this.targetEntityArray[index],
             });
           }
-          // this.formService.getEntitiesListAsType('GET_SUB_ENTITIES_LIST',this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
+          // this.formService.getEntitiesListAsType(this.subEntityURL,this.targetEntityArray[1],this.formData.state._id).subscribe((res:any)=>{
           //     this.criteriaFilters[formElementIndex].options = res.result.data;
           // })
           for (let index = 0; index < this.criteriaFilters.length; index++) {
             this.formService
               .getEntitiesListAsType(
-                'GET_SUB_ENTITIES_LIST',
+                this.subEntityURL,
                 this.criteriaFilters[index].value,
                 Array.isArray(this.formData.state)
                   ? this.formData.state[0]._id
@@ -356,14 +385,19 @@ export class TargetCriteriaComponent implements OnInit {
       });
     this.formService
       .getEntitiesList(
-        this.criteria[0].form[2].meta.url,
-        '',
-        Array.isArray(this.formData.state)
-          ? this.formData.state[0]._id
-          : this.formData.state._id
+        this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.base_name+'/'+this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.endpoint,
+        this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.query_params.entityType,
       )
       .subscribe((res: any) => {
         this.criteria[0].form[2].options = res.result;
+      });
+    this.formService
+      .getEntitiesList(
+        this.dialogData.config.factors.find((element:any) => element.key == 'professional_subroles').api.base_name+'/'+this.dialogData.config.factors.find((element:any) => element.key == 'professional_role').api.endpoint,
+        this.dialogData.config.factors.find((element:any) => element.key == 'professional_subroles').api.query_params.entityType,
+      )
+      .subscribe((res: any) => {
+        this.criteria[0].form[3].options = res.result;
       });
     this.selection.changed.subscribe(() => {
       // Trigger change detection or additional updates if needed
@@ -380,7 +414,7 @@ export class TargetCriteriaComponent implements OnInit {
     this.filterSelectedValue = event.values[0];
     this.formService
       .getEntitiesListAsType(
-        'GET_SUB_ENTITIES_LIST',
+        this.subEntityURL,
         this.targetedEntity,
         event.values[0],
         1,
@@ -400,7 +434,7 @@ export class TargetCriteriaComponent implements OnInit {
     for (let index = this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+1; index < this.criteriaFilters.findIndex((element:any) => element.value === event.filterName)+2; index++) {
       this.formService
         .getEntitiesListAsType(
-          'GET_SUB_ENTITIES_LIST',
+          this.subEntityURL,
           this.criteriaFilters[index].value,
           event.values[0]
         )
@@ -585,7 +619,7 @@ export class TargetCriteriaComponent implements OnInit {
   pageEvent(event: any) {
     this.formService
       .getEntitiesListAsType(
-        'GET_SUB_ENTITIES_LIST',
+        this.subEntityURL,
         this.targetedEntity,
         this.filterSelectedValue.length > 0
           ? this.filterSelectedValue

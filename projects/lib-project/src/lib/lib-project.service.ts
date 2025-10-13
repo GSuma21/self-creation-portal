@@ -40,6 +40,7 @@ export class LibProjectService {
   mode: any = 'edit';
   projectConfig: any;
   instanceConfig: any;
+  targetingConfig:any;
   isFormDirty:boolean = true;
   tabValidation:any;
   reviewErrors:any = [];

@@ -28,7 +28,7 @@ export class LayoutComponent {
     this.getData()
     this.setConfig();
     this.subscription.add(
-      this.programWithRolloutService.currentRolloutData.subscribe(data => {
+      this.programWithRolloutService.currentRolloutData.subscribe((data:any) => {
         this.sidenavData= data?.sidenavData.sidenav
         this.headerData = data?.sidenavData.headerData
         this.config = this.programWithRolloutService.programConfig
@@ -50,7 +50,7 @@ export class LayoutComponent {
       });
       this.programWithRolloutService.upDateProgramTitle();
       if(this.router.url.includes('project-details')){
-        this.programWithRolloutService.resourceStatus.subscribe(data => {
+        this.programWithRolloutService.resourceStatus.subscribe((data:any) => {
           this.mode = data?.status ? data.status : "PENDING"
        })
       }else{
@@ -69,6 +69,7 @@ export class LayoutComponent {
     this.programWithRolloutService.setConfig().subscribe((res:any) => {
       this.config = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
       this.programWithRolloutService.instanceConfig = res?.result.instance;
+      this.programWithRolloutService.targetingConfig = res?.result.config?.targeting_criteria ? res?.result.config?.targeting_criteria : {};
       this.programWithRolloutService.programConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROGRAMS);
     })
     )
@@ -141,7 +142,7 @@ export class LayoutComponent {
                         this.toastService.openSnackBar({ message: 'Fill all the mandatory fields.', class: 'error', });
                       }
                     },
-                      (err) => {
+                      (err:any) => {
                         this.programWithRolloutService.validateAndHighlightErrors(err)
                       })
                   } else {
@@ -187,7 +188,7 @@ export class LayoutComponent {
             this.utilService.saveComment = false;
             this.utilService.saveResources = false;
             if (this.router.url.includes('details/project-details')) {
-              this.programWithRolloutService.saveRollOut().subscribe((res) => {
+              this.programWithRolloutService.saveRollOut().subscribe((res:any) => {
                 this.sharedService.logout();
               })
             } else {
@@ -321,7 +322,7 @@ export class LayoutComponent {
       })
     }else if(this.programWithRolloutService.rolloutId && this.utilService.saveResources){
       this.programWithRolloutService.rollOutDetails.title = this.programWithRolloutService.rollOutDetails.title ? this.programWithRolloutService.rollOutDetails.title : this.programWithRolloutService.resourceDetails.title;
-      this.programWithRolloutService.saveRollOut().subscribe((res)=> {
+      this.programWithRolloutService.saveRollOut().subscribe((res:any)=> {
         this.sharedService.goBack()
       })
     }

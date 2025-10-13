@@ -40,6 +40,7 @@ export class ProgramWithRolloutService {
   resourceDetails: any = {};
   rolloutId: string = '';
   instanceConfig: any;
+  targetingConfig:any;
   isFormDirty: boolean = true;
   tabValidation: any = {
     rolloutDetails: 'INVALID',

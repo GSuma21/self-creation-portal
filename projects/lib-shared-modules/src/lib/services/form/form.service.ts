@@ -73,10 +73,10 @@ export class FormService {
   }
 
   getEntitiesList(url: string,entityType?:string,id?:string) {
-    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+ (id ? ("/"+id) :'')+ (entityType ? '?'+`entityType=${entityType}` : ''));
+    return this.httpService.get(url+ (id ? ("/"+id) :'')+ (entityType ? '?'+`entityType=${entityType}` : ''));
   }
   getEntitiesListAsType(url: string,entityType?:string,id?:string,page?:number,itemsPerPage?:number) {
-    return this.httpService.get(this.configService.urlConFig.FORM_URLS[url]+ (id ? ("/"+id) :'')+ (entityType ? '?'+`type=${entityType}` : '') + (page ? '&'+`page=${page}` : '') + (itemsPerPage ? '&'+`limit=${itemsPerPage}` : ''));
+    return this.httpService.get(url+ (id ? ("/"+id) :'')+ (entityType ? '?'+`type=${entityType}` : '') + (page ? '&'+`page=${page}` : '') + (itemsPerPage ? '&'+`limit=${itemsPerPage}` : ''));
   }
 
   getEntityNames(formData: any) {

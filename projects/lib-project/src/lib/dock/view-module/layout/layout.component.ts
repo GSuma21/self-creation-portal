@@ -62,6 +62,7 @@ export class LayoutComponent {
     this.subscription.add(
     this.libProjectService.setConfig().subscribe((res:any) => {
       this.libProjectService.instanceConfig = res?.result.instance;
+      this.libProjectService.targetingConfig = res?.result.config?.targeting_criteria ? res?.result.config?.targeting_criteria : {};
       this.libProjectService.projectConfig = res.result.resource.find((res:any) => res.resource_type === this.configuration.permissionCoFig.PROJECTS);
     })
     )
